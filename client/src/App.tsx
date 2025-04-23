@@ -6,6 +6,7 @@ import TabBar from "@/components/layout/TabBar";
 import Dashboard from "@/pages/dashboard";
 import Properties from "@/pages/properties";
 import PropertyDetails from "@/pages/property-details";
+import EditProperty from "@/pages/edit-property";
 import Messages from "@/pages/messages";
 import Schedule from "@/pages/schedule";
 import Profile from "@/pages/profile";
@@ -19,7 +20,8 @@ function App() {
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/properties" component={Properties} />
-            <Route path="/properties/:id" component={PropertyDetails} />
+            <Route path="/property/:id" component={PropertyDetails} />
+            <Route path="/edit-property/:id" component={EditProperty} />
             <Route path="/messages" component={Messages} />
             <Route path="/schedule" component={Schedule} />
             <Route path="/profile" component={Profile} />
