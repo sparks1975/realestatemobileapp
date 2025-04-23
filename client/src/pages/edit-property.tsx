@@ -11,6 +11,51 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { X, Plus, Image } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
+// Helper function to compress images before upload
+const compressImage = (file: File, callback: (dataUrl: string) => void) => {
+  // Create a FileReader to read the image
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const img = document.createElement('img');
+    img.onload = () => {
+      // Create a canvas element
+      const canvas = document.createElement('canvas');
+      
+      // Calculate new dimensions (max width/height of 1200px)
+      let width = img.width;
+      let height = img.height;
+      const maxDimension = 1200;
+      
+      if (width > height && width > maxDimension) {
+        height = Math.round((height * maxDimension) / width);
+        width = maxDimension;
+      } else if (height > maxDimension) {
+        width = Math.round((width * maxDimension) / height);
+        height = maxDimension;
+      }
+      
+      // Resize the canvas
+      canvas.width = width;
+      canvas.height = height;
+      
+      // Draw the image on the canvas
+      const ctx = canvas.getContext('2d');
+      ctx?.drawImage(img, 0, 0, width, height);
+      
+      // Get the compressed image as a data URL
+      // Adjust quality (0.6 = 60% quality) to reduce file size further
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+      
+      // Call the callback with the compressed image data
+      callback(compressedDataUrl);
+    };
+    img.src = event.target?.result as string;
+  };
+  
+  // Read the file as a data URL
+  reader.readAsDataURL(file);
+};
+
 export default function EditProperty() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
@@ -451,25 +496,19 @@ export default function EditProperty() {
                       const file = e.target.files?.[0];
                       if (!file) return;
                       
-                      // Create a FileReader to read the image
-                      const reader = new FileReader();
-                      reader.onload = (event) => {
-                        const imageDataUrl = event.target?.result as string;
-                        
+                      // Process and compress the image
+                      compressImage(file, (compressedImageDataUrl) => {
                         // If main image is not set, set this as main image
                         if (!mainImage) {
-                          setMainImage(imageDataUrl);
+                          setMainImage(compressedImageDataUrl);
                         } else {
                           // Otherwise add to additional images array
-                          setImages(prev => [...prev, imageDataUrl]);
+                          setImages(prev => [...prev, compressedImageDataUrl]);
                         }
                         
                         // Reset file input
                         e.target.value = '';
-                      };
-                      
-                      // Read the file as a data URL (base64)
-                      reader.readAsDataURL(file);
+                      });
                     }}
                   />
                   
@@ -512,19 +551,16 @@ export default function EditProperty() {
                         
                         // Process each image file
                         imageFiles.forEach(file => {
-                          const reader = new FileReader();
-                          reader.onload = (event) => {
-                            const imageDataUrl = event.target?.result as string;
-                            
+                          // Use the compression function
+                          compressImage(file, (compressedImageDataUrl) => {
                             // If main image is not set, set the first one as main
                             if (!mainImage) {
-                              setMainImage(imageDataUrl);
+                              setMainImage(compressedImageDataUrl);
                             } else {
                               // Add to additional images
-                              setImages(prev => [...prev, imageDataUrl]);
+                              setImages(prev => [...prev, compressedImageDataUrl]);
                             }
-                          };
-                          reader.readAsDataURL(file);
+                          });
                         });
                         
                         if (imageFiles.length > 0) {
