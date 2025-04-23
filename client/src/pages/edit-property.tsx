@@ -33,7 +33,7 @@ export default function EditProperty() {
 
   // Fetch the property details
   const { data: property, isLoading } = useQuery({
-    queryKey: ['/api/properties', propertyId],
+    queryKey: [`/api/properties/${propertyId}`],
     queryFn: getQueryFn({ on401: 'throw' }),
     enabled: !!propertyId
   });
@@ -46,7 +46,7 @@ export default function EditProperty() {
     onSuccess: () => {
       // Invalidate queries to refresh data
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
-      queryClient.invalidateQueries({ queryKey: ['/api/properties', propertyId] });
+      queryClient.invalidateQueries({ queryKey: [`/api/properties/${propertyId}`] });
       
       toast({
         title: "Success",

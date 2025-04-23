@@ -25,7 +25,7 @@ export default function PropertyDetails() {
 
   // Fetch the property details
   const { data: property, isLoading, isError } = useQuery<Property>({
-    queryKey: ['/api/properties', propertyId],
+    queryKey: [`/api/properties/${propertyId}`],
     queryFn: getQueryFn({ on401: 'throw' }),
     enabled: !!propertyId
   });
