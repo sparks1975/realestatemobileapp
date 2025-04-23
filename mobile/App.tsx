@@ -1,9 +1,10 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useColorScheme, AppearanceProvider } from 'react-native-appearance';
 
 // Import main tab screens
 import DashboardScreen from './src/screens/DashboardScreen';
@@ -24,9 +25,29 @@ import { Feather } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
+// Custom Dark Theme
+const CustomDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    primary: '#007AFF',
+    background: '#121212',
+    card: '#1E1E1E',
+    text: '#FFFFFF',
+    border: '#2C2C2C',
+  },
+};
+
 // Create stack navigators for each tab that needs detail screens
 const PropertiesStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#1E1E1E',
+      },
+      headerTintColor: '#FFFFFF',
+    }}
+  >
     <Stack.Screen 
       name="PropertiesList" 
       component={PropertiesScreen} 
@@ -46,7 +67,14 @@ const PropertiesStack = () => (
 );
 
 const MessagesStack = () => (
-  <Stack.Navigator>
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: '#1E1E1E',
+      },
+      headerTintColor: '#FFFFFF',
+    }}
+  >
     <Stack.Screen 
       name="MessagesList" 
       component={MessagesScreen} 
@@ -65,16 +93,16 @@ const MessagesStack = () => (
 export default function App() {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <StatusBar style="auto" />
+      <NavigationContainer theme={CustomDarkTheme}>
+        <StatusBar style="light" />
         <Tab.Navigator
           screenOptions={{
             tabBarActiveTintColor: '#007AFF',
             tabBarInactiveTintColor: '#8E8E93',
             tabBarStyle: {
-              backgroundColor: '#FFFFFF',
+              backgroundColor: '#1E1E1E',
               borderTopWidth: 1,
-              borderTopColor: '#E5E5EA',
+              borderTopColor: '#2C2C2C',
               paddingTop: 10,
               height: 60,
             },
@@ -84,16 +112,17 @@ export default function App() {
               marginBottom: 5,
             },
             headerStyle: {
-              backgroundColor: '#FFFFFF',
+              backgroundColor: '#1E1E1E',
               shadowColor: '#000',
               shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.1,
+              shadowOpacity: 0.3,
               shadowRadius: 2,
               elevation: 3,
             },
             headerTitleStyle: {
               fontWeight: '600',
               fontSize: 17,
+              color: '#FFFFFF',
             },
           }}
         >
