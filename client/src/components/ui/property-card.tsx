@@ -12,7 +12,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
   const [_, navigate] = useLocation();
   
   const handleClick = () => {
-    navigate(`/properties/${property.id}`);
+    navigate(`/property/${property.id}`);
   };
   
   // Format price display

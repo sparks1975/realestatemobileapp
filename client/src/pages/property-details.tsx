@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { getQueryFn } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
+import { Property } from "@shared/schema";
 
 const formatPrice = (price: number) => {
   return price.toLocaleString('en-US', {
@@ -20,7 +21,7 @@ export default function PropertyDetails() {
   const propertyId = params?.id ? parseInt(params.id) : null;
 
   // Fetch the property details
-  const { data: property, isLoading, isError } = useQuery({
+  const { data: property, isLoading, isError } = useQuery<Property>({
     queryKey: ['/api/properties', propertyId],
     queryFn: getQueryFn({ on401: 'throw' }),
     enabled: !!propertyId

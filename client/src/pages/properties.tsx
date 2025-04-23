@@ -5,7 +5,7 @@ import PropertyCard from "@/components/ui/property-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Property } from "@shared/schema";
-import { properties } from "@/lib/mock-data";
+import { getQueryFn } from "@/lib/queryClient";
 
 type FilterType = "All Properties" | "For Sale" | "For Rent" | "Recent" | "Pending";
 
@@ -16,11 +16,7 @@ export default function Properties() {
   // Fetch properties
   const { data, isLoading } = useQuery({
     queryKey: ["/api/properties"],
-    queryFn: async () => {
-      // For demo purposes, use mock data
-      // In a real app, this would fetch from the API
-      return properties;
-    }
+    queryFn: getQueryFn({ on401: 'throw' })
   });
   
   // Filter properties based on search term and active filter
