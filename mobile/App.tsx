@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useColorScheme, AppearanceProvider } from 'react-native-appearance';
+import { Appearance } from 'react-native';
 
 // Import main tab screens
 import DashboardScreen from './src/screens/DashboardScreen';
@@ -91,6 +91,12 @@ const MessagesStack = () => (
 );
 
 export default function App() {
+  // Force dark mode
+  React.useEffect(() => {
+    // Set the app's appearance to dark mode
+    Appearance.setColorScheme('dark');
+  }, []);
+  
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={CustomDarkTheme}>
