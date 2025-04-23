@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useParams, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { getQueryFn } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 import { Property } from "@shared/schema";
+import useEmblaCarousel from 'embla-carousel-react';
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const formatPrice = (price: number | undefined) => {
   if (price === undefined || isNaN(price)) {
@@ -22,6 +24,8 @@ const formatPrice = (price: number | undefined) => {
 export default function PropertyDetails() {
   const params = useParams<{ id: string }>();
   const propertyId = params?.id ? parseInt(params.id) : null;
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   // Fetch the property details
   const { data: property, isLoading, isError } = useQuery<Property>({
@@ -30,6 +34,28 @@ export default function PropertyDetails() {
     enabled: !!propertyId
   });
 
+  const scrollPrev = React.useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = React.useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  // Update current slide index when carousel scrolls
+  React.useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setCurrentIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on('select', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+    };
+  }, [emblaApi]);
+
   if (isLoading) {
     return <div className="flex justify-center items-center h-screen">Loading property details...</div>;
   }
@@ -37,6 +63,12 @@ export default function PropertyDetails() {
   if (isError || !property) {
     return <div className="flex justify-center items-center h-screen">Property not found</div>;
   }
+
+  // Create an array of all images (mainImage first, then the rest)
+  const allImages = [
+    property.mainImage || '', 
+    ...(property.images || []).map(img => img || '')
+  ].filter(img => img !== '');
 
   // For debugging
   console.log("Property data:", property);
@@ -52,17 +84,72 @@ export default function PropertyDetails() {
           </Link>
         </div>
       
-        {/* Property Image */}
-        <div className="relative w-full h-[300px] rounded-xl overflow-hidden mb-6">
-          <img 
-            src={property.mainImage} 
-            alt={property.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute top-4 right-4 flex gap-2">
-            <Badge variant="secondary">{property.type}</Badge>
-            <Badge>{property.status}</Badge>
-          </div>
+        {/* Property Image Carousel */}
+        <div className="relative w-full rounded-xl overflow-hidden mb-6">
+          {allImages.length > 0 ? (
+            <>
+              <div className="overflow-hidden" ref={emblaRef}>
+                <div className="flex">
+                  {allImages.map((image, index) => (
+                    <div 
+                      key={index} 
+                      className="relative min-w-full h-[400px]"
+                    >
+                      <img 
+                        src={image} 
+                        alt={`${property.title} - Image ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      {index === 0 && (
+                        <div className="absolute top-4 right-4 flex gap-2">
+                          <Badge variant="secondary">{property.type}</Badge>
+                          <Badge>{property.status}</Badge>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Carousel Controls */}
+              {allImages.length > 1 && (
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 border-0 hover:bg-black/70"
+                    onClick={scrollPrev}
+                  >
+                    <ArrowLeft className="h-5 w-5 text-white" />
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 border-0 hover:bg-black/70"
+                    onClick={scrollNext}
+                  >
+                    <ArrowRight className="h-5 w-5 text-white" />
+                  </Button>
+                  
+                  {/* Pagination dots */}
+                  <div className="absolute bottom-4 left-0 right-0">
+                    <div className="flex justify-center gap-2">
+                      {allImages.map((_, index) => (
+                        <div 
+                          key={index}
+                          className={`h-2 w-2 rounded-full ${index === currentIndex ? 'bg-white' : 'bg-white/50'}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="w-full h-[300px] bg-muted flex items-center justify-center">
+              <p className="text-muted-foreground">No images available</p>
+            </div>
+          )}
         </div>
         
         {/* Single Column Layout */}
