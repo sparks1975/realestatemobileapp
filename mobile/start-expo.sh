@@ -9,6 +9,6 @@ if [ ! -d "node_modules" ]; then
   npm install
 fi
 
-# Start Expo
+# Start Expo with specific version to match package.json
 echo "Starting Expo..."
-npx expo start
+npx expo@^48.0.18 start --clear
