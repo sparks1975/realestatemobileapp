@@ -101,12 +101,12 @@ export default function PortfolioChart({ value, percentChange }: PortfolioChartP
           <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="hsl(var(--primary))" />
-                <stop offset="100%" stopColor="hsl(var(--secondary))" />
+                <stop offset="0%" stopColor="hsl(var(--secondary))" />
+                <stop offset="100%" stopColor="hsl(var(--primary))" />
               </linearGradient>
               <linearGradient id="bgGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.2} />
-                <stop offset="100%" stopColor="hsl(var(--secondary))" stopOpacity={0} />
+                <stop offset="0%" stopColor="hsl(var(--secondary))" stopOpacity={0.1} />
+                <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />
