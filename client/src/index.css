@@ -164,7 +164,7 @@
     --sidebar-accent: 210 10% 50%; /* Gray */
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 217.2 32.6% 17.5%;
-    --sidebar-ring: 41 100% 50%; /* Gold */
+    --sidebar-ring: 45 66% 48%; /* #CBA328 - Gold */
   }
 }
 
@@ -185,7 +185,7 @@
 
 /* Custom shadows and glows */
 .shadow-glow-primary {
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 15px rgba(203, 163, 40, 0.5);
 }
 
 .shadow-glow-secondary {
@@ -211,7 +211,7 @@
 
 /* Gradient effects */
 .gradient-primary {
-  background: linear-gradient(135deg, hsl(41, 100%, 50%), hsl(45, 100%, 60%));
+  background: linear-gradient(135deg, hsl(45, 66%, 48%), hsl(45, 66%, 58%));
 }
 
 /* Calendar day styling */
