@@ -54,7 +54,7 @@ export default function EditProperty() {
       });
       
       // Navigate back to property details
-      setLocation(`/property/${propertyId}`);
+      setLocation(`/property-details/${propertyId}`);
     },
     onError: (error) => {
       console.error("Error updating property:", error);
@@ -279,7 +279,7 @@ export default function EditProperty() {
             <Button 
               type="button" 
               variant="outline" 
-              onClick={() => setLocation(`/property/${propertyId}`)}
+              onClick={() => setLocation(`/property-details/${propertyId}`)}
               disabled={updateMutation.isPending}
             >
               Cancel

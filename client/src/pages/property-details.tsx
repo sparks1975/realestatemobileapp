@@ -38,6 +38,9 @@ export default function PropertyDetails() {
     return <div className="flex justify-center items-center h-screen">Property not found</div>;
   }
 
+  // For debugging
+  console.log("Property data:", property);
+
   return (
     <div className="container mx-auto py-8">
       <div className="max-w-3xl mx-auto">
@@ -52,7 +55,7 @@ export default function PropertyDetails() {
         {/* Property Image */}
         <div className="relative w-full h-[300px] rounded-xl overflow-hidden mb-6">
           <img 
-            src={property.mainImage || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800"} 
+            src={property.mainImage} 
             alt={property.title}
             className="w-full h-full object-cover"
           />
@@ -159,7 +162,9 @@ export default function PropertyDetails() {
           </CardContent>
           
           <CardFooter>
-            <Button size="lg" className="w-full">Contact Agent</Button>
+            <Link href={`/edit-property/${propertyId}`}>
+              <Button size="lg" className="w-full">Edit Listing</Button>
+            </Link>
           </CardFooter>
         </Card>
       </div>
