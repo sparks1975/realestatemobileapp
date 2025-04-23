@@ -1,20 +1,60 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-// Import screens once they're created
+// Import main tab screens
 import DashboardScreen from './src/screens/DashboardScreen';
 import PropertiesScreen from './src/screens/PropertiesScreen';
 import MessagesScreen from './src/screens/MessagesScreen';
 import ScheduleScreen from './src/screens/ScheduleScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 
-// We'll use Feather icons from react-native-vector-icons
+// Import detail screens
+import PropertyDetailsScreen from './src/screens/PropertyDetailsScreen';
+import ChatScreen from './src/screens/ChatScreen';
+
+// Import icons
 import { Feather } from '@expo/vector-icons';
 
+// Create the navigators
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+// Create stack navigators for each tab that needs detail screens
+const PropertiesStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen 
+      name="PropertiesList" 
+      component={PropertiesScreen} 
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen 
+      name="PropertyDetails" 
+      component={PropertyDetailsScreen}
+      options={{ title: 'Property Details' }}
+    />
+  </Stack.Navigator>
+);
+
+const MessagesStack = () => (
+  <Stack.Navigator>
+    <Stack.Screen 
+      name="MessagesList" 
+      component={MessagesScreen} 
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen 
+      name="ChatScreen" 
+      component={ChatScreen}
+      options={({ route }) => ({ 
+        title: route.params?.userName || 'Chat',
+      })}
+    />
+  </Stack.Navigator>
+);
 
 export default function App() {
   return (
@@ -62,8 +102,9 @@ export default function App() {
           />
           <Tab.Screen 
             name="Properties" 
-            component={PropertiesScreen}
+            component={PropertiesStack}
             options={{
+              headerShown: false,
               tabBarIcon: ({ color, size }) => (
                 <Feather name="grid" size={size} color={color} />
               ),
@@ -71,8 +112,9 @@ export default function App() {
           />
           <Tab.Screen 
             name="Messages" 
-            component={MessagesScreen}
+            component={MessagesStack}
             options={{
+              headerShown: false,
               tabBarIcon: ({ color, size }) => (
                 <Feather name="message-circle" size={size} color={color} />
               ),
