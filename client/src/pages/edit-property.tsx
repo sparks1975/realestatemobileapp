@@ -37,6 +37,8 @@ export default function EditProperty() {
   const [mainImage, setMainImage] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [newImageUrl, setNewImageUrl] = useState("");
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Fetch the property details
   const { data: property, isLoading } = useQuery({
@@ -435,24 +437,139 @@ export default function EditProperty() {
               
               {/* Add New Image */}
               <div className="space-y-2">
-                <Label htmlFor="newImageUrl">Add Image URL</Label>
-                <div className="flex space-x-2">
+                <Label htmlFor="imageUpload">Upload Image</Label>
+                <div className="flex flex-col space-y-2">
+                  {/* Hide the actual file input but keep it in the DOM */}
                   <Input 
-                    id="newImageUrl" 
-                    value={newImageUrl} 
-                    onChange={(e) => setNewImageUrl(e.target.value)} 
-                    placeholder="Enter image URL" 
+                    ref={fileInputRef}
+                    id="imageUpload" 
+                    type="file" 
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      // Get the selected file
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      
+                      // Create a FileReader to read the image
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        const imageDataUrl = event.target?.result as string;
+                        
+                        // If main image is not set, set this as main image
+                        if (!mainImage) {
+                          setMainImage(imageDataUrl);
+                        } else {
+                          // Otherwise add to additional images array
+                          setImages(prev => [...prev, imageDataUrl]);
+                        }
+                        
+                        // Reset file input
+                        e.target.value = '';
+                      };
+                      
+                      // Read the file as a data URL (base64)
+                      reader.readAsDataURL(file);
+                    }}
                   />
-                  <Button 
-                    type="button" 
-                    onClick={handleAddImage}
+                  
+                  {/* Custom drag and drop area */}
+                  <div 
+                    className={`
+                      border-2 border-dashed rounded-md p-8
+                      flex flex-col items-center justify-center
+                      cursor-pointer transition-colors
+                      ${isDragging ? 'border-primary bg-primary/5' : 'border-border'}
+                      hover:border-primary/50 hover:bg-background
+                    `}
+                    onClick={() => fileInputRef.current?.click()}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDragging(true);
+                    }}
+                    onDragEnter={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDragging(true);
+                    }}
+                    onDragLeave={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDragging(false);
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setIsDragging(false);
+                      
+                      const files = e.dataTransfer.files;
+                      if (files && files.length > 0) {
+                        // Only process images
+                        const imageFiles = Array.from(files).filter(file => 
+                          file.type.startsWith('image/')
+                        );
+                        
+                        // Process each image file
+                        imageFiles.forEach(file => {
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            const imageDataUrl = event.target?.result as string;
+                            
+                            // If main image is not set, set the first one as main
+                            if (!mainImage) {
+                              setMainImage(imageDataUrl);
+                            } else {
+                              // Add to additional images
+                              setImages(prev => [...prev, imageDataUrl]);
+                            }
+                          };
+                          reader.readAsDataURL(file);
+                        });
+                        
+                        if (imageFiles.length > 0) {
+                          toast({
+                            title: "Images Added",
+                            description: `Added ${imageFiles.length} images successfully.`,
+                          });
+                        }
+                      }
+                    }}
                   >
-                    <Plus className="mr-2 h-4 w-4" /> Add
-                  </Button>
+                    <div className="flex flex-col items-center space-y-4 text-center">
+                      <div className="rounded-full p-3 bg-primary/10">
+                        <Image className="h-6 w-6 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-medium">
+                          Drag and drop your images, or click to browse
+                        </p>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Support for JPG, PNG, and GIF images
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Alternative URL input method */}
+                  <div className="mt-4 pt-4 border-t">
+                    <Label htmlFor="newImageUrl">Or Add Image by URL</Label>
+                    <div className="flex space-x-2 mt-2">
+                      <Input 
+                        id="newImageUrl" 
+                        value={newImageUrl} 
+                        onChange={(e) => setNewImageUrl(e.target.value)} 
+                        placeholder="Enter image URL" 
+                      />
+                      <Button 
+                        type="button" 
+                        onClick={handleAddImage}
+                      >
+                        <Plus className="mr-2 h-4 w-4" /> Add
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Add images by URL. The first image will be the main image shown in listings.
-                </p>
               </div>
             </div>
           </CardContent>
