@@ -64,11 +64,22 @@ export default function PropertyDetails() {
     return <div className="flex justify-center items-center h-screen">Property not found</div>;
   }
 
-  // Create an array of all images (mainImage first, then the rest)
-  const allImages = [
-    property.mainImage || '', 
-    ...(property.images || []).map(img => img || '')
-  ].filter(img => img !== '');
+  // Create an array of all images without duplicates
+  // First add the main image
+  const allImages = [property.mainImage || ''];
+  
+  // Then add any additional images from the images array that aren't duplicates of the main image
+  if (property.images && property.images.length > 0) {
+    property.images.forEach(img => {
+      // Only add if it's not already in the array (avoid duplicates)
+      if (img && img !== '' && !allImages.includes(img)) {
+        allImages.push(img);
+      }
+    });
+  }
+  
+  // Final filter to remove any empty strings
+  const filteredImages = allImages.filter(img => img !== '');
 
   // For debugging
   console.log("Property data:", property);
@@ -86,11 +97,11 @@ export default function PropertyDetails() {
       
         {/* Property Image Carousel */}
         <div className="relative w-full rounded-xl overflow-hidden mb-6">
-          {allImages.length > 0 ? (
+          {filteredImages.length > 0 ? (
             <>
               <div className="overflow-hidden" ref={emblaRef}>
                 <div className="flex">
-                  {allImages.map((image, index) => (
+                  {filteredImages.map((image, index) => (
                     <div 
                       key={index} 
                       className="relative min-w-full h-[400px]"
@@ -112,7 +123,7 @@ export default function PropertyDetails() {
               </div>
               
               {/* Carousel Controls */}
-              {allImages.length > 1 && (
+              {filteredImages.length > 1 && (
                 <>
                   <Button 
                     variant="outline" 
@@ -134,7 +145,7 @@ export default function PropertyDetails() {
                   {/* Pagination dots */}
                   <div className="absolute bottom-4 left-0 right-0">
                     <div className="flex justify-center gap-2">
-                      {allImages.map((_, index) => (
+                      {filteredImages.map((_, index) => (
                         <div 
                           key={index}
                           className={`h-2 w-2 rounded-full ${index === currentIndex ? 'bg-white' : 'bg-white/50'}`}
