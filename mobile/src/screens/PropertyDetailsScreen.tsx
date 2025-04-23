@@ -11,10 +11,20 @@ import {
   Linking,
   Share
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { getPropertyById } from '../api/properties';
 import { Property } from '../types';
 import { Feather } from '@expo/vector-icons';
+
+// Define navigation param types for type safety
+type RootStackParamList = {
+  PropertiesList: undefined;
+  PropertyDetails: { propertyId: number; refreshFlag?: number };
+  PropertyEdit: { propertyId: number };
+};
+
+type PropertyDetailsScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 type RouteParams = {
   propertyId: number;
@@ -24,7 +34,7 @@ type RouteParams = {
 const { width } = Dimensions.get('window');
 
 const PropertyDetailsScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<PropertyDetailsScreenNavigationProp>();
   const route = useRoute();
   const { propertyId, refreshFlag } = route.params as RouteParams;
   
