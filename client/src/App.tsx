@@ -20,7 +20,7 @@ function App() {
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/properties" component={Properties} />
-            <Route path="/property/:id" component={PropertyDetails} />
+            <Route path="/property-details/:id" component={PropertyDetails} />
             <Route path="/edit-property/:id" component={EditProperty} />
             <Route path="/messages" component={Messages} />
             <Route path="/schedule" component={Schedule} />
