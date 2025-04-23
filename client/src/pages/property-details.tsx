@@ -8,7 +8,10 @@ import { getQueryFn } from "@/lib/queryClient";
 import { useQuery } from "@tanstack/react-query";
 import { Property } from "@shared/schema";
 
-const formatPrice = (price: number) => {
+const formatPrice = (price: number | undefined) => {
+  if (price === undefined || isNaN(price)) {
+    return '$0';
+  }
   return price.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -77,15 +80,19 @@ export default function PropertyDetails() {
               <CardContent>
                 <div className="flex gap-6 mb-6">
                   <div className="flex flex-col items-center">
-                    <span className="text-xl font-bold">{property.bedrooms}</span>
+                    <span className="text-xl font-bold">{property.bedrooms || 0}</span>
                     <span className="text-sm text-muted-foreground">Bedrooms</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-xl font-bold">{property.bathrooms}</span>
+                    <span className="text-xl font-bold">{property.bathrooms || 0}</span>
                     <span className="text-sm text-muted-foreground">Bathrooms</span>
                   </div>
                   <div className="flex flex-col items-center">
-                    <span className="text-xl font-bold">{property.squareFeet.toLocaleString()}</span>
+                    <span className="text-xl font-bold">
+                      {typeof property.squareFeet === 'number' 
+                        ? property.squareFeet.toLocaleString() 
+                        : '0'}
+                    </span>
                     <span className="text-sm text-muted-foreground">Sq Ft</span>
                   </div>
                 </div>
