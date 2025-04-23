@@ -91,11 +91,8 @@ const MessagesStack = () => (
 );
 
 export default function App() {
-  // Force dark mode
-  React.useEffect(() => {
-    // Set the app's appearance to dark mode
-    Appearance.setColorScheme('dark');
-  }, []);
+  // Dark mode is forced through app.json configuration
+  // No need to set it programmatically which can cause issues
   
   return (
     <SafeAreaProvider>
