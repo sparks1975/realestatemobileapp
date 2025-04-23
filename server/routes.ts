@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
+import { log } from "./vite";
 import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -291,8 +292,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 }
 
 async function initializeDemoData() {
-  const user = await storage.getUserByUsername("alexmorgan");
-  if (!user) return;
+  // Create default user if it doesn't exist
+  let user = await storage.getUserByUsername("alexmorgan");
+  if (!user) {
+    log("Creating default user", "db-init");
+    user = await storage.createUser({
+      username: "alexmorgan",
+      password: "password",
+      name: "Alex Morgan",
+      email: "alex@example.com",
+      phone: "555-987-6543",
+      role: "realtor",
+      profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&h=500"
+    });
+  }
   
   // Create clients if none exist
   const clients = await storage.getClients(user.id);
@@ -489,45 +502,9 @@ async function initializeDemoData() {
     }
   }
   
-  // Create messages if none exist
-  const conversations = await storage.getUserConversations(user.id);
-  if (conversations.length === 0) {
-    const clients = await storage.getClients(user.id);
-    
-    if (clients.length > 0) {
-      // Create a conversation with Sarah Johnson
-      await storage.createMessage({
-        senderId: clients[0].id,
-        receiverId: user.id,
-        content: "I'm interested in the Beverly Hills property. When can I schedule a viewing?",
-        read: false
-      });
-      
-      // Create a conversation with David Miller
-      await storage.createMessage({
-        senderId: clients[1].id,
-        receiverId: user.id,
-        content: "Hey, are we still meeting today at 3pm?",
-        read: true
-      });
-      
-      // Create a conversation with Jennifer Lee
-      await storage.createMessage({
-        senderId: clients[2].id,
-        receiverId: user.id,
-        content: "Thank you for showing me the property yesterday. I'd like to make an offer.",
-        read: false
-      });
-      
-      // Create a conversation with Michael Chang
-      await storage.createMessage({
-        senderId: clients[3].id,
-        receiverId: user.id,
-        content: "Could you send me the floor plans for the penthouse?",
-        read: true
-      });
-    }
-  }
+  // Skip creating messages since they require client users to exist in the users table
+  // and we don't want to modify the schema at this point
+  log("Skipping message creation for demo database", "db-init");
   
   // Create activities if none exist
   const activities = await storage.getActivitiesByUser(user.id);

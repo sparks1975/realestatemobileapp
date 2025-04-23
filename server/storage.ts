@@ -4,8 +4,13 @@ import {
   Client, InsertClient,
   Message, InsertMessage,
   Appointment, InsertAppointment,
-  Activity, InsertActivity
+  Activity, InsertActivity,
+  // Import all the schema tables
+  users, properties, clients, messages, appointments, activities
 } from "@shared/schema";
+import { db } from "./db";
+import { eq, and, or, desc, gte, lte } from "drizzle-orm";
+import { startOfDay, endOfDay } from "date-fns";
 
 // Interface for storage operations
 export interface IStorage {
@@ -310,4 +315,261 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  // User operations
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db.insert(users).values(insertUser).returning();
+    return user;
+  }
+
+  // Property operations
+  async getProperty(id: number): Promise<Property | undefined> {
+    const [property] = await db.select().from(properties).where(eq(properties.id, id));
+    return property;
+  }
+
+  async getProperties(realtorId: number): Promise<Property[]> {
+    return db.select().from(properties).where(eq(properties.listedById, realtorId));
+  }
+
+  async createProperty(insertProperty: InsertProperty): Promise<Property> {
+    const [property] = await db.insert(properties).values(insertProperty).returning();
+    return property;
+  }
+
+  async updateProperty(id: number, updates: Partial<Property>): Promise<Property | undefined> {
+    const [property] = await db
+      .update(properties)
+      .set(updates)
+      .where(eq(properties.id, id))
+      .returning();
+    return property;
+  }
+
+  // Client operations
+  async getClient(id: number): Promise<Client | undefined> {
+    const [client] = await db.select().from(clients).where(eq(clients.id, id));
+    return client;
+  }
+
+  async getClients(realtorId: number): Promise<Client[]> {
+    return db.select().from(clients).where(eq(clients.realtorId, realtorId));
+  }
+
+  async createClient(insertClient: InsertClient): Promise<Client> {
+    const [client] = await db.insert(clients).values(insertClient).returning();
+    return client;
+  }
+
+  // Message operations
+  async getMessage(id: number): Promise<Message | undefined> {
+    const [message] = await db.select().from(messages).where(eq(messages.id, id));
+    return message;
+  }
+
+  async getConversation(senderId: number, receiverId: number): Promise<Message[]> {
+    return db
+      .select()
+      .from(messages)
+      .where(
+        or(
+          and(
+            eq(messages.senderId, senderId),
+            eq(messages.receiverId, receiverId)
+          ),
+          and(
+            eq(messages.senderId, receiverId),
+            eq(messages.receiverId, senderId)
+          )
+        )
+      )
+      .orderBy(messages.createdAt);
+  }
+
+  async getUserConversations(userId: number): Promise<{ user: User, lastMessage: Message }[]> {
+    // For demo purposes, provide a simpler implementation that works with a new database
+    // Get all messages for this user
+    const allMessages = await db
+      .select()
+      .from(messages)
+      .where(
+        or(
+          eq(messages.senderId, userId),
+          eq(messages.receiverId, userId)
+        )
+      )
+      .orderBy(desc(messages.createdAt));
+    
+    // Find unique conversation partners
+    const conversationPartners = new Set<number>();
+    const conversations: { user: User, lastMessage: Message }[] = [];
+    
+    for (const message of allMessages) {
+      const partnerId = message.senderId === userId ? message.receiverId : message.senderId;
+      
+      // Skip if we've already processed this partner
+      if (conversationPartners.has(partnerId)) continue;
+      conversationPartners.add(partnerId);
+      
+      // Get partner user
+      const [partner] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, partnerId));
+      
+      if (partner) {
+        conversations.push({
+          user: partner,
+          lastMessage: message
+        });
+      }
+    }
+    
+    return conversations;
+  }
+
+  async createMessage(insertMessage: InsertMessage): Promise<Message> {
+    const [message] = await db.insert(messages).values(insertMessage).returning();
+    return message;
+  }
+
+  async markMessageAsRead(id: number): Promise<Message | undefined> {
+    const [message] = await db
+      .update(messages)
+      .set({ read: true })
+      .where(eq(messages.id, id))
+      .returning();
+    return message;
+  }
+
+  // Appointment operations
+  async getAppointment(id: number): Promise<Appointment | undefined> {
+    const [appointment] = await db.select().from(appointments).where(eq(appointments.id, id));
+    return appointment;
+  }
+
+  async getAppointmentsByRealtor(realtorId: number): Promise<Appointment[]> {
+    return db
+      .select()
+      .from(appointments)
+      .where(eq(appointments.realtorId, realtorId))
+      .orderBy(appointments.date);
+  }
+
+  async getAppointmentsByDate(realtorId: number, date: Date): Promise<Appointment[]> {
+    const dayStart = startOfDay(date);
+    const dayEnd = endOfDay(date);
+    
+    return db
+      .select()
+      .from(appointments)
+      .where(
+        and(
+          eq(appointments.realtorId, realtorId),
+          gte(appointments.date, dayStart),
+          lte(appointments.date, dayEnd)
+        )
+      )
+      .orderBy(appointments.date);
+  }
+
+  async createAppointment(insertAppointment: InsertAppointment): Promise<Appointment> {
+    const [appointment] = await db
+      .insert(appointments)
+      .values(insertAppointment)
+      .returning();
+    return appointment;
+  }
+
+  // Activity operations
+  async getActivity(id: number): Promise<Activity | undefined> {
+    const [activity] = await db.select().from(activities).where(eq(activities.id, id));
+    return activity;
+  }
+
+  async getActivitiesByUser(userId: number, limit?: number): Promise<Activity[]> {
+    let query = db
+      .select()
+      .from(activities)
+      .where(eq(activities.userId, userId))
+      .orderBy(desc(activities.createdAt));
+    
+    if (limit) {
+      query = query.limit(limit);
+    }
+    
+    return query;
+  }
+
+  async createActivity(insertActivity: InsertActivity): Promise<Activity> {
+    const [activity] = await db
+      .insert(activities)
+      .values(insertActivity)
+      .returning();
+    return activity;
+  }
+
+  // Dashboard operations
+  async getPortfolioValue(realtorId: number): Promise<number> {
+    // Use Drizzle query builder for better type safety
+    const props = await db
+      .select({ price: properties.price })
+      .from(properties)
+      .where(eq(properties.listedById, realtorId));
+    
+    // Calculate total manually
+    return props.reduce((sum, prop) => sum + prop.price, 0);
+  }
+
+  async getStatistics(realtorId: number): Promise<{
+    activeListings: number;
+    pendingSales: number;
+    closedSales: number;
+    newLeads: number;
+  }> {
+    // Get all properties for this realtor
+    const props = await db
+      .select()
+      .from(properties)
+      .where(eq(properties.listedById, realtorId));
+    
+    // Count by status
+    const activeListings = props.filter(p => p.status === 'Active').length;
+    const pendingSales = props.filter(p => p.status === 'Pending').length;
+    const closedSales = props.filter(p => p.status === 'Sold').length;
+    
+    // Get recent clients (last week)
+    const lastWeek = new Date();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    
+    const recentClients = await db
+      .select()
+      .from(clients)
+      .where(
+        and(
+          eq(clients.realtorId, realtorId),
+          gte(clients.createdAt as any, lastWeek)
+        )
+      );
+    
+    return {
+      activeListings,
+      pendingSales,
+      closedSales,
+      newLeads: recentClients.length
+    };
+  }
+}
+
+// Use database storage implementation
+export const storage = new DatabaseStorage();

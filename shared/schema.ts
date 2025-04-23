@@ -1,6 +1,7 @@
-import { pgTable, text, serial, integer, boolean, timestamp, doublePrecision } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, doublePrecision, uniqueIndex } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { relations } from "drizzle-orm";
 
 // User schema
 export const users = pgTable("users", {
@@ -143,6 +144,73 @@ export const insertActivitySchema = createInsertSchema(activities).pick({
   userId: true,
   propertyId: true,
 });
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  properties: many(properties),
+  clients: many(clients),
+  sentMessages: many(messages, { relationName: "sender" }),
+  receivedMessages: many(messages, { relationName: "receiver" }),
+  appointments: many(appointments, { relationName: "realtor" }),
+  activities: many(activities)
+}));
+
+export const propertiesRelations = relations(properties, ({ one, many }) => ({
+  listedBy: one(users, {
+    fields: [properties.listedById],
+    references: [users.id]
+  }),
+  appointments: many(appointments),
+  activities: many(activities)
+}));
+
+export const clientsRelations = relations(clients, ({ one, many }) => ({
+  realtor: one(users, {
+    fields: [clients.realtorId],
+    references: [users.id]
+  }),
+  appointments: many(appointments)
+}));
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+  sender: one(users, {
+    fields: [messages.senderId],
+    references: [users.id],
+    relationName: "sender"
+  }),
+  receiver: one(users, {
+    fields: [messages.receiverId],
+    references: [users.id],
+    relationName: "receiver"
+  })
+}));
+
+export const appointmentsRelations = relations(appointments, ({ one }) => ({
+  client: one(clients, {
+    fields: [appointments.clientId],
+    references: [clients.id]
+  }),
+  realtor: one(users, {
+    fields: [appointments.realtorId],
+    references: [users.id],
+    relationName: "realtor"
+  }),
+  property: one(properties, {
+    fields: [appointments.propertyId],
+    references: [properties.id]
+  })
+}));
+
+export const activitiesRelations = relations(activities, ({ one }) => ({
+  user: one(users, {
+    fields: [activities.userId],
+    references: [users.id]
+  }),
+  property: one(properties, {
+    fields: [activities.propertyId],
+    references: [properties.id]
+  })
+}));
 
 // Export types
 export type User = typeof users.$inferSelect;
