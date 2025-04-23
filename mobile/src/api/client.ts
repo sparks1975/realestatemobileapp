@@ -1,13 +1,26 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
 // Set the base URL for API requests
-// In development, use the IP address of your machine running the Express server
-// For Expo Go app, you'll need to use your machine's IP instead of localhost
-// Use the exact URL of your deployed Replit app when testing with a physical device
+// When running in Expo Go on a physical device, we need to use the actual
+// IP address of the Replit server rather than localhost
 const getBaseUrl = () => {
-  // When running in Expo Go, use the Replit URL
-  return process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000';
+  // Check if we have an environment variable for the API URL
+  if (process.env.EXPO_PUBLIC_API_URL) {
+    return process.env.EXPO_PUBLIC_API_URL;
+  }
+  
+  // Get the Replit app URL if available
+  const replitUrl = process.env.REPLIT_URL || '';
+  if (replitUrl) {
+    return `https://${replitUrl}`;
+  }
+  
+  // Default to localhost for development
+  // Note: When testing on a physical device, you'll need to replace this
+  // with your computer's local network IP address (e.g., 192.168.1.x)
+  return 'https://realtor-dashboard.replit.app';
 };
 
 const BASE_URL = getBaseUrl();
