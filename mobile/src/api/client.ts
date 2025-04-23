@@ -4,8 +4,13 @@ import Constants from 'expo-constants';
 // Set the base URL for API requests
 // In development, use the IP address of your machine running the Express server
 // For Expo Go app, you'll need to use your machine's IP instead of localhost
-// Example: const BASE_URL = 'http://192.168.1.100:5000';
-const BASE_URL = 'http://localhost:5000';
+// Use the exact URL of your deployed Replit app when testing with a physical device
+const getBaseUrl = () => {
+  // When running in Expo Go, use the Replit URL
+  return process.env.EXPO_PUBLIC_API_URL || 'http://localhost:5000';
+};
+
+const BASE_URL = getBaseUrl();
 
 // Create an axios instance with default configuration
 const apiClient = axios.create({

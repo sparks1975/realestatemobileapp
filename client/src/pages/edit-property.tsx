@@ -41,13 +41,7 @@ export default function EditProperty() {
   // Create a mutation for updating the property
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      return apiRequest(`/api/properties/${propertyId}`, {
-        method: 'PATCH',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      return apiRequest(`/api/properties/${propertyId}`, 'PATCH', data);
     },
     onSuccess: () => {
       // Invalidate queries to refresh data
@@ -95,15 +89,34 @@ export default function EditProperty() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const updatedProperty = {
-      ...form,
+    // Basic validation
+    if (!form.title || !form.price || !form.address) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Create a clean update object with proper type conversions
+    const updates = {
+      title: form.title,
+      type: form.type,
+      status: form.status,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      zipCode: form.zipCode,
       price: parseFloat(form.price),
-      bedrooms: parseInt(form.bedrooms),
-      bathrooms: parseInt(form.bathrooms),
-      squareFeet: parseInt(form.squareFeet),
+      bedrooms: parseInt(form.bedrooms, 10) || 0,
+      bathrooms: parseInt(form.bathrooms, 10) || 0,
+      squareFeet: parseInt(form.squareFeet, 10) || 0,
+      description: form.description,
     };
     
-    updateMutation.mutate(updatedProperty);
+    console.log('Submitting property update:', updates);
+    updateMutation.mutate(updates);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

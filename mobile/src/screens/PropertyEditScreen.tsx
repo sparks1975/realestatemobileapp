@@ -94,8 +94,8 @@ const PropertyEditScreen = () => {
         return;
       }
 
-      const updatedProperty = {
-        ...property,
+      // Create a clean update object with proper type conversions
+      const updates = {
         title: form.title,
         type: form.type,
         status: form.status,
@@ -104,19 +104,33 @@ const PropertyEditScreen = () => {
         state: form.state,
         zipCode: form.zipCode,
         price: parseFloat(form.price),
-        bedrooms: parseInt(form.bedrooms),
-        bathrooms: parseInt(form.bathrooms),
-        squareFeet: parseInt(form.squareFeet),
+        bedrooms: parseInt(form.bedrooms, 10) || 0,
+        bathrooms: parseInt(form.bathrooms, 10) || 0,
+        squareFeet: parseInt(form.squareFeet, 10) || 0,
         description: form.description,
       };
-
-      await updateProperty(propertyId, updatedProperty);
       
-      // Navigate back to the property details screen with refreshFlag to trigger a refresh
-      navigation.navigate('PropertyDetails', { 
-        propertyId, 
-        refreshFlag: Date.now() // Add a timestamp to force a refresh
-      });
+      console.log('Submitting property update:', JSON.stringify(updates));
+      
+      // Call the API to update the property
+      await updateProperty(propertyId, updates);
+      
+      Alert.alert(
+        'Success', 
+        'Property updated successfully',
+        [
+          { 
+            text: 'OK',
+            onPress: () => {
+              // Navigate back to the property details screen with refreshFlag to trigger a refresh
+              navigation.navigate('PropertyDetails', { 
+                propertyId, 
+                refreshFlag: Date.now() // Add a timestamp to force a refresh
+              });
+            }
+          }
+        ]
+      );
       
     } catch (error) {
       console.error('Error updating property:', error);

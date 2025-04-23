@@ -35,9 +35,28 @@ export const createProperty = async (propertyData: any): Promise<Property> => {
 };
 
 // Function to update a property
-export const updateProperty = async (id: number, propertyData: any): Promise<Property> => {
+export const updateProperty = async (id: number, propertyData: Partial<Property>): Promise<Property> => {
   try {
-    const response = await apiClient.patch(`/api/properties/${id}`, propertyData);
+    // Log update operation for debugging
+    console.log(`Updating property ${id} with data:`, JSON.stringify(propertyData));
+    
+    // Create a sanitized copy with only the fields we want to update
+    const updates = {
+      title: propertyData.title,
+      type: propertyData.type,
+      status: propertyData.status,
+      address: propertyData.address,
+      city: propertyData.city,
+      state: propertyData.state,
+      zipCode: propertyData.zipCode,
+      price: propertyData.price,
+      bedrooms: propertyData.bedrooms,
+      bathrooms: propertyData.bathrooms,
+      squareFeet: propertyData.squareFeet,
+      description: propertyData.description,
+    };
+    
+    const response = await apiClient.patch(`/api/properties/${id}`, updates);
     return response.data;
   } catch (error) {
     console.error(`Error updating property with ID ${id}:`, error);
