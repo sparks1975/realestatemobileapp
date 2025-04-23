@@ -9,14 +9,20 @@ interface AppointmentCardProps {
 }
 
 export default function AppointmentCard({ appointment, client, isToday = true }: AppointmentCardProps) {
-  // Format time like "10:30 AM"
-  const formattedTime = format(new Date(appointment.date), "h:mm a");
+  // Format hour and period separately for better layout
+  const appointmentDate = new Date(appointment.date);
+  const hour = format(appointmentDate, "h");
+  const minutes = format(appointmentDate, "mm");
+  const period = format(appointmentDate, "a");
   
   return (
     <Card className="p-4 mb-3">
       <div className="flex items-center">
-        <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mr-3">
-          <span className="text-primary font-bold">{formattedTime}</span>
+        <div className="w-14 h-14 rounded-full bg-muted flex flex-col items-center justify-center mr-3">
+          <div className="text-primary font-bold text-sm leading-tight">
+            {hour}:{minutes}
+          </div>
+          <div className="text-primary text-xs">{period}</div>
         </div>
         <div className="flex-1">
           <h3 className="font-semibold">{appointment.title}</h3>
