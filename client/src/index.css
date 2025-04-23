@@ -185,11 +185,11 @@
 
 /* Custom shadows and glows */
 .shadow-glow-primary {
-  box-shadow: 0 0 15px rgba(103, 51, 226, 0.5);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
 }
 
 .shadow-glow-secondary {
-  box-shadow: 0 0 15px rgba(0, 228, 161, 0.5);
+  box-shadow: 0 0 15px rgba(128, 128, 128, 0.5);
 }
 
 /* Hide scrollbar for WebKit browsers */
@@ -211,7 +211,7 @@
 
 /* Gradient effects */
 .gradient-primary {
-  background: linear-gradient(135deg, #6733E2, #00E4A1);
+  background: linear-gradient(135deg, hsl(41, 100%, 50%), hsl(45, 100%, 60%));
 }
 
 /* Calendar day styling */

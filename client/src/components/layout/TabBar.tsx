@@ -55,7 +55,7 @@ export default function TabBar() {
       <div className="relative">
         {/* Animated indicator */}
         <motion.div 
-          className="absolute h-1 w-1/5 gradient-primary rounded-full top-0 tab-indicator"
+          className="absolute h-1 w-1/5 bg-primary rounded-full top-0 tab-indicator"
           animate={{ x: indicatorPosition }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
         />
