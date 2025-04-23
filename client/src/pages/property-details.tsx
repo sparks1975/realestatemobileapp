@@ -9,7 +9,7 @@ import { properties } from "@/lib/mock-data";
 
 export default function PropertyDetails() {
   const { id } = useParams();
-  const propertyId = parseInt(id);
+  const propertyId = id ? parseInt(id) : 0;
   
   // Fetch property details
   const { data, isLoading } = useQuery({
@@ -21,7 +21,13 @@ export default function PropertyDetails() {
       if (!property) {
         throw new Error("Property not found");
       }
-      return property;
+      
+      // Ensure features is an array
+      return {
+        ...property,
+        features: property.features || [],
+        images: property.images || []
+      };
     }
   });
   
@@ -66,7 +72,10 @@ export default function PropertyDetails() {
   return (
     <div className="h-full overflow-auto pb-20">
       {/* Property Images Gallery */}
-      <PropertyDetailsHeader type={data.type as "For Sale" | "For Rent"} images={data.images} />
+      <PropertyDetailsHeader 
+        type={data.type as "For Sale" | "For Rent"} 
+        images={data.images || []} 
+      />
       
       {/* Property Details */}
       <div className="px-4 py-6">
@@ -112,7 +121,7 @@ export default function PropertyDetails() {
         <div className="mb-6">
           <h2 className="text-lg font-bold mb-2">Features & Amenities</h2>
           <div className="grid grid-cols-2 gap-2">
-            {data.features.map((feature, index) => (
+            {(data.features || []).map((feature, index) => (
               <div key={index} className="flex items-center">
                 <Check className="h-4 w-4 text-primary mr-2" />
                 <span className="text-sm">{feature}</span>
@@ -164,13 +173,23 @@ export default function PropertyDetails() {
           </Card>
         </div>
         
-        {/* Action Buttons */}
-        <div className="flex space-x-3">
-          <Button className="flex-1 bg-primary shadow-glow-primary">
-            Schedule Viewing
-          </Button>
-          <Button variant="outline" className="flex-1">
-            Contact Agent
+        {/* Edit Button */}
+        <div className="flex justify-center">
+          <Button className="w-full bg-primary shadow-glow-primary">
+            <svg 
+              className="w-4 h-4 mr-2" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" 
+              />
+            </svg>
+            Edit Listing
           </Button>
         </div>
       </div>

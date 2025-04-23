@@ -18,16 +18,28 @@ export default function ConversationItem({ user, lastMessage }: ConversationItem
   
   // Calculate time distance (e.g., "2m", "1h", "3d")
   const getTimeDistance = () => {
-    // Always use a valid date - handle all possible cases
+    // Ensure we have a valid date
     let messageDate: Date;
-    try {
-      messageDate = new Date(lastMessage.createdAt);
-      // Check if date is valid
-      if (isNaN(messageDate.getTime())) {
+    
+    if (!lastMessage.createdAt) {
+      messageDate = new Date();
+    } else {
+      try {
+        // If it's already a Date object, use it directly
+        if (lastMessage.createdAt instanceof Date) {
+          messageDate = lastMessage.createdAt;
+        } else {
+          // Otherwise convert from string/number
+          messageDate = new Date(lastMessage.createdAt);
+        }
+        
+        // Validate the date
+        if (isNaN(messageDate.getTime())) {
+          messageDate = new Date();
+        }
+      } catch (error) {
         messageDate = new Date();
       }
-    } catch (error) {
-      messageDate = new Date();
     }
     
     const distance = formatDistanceToNow(messageDate, { addSuffix: false });
