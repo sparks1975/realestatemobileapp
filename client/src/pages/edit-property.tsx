@@ -69,18 +69,19 @@ export default function EditProperty() {
   // Populate the form when property data is available
   useEffect(() => {
     if (property) {
+      console.log("Form data loading:", property);
       setForm({
-        title: property.title,
-        type: property.type,
-        status: property.status,
-        address: property.address,
-        city: property.city,
-        state: property.state,
-        zipCode: property.zipCode,
-        price: property.price.toString(),
-        bedrooms: property.bedrooms.toString(),
-        bathrooms: property.bathrooms.toString(),
-        squareFeet: property.squareFeet.toString(),
+        title: property.title || "",
+        type: property.type || "",
+        status: property.status || "",
+        address: property.address || "",
+        city: property.city || "",
+        state: property.state || "",
+        zipCode: property.zipCode || "",
+        price: property.price ? property.price.toString() : "0",
+        bedrooms: property.bedrooms ? property.bedrooms.toString() : "0",
+        bathrooms: property.bathrooms ? property.bathrooms.toString() : "0",
+        squareFeet: property.squareFeet ? property.squareFeet.toString() : "0",
         description: property.description || "",
       });
     }

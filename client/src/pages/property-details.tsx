@@ -161,11 +161,7 @@ export default function PropertyDetails() {
             )}
           </CardContent>
           
-          <CardFooter>
-            <Link href={`/edit-property/${propertyId}`}>
-              <Button size="lg" className="w-full">Edit Listing</Button>
-            </Link>
-          </CardFooter>
+          {/* No footer needed */}
         </Card>
       </div>
     </div>
