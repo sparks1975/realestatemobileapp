@@ -18,15 +18,34 @@ export default function ConversationItem({ user, lastMessage }: ConversationItem
   
   // Calculate time distance (e.g., "2m", "1h", "3d")
   const getTimeDistance = () => {
-    const distance = formatDistanceToNow(new Date(lastMessage.createdAt), { addSuffix: false });
+    // Always use a valid date - handle all possible cases
+    let messageDate: Date;
+    try {
+      messageDate = new Date(lastMessage.createdAt);
+      // Check if date is valid
+      if (isNaN(messageDate.getTime())) {
+        messageDate = new Date();
+      }
+    } catch (error) {
+      messageDate = new Date();
+    }
     
-    // Convert to short form
+    const distance = formatDistanceToNow(messageDate, { addSuffix: false });
+    
+    // Convert to short form - extract only numbers and use single letter indicators
     if (distance.includes("minute")) {
-      return distance.replace("minute", "m").replace("minutes", "m");
+      // Extract just numbers
+      const mins = distance.match(/\d+/);
+      return mins ? `${mins[0]}m` : "1m";
     } else if (distance.includes("hour")) {
-      return distance.replace("hour", "h").replace("hours", "h");
+      const hrs = distance.match(/\d+/);
+      return hrs ? `${hrs[0]}h` : "1h";
     } else if (distance.includes("day")) {
-      return distance.replace("day", "d").replace("days", "d");
+      const days = distance.match(/\d+/);
+      return days ? `${days[0]}d` : "1d";
+    } else if (distance.includes("week")) {
+      const weeks = distance.match(/\d+/);
+      return weeks ? `${weeks[0]}w` : "1w";
     }
     
     return distance;
@@ -54,7 +73,7 @@ export default function ConversationItem({ user, lastMessage }: ConversationItem
         <div className="flex-1 min-w-0">
           <div className="flex justify-between items-baseline">
             <h3 className="font-semibold truncate">{user.name}</h3>
-            <span className="text-xs text-muted-foreground ml-2">{getTimeDistance()}</span>
+            <span className="min-w-[30px] text-xs text-center text-muted-foreground ml-2 py-1 px-2 bg-muted rounded-full">{getTimeDistance()}</span>
           </div>
           <p className="text-sm text-muted-foreground truncate">
             {lastMessage.content}

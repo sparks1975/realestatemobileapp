@@ -8,6 +8,7 @@ export const currentUser: User = {
   password: "password",
   name: "Alex Morgan",
   email: "alex@example.com",
+  phone: "555-987-6543",
   role: "realtor",
   profileImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&h=500",
   createdAt: new Date()
@@ -261,8 +262,8 @@ export const activities: Activity[] = [
   }
 ];
 
-// Statistics
-export const statistics = {
+// Financial Statistics
+export const financialStatistics = {
   activeListings: 24,
   pendingSales: 8,
   closedSales: 15,
@@ -271,6 +272,18 @@ export const statistics = {
   pendingSalesChange: 2,
   closedSalesChange: 5,
   newLeadsChange: 12
+};
+
+// Website Statistics
+export const websiteStatistics = {
+  pageViews: 12467,
+  pageViewsChange: 8.3,
+  visitors: 4832,
+  visitorsChange: 12.1,
+  inquiries: 127,
+  inquiriesChange: 15.4,
+  bounceRate: 32.4,
+  bounceRateChange: -3.6
 };
 
 // Portfolio value
