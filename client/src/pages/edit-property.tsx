@@ -8,6 +8,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, getQueryFn } from "@/lib/queryClient";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { X, Plus, Image } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 export default function EditProperty() {
   const { toast } = useToast();
@@ -30,6 +32,11 @@ export default function EditProperty() {
     squareFeet: "",
     description: "",
   });
+  
+  // State for property images
+  const [mainImage, setMainImage] = useState("");
+  const [images, setImages] = useState<string[]>([]);
+  const [newImageUrl, setNewImageUrl] = useState("");
 
   // Fetch the property details
   const { data: property, isLoading } = useQuery({
@@ -69,7 +76,7 @@ export default function EditProperty() {
   // Populate the form when property data is available
   useEffect(() => {
     if (property) {
-      console.log("Form data loading:", property);
+      console.log("Property data:", property);
       setForm({
         title: property.title || "",
         type: property.type || "",
@@ -84,6 +91,18 @@ export default function EditProperty() {
         squareFeet: property.squareFeet ? property.squareFeet.toString() : "0",
         description: property.description || "",
       });
+      
+      // Set images data
+      setMainImage(property.mainImage || "");
+      
+      // If property has images, set them; otherwise, set empty array
+      if (property.images && Array.isArray(property.images)) {
+        // Filter out the main image from the images array to avoid duplicates
+        const additionalImages = property.images.filter(img => img !== property.mainImage);
+        setImages(additionalImages);
+      } else {
+        setImages([]);
+      }
     }
   }, [property]);
 
@@ -95,6 +114,16 @@ export default function EditProperty() {
       toast({
         title: "Validation Error",
         description: "Please fill in all required fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Validate mainImage
+    if (!mainImage) {
+      toast({
+        title: "Image Required",
+        description: "Please add at least one main image for the property",
         variant: "destructive",
       });
       return;
@@ -114,6 +143,9 @@ export default function EditProperty() {
       bathrooms: parseInt(form.bathrooms, 10) || 0,
       squareFeet: parseInt(form.squareFeet, 10) || 0,
       description: form.description,
+      // Add image data
+      mainImage: mainImage,
+      images: [mainImage, ...images].filter(Boolean),
     };
     
     console.log('Submitting property update:', updates);
@@ -126,6 +158,61 @@ export default function EditProperty() {
       ...prev,
       [name]: value,
     }));
+  };
+  
+  // Handle adding a new image
+  const handleAddImage = () => {
+    if (!newImageUrl.trim()) {
+      toast({
+        title: "Invalid Image URL",
+        description: "Please enter a valid image URL",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // If main image is not set, set this as main image
+    if (!mainImage) {
+      setMainImage(newImageUrl);
+    } else {
+      // Otherwise add to additional images array
+      setImages(prev => [...prev, newImageUrl]);
+    }
+    
+    // Clear the input
+    setNewImageUrl("");
+  };
+  
+  // Handle setting an image as the main image
+  const handleSetMainImage = (imageUrl: string) => {
+    // Add current main image to additional images if it exists
+    if (mainImage) {
+      setImages(prev => [...prev, mainImage]);
+    }
+    
+    // Set new main image
+    setMainImage(imageUrl);
+    
+    // Remove from additional images
+    setImages(prev => prev.filter(img => img !== imageUrl));
+  };
+  
+  // Handle removing an image
+  const handleRemoveImage = (imageUrl: string) => {
+    if (imageUrl === mainImage) {
+      // If removing main image, set first additional image as main
+      if (images.length > 0) {
+        const [firstImage, ...remainingImages] = images;
+        setMainImage(firstImage);
+        setImages(remainingImages);
+      } else {
+        // No additional images, just clear main image
+        setMainImage("");
+      }
+    } else {
+      // Remove from additional images
+      setImages(prev => prev.filter(img => img !== imageUrl));
+    }
   };
 
   if (isLoading) {
@@ -274,6 +361,99 @@ export default function EditProperty() {
                 onChange={handleChange} 
                 rows={5} 
               />
+            </div>
+            
+            <Separator className="my-4" />
+            
+            {/* Property Images Section */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <Label>Property Images</Label>
+              </div>
+              
+              {/* Main Image */}
+              {mainImage && (
+                <div className="space-y-2">
+                  <Label>Main Image</Label>
+                  <div className="relative aspect-video overflow-hidden rounded-md border border-border">
+                    <img 
+                      src={mainImage} 
+                      alt="Main property view" 
+                      className="w-full h-full object-cover" 
+                    />
+                    <Button 
+                      type="button" 
+                      variant="destructive" 
+                      size="sm" 
+                      className="absolute top-2 right-2 p-1 h-8 w-8" 
+                      onClick={() => handleRemoveImage(mainImage)}
+                    >
+                      <X size={16} />
+                    </Button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Additional Images Gallery */}
+              {images.length > 0 && (
+                <div className="space-y-2">
+                  <Label>Additional Images</Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {images.map((img, index) => (
+                      <div key={index} className="relative aspect-video rounded-md border border-border overflow-hidden">
+                        <img 
+                          src={img} 
+                          alt={`Property view ${index + 1}`} 
+                          className="w-full h-full object-cover" 
+                        />
+                        <div className="absolute top-2 right-2 flex space-x-1">
+                          <Button 
+                            type="button" 
+                            variant="secondary" 
+                            size="sm" 
+                            className="p-1 h-8 w-8" 
+                            onClick={() => handleSetMainImage(img)}
+                            title="Set as main image"
+                          >
+                            <Image size={16} />
+                          </Button>
+                          <Button 
+                            type="button" 
+                            variant="destructive" 
+                            size="sm" 
+                            className="p-1 h-8 w-8" 
+                            onClick={() => handleRemoveImage(img)}
+                          >
+                            <X size={16} />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Add New Image */}
+              <div className="space-y-2">
+                <Label htmlFor="newImageUrl">Add Image URL</Label>
+                <div className="flex space-x-2">
+                  <Input 
+                    id="newImageUrl" 
+                    value={newImageUrl} 
+                    onChange={(e) => setNewImageUrl(e.target.value)} 
+                    placeholder="Enter image URL" 
+                  />
+                  <Button 
+                    type="button" 
+                    onClick={handleAddImage}
+                  >
+                    <Plus className="mr-2 h-4 w-4" /> Add
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Add images by URL. The first image will be the main image shown in listings.
+                </p>
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
