@@ -41,7 +41,7 @@ export default function EditProperty() {
   // Create a mutation for updating the property
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      return apiRequest(`/api/properties/${propertyId}`, 'PATCH', data);
+      return apiRequest('PATCH', `/api/properties/${propertyId}`, data);
     },
     onSuccess: () => {
       // Invalidate queries to refresh data
