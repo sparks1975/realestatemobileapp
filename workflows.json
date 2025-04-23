@@ -1,6 +1,15 @@
 {
   "workflows": [
     {
+      "name": "Start application",
+      "command": "npm run dev",
+      "runAtStart": true,
+      "restartOn": {
+        "files": ["server/**/*.ts", "client/**/*.ts", "client/**/*.tsx", "shared/**/*.ts"],
+        "fileIgnoreGlobs": ["node_modules/**"]
+      }
+    },
+    {
       "name": "Start mobile app",
       "command": "cd mobile && npm start",
       "runAtStart": false,

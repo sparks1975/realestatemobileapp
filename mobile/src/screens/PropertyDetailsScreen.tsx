@@ -1,377 +1,339 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  StyleSheet, 
-  Text, 
   View, 
+  Text, 
+  StyleSheet, 
   ScrollView, 
-  TouchableOpacity, 
   Image, 
-  SafeAreaView,
-  Dimensions
+  TouchableOpacity, 
+  Alert,
+  Dimensions,
+  Linking,
+  Share
 } from 'react-native';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { getPropertyById } from '../api/properties';
+import { Property } from '../types';
+import { Feather } from '@expo/vector-icons';
+
+type RouteParams = {
+  propertyId: number;
+  refreshFlag?: number; // Optional timestamp for refresh
+};
 
 const { width } = Dimensions.get('window');
 
 const PropertyDetailsScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { propertyId } = route.params as { propertyId: number };
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const { propertyId, refreshFlag } = route.params as RouteParams;
   
-  // Mock property data - in real app, this would be fetched from API based on propertyId
-  const property = {
-    id: 1,
-    title: 'Luxury Villa',
-    address: '123 Luxury Ave, Beverly Hills, CA 90210',
-    price: 4500000,
-    bedrooms: 5,
-    bathrooms: 4,
-    squareFeet: 6200,
-    type: 'For Sale',
-    status: 'Active',
-    description: 'This stunning Mediterranean-inspired luxury villa offers breathtaking views of the city and ocean. The property features an open floor plan with high ceilings, a gourmet kitchen with top-of-the-line appliances, and a resort-style backyard with infinity pool and outdoor kitchen.',
-    features: [
-      'Infinity Pool',
-      'Home Theater',
-      'Wine Cellar',
-      'Smart Home System',
-      '3-Car Garage',
-      'Outdoor Kitchen'
-    ],
-    images: [
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&h=800',
-      'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=1200&h=800',
-      'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?auto=format&fit=crop&w=1200&h=800',
-      'https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?auto=format&fit=crop&w=1200&h=800',
-    ],
-    listedBy: {
-      id: 1,
-      name: 'Alex Morgan',
-      photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&h=500',
-    },
-    yearBuilt: 2018,
-    lotSize: '0.5 acre',
+  const [loading, setLoading] = useState(true);
+  const [property, setProperty] = useState<Property | null>(null);
+
+  // This useEffect will run when the component mounts or when the refreshFlag changes
+  useEffect(() => {
+    fetchPropertyDetails();
+  }, [propertyId, refreshFlag]);
+
+  const fetchPropertyDetails = async () => {
+    try {
+      setLoading(true);
+      const data = await getPropertyById(propertyId);
+      setProperty(data);
+    } catch (error) {
+      console.error('Error fetching property:', error);
+      Alert.alert('Error', 'Failed to load property details');
+    } finally {
+      setLoading(false);
+    }
   };
-  
-  const formatPrice = (price) => {
-    return '$' + price.toLocaleString();
+
+  const handleShare = () => {
+    if (property) {
+      Share.share({
+        title: property.title,
+        message: `Check out this property: ${property.title} - ${property.address}, ${property.city} - $${formatPrice(property)}`,
+      });
+    }
   };
-  
+
+  const handleContactAgent = () => {
+    // This would typically contact the listing agent
+    Alert.alert(
+      'Contact Agent',
+      'Would you like to contact the listing agent?',
+      [
+        {
+          text: 'Call',
+          onPress: () => Linking.openURL('tel:+15551234567'),
+        },
+        {
+          text: 'Message',
+          onPress: () => navigation.navigate('ChatScreen', { userId: property?.listedById }),
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ]
+    );
+  };
+
+  const handleEditProperty = () => {
+    navigation.navigate('PropertyEdit', { propertyId });
+  };
+
+  const formatPrice = (property?: Property) => {
+    if (!property) return '';
+    return property.price.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0,
+    });
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text>Loading property details...</Text>
+      </View>
+    );
+  }
+
+  if (!property) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text>Property not found</Text>
+      </View>
+    );
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.imageContainer}>
-          <ScrollView
-            horizontal
-            pagingEnabled
-            showsHorizontalScrollIndicator={false}
-            onMomentumScrollEnd={(event) => {
-              const newIndex = Math.round(event.nativeEvent.contentOffset.x / width);
-              setActiveImageIndex(newIndex);
-            }}
-          >
-            {property.images.map((image, index) => (
-              <Image
-                key={index}
-                source={{ uri: image }}
-                style={styles.propertyImage}
-              />
-            ))}
-          </ScrollView>
-          <View style={styles.imageIndicators}>
-            {property.images.map((_, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.imageIndicator,
-                  index === activeImageIndex && styles.activeImageIndicator,
-                ]}
-              />
-            ))}
-          </View>
-          <View style={styles.propertyTypeTag}>
-            <Text style={styles.propertyTypeText}>{property.type}</Text>
-          </View>
-          <TouchableOpacity 
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.backButtonText}>←</Text>
+    <ScrollView style={styles.container}>
+      {/* Property Images */}
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: property.mainImage || 'https://via.placeholder.com/500x300?text=Property+Image' }}
+          style={styles.mainImage}
+          resizeMode="cover"
+        />
+        <View style={styles.imageActions}>
+          <TouchableOpacity style={styles.iconButton} onPress={handleShare}>
+            <Feather name="share-2" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
-        
-        <View style={styles.propertyDetails}>
-          <Text style={styles.propertyPrice}>{formatPrice(property.price)}</Text>
-          <Text style={styles.propertyTitle}>{property.title}</Text>
-          <Text style={styles.propertyAddress}>{property.address}</Text>
-          
-          <View style={styles.propertyFeatures}>
-            <View style={styles.featureItem}>
-              <Text style={styles.featureValue}>{property.bedrooms}</Text>
-              <Text style={styles.featureLabel}>Beds</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <Text style={styles.featureValue}>{property.bathrooms}</Text>
-              <Text style={styles.featureLabel}>Baths</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <Text style={styles.featureValue}>{property.squareFeet.toLocaleString()}</Text>
-              <Text style={styles.featureLabel}>Sq Ft</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <Text style={styles.featureValue}>{property.yearBuilt}</Text>
-              <Text style={styles.featureLabel}>Year</Text>
-            </View>
+      </View>
+
+      {/* Property Header */}
+      <View style={styles.header}>
+        <View style={styles.headerContent}>
+          <Text style={styles.price}>{formatPrice(property)}</Text>
+          <Text style={styles.title}>{property.title}</Text>
+          <Text style={styles.address}>{property.address}, {property.city}, {property.state} {property.zipCode}</Text>
+        </View>
+        <TouchableOpacity style={styles.editButton} onPress={handleEditProperty}>
+          <Feather name="edit-2" size={20} color="#007AFF" />
+          <Text style={styles.editButtonText}>Edit</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Property Details */}
+      <View style={styles.detailsContainer}>
+        <View style={styles.detailsRow}>
+          <View style={styles.detailItem}>
+            <Feather name="home" size={18} color="#666" />
+            <Text style={styles.detailValue}>{property.type}</Text>
           </View>
-          
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Description</Text>
-            <Text style={styles.descriptionText}>{property.description}</Text>
+          <View style={styles.detailItem}>
+            <Feather name="tag" size={18} color="#666" />
+            <Text style={styles.detailValue}>{property.status}</Text>
           </View>
-          
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Features</Text>
-            <View style={styles.featuresList}>
-              {property.features.map((feature, index) => (
-                <View key={index} style={styles.featureTag}>
-                  <Text style={styles.featureTagText}>{feature}</Text>
-                </View>
-              ))}
-            </View>
+        </View>
+
+        <View style={styles.detailsRow}>
+          <View style={styles.detailItem}>
+            <Feather name="bed" size={18} color="#666" />
+            <Text style={styles.detailValue}>{property.bedrooms} Beds</Text>
           </View>
-          
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Listed By</Text>
-            <View style={styles.agentContainer}>
-              <Image
-                source={{ uri: property.listedBy.photo }}
-                style={styles.agentPhoto}
-              />
-              <View style={styles.agentInfo}>
-                <Text style={styles.agentName}>{property.listedBy.name}</Text>
-                <Text style={styles.agentRole}>Real Estate Agent</Text>
+          <View style={styles.detailItem}>
+            <Feather name="droplet" size={18} color="#666" />
+            <Text style={styles.detailValue}>{property.bathrooms} Baths</Text>
+          </View>
+          <View style={styles.detailItem}>
+            <Feather name="maximize" size={18} color="#666" />
+            <Text style={styles.detailValue}>{property.squareFeet.toLocaleString()} Sq Ft</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Property Description */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Description</Text>
+        <Text style={styles.description}>{property.description || 'No description available.'}</Text>
+      </View>
+
+      {/* Property Features */}
+      {property.features && property.features.length > 0 && (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Features</Text>
+          <View style={styles.featuresList}>
+            {property.features.map((feature, index) => (
+              <View key={index} style={styles.featureItem}>
+                <Feather name="check" size={16} color="#007AFF" />
+                <Text style={styles.featureText}>{feature}</Text>
               </View>
-              <TouchableOpacity style={styles.contactButton}>
-                <Text style={styles.contactButtonText}>Contact</Text>
-              </TouchableOpacity>
-            </View>
+            ))}
           </View>
         </View>
-        
-        <View style={styles.actionsContainer}>
-          <TouchableOpacity style={styles.editButton}>
-            <Text style={styles.editButtonText}>Edit Listing</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      )}
+
+      {/* Contact Agent Button */}
+      <TouchableOpacity style={styles.contactButton} onPress={handleContactAgent}>
+        <Text style={styles.contactButtonText}>Contact Agent</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
+    backgroundColor: '#f8f9fa',
   },
-  scrollContent: {
-    paddingBottom: 30,
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   imageContainer: {
     position: 'relative',
-    height: 300,
   },
-  propertyImage: {
-    width: width,
-    height: 300,
-    resizeMode: 'cover',
+  mainImage: {
+    width: '100%',
+    height: 250,
   },
-  imageIndicators: {
+  imageActions: {
     position: 'absolute',
-    bottom: 16,
-    left: 0,
-    right: 0,
+    top: 15,
+    right: 15,
     flexDirection: 'row',
-    justifyContent: 'center',
   },
-  imageIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    marginHorizontal: 4,
-  },
-  activeImageIndicator: {
-    backgroundColor: '#FFFFFF',
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-  },
-  propertyTypeTag: {
-    position: 'absolute',
-    top: 16,
-    right: 16,
-    backgroundColor: 'rgba(0, 122, 255, 0.9)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 4,
-  },
-  propertyTypeText: {
-    color: '#FFFFFF',
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 16,
-    left: 16,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  iconButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 10,
   },
-  backButtonText: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#000',
-  },
-  propertyDetails: {
-    padding: 16,
-  },
-  propertyPrice: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#000',
-    marginBottom: 4,
-  },
-  propertyTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 4,
-  },
-  propertyAddress: {
-    fontSize: 16,
-    color: '#6B6B6B',
-    marginBottom: 16,
-  },
-  propertyFeatures: {
+  header: {
+    padding: 20,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 3,
+    justifyContent: 'space-between',
   },
-  featureItem: {
+  headerContent: {
     flex: 1,
+  },
+  price: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#007AFF',
+    marginBottom: 5,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 5,
+  },
+  address: {
+    fontSize: 16,
+    color: '#666',
+  },
+  editButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#007AFF',
+    alignSelf: 'flex-start',
+  },
+  editButtonText: {
+    color: '#007AFF',
+    fontWeight: '500',
+    marginLeft: 5,
+  },
+  detailsContainer: {
+    backgroundColor: '#fff',
+    padding: 15,
+    marginBottom: 10,
+  },
+  detailsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 10,
+  },
+  detailItem: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  featureValue: {
+  detailValue: {
+    marginLeft: 5,
     fontSize: 16,
-    fontWeight: '700',
-    color: '#000',
-  },
-  featureLabel: {
-    fontSize: 12,
-    color: '#6B6B6B',
-    marginTop: 4,
+    color: '#333',
   },
   section: {
-    marginBottom: 24,
+    backgroundColor: '#fff',
+    padding: 20,
+    marginBottom: 10,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#000',
-    marginBottom: 12,
+    fontWeight: '600',
+    marginBottom: 10,
+    color: '#333',
   },
-  descriptionText: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: '#6B6B6B',
+  description: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#444',
   },
   featuresList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  featureTag: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginRight: 8,
-    marginBottom: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 2,
-  },
-  featureTagText: {
-    fontSize: 12,
-    color: '#6B6B6B',
-  },
-  agentContainer: {
+  featureItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 3,
+    width: '50%',
+    marginBottom: 10,
   },
-  agentPhoto: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-  },
-  agentInfo: {
-    flex: 1,
-    marginLeft: 12,
-  },
-  agentName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#000',
-  },
-  agentRole: {
+  featureText: {
+    marginLeft: 5,
     fontSize: 14,
-    color: '#6B6B6B',
-    marginTop: 2,
+    color: '#444',
   },
   contactButton: {
     backgroundColor: '#007AFF',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  contactButtonText: {
-    color: '#FFFFFF',
-    fontWeight: '600',
-    fontSize: 14,
-  },
-  actionsContainer: {
-    paddingHorizontal: 16,
-    marginBottom: 24,
-  },
-  editButton: {
-    backgroundColor: '#007AFF',
-    borderRadius: 12,
-    padding: 16,
+    padding: 15,
+    margin: 20,
+    borderRadius: 10,
     alignItems: 'center',
   },
-  editButtonText: {
-    color: '#FFFFFF',
+  contactButtonText: {
+    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },

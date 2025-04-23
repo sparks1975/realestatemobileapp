@@ -75,6 +75,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.patch("/api/properties/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid property ID" });
+      }
+      
+      const user = await storage.getUserByUsername("alexmorgan");
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      // First verify the property exists
+      const existingProperty = await storage.getProperty(id);
+      if (!existingProperty) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+      
+      // Verify the property belongs to this user
+      if (existingProperty.listedById !== user.id) {
+        return res.status(403).json({ message: "You don't have permission to update this property" });
+      }
+      
+      // Update the property
+      const updatedProperty = await storage.updateProperty(id, req.body);
+      if (!updatedProperty) {
+        return res.status(500).json({ message: "Failed to update property" });
+      }
+      
+      // Create activity for property update
+      await storage.createActivity({
+        type: "property_update",
+        title: "Property updated",
+        description: updatedProperty.title,
+        userId: user.id,
+        propertyId: updatedProperty.id
+      });
+      
+      res.json(updatedProperty);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid property data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to update property" });
+    }
+  });
+
   // Clients
   app.get("/api/clients", async (req, res) => {
     const user = await storage.getUserByUsername("alexmorgan");

@@ -14,6 +14,7 @@ import ProfileScreen from './src/screens/ProfileScreen';
 
 // Import detail screens
 import PropertyDetailsScreen from './src/screens/PropertyDetailsScreen';
+import PropertyEditScreen from './src/screens/PropertyEditScreen';
 import ChatScreen from './src/screens/ChatScreen';
 
 // Import icons
@@ -35,6 +36,11 @@ const PropertiesStack = () => (
       name="PropertyDetails" 
       component={PropertyDetailsScreen}
       options={{ title: 'Property Details' }}
+    />
+    <Stack.Screen 
+      name="PropertyEdit" 
+      component={PropertyEditScreen}
+      options={{ title: 'Edit Property' }}
     />
   </Stack.Navigator>
 );
