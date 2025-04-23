@@ -90,7 +90,7 @@ export default function Dashboard() {
                 value={data?.financialStatistics.activeListings || financialStatistics.activeListings}
                 change={data?.financialStatistics.activeListingsChange || financialStatistics.activeListingsChange}
                 icon={Home}
-                iconColor="text-primary"
+                iconColor="text-primary" /* Gold */
               />
               
               <KpiCard 
@@ -98,7 +98,7 @@ export default function Dashboard() {
                 value={data?.financialStatistics.pendingSales || financialStatistics.pendingSales}
                 change={data?.financialStatistics.pendingSalesChange || financialStatistics.pendingSalesChange}
                 icon={FilePenLine}
-                iconColor="text-secondary"
+                iconColor="text-primary" /* Gold */
               />
               
               <KpiCard 
@@ -106,7 +106,7 @@ export default function Dashboard() {
                 value={data?.financialStatistics.closedSales || financialStatistics.closedSales}
                 change={data?.financialStatistics.closedSalesChange || financialStatistics.closedSalesChange}
                 icon={BanknoteIcon}
-                iconColor="text-[#FF6B6B]"
+                iconColor="text-primary" /* Gold */
               />
               
               <KpiCard 
@@ -114,7 +114,7 @@ export default function Dashboard() {
                 value={data?.financialStatistics.newLeads || financialStatistics.newLeads}
                 change={data?.financialStatistics.newLeadsChange || financialStatistics.newLeadsChange}
                 icon={UserPlus}
-                iconColor="text-[#FFB830]"
+                iconColor="text-primary" /* Gold */
                 changePeriod="this week"
               />
             </div>
@@ -136,7 +136,7 @@ export default function Dashboard() {
                 value={data?.websiteStatistics.visitors || websiteStatistics.visitors}
                 change={data?.websiteStatistics.visitorsChange || websiteStatistics.visitorsChange}
                 icon={Users}
-                iconColor="text-secondary"
+                iconColor="text-primary" /* Gold */
               />
               
               <KpiCard 
@@ -144,7 +144,7 @@ export default function Dashboard() {
                 value={data?.websiteStatistics.inquiries || websiteStatistics.inquiries}
                 change={data?.websiteStatistics.inquiriesChange || websiteStatistics.inquiriesChange}
                 icon={MessageSquare}
-                iconColor="text-[#FF6B6B]"
+                iconColor="text-primary" /* Gold */
               />
               
               <KpiCard 
@@ -152,7 +152,7 @@ export default function Dashboard() {
                 value={data?.websiteStatistics.bounceRate || websiteStatistics.bounceRate}
                 change={data?.websiteStatistics.bounceRateChange || websiteStatistics.bounceRateChange}
                 icon={MousePointerClick}
-                iconColor="text-[#FFB830]"
+                iconColor="text-primary" /* Gold */
                 changePeriod="this month"
               />
             </div>
