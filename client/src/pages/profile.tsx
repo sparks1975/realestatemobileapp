@@ -14,7 +14,7 @@ import { currentUser } from "@/lib/mock-data";
 import { motion } from "framer-motion";
 
 export default function Profile() {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme(); // Keep for type compatibility
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   
   // Fetch user data
@@ -32,16 +32,6 @@ export default function Profile() {
     { label: "Closed", value: 15 },
     { label: "Clients", value: 38 }
   ];
-  
-  const handleThemeChange = () => {
-    if (theme === "light") {
-      setTheme("dark");
-    } else if (theme === "dark") {
-      setTheme("system");
-    } else {
-      setTheme("light");
-    }
-  };
   
   return (
     <div className="px-4 pt-12 pb-6">
@@ -169,11 +159,8 @@ export default function Profile() {
                 </div>
                 <span>Dark Mode</span>
               </div>
-              <div 
-                className="text-xs text-muted-foreground cursor-pointer"
-                onClick={handleThemeChange}
-              >
-                {theme === "system" ? "System" : theme === "dark" ? "Dark" : "Light"}
+              <div className="text-xs text-muted-foreground">
+                Always On
               </div>
             </div>
           </Card>

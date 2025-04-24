@@ -1,13 +1,14 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 
+// Keep the types for backward compatibility
 type Theme = "dark" | "light" | "system";
 
 type ThemeProviderProps = {
   children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
+  defaultTheme?: Theme; // Kept for backward compatibility
+  storageKey?: string;  // Kept for backward compatibility
 };
 
 type ThemeProviderState = {
@@ -15,61 +16,48 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
 };
 
-const initialState: ThemeProviderState = {
-  theme: "system",
+// Create a fixed context that always returns dark mode
+const ThemeProviderContext = createContext<ThemeProviderState>({
+  theme: "dark",
   setTheme: () => null,
-};
+});
 
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
-
+// ThemeProvider component that enforces dark mode
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
-  storageKey = "theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  );
-
+  // Apply dark mode class to root element on mount
   useEffect(() => {
     const root = window.document.documentElement;
-    
-    root.classList.remove("light", "dark");
-    
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-      
-      root.classList.add(systemTheme);
-      return;
-    }
-    
-    root.classList.add(theme);
-  }, [theme]);
-
-  const value = {
-    theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
-    },
-  };
+    // Remove any existing theme classes
+    root.classList.remove("light", "system");
+    // Always add dark class
+    root.classList.add("dark");
+  }, []); // Only run once on mount
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider 
+      value={{
+        theme: "dark",
+        setTheme: () => {
+          // No-op function - dark mode is always enforced
+        },
+      }}
+      {...props}
+    >
       {children}
     </ThemeProviderContext.Provider>
   );
 }
 
-export const useTheme = () => {
+// Hook to use theme context
+export function useTheme() {
   const context = useContext(ThemeProviderContext);
   
-  if (context === undefined)
+  if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider");
+  }
   
   return context;
-};
+}
