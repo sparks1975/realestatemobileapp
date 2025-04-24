@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { z } from "zod";
 import { log } from "./vite";
 import path from "path";
+import fs from "fs";
 import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -358,10 +359,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
   const __filename = new URL(import.meta.url).pathname;
   const __dirname = path.dirname(__filename);
   
-  // For the root path, serve the progress view
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../simple-progress.html'));
-  });
+  // Serve PWA static files if they exist
+  const pwaDist = path.join(__dirname, '../dist/pwa');
+  if (fs.existsSync(pwaDist)) {
+    app.use(express.static(pwaDist, {
+      maxAge: '1d',
+      etag: true,
+    }));
+    
+    // For any route that doesn't match an API or static file, serve the PWA index.html
+    app.get('*', (req, res, next) => {
+      if (req.path.startsWith('/api/')) {
+        return next();
+      }
+      res.sendFile(path.join(pwaDist, 'index.html'));
+    });
+  } else {
+    // If PWA dist doesn't exist, serve the progress view
+    app.get('/', (req, res) => {
+      res.sendFile(path.join(__dirname, '../simple-progress.html'));
+    });
+  }
   
   // Initialize some data for demo purposes (only if there's none)
   initializeDemoData();
