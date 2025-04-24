@@ -362,25 +362,81 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve PWA static files if they exist
   const pwaDist = path.join(__dirname, '../dist/pwa');
   if (fs.existsSync(pwaDist)) {
+    console.log("PWA distribution files found at:", pwaDist);
+    
+    // Serve static files with correct MIME types for JavaScript modules
     app.use(express.static(pwaDist, {
       maxAge: '1d',
       etag: true,
+      setHeaders: (res, path) => {
+        // Set the correct MIME type for JavaScript files
+        if (path.endsWith('.js')) {
+          res.setHeader('Content-Type', 'application/javascript');
+        }
+        // Set the correct MIME type for JavaScript module files
+        if (path.endsWith('.mjs')) {
+          res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+        }
+        // Set caching headers
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+      }
     }));
     
-    // For any route that doesn't match an API or static file, serve the PWA index.html
+    // Specific routes for HTML pages
+    app.get('/properties', (req, res) => {
+      res.sendFile(path.join(pwaDist, 'properties.html'));
+    });
+    
+    app.get('/schedule', (req, res) => {
+      res.sendFile(path.join(pwaDist, 'index.html')); // Fallback to index for now
+    });
+    
+    app.get('/messages', (req, res) => {
+      res.sendFile(path.join(pwaDist, 'index.html')); // Fallback to index for now
+    });
+    
+    app.get('/profile', (req, res) => {
+      res.sendFile(path.join(pwaDist, 'index.html')); // Fallback to index for now
+    });
+    
+    // For any other route that doesn't match an API or static file, serve the PWA index.html
     app.get('*', (req, res, next) => {
       if (req.path.startsWith('/api/')) {
         return next();
       }
+      
+      // Check if the requested path exists as a file
+      const requestedPath = path.join(pwaDist, req.path);
+      if (fs.existsSync(requestedPath) && fs.statSync(requestedPath).isFile()) {
+        return res.sendFile(requestedPath);
+      }
+      
+      // Default to index.html
       res.sendFile(path.join(pwaDist, 'index.html'));
     });
   } else {
+    console.log("PWA distribution files not found at:", pwaDist);
     // If PWA dist doesn't exist, serve the progress view
     app.get('/', (req, res) => {
       res.sendFile(path.join(__dirname, '../simple-progress.html'));
     });
   }
   
+  // Serve the React client app at /client/ path
+  app.get('/client/*', (req, res, next) => {
+    // Strip the /client/ prefix to get the actual path
+    const clientPath = req.path.replace(/^\/client\//, '');
+    
+    // Pass to Vite middleware if in development or serve static files
+    if (process.env.NODE_ENV === 'development') {
+      // Let Vite middleware handle it
+      next();
+    } else {
+      // In production, serve static files from client/dist
+      res.sendFile(path.join(__dirname, '../client/dist', clientPath));
+    }
+  });
+
   // Initialize some data for demo purposes (only if there's none)
   initializeDemoData();
 
