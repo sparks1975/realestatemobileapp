@@ -24,8 +24,9 @@ export const getPropertyById = async (id: number): Promise<Property> => {
 };
 
 // Function to create a new property
-export const createProperty = async (propertyData: any): Promise<Property> => {
+export const createProperty = async (propertyData: Omit<Property, 'id' | 'createdAt'>): Promise<Property> => {
   try {
+    console.log('Creating property with data:', JSON.stringify(propertyData));
     const response = await apiClient.post('/api/properties', propertyData);
     return response.data;
   } catch (error) {
@@ -53,7 +54,13 @@ export const updateProperty = async (id: number, propertyData: Partial<Property>
       bedrooms: propertyData.bedrooms,
       bathrooms: propertyData.bathrooms,
       squareFeet: propertyData.squareFeet,
+      lotSize: propertyData.lotSize,
+      yearBuilt: propertyData.yearBuilt,
+      parkingSpaces: propertyData.parkingSpaces,
       description: propertyData.description,
+      features: propertyData.features,
+      mainImage: propertyData.mainImage,
+      images: propertyData.images,
     };
     
     const response = await apiClient.patch(`/api/properties/${id}`, updates);

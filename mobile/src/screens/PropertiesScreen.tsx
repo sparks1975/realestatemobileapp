@@ -109,38 +109,40 @@ const PropertiesScreen = () => {
               <Text style={styles.noPropertiesText}>No properties found</Text>
             ) : (
               properties.map((property) => (
-            <TouchableOpacity 
-              key={property.id}
-              style={styles.propertyCard}
-              onPress={() => navigation.navigate('PropertyDetails', { propertyId: property.id })}
-            >
-              <View style={styles.propertyImageContainer}>
-                <Image 
-                  source={{ uri: property.mainImage }}
-                  style={styles.propertyImage}
-                />
-                <View style={styles.propertyTypeTag}>
-                  <Text style={styles.propertyTypeText}>{property.type}</Text>
-                </View>
-                {property.status === 'Pending' && (
-                  <View style={styles.pendingTag}>
-                    <Text style={styles.pendingTagText}>Pending</Text>
+                <TouchableOpacity 
+                  key={property.id}
+                  style={styles.propertyCard}
+                  onPress={() => navigation.navigate('PropertyDetails', { propertyId: property.id })}
+                >
+                  <View style={styles.propertyImageContainer}>
+                    <Image 
+                      source={{ uri: property.mainImage }}
+                      style={styles.propertyImage}
+                    />
+                    <View style={styles.propertyTypeTag}>
+                      <Text style={styles.propertyTypeText}>{property.type}</Text>
+                    </View>
+                    {property.status === 'Pending' && (
+                      <View style={styles.pendingTag}>
+                        <Text style={styles.pendingTagText}>Pending</Text>
+                      </View>
+                    )}
                   </View>
-                )}
-              </View>
-              <View style={styles.propertyDetails}>
-                <Text style={styles.propertyPrice}>{formatPrice(property.price)}</Text>
-                <Text style={styles.propertyTitle}>{property.title}</Text>
-                <Text style={styles.propertyAddress}>{property.address}</Text>
-                <View style={styles.propertyFeatures}>
-                  <Text style={styles.propertyFeature}>{property.bedrooms} Beds</Text>
-                  <Text style={styles.propertyFeature}>{property.bathrooms} Baths</Text>
-                  <Text style={styles.propertyFeature}>{property.squareFeet.toLocaleString()} sqft</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
+                  <View style={styles.propertyDetails}>
+                    <Text style={styles.propertyPrice}>{formatPrice(property.price)}</Text>
+                    <Text style={styles.propertyTitle}>{property.title}</Text>
+                    <Text style={styles.propertyAddress}>{property.address}</Text>
+                    <View style={styles.propertyFeatures}>
+                      <Text style={styles.propertyFeature}>{property.bedrooms} Beds</Text>
+                      <Text style={styles.propertyFeature}>{property.bathrooms} Baths</Text>
+                      <Text style={styles.propertyFeature}>{property.squareFeet.toLocaleString()} sqft</Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ))
+            }
+          </View>
+        )
       </ScrollView>
     </SafeAreaView>
   );
@@ -279,6 +281,45 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#8E8E93',
     marginRight: 12,
+  },
+  loadingContainer: {
+    marginTop: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: '#666',
+  },
+  errorContainer: {
+    marginTop: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  errorText: {
+    marginBottom: 20,
+    fontSize: 16,
+    color: '#FF3B30',
+    textAlign: 'center',
+  },
+  retryButton: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: '#FFFFFF',
+    fontWeight: '600',
+  },
+  noPropertiesText: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: '#8E8E93',
+    marginTop: 40,
   },
 });
 

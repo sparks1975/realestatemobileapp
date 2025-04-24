@@ -23,6 +23,9 @@ export interface Property {
   bedrooms: number;
   bathrooms: number;
   squareFeet: number;
+  lotSize: number | null;
+  yearBuilt: number | null;
+  parkingSpaces: string;
   description: string | null;
   mainImage: string;
   images: string[];
