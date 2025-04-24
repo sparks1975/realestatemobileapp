@@ -382,29 +382,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     }));
     
-    // Specific routes for HTML pages
+    // Routes for the PWA - all routes serve the main index.html
     app.get('/properties', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'properties.html'));
+      res.sendFile(path.join(pwaDist, 'index.html'));
     });
 
     app.get('/property-details', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'property-details.html'));
+      res.sendFile(path.join(pwaDist, 'index.html'));
     });
 
     app.get('/property-edit', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'property-edit.html'));
+      res.sendFile(path.join(pwaDist, 'index.html'));
     });
     
     app.get('/schedule', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'schedule.html'));
+      res.sendFile(path.join(pwaDist, 'index.html'));
     });
     
     app.get('/messages', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'messages.html'));
+      res.sendFile(path.join(pwaDist, 'index.html'));
     });
     
     app.get('/profile', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'profile.html'));
+      res.sendFile(path.join(pwaDist, 'index.html'));
     });
     
     // For any other route that doesn't match an API or static file, serve the PWA index.html
