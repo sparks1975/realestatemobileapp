@@ -20,7 +20,9 @@ const getBaseUrl = () => {
   // Default to localhost for development
   // Note: When testing on a physical device, you'll need to replace this
   // with your computer's local network IP address (e.g., 192.168.1.x)
-  return 'https://realtor-dashboard.replit.app';
+  // For debugging, you can use the IP address of your machine on your local network
+  // The port 5000 is the default Express server port
+  return 'http://localhost:5000';
 };
 
 const BASE_URL = getBaseUrl();
