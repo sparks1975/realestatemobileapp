@@ -7,13 +7,29 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
+// Add cache-busting headers for all API requests and responses
 app.use((req, res, next) => {
+  // Add cache control headers to prevent caching for API routes
+  if (req.path.startsWith('/api')) {
+    res.set({
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Surrogate-Control': 'no-store'
+    });
+  }
+  
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
   const originalResJson = res.json;
   res.json = function (bodyJson, ...args) {
+    // Add a timestamp to JSON responses to prevent browser caching
+    if (typeof bodyJson === 'object' && bodyJson !== null) {
+      bodyJson._timestamp = Date.now();
+    }
+    
     capturedJsonResponse = bodyJson;
     return originalResJson.apply(res, [bodyJson, ...args]);
   };
