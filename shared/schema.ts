@@ -38,6 +38,7 @@ export const properties = pgTable("properties", {
   bedrooms: integer("bedrooms").notNull(),
   bathrooms: doublePrecision("bathrooms").notNull(),
   squareFeet: integer("square_feet").notNull(),
+  lotSize: doublePrecision("lot_size").default(0), // Lot size in acres
   description: text("description"),
   type: text("type").notNull(), // For Sale, For Rent
   status: text("status").notNull(), // Active, Pending, Sold
@@ -58,6 +59,7 @@ export const insertPropertySchema = createInsertSchema(properties).pick({
   bedrooms: true,
   bathrooms: true,
   squareFeet: true,
+  lotSize: true,
   description: true,
   type: true,
   status: true,

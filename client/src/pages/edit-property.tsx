@@ -75,6 +75,7 @@ export default function EditProperty() {
     bedrooms: "",
     bathrooms: "",
     squareFeet: "",
+    lotSize: "",
     description: "",
   });
   
@@ -136,6 +137,7 @@ export default function EditProperty() {
         bedrooms: property.bedrooms ? property.bedrooms.toString() : "0",
         bathrooms: property.bathrooms ? property.bathrooms.toString() : "0",
         squareFeet: property.squareFeet ? property.squareFeet.toString() : "0",
+        lotSize: property.lotSize ? property.lotSize.toString() : "0",
         description: property.description || "",
       });
       
@@ -187,8 +189,9 @@ export default function EditProperty() {
       zipCode: form.zipCode,
       price: parseFloat(form.price),
       bedrooms: parseInt(form.bedrooms, 10) || 0,
-      bathrooms: parseInt(form.bathrooms, 10) || 0,
+      bathrooms: parseFloat(form.bathrooms) || 0,
       squareFeet: parseInt(form.squareFeet, 10) || 0,
+      lotSize: parseFloat(form.lotSize) || 0,
       description: form.description,
       // Add image data
       mainImage: mainImage,
@@ -366,7 +369,7 @@ export default function EditProperty() {
               />
             </div>
             
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="bedrooms">Bedrooms</Label>
                 <Input 
@@ -387,6 +390,9 @@ export default function EditProperty() {
                   onChange={handleChange}
                 />
               </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="squareFeet">Square Feet</Label>
                 <Input 
@@ -394,6 +400,17 @@ export default function EditProperty() {
                   name="squareFeet" 
                   type="number" 
                   value={form.squareFeet} 
+                  onChange={handleChange} 
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lotSize">Lot Size (acres)</Label>
+                <Input 
+                  id="lotSize" 
+                  name="lotSize" 
+                  type="number" 
+                  step="0.01"
+                  value={form.lotSize} 
                   onChange={handleChange} 
                 />
               </div>

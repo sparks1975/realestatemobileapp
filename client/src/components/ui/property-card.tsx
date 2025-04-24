@@ -72,13 +72,14 @@ export default function PropertyCard({ property }: PropertyCardProps) {
           <div className="flex justify-between text-sm text-muted-foreground">
             <div className="flex items-center">
               <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21H3V7c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v14zM3 16h18M8 7v9m8-9v9" />
+                <path strokeLinecap="round" strokeWidth={2} d="M5 12h14" />
               </svg>
               <span>{property.bedrooms} beds</span>
             </div>
             <div className="flex items-center">
               <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4M4 12V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4M9 12h6M3 12h18" />
               </svg>
               <span>{property.bathrooms} baths</span>
             </div>
