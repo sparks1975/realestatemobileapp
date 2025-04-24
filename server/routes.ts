@@ -1,8 +1,9 @@
-import type { Express } from "express";
+import express, { type Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { log } from "./vite";
+import path from "path";
 import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -323,12 +324,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const activities = await storage.getActivitiesByUser(user.id, 5);
     const todayAppointments = await storage.getAppointmentsByDate(user.id, new Date());
     
+    // These would come from analytics in a real app
+    const dates = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - i));
+      return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    });
+    
+    const websiteStatistics = {
+      views: [120, 145, 132, 164, 187, 176, 198],
+      inquiries: [5, 7, 4, 9, 8, 11, 14],
+      dates
+    };
+    
+    const financialStatistics = {
+      sales: [0, 1, 0, 2, 1, 0, 1],
+      commissions: [0, 45000, 0, 87000, 52000, 0, 63000],
+      dates
+    };
+    
     res.json({
       portfolioValue,
+      portfolioValueChange: 5.2, // Sample percentage change
       statistics,
       activities,
-      todayAppointments
+      todayAppointments,
+      websiteStatistics,
+      financialStatistics
     });
+  });
+  
+  // Serve PWA static files
+  // Use import.meta.url for ES modules instead of __dirname
+  const __filename = new URL(import.meta.url).pathname;
+  const __dirname = path.dirname(__filename);
+  
+  app.use(express.static(path.join(__dirname, '../pwa/public'), {
+    maxAge: '1d',
+    etag: true,
+  }));
+  
+  // For any other route not starting with /api/, serve the PWA's index.html
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    res.sendFile(path.join(__dirname, '../pwa/public/index.html'));
   });
   
   // Initialize some data for demo purposes (only if there's none)
