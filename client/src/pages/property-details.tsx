@@ -228,15 +228,17 @@ export default function PropertyDetails() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Year Built</span>
-                  <span className="font-medium">2020</span>
+                  <span className="font-medium">{property.yearBuilt ? property.yearBuilt : 'Not specified'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Parking</span>
-                  <span className="font-medium">2 Car Garage</span>
+                  <span className="font-medium">{property.parkingSpaces || 'Not specified'}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Lot Size</span>
-                  <span className="font-medium">0.25 Acres</span>
+                  <span className="font-medium">
+                    {property.lotSize ? `${property.lotSize} ${property.lotSize === 1 ? 'Acre' : 'Acres'}` : 'Not specified'}
+                  </span>
                 </div>
               </div>
             </div>

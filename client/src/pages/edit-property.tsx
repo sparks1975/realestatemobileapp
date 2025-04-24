@@ -199,7 +199,7 @@ export default function EditProperty() {
       squareFeet: parseInt(form.squareFeet, 10) || 0,
       lotSize: parseFloat(form.lotSize) || 0,
       yearBuilt: parseInt(form.yearBuilt, 10) || 0,
-      parkingSpaces: parseInt(form.parkingSpaces, 10) || 0,
+      parkingSpaces: form.parkingSpaces,
       description: form.description,
       features: form.features,
       // Add image data
@@ -437,13 +437,14 @@ export default function EditProperty() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="parkingSpaces">Parking Spaces</Label>
+                <Label htmlFor="parkingSpaces">Parking</Label>
                 <Input 
                   id="parkingSpaces" 
                   name="parkingSpaces" 
-                  type="number" 
+                  type="text" 
                   value={form.parkingSpaces} 
                   onChange={handleChange} 
+                  placeholder="E.g., 2-Car Garage, Street Parking"
                 />
               </div>
             </div>
