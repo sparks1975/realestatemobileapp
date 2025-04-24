@@ -19,6 +19,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const { password, ...userWithoutPassword } = user;
     res.json(userWithoutPassword);
   });
+  
+  // Profile
+  app.get("/api/profile", async (req, res) => {
+    // For demo purposes, always return the default user
+    const user = await storage.getUserByUsername("alexmorgan");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    const { password, ...userProfile } = user;
+    res.json(userProfile);
+  });
 
   // Properties
   app.get("/api/properties", async (req, res) => {
@@ -168,7 +180,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Messages
-  app.get("/api/messages/conversations", async (req, res) => {
+  app.get("/api/conversations", async (req, res) => {
     const user = await storage.getUserByUsername("alexmorgan");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
