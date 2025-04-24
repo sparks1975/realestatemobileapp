@@ -382,29 +382,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
     }));
     
-    // Routes for the PWA - all routes serve the main index.html
+    // Routes for the PWA - serve specific HTML files if they exist, otherwise fallback to index.html
     app.get('/properties', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html'));
+      const filePath = path.join(pwaDist, 'properties.html');
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        res.sendFile(path.join(pwaDist, 'index.html'));
+      }
     });
 
     app.get('/property-details', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html'));
+      const filePath = path.join(pwaDist, 'property-details.html');
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        res.sendFile(path.join(pwaDist, 'index.html'));
+      }
     });
 
     app.get('/property-edit', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html'));
+      const filePath = path.join(pwaDist, 'property-edit.html');
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        res.sendFile(path.join(pwaDist, 'index.html'));
+      }
     });
     
     app.get('/schedule', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html'));
+      const filePath = path.join(pwaDist, 'schedule.html');
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        res.sendFile(path.join(pwaDist, 'index.html'));
+      }
     });
     
     app.get('/messages', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html'));
+      const filePath = path.join(pwaDist, 'messages.html');
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        res.sendFile(path.join(pwaDist, 'index.html'));
+      }
     });
     
     app.get('/profile', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html'));
+      const filePath = path.join(pwaDist, 'profile.html');
+      if (fs.existsSync(filePath)) {
+        res.sendFile(filePath);
+      } else {
+        res.sendFile(path.join(pwaDist, 'index.html'));
+      }
     });
     
     // For any other route that doesn't match an API or static file, serve the PWA index.html
