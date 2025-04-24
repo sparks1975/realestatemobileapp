@@ -14,7 +14,7 @@
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
-    <!-- Dynamic cache-busting script -->
+    <!-- Register service worker for cache control -->
     <script>
       // Force reload if the page was previously cached
       if (performance.navigation.type === 1) {
@@ -26,6 +26,22 @@
             });
           });
         }
+        
+        // Add a timestamp to browser history to help bypass cache
+        const url = new URL(window.location.href);
+        url.searchParams.set('_t', Date.now());
+        window.history.replaceState({}, document.title, url.toString());
+      }
+      
+      // Register the service worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          }).catch(function(error) {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+        });
       }
     </script>
   </body>
