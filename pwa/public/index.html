@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#CBA328">
+  <meta name="description" content="Professional realtor dashboard for managing properties and clients">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" href="/icons/icon-192x192.png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <title>Realtor Dashboard</title>
+  <style>
+    /* Initial loading styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #0c0c0c;
+      color: #ffffff;
+    }
+    
+    .initial-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100vw;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(203, 163, 40, 0.1);
+      border-top-color: #CBA328;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .app-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+    
+    .app-subtitle {
+      font-size: 16px;
+      color: #9e9e9e;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <!-- Initial loading state before React hydrates -->
+    <div class="initial-loader">
+      <div class="spinner"></div>
+      <h1 class="app-title">Realtor Dashboard</h1>
+      <p class="app-subtitle">Loading your experience...</p>
+    </div>
+  </div>
+  
+  <script type="module" src="/src/main.tsx"></script>
+  
+  <!-- Add any global scripts here -->
+  <script>
+    // This script checks if the browser is online
+    window.addEventListener('online', () => {
+      console.log('Application is online');
+      document.body.classList.remove('offline-mode');
+    });
+    window.addEventListener('offline', () => {
+      console.log('Application is offline');
+      document.body.classList.add('offline-mode');
+    });
+    
+    // iOS PWA fixes
+    // Prevent the "bounce" effect when scrolling beyond page boundaries
+    document.addEventListener('touchmove', function(event) {
+      if(!event.target.closest('div.scrollable-area')) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+  </script>
+</body>
+</html>
