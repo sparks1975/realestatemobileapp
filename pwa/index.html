@@ -2,27 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Realtor Dashboard - Modern progressive web app for real estate professionals" />
-  <meta name="theme-color" content="#1E1E1E" />
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
   <title>Realtor Dashboard</title>
-  <!-- Preconnect to the API server -->
-  <link rel="preconnect" href="http://localhost:5000">
-  <!-- Font preloading -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Manage your real estate properties, clients, and appointments" />
 </head>
-<body>
+<body class="dark">
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
-  <noscript>
-    <div style="padding: 2rem; text-align: center; font-family: sans-serif;">
-      <h1>JavaScript Required</h1>
-      <p>This application requires JavaScript to function. Please enable JavaScript in your browser settings.</p>
-    </div>
-  </noscript>
 </body>
 </html>

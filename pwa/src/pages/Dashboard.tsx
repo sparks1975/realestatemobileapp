@@ -1,23 +1,21 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiArrowUp, FiArrowDown, FiHome, FiClock, FiDollarSign, FiUsers, FiActivity } from 'react-icons/fi';
-import { Property, Appointment, Activity } from '../types';
+import { FiCalendar, FiHome, FiMessageSquare, FiTrendingUp, FiUsers, FiDollarSign, FiActivity } from 'react-icons/fi';
 import apiClient from '../api/client';
-
-interface DashboardData {
-  portfolioValue: number;
-  statistics: {
-    activeListings: number;
-    pendingSales: number;
-    closedSales: number;
-    newLeads: number;
-  };
-  activities: Activity[];
-  todayAppointments: Appointment[];
-}
+import { Property, Appointment, Activity } from '../types';
 
 const Dashboard = () => {
-  const [data, setData] = useState<DashboardData | null>(null);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [statistics, setStatistics] = useState({
+    activeListings: 0,
+    pendingSales: 0,
+    closedSales: 0,
+    newLeads: 0
+  });
+  const [portfolioValue, setPortfolioValue] = useState(0);
+  const [portfolioValueChange, setPortfolioValueChange] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -28,8 +26,29 @@ const Dashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const response = await apiClient.get('/api/dashboard');
-      setData(response.data);
+      
+      // Fetch all the data in parallel
+      const [
+        propertiesRes,
+        appointmentsRes,
+        activitiesRes,
+        statisticsRes,
+        portfolioValueRes
+      ] = await Promise.all([
+        apiClient.get('/api/properties'),
+        apiClient.get('/api/appointments'),
+        apiClient.get('/api/activities'),
+        apiClient.get('/api/statistics'),
+        apiClient.get('/api/portfolio-value')
+      ]);
+      
+      setProperties(propertiesRes.data);
+      setAppointments(appointmentsRes.data);
+      setActivities(activitiesRes.data);
+      setStatistics(statisticsRes.data);
+      setPortfolioValue(portfolioValueRes.data.value);
+      setPortfolioValueChange(portfolioValueRes.data.change);
+      
       setError(null);
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
@@ -47,16 +66,16 @@ const Dashboard = () => {
     }).format(value);
   };
   
-  const formatDate = (dateString: string | Date) => {
+  const formatDate = (dateString: Date | string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
+      weekday: 'short',
       month: 'short',
-      day: 'numeric',
-      year: 'numeric'
+      day: 'numeric'
     });
   };
   
-  const formatTime = (dateString: string | Date) => {
+  const formatTime = (dateString: Date | string) => {
     const date = new Date(dateString);
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
@@ -68,15 +87,15 @@ const Dashboard = () => {
     return (
       <div className="loading">
         <div className="spinner"></div>
-        <p className="loading-text">Loading dashboard data...</p>
+        <p className="loading-text">Loading dashboard...</p>
       </div>
     );
   }
   
-  if (error || !data) {
+  if (error) {
     return (
       <div className="text-center py-lg">
-        <p className="text-error mb-md">{error || 'No data available'}</p>
+        <p className="text-error mb-md">{error}</p>
         <button className="btn btn-primary" onClick={fetchDashboardData}>
           Retry
         </button>
@@ -86,124 +105,191 @@ const Dashboard = () => {
   
   return (
     <div className="dashboard-page">
-      <h1 className="page-title mb-lg">Dashboard</h1>
+      <h1 className="page-title">Dashboard</h1>
       
-      {/* Portfolio value */}
+      {/* Portfolio Value section */}
       <div className="card mb-lg">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
           <div>
-            <h3 className="mb-sm text-tertiary">Portfolio Value</h3>
-            <div className="text-3xl">{formatCurrency(data.portfolioValue)}</div>
+            <h2 className="text-lg text-tertiary mb-xs">Portfolio Value</h2>
+            <div className="flex items-center gap-sm">
+              <p className="text-xxl font-bold gradient-text">
+                {formatCurrency(portfolioValue)}
+              </p>
+              <span className={portfolioValueChange >= 0 ? 'text-success' : 'text-error'}>
+                {portfolioValueChange > 0 ? '+' : ''}{portfolioValueChange.toFixed(1)}%
+              </span>
+            </div>
+            <p className="text-tertiary text-sm">Overall portfolio performance</p>
           </div>
-          <div className="portfolio-change flex items-center" style={{ color: 'var(--color-success)' }}>
-            <FiArrowUp />
-            <span>2.4%</span>
+          
+          <div className="flex-none mt-md md:mt-0">
+            <Link to="/properties" className="btn btn-primary">
+              View Properties
+            </Link>
           </div>
         </div>
       </div>
       
-      {/* Statistics */}
-      <div className="statistics-grid mb-lg" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '20px' }}>
-        <div className="card">
-          <div className="flex items-center gap-md mb-sm">
-            <div className="icon-bg" style={{ backgroundColor: 'rgba(0, 122, 255, 0.1)', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FiHome size={20} color="var(--color-accent-primary)" />
+      {/* Statistics cards */}
+      <div className="statistics-grid mb-lg" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+        <div className="stat-card card">
+          <div className="flex items-center gap-sm mb-sm">
+            <div className="stat-icon" style={{ 
+              backgroundColor: 'rgba(203, 163, 40, 0.1)', 
+              color: 'var(--color-accent-primary)',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <FiHome size={18} />
             </div>
-            <h3 className="text-tertiary">Active Listings</h3>
+            <h3 className="stat-title text-tertiary">Active Listings</h3>
           </div>
-          <div className="text-2xl">{data.statistics.activeListings}</div>
+          <p className="stat-value text-xl font-bold">{statistics.activeListings}</p>
         </div>
         
-        <div className="card">
-          <div className="flex items-center gap-md mb-sm">
-            <div className="icon-bg" style={{ backgroundColor: 'rgba(255, 149, 0, 0.1)', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FiClock size={20} color="var(--color-warning)" />
+        <div className="stat-card card">
+          <div className="flex items-center gap-sm mb-sm">
+            <div className="stat-icon" style={{ 
+              backgroundColor: 'rgba(203, 163, 40, 0.1)', 
+              color: 'var(--color-accent-primary)',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <FiTrendingUp size={18} />
             </div>
-            <h3 className="text-tertiary">Pending Sales</h3>
+            <h3 className="stat-title text-tertiary">Pending Sales</h3>
           </div>
-          <div className="text-2xl">{data.statistics.pendingSales}</div>
+          <p className="stat-value text-xl font-bold">{statistics.pendingSales}</p>
         </div>
         
-        <div className="card">
-          <div className="flex items-center gap-md mb-sm">
-            <div className="icon-bg" style={{ backgroundColor: 'rgba(52, 199, 89, 0.1)', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FiDollarSign size={20} color="var(--color-success)" />
+        <div className="stat-card card">
+          <div className="flex items-center gap-sm mb-sm">
+            <div className="stat-icon" style={{ 
+              backgroundColor: 'rgba(203, 163, 40, 0.1)', 
+              color: 'var(--color-accent-primary)',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <FiDollarSign size={18} />
             </div>
-            <h3 className="text-tertiary">Closed Sales</h3>
+            <h3 className="stat-title text-tertiary">Closed Sales</h3>
           </div>
-          <div className="text-2xl">{data.statistics.closedSales}</div>
+          <p className="stat-value text-xl font-bold">{statistics.closedSales}</p>
         </div>
         
-        <div className="card">
-          <div className="flex items-center gap-md mb-sm">
-            <div className="icon-bg" style={{ backgroundColor: 'rgba(90, 200, 250, 0.1)', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <FiUsers size={20} color="#5AC8FA" />
+        <div className="stat-card card">
+          <div className="flex items-center gap-sm mb-sm">
+            <div className="stat-icon" style={{ 
+              backgroundColor: 'rgba(203, 163, 40, 0.1)', 
+              color: 'var(--color-accent-primary)',
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <FiUsers size={18} />
             </div>
-            <h3 className="text-tertiary">New Leads</h3>
+            <h3 className="stat-title text-tertiary">New Leads</h3>
           </div>
-          <div className="text-2xl">{data.statistics.newLeads}</div>
+          <p className="stat-value text-xl font-bold">{statistics.newLeads}</p>
         </div>
       </div>
       
-      <div className="dashboard-columns" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        {/* Recent Activities */}
-        <div className="recent-activities">
-          <h2 className="mb-md">Recent Activities</h2>
-          <div className="card" style={{ height: '400px', overflow: 'auto' }}>
-            {data.activities.length === 0 ? (
-              <p className="text-tertiary text-center py-md">No recent activities</p>
-            ) : (
-              <div className="activities-list">
-                {data.activities.map((activity) => (
-                  <div key={activity.id} className="activity-item flex gap-md mb-md pb-md" style={{ borderBottom: '1px solid var(--color-border)' }}>
-                    <div className="activity-icon" style={{ minWidth: '40px' }}>
-                      <div className="icon-bg" style={{ backgroundColor: 'rgba(203, 163, 40, 0.1)', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <FiActivity size={20} color="var(--color-accent-secondary)" />
-                      </div>
-                    </div>
-                    <div className="activity-content">
-                      <div className="activity-title font-semibold">{activity.title}</div>
-                      <div className="activity-description text-secondary">{activity.description}</div>
-                      <div className="activity-time text-tertiary text-sm">
-                        {activity.createdAt && formatDate(activity.createdAt)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+      {/* Two-column layout for desktop, single column for mobile */}
+      <div className="dashboard-columns" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+        {/* Upcoming Appointments */}
+        <div className="card">
+          <div className="flex justify-between items-center mb-md">
+            <h2 className="section-title mb-0 flex items-center gap-sm">
+              <FiCalendar className="text-accent" />
+              <span>Upcoming Appointments</span>
+            </h2>
+            <Link to="/schedule" className="text-accent text-sm">View All</Link>
           </div>
+          
+          {appointments.length === 0 ? (
+            <div className="text-center py-md">
+              <p className="text-tertiary">No upcoming appointments</p>
+            </div>
+          ) : (
+            <div className="appointments-list">
+              {appointments.slice(0, 3).map((appointment) => (
+                <div key={appointment.id} className="appointment-item mb-md pb-md" style={{ borderBottom: '1px solid var(--color-border)' }}>
+                  <div className="flex justify-between mb-xs">
+                    <span className="font-semibold">{appointment.title}</span>
+                    <span className="text-accent">{formatDate(appointment.date)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-tertiary">{appointment.location}</span>
+                    <span className="text-tertiary">{formatTime(appointment.date)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         
-        {/* Today's Appointments */}
-        <div className="today-appointments">
-          <h2 className="mb-md">Today's Appointments</h2>
-          <div className="card" style={{ height: '400px', overflow: 'auto' }}>
-            {data.todayAppointments.length === 0 ? (
-              <p className="text-tertiary text-center py-md">No appointments scheduled for today</p>
-            ) : (
-              <div className="appointments-list">
-                {data.todayAppointments.map((appointment) => (
-                  <div key={appointment.id} className="appointment-item mb-md pb-md" style={{ borderBottom: '1px solid var(--color-border)' }}>
-                    <div className="appointment-time text-accent font-semibold">
-                      {formatTime(appointment.date)}
-                    </div>
-                    <div className="appointment-title font-semibold mb-xs">
-                      {appointment.title}
-                    </div>
-                    <div className="appointment-location text-secondary mb-xs">
-                      {appointment.location}
-                    </div>
-                    {appointment.notes && (
-                      <div className="appointment-notes text-tertiary text-sm">
-                        {appointment.notes}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
+        {/* Recent Activity */}
+        <div className="card">
+          <div className="flex justify-between items-center mb-md">
+            <h2 className="section-title mb-0 flex items-center gap-sm">
+              <FiActivity className="text-accent" />
+              <span>Recent Activity</span>
+            </h2>
           </div>
+          
+          {activities.length === 0 ? (
+            <div className="text-center py-md">
+              <p className="text-tertiary">No recent activities</p>
+            </div>
+          ) : (
+            <div className="activities-list">
+              {activities.slice(0, 5).map((activity) => (
+                <div key={activity.id} className="activity-item mb-md pb-md" style={{ borderBottom: '1px solid var(--color-border)' }}>
+                  <div className="flex items-center gap-sm mb-xs">
+                    <div className="activity-icon" style={{ 
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(203, 163, 40, 0.1)',
+                      color: 'var(--color-accent-primary)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}>
+                      {activity.type === 'property' && <FiHome size={14} />}
+                      {activity.type === 'appointment' && <FiCalendar size={14} />}
+                      {activity.type === 'message' && <FiMessageSquare size={14} />}
+                      {activity.type === 'client' && <FiUsers size={14} />}
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">{activity.title}</div>
+                      <div className="text-tertiary text-sm">{activity.description}</div>
+                    </div>
+                    <div className="text-tertiary text-sm">
+                      {formatDate(activity.createdAt || new Date())}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

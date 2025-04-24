@@ -1,159 +1,158 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-// Import pages
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { FiHome, FiCalendar, FiMessageSquare, FiUser, FiMenu, FiX } from 'react-icons/fi';
+
+// Import page components
 import Dashboard from './pages/Dashboard';
 import Properties from './pages/Properties';
 import PropertyDetails from './pages/PropertyDetails';
 import PropertyEdit from './pages/PropertyEdit';
+import Schedule from './pages/Schedule';
 import Messages from './pages/Messages';
 import Chat from './pages/Chat';
-import Schedule from './pages/Schedule';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 
-// Import icons from react-icons (replacing Expo vector icons)
-import { FiHome, FiGrid, FiMessageCircle, FiCalendar, FiUser } from 'react-icons/fi';
-
-// Bottom Navigation Component for mobile
-const BottomNav = () => {
+const App = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const pathname = location.pathname;
   
-  // Check if the current path matches or starts with the given path
+  // Close sidebar when navigating on mobile
+  useEffect(() => {
+    if (window.innerWidth <= 768) {
+      setSidebarOpen(false);
+    }
+  }, [location]);
+  
+  // Determine if the current route is active
   const isActive = (path: string) => {
-    return pathname === path || pathname.startsWith(`${path}/`);
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
+  
+  // Toggle sidebar
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   };
   
   return (
-    <div className="bottom-nav show-on-mobile">
-      <Link to="/" className={`bottom-nav-item ${isActive('/') ? 'active' : ''}`}>
-        <FiHome className="bottom-nav-icon" />
-        <span className="bottom-nav-label">Home</span>
-      </Link>
-      <Link to="/properties" className={`bottom-nav-item ${isActive('/properties') ? 'active' : ''}`}>
-        <FiGrid className="bottom-nav-icon" />
-        <span className="bottom-nav-label">Properties</span>
-      </Link>
-      <Link to="/messages" className={`bottom-nav-item ${isActive('/messages') ? 'active' : ''}`}>
-        <FiMessageCircle className="bottom-nav-icon" />
-        <span className="bottom-nav-label">Messages</span>
-      </Link>
-      <Link to="/schedule" className={`bottom-nav-item ${isActive('/schedule') ? 'active' : ''}`}>
-        <FiCalendar className="bottom-nav-icon" />
-        <span className="bottom-nav-label">Schedule</span>
-      </Link>
-      <Link to="/profile" className={`bottom-nav-item ${isActive('/profile') ? 'active' : ''}`}>
-        <FiUser className="bottom-nav-icon" />
-        <span className="bottom-nav-label">Profile</span>
-      </Link>
-    </div>
-  );
-};
-
-// Sidebar Component for desktop
-const Sidebar = () => {
-  const location = useLocation();
-  const pathname = location.pathname;
-  
-  // Check if the current path matches or starts with the given path
-  const isActive = (path: string) => {
-    return pathname === path || pathname.startsWith(`${path}/`);
-  };
-  
-  return (
-    <div className="sidebar hide-on-mobile">
-      <h1 className="nav-logo mb-lg">Realtor</h1>
-      <nav>
-        <ul className="flex flex-column gap-md">
-          <li>
-            <Link to="/" className={`flex items-center gap-sm ${isActive('/') ? 'text-accent' : 'text-secondary'}`}>
-              <FiHome size={20} />
-              <span>Dashboard</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/properties" className={`flex items-center gap-sm ${isActive('/properties') ? 'text-accent' : 'text-secondary'}`}>
-              <FiGrid size={20} />
-              <span>Properties</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/messages" className={`flex items-center gap-sm ${isActive('/messages') ? 'text-accent' : 'text-secondary'}`}>
-              <FiMessageCircle size={20} />
-              <span>Messages</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/schedule" className={`flex items-center gap-sm ${isActive('/schedule') ? 'text-accent' : 'text-secondary'}`}>
-              <FiCalendar size={20} />
-              <span>Schedule</span>
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile" className={`flex items-center gap-sm ${isActive('/profile') ? 'text-accent' : 'text-secondary'}`}>
-              <FiUser size={20} />
-              <span>Profile</span>
-            </Link>
-          </li>
-        </ul>
+    <div className="app-container">
+      {/* Mobile Header */}
+      <header className="mobile-header">
+        <div className="container flex justify-between items-center py-md">
+          <button className="menu-toggle btn btn-icon" onClick={toggleSidebar}>
+            {sidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          </button>
+          <h1 className="site-title">Realtor Dashboard</h1>
+          <div className="w-10"></div> {/* Empty space for balance */}
+        </div>
+      </header>
+      
+      <div className="main-content">
+        {/* Sidebar Navigation */}
+        <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+          <div className="sidebar-header py-lg px-md">
+            <h2 className="gradient-text">Realtor Dashboard</h2>
+          </div>
+          
+          <nav className="sidebar-nav">
+            <ul className="nav-list">
+              <li className="nav-item">
+                <Link 
+                  to="/" 
+                  className={`nav-link flex items-center gap-sm px-md py-sm ${isActive('/') ? 'active' : ''}`}
+                >
+                  <FiHome className="nav-icon" />
+                  <span>Dashboard</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link 
+                  to="/properties" 
+                  className={`nav-link flex items-center gap-sm px-md py-sm ${isActive('/properties') ? 'active' : ''}`}
+                >
+                  <FiHome className="nav-icon" />
+                  <span>Properties</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link 
+                  to="/schedule" 
+                  className={`nav-link flex items-center gap-sm px-md py-sm ${isActive('/schedule') ? 'active' : ''}`}
+                >
+                  <FiCalendar className="nav-icon" />
+                  <span>Schedule</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link 
+                  to="/messages" 
+                  className={`nav-link flex items-center gap-sm px-md py-sm ${isActive('/messages') ? 'active' : ''}`}
+                >
+                  <FiMessageSquare className="nav-icon" />
+                  <span>Messages</span>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link 
+                  to="/profile" 
+                  className={`nav-link flex items-center gap-sm px-md py-sm ${isActive('/profile') ? 'active' : ''}`}
+                >
+                  <FiUser className="nav-icon" />
+                  <span>Profile</span>
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        
+        {/* Main Content Area */}
+        <main className="content-area">
+          <div className="page-container">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/properties" element={<Properties />} />
+              <Route path="/properties/:id" element={<PropertyDetails />} />
+              <Route path="/properties/:id/edit" element={<PropertyEdit />} />
+              <Route path="/schedule" element={<Schedule />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/messages/:id" element={<Chat />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </main>
+      </div>
+      
+      {/* Mobile Bottom Navigation */}
+      <nav className="bottom-nav">
+        <div className="bottom-nav-content">
+          <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`}>
+            <FiHome size={20} />
+            <span className="text-sm">Home</span>
+          </Link>
+          <Link to="/properties" className={`nav-link ${isActive('/properties') ? 'active' : ''}`}>
+            <FiHome size={20} />
+            <span className="text-sm">Properties</span>
+          </Link>
+          <Link to="/schedule" className={`nav-link ${isActive('/schedule') ? 'active' : ''}`}>
+            <FiCalendar size={20} />
+            <span className="text-sm">Schedule</span>
+          </Link>
+          <Link to="/messages" className={`nav-link ${isActive('/messages') ? 'active' : ''}`}>
+            <FiMessageSquare size={20} />
+            <span className="text-sm">Messages</span>
+          </Link>
+          <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`}>
+            <FiUser size={20} />
+            <span className="text-sm">Profile</span>
+          </Link>
+        </div>
       </nav>
     </div>
   );
 };
-
-function App() {
-  // Check if the app is online
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-
-  useEffect(() => {
-    // Update online status when it changes
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
-
-    return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
-
-  // Show offline message if the app is offline
-  if (!isOnline) {
-    return (
-      <div className="app-container">
-        <div className="flex items-center justify-center" style={{ minHeight: '100vh', textAlign: 'center', padding: '2rem' }}>
-          <div>
-            <h1>You're Offline</h1>
-            <p>Please check your internet connection and try again.</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <Router>
-      <div className="app-container">
-        <Sidebar />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/properties" element={<Properties />} />
-            <Route path="/properties/:id" element={<PropertyDetails />} />
-            <Route path="/properties/:id/edit" element={<PropertyEdit />} />
-            <Route path="/messages" element={<Messages />} />
-            <Route path="/messages/:id" element={<Chat />} />
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-        <BottomNav />
-      </div>
-    </Router>
-  );
-}
 
 export default App;
