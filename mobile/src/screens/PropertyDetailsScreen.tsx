@@ -32,14 +32,14 @@ type RouteParams = {
 };
 
 const { width } = Dimensions.get('window');
-// Keep track of current image index for carousel
-const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
 const PropertyDetailsScreen = () => {
   const navigation = useNavigation<PropertyDetailsScreenNavigationProp>();
   const route = useRoute();
   const { propertyId, refreshFlag } = route.params as RouteParams;
   
+  // Keep track of current image index for carousel
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [property, setProperty] = useState<Property | null>(null);
 
