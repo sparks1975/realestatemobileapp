@@ -1,62 +1,40 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, SafeAreaView, ActivityIndicator, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { getProperties } from '../api/properties';
+import { Property } from '../types';
 
 const PropertiesScreen = () => {
   const navigation = useNavigation();
   const [activeFilter, setActiveFilter] = useState('All Properties');
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
-  // Mock property data
-  const properties = [
-    {
-      id: 1,
-      title: 'Luxury Villa',
-      address: '123 Luxury Ave, Beverly Hills, CA 90210',
-      price: 4500000,
-      bedrooms: 5,
-      bathrooms: 4,
-      squareFeet: 6200,
-      type: 'For Sale',
-      status: 'Active',
-      mainImage: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&h=800',
-    },
-    {
-      id: 2,
-      title: 'Modern Apartment',
-      address: '456 Downtown Blvd, Los Angeles, CA 90017',
-      price: 1200000,
-      bedrooms: 2,
-      bathrooms: 2,
-      squareFeet: 1800,
-      type: 'For Sale',
-      status: 'Pending',
-      mainImage: 'https://images.unsplash.com/photo-1515263487990-61b07816b324?auto=format&fit=crop&w=1200&h=800',
-    },
-    {
-      id: 3,
-      title: 'Luxury Penthouse',
-      address: '789 Skyline Blvd, San Francisco, CA 94121',
-      price: 5800000,
-      bedrooms: 3,
-      bathrooms: 3.5,
-      squareFeet: 3200,
-      type: 'For Sale',
-      status: 'Active',
-      mainImage: 'https://images.unsplash.com/photo-1565182999561-18d7dc61c393?auto=format&fit=crop&w=1200&h=800',
-    },
-    {
-      id: 4,
-      title: 'Waterfront House',
-      address: '321 Coastal Hwy, Malibu, CA 90265',
-      price: 8500000,
-      bedrooms: 4,
-      bathrooms: 4.5,
-      squareFeet: 5600,
-      type: 'For Sale',
-      status: 'Active',
-      mainImage: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&h=800',
-    },
-  ];
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+  
+  const fetchProperties = async () => {
+    try {
+      setLoading(true);
+      const data = await getProperties();
+      console.log('Fetched properties:', JSON.stringify(data));
+      setProperties(data);
+      setError(null);
+    } catch (err) {
+      console.error('Error fetching properties:', err);
+      setError('Failed to load properties. Please try again.');
+      // Handle error
+      Alert.alert(
+        'Error',
+        'Could not load properties. Please check your connection and try again.',
+        [{ text: 'OK' }]
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
   
   const filters = [
     'All Properties',
@@ -112,8 +90,25 @@ const PropertiesScreen = () => {
           ))}
         </ScrollView>
         
-        <View style={styles.propertiesContainer}>
-          {properties.map((property) => (
+        {/* Show loading indicator when fetching data */}
+        {loading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#007AFF" />
+            <Text style={styles.loadingText}>Loading properties...</Text>
+          </View>
+        ) : error ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{error}</Text>
+            <TouchableOpacity style={styles.retryButton} onPress={fetchProperties}>
+              <Text style={styles.retryButtonText}>Retry</Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View style={styles.propertiesContainer}>
+            {properties.length === 0 ? (
+              <Text style={styles.noPropertiesText}>No properties found</Text>
+            ) : (
+              properties.map((property) => (
             <TouchableOpacity 
               key={property.id}
               style={styles.propertyCard}
