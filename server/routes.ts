@@ -360,7 +360,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   
   // For the root path, serve the progress view
   app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../progress-view.html'));
+    res.sendFile(path.join(__dirname, '../simple-progress.html'));
   });
   
   // Initialize some data for demo purposes (only if there's none)
