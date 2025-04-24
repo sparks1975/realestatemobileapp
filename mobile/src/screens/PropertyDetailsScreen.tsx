@@ -32,6 +32,8 @@ type RouteParams = {
 };
 
 const { width } = Dimensions.get('window');
+// Keep track of current image index for carousel
+const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
 const PropertyDetailsScreen = () => {
   const navigation = useNavigation<PropertyDetailsScreenNavigationProp>();
@@ -121,13 +123,51 @@ const PropertyDetailsScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Property Images */}
+      {/* Property Images Carousel */}
       <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: property.mainImage || 'https://via.placeholder.com/500x300?text=Property+Image' }}
-          style={styles.mainImage}
-          resizeMode="cover"
-        />
+        <ScrollView
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          style={styles.imageCarousel}
+          onScroll={(event) => {
+            const contentOffsetX = event.nativeEvent.contentOffset.x;
+            const currentIndex = Math.round(contentOffsetX / width);
+            setCurrentImageIndex(currentIndex);
+          }}
+          scrollEventThrottle={16}
+        >
+          {/* Always include the main image first */}
+          <Image
+            source={{ uri: property.mainImage }}
+            style={styles.carouselImage}
+            resizeMode="cover"
+          />
+          
+          {/* Then map through any additional images */}
+          {property.images && property.images.length > 0 && 
+            property.images
+              .filter(img => img !== property.mainImage) // Don't show duplicate of main image
+              .map((imageUrl, index) => (
+                <Image
+                  key={index}
+                  source={{ uri: imageUrl }}
+                  style={styles.carouselImage}
+                  resizeMode="cover"
+                />
+              ))
+          }
+        </ScrollView>
+        
+        {/* Overlay for image navigation */}
+        {property.images && property.images.length > 0 && (
+          <View style={styles.imageCounter}>
+            <Text style={styles.imageCounterText}>
+              {`${currentImageIndex + 1}/${property.images.filter(img => img !== property.mainImage).length + 1}`}
+            </Text>
+          </View>
+        )}
+        
         <View style={styles.imageActions}>
           <TouchableOpacity style={styles.iconButton} onPress={handleShare}>
             <Feather name="share-2" size={20} color="#fff" />
@@ -223,6 +263,28 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     position: 'relative',
+    height: 250,
+  },
+  imageCarousel: {
+    flex: 1,
+  },
+  carouselImage: {
+    width: width,
+    height: 250,
+  },
+  imageCounter: {
+    position: 'absolute',
+    bottom: 15,
+    right: 15,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 15,
+  },
+  imageCounterText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 12,
   },
   mainImage: {
     width: '100%',

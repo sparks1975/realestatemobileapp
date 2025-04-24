@@ -8,13 +8,16 @@ import {
   TouchableOpacity, 
   Alert,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  Image,
+  ActivityIndicator
 } from 'react-native';
 import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getPropertyById, updateProperty } from '../api/properties';
 import { Property } from '../types';
 import { Feather } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 // Define navigation param types for type safety
 type RootStackParamList = {
