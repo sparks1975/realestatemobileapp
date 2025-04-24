@@ -1,4 +1,4 @@
-// User related types
+// User types
 export interface User {
   id: number;
   username: string;
@@ -10,7 +10,7 @@ export interface User {
   createdAt: Date | null;
 }
 
-// Property related types
+// Property types
 export interface Property {
   id: number;
   type: string;
@@ -35,7 +35,7 @@ export interface Property {
   createdAt: Date | null;
 }
 
-// Client related types
+// Client types
 export interface Client {
   id: number;
   name: string;
@@ -46,7 +46,7 @@ export interface Client {
   createdAt: Date | null;
 }
 
-// Message related types
+// Message types
 export interface Message {
   id: number;
   senderId: number;
@@ -56,7 +56,7 @@ export interface Message {
   createdAt: Date | null;
 }
 
-// Appointment related types
+// Appointment types
 export interface Appointment {
   id: number;
   date: Date;
@@ -69,7 +69,7 @@ export interface Appointment {
   createdAt: Date | null;
 }
 
-// Activity related types
+// Activity types
 export interface Activity {
   id: number;
   userId: number;
@@ -80,8 +80,38 @@ export interface Activity {
   createdAt: Date | null;
 }
 
-// Complex types
+// Conversation type for messages view
 export type Conversation = {
   user: User | Client;
   lastMessage: Message;
+}
+
+// Statistics types for dashboard
+export interface PropertyStatistics {
+  activeListings: number;
+  pendingSales: number;
+  closedSales: number;
+  newLeads: number;
+}
+
+export interface WebsiteStatistics {
+  views: number[];
+  inquiries: number[];
+  dates: string[];
+}
+
+export interface FinancialStatistics {
+  commissions: number[];
+  sales: number[];
+  dates: string[];
+}
+
+export interface DashboardData {
+  portfolioValue: number;
+  portfolioValueChange: number;
+  statistics: PropertyStatistics;
+  websiteStatistics: WebsiteStatistics;
+  financialStatistics: FinancialStatistics;
+  activities: Activity[];
+  todayAppointments: Appointment[];
 }

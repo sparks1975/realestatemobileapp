@@ -1,32 +1,21 @@
 import { Link } from 'react-router-dom';
-import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import { FiHome, FiAlertTriangle } from 'react-icons/fi';
 
 const NotFound = () => {
   return (
-    <div className="not-found-page text-center py-xl">
-      <div className="container">
-        <h1 className="text-xxl font-bold mb-md gradient-text">404</h1>
-        <h2 className="text-xl mb-lg">Page Not Found</h2>
-        
-        <p className="text-secondary mb-lg">
-          The page you are looking for doesn't exist or has been moved.
-        </p>
-        
-        <div className="flex items-center justify-center gap-md">
-          <Link to="/" className="btn btn-primary flex items-center gap-sm">
-            <FiHome size={18} />
-            <span>Go to Dashboard</span>
-          </Link>
-          
-          <button
-            className="btn btn-secondary flex items-center gap-sm"
-            onClick={() => window.history.back()}
-          >
-            <FiArrowLeft size={18} />
-            <span>Go Back</span>
-          </button>
-        </div>
-      </div>
+    <div className="not-found flex flex-col items-center justify-center py-xl">
+      <FiAlertTriangle size={64} className="text-warning mb-md" />
+      
+      <h1 className="text-xl font-bold mb-sm">Page Not Found</h1>
+      
+      <p className="text-tertiary text-center mb-lg" style={{ maxWidth: '400px' }}>
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+      
+      <Link to="/" className="btn btn-primary flex items-center gap-sm">
+        <FiHome size={18} />
+        <span>Return to Dashboard</span>
+      </Link>
     </div>
   );
 };
