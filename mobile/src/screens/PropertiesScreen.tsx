@@ -44,7 +44,7 @@ const PropertiesScreen = () => {
     'Pending',
   ];
   
-  const formatPrice = (price) => {
+  const formatPrice = (price: number) => {
     if (price >= 1000000) {
       return `$${(price / 1000000).toFixed(1)}M`;
     } else if (price >= 1000) {
@@ -90,7 +90,6 @@ const PropertiesScreen = () => {
           ))}
         </ScrollView>
         
-        {/* Show loading indicator when fetching data */}
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color="#007AFF" />
@@ -140,9 +139,9 @@ const PropertiesScreen = () => {
                   </View>
                 </TouchableOpacity>
               ))
-            }
+            )}
           </View>
-        )
+        )}
       </ScrollView>
     </SafeAreaView>
   );
