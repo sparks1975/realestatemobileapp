@@ -1,0 +1,75 @@
+import apiClient from './client';
+import { Property } from '../types';
+
+// Function to get all properties
+export const getProperties = async (): Promise<Property[]> => {
+  try {
+    console.log('Attempting to fetch properties from API...');
+    const response = await apiClient.get('/api/properties');
+    console.log('Successfully fetched properties:', response.data.length);
+    return response.data;
+  } catch (error) {
+    // Log detailed error information to help with debugging
+    console.error('Error fetching properties:', error);
+    throw error;
+  }
+};
+
+// Function to get a specific property by ID
+export const getPropertyById = async (id: number): Promise<Property> => {
+  try {
+    const response = await apiClient.get(`/api/properties/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching property with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+// Function to create a new property
+export const createProperty = async (propertyData: Omit<Property, 'id' | 'createdAt'>): Promise<Property> => {
+  try {
+    console.log('Creating property with data:', JSON.stringify(propertyData));
+    const response = await apiClient.post('/api/properties', propertyData);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating property:', error);
+    throw error;
+  }
+};
+
+// Function to update a property
+export const updateProperty = async (id: number, propertyData: Partial<Property>): Promise<Property> => {
+  try {
+    // Log update operation for debugging
+    console.log(`Updating property ${id} with data:`, JSON.stringify(propertyData));
+    
+    // Create a sanitized copy with only the fields we want to update
+    const updates = {
+      title: propertyData.title,
+      type: propertyData.type,
+      status: propertyData.status,
+      address: propertyData.address,
+      city: propertyData.city,
+      state: propertyData.state,
+      zipCode: propertyData.zipCode,
+      price: propertyData.price,
+      bedrooms: propertyData.bedrooms,
+      bathrooms: propertyData.bathrooms,
+      squareFeet: propertyData.squareFeet,
+      lotSize: propertyData.lotSize,
+      yearBuilt: propertyData.yearBuilt,
+      parkingSpaces: propertyData.parkingSpaces,
+      description: propertyData.description,
+      features: propertyData.features,
+      mainImage: propertyData.mainImage,
+      images: propertyData.images,
+    };
+    
+    const response = await apiClient.patch(`/api/properties/${id}`, updates);
+    return response.data;
+  } catch (error) {
+    console.error(`Error updating property with ID ${id}:`, error);
+    throw error;
+  }
+};
