@@ -1,10 +1,8 @@
-import express, { type Express } from "express";
+import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { log } from "./vite";
-import path from "path";
-import fs from "fs";
 import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -18,18 +16,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     
     const { password, ...userWithoutPassword } = user;
     res.json(userWithoutPassword);
-  });
-  
-  // Profile
-  app.get("/api/profile", async (req, res) => {
-    // For demo purposes, always return the default user
-    const user = await storage.getUserByUsername("alexmorgan");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    
-    const { password, ...userProfile } = user;
-    res.json(userProfile);
   });
 
   // Properties
@@ -180,7 +166,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Messages
-  app.get("/api/conversations", async (req, res) => {
+  app.get("/api/messages/conversations", async (req, res) => {
     const user = await storage.getUserByUsername("alexmorgan");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -337,197 +323,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const activities = await storage.getActivitiesByUser(user.id, 5);
     const todayAppointments = await storage.getAppointmentsByDate(user.id, new Date());
     
-    // These would come from analytics in a real app
-    const dates = Array.from({ length: 7 }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (6 - i));
-      return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
-    });
-    
-    const websiteStatistics = {
-      views: [120, 145, 132, 164, 187, 176, 198],
-      inquiries: [5, 7, 4, 9, 8, 11, 14],
-      dates
-    };
-    
-    const financialStatistics = {
-      sales: [0, 1, 0, 2, 1, 0, 1],
-      commissions: [0, 45000, 0, 87000, 52000, 0, 63000],
-      dates
-    };
-    
     res.json({
       portfolioValue,
-      portfolioValueChange: 5.2, // Sample percentage change
       statistics,
       activities,
-      todayAppointments,
-      websiteStatistics,
-      financialStatistics
+      todayAppointments
     });
   });
   
-  // Use import.meta.url for ES modules instead of __dirname
-  const __filename = new URL(import.meta.url).pathname;
-  const __dirname = path.dirname(__filename);
-  
-  // Serve PWA static files if they exist
-  const pwaDist = path.join(__dirname, '../dist/pwa');
-  if (fs.existsSync(pwaDist)) {
-    console.log("PWA distribution files found at:", pwaDist);
-    
-    // Serve static files with correct MIME types for JavaScript modules
-    app.use(express.static(pwaDist, {
-      maxAge: '1d',
-      etag: true,
-      setHeaders: (res, path) => {
-        // Set the correct MIME type for JavaScript files
-        if (path.endsWith('.js')) {
-          res.setHeader('Content-Type', 'application/javascript');
-        }
-        // Set the correct MIME type for JavaScript module files
-        if (path.endsWith('.mjs')) {
-          res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-        }
-        // Set caching headers
-        res.setHeader('Cache-Control', 'public, max-age=86400');
-      }
-    }));
-    
-    // Routes for the PWA - serve specific HTML files if they exist, otherwise fallback to index.html
-    app.get('/properties', (req, res) => {
-      const filePath = path.join(pwaDist, 'properties.html');
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.sendFile(path.join(pwaDist, 'index.html'));
-      }
-    });
-
-    app.get('/property-details', (req, res) => {
-      const filePath = path.join(pwaDist, 'property-details.html');
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.sendFile(path.join(pwaDist, 'index.html'));
-      }
-    });
-
-    app.get('/property-edit', (req, res) => {
-      const filePath = path.join(pwaDist, 'property-edit.html');
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.sendFile(path.join(pwaDist, 'index.html'));
-      }
-    });
-    
-    app.get('/schedule', (req, res) => {
-      const filePath = path.join(pwaDist, 'schedule.html');
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.sendFile(path.join(pwaDist, 'index.html'));
-      }
-    });
-    
-    app.get('/messages', (req, res) => {
-      const filePath = path.join(pwaDist, 'messages.html');
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.sendFile(path.join(pwaDist, 'index.html'));
-      }
-    });
-    
-    app.get('/profile', (req, res) => {
-      const filePath = path.join(pwaDist, 'profile.html');
-      if (fs.existsSync(filePath)) {
-        res.sendFile(filePath);
-      } else {
-        res.sendFile(path.join(pwaDist, 'index.html'));
-      }
-    });
-    
-    // For any other route that doesn't match an API or static file, serve the PWA index.html
-    app.get('*', (req, res, next) => {
-      if (req.path.startsWith('/api/')) {
-        return next();
-      }
-      
-      // Check if the requested path exists as a file
-      const requestedPath = path.join(pwaDist, req.path);
-      if (fs.existsSync(requestedPath) && fs.statSync(requestedPath).isFile()) {
-        return res.sendFile(requestedPath);
-      }
-      
-      // Default to index.html
-      res.sendFile(path.join(pwaDist, 'index.html'));
-    });
-  } else {
-    console.log("PWA distribution files not found at:", pwaDist);
-    // If PWA dist doesn't exist, serve the progress view
-    app.get('/', (req, res) => {
-      res.sendFile(path.join(__dirname, '../simple-progress.html'));
-    });
-  }
-  
-  // Route for the React client app at /client/
-  app.get('/client', (req, res) => {
-    // Redirect to /client/ to ensure relative paths work correctly
-    res.redirect('/client/');
-  });
-  
-  // Serve the React client app at /client/ path
-  app.get('/client/*', (req, res, next) => {
-    if (req.path === '/client/') {
-      // For the client root, serve the client index.html
-      const indexPath = path.join(__dirname, '../client/src/index.html');
-      if (fs.existsSync(indexPath)) {
-        return res.sendFile(indexPath);
-      } else {
-        console.log("Client index.html not found at:", indexPath);
-        return res.send(`
-          <html>
-            <head>
-              <title>React Client</title>
-              <style>
-                body { font-family: sans-serif; padding: 2rem; background: #f5f5f5; color: #333; }
-                .message { max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-                h1 { color: #CBA328; }
-                pre { background: #eee; padding: 1rem; border-radius: 4px; overflow: auto; }
-                a { color: #CBA328; text-decoration: none; }
-                a:hover { text-decoration: underline; }
-              </style>
-            </head>
-            <body>
-              <div class="message">
-                <h1>React Client View</h1>
-                <p>This is the React client application. The client source code is available, but the client/index.html file wasn't found.</p>
-                <p>To run the React client directly, please access it through the regular development server.</p>
-                <p><a href="/">← Back to PWA Dashboard</a></p>
-              </div>
-            </body>
-          </html>
-        `);
-      }
-    }
-    
-    // For other client paths, try to serve the file directly
-    try {
-      const filePath = path.join(__dirname, '../client/src', req.path.replace(/^\/client\//, ''));
-      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-        return res.sendFile(filePath);
-      }
-    } catch (error) {
-      console.error("Error serving client file:", error);
-    }
-    
-    // If we get here, we couldn't find the file, so pass to next middleware
-    // which will eventually serve the client index.html
-    next();
-  });
-
   // Initialize some data for demo purposes (only if there's none)
   initializeDemoData();
 
