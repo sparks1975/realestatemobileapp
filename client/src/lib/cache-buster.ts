@@ -27,7 +27,7 @@ export async function clearBrowserCaches(): Promise<void> {
  */
 export function forceReload(): void {
   console.log('Forcing page reload to clear cache');
-  window.location.reload(true);
+  window.location.reload();
 }
 
 /**
@@ -44,7 +44,7 @@ export function initCacheBusting(): void {
   // If timestamps differ significantly (more than 2 minutes), reload
   if (lastTimestamp && Math.abs(parseInt(lastTimestamp) - parseInt(timestamp)) > 120000) {
     console.log('App version changed, reloading...');
-    window.location.reload(true);
+    window.location.reload();
   }
   
   // Add event listener to detect when the user returns to the app
@@ -54,7 +54,7 @@ export function initCacheBusting(): void {
       const currentTimestamp = localStorage.getItem('app_timestamp');
       if (currentTimestamp !== timestamp) {
         console.log('App version changed while in background, reloading...');
-        window.location.reload(true);
+        window.location.reload();
       }
     }
   });
