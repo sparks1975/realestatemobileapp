@@ -354,22 +354,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
   
-  // Serve PWA static files
   // Use import.meta.url for ES modules instead of __dirname
   const __filename = new URL(import.meta.url).pathname;
   const __dirname = path.dirname(__filename);
   
-  app.use(express.static(path.join(__dirname, '../pwa/public'), {
-    maxAge: '1d',
-    etag: true,
-  }));
-  
-  // For any other route not starting with /api/, serve the PWA's index.html
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api/')) {
-      return next();
-    }
-    res.sendFile(path.join(__dirname, '../pwa/public/index.html'));
+  // For the root path, serve the progress view
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../progress-view.html'));
   });
   
   // Initialize some data for demo purposes (only if there's none)
