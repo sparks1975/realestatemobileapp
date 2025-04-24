@@ -76,7 +76,10 @@ export default function EditProperty() {
     bathrooms: "",
     squareFeet: "",
     lotSize: "",
+    yearBuilt: "",
+    parkingSpaces: "",
     description: "",
+    features: [] as string[],
   });
   
   // State for property images
@@ -138,7 +141,10 @@ export default function EditProperty() {
         bathrooms: property.bathrooms ? property.bathrooms.toString() : "0",
         squareFeet: property.squareFeet ? property.squareFeet.toString() : "0",
         lotSize: property.lotSize ? property.lotSize.toString() : "0",
+        yearBuilt: property.yearBuilt ? property.yearBuilt.toString() : "0",
+        parkingSpaces: property.parkingSpaces ? property.parkingSpaces.toString() : "0",
         description: property.description || "",
+        features: property.features || [],
       });
       
       // Set images data
@@ -192,7 +198,10 @@ export default function EditProperty() {
       bathrooms: parseFloat(form.bathrooms) || 0,
       squareFeet: parseInt(form.squareFeet, 10) || 0,
       lotSize: parseFloat(form.lotSize) || 0,
+      yearBuilt: parseInt(form.yearBuilt, 10) || 0,
+      parkingSpaces: parseInt(form.parkingSpaces, 10) || 0,
       description: form.description,
+      features: form.features,
       // Add image data
       mainImage: mainImage,
       images: [mainImage, ...images].filter(Boolean),
@@ -413,6 +422,75 @@ export default function EditProperty() {
                   value={form.lotSize} 
                   onChange={handleChange} 
                 />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="yearBuilt">Year Built</Label>
+                <Input 
+                  id="yearBuilt" 
+                  name="yearBuilt" 
+                  type="number" 
+                  value={form.yearBuilt} 
+                  onChange={handleChange} 
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="parkingSpaces">Parking Spaces</Label>
+                <Input 
+                  id="parkingSpaces" 
+                  name="parkingSpaces" 
+                  type="number" 
+                  value={form.parkingSpaces} 
+                  onChange={handleChange} 
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="features">Features</Label>
+              <div className="flex flex-wrap gap-2 border rounded-md p-3">
+                {form.features.map((feature, index) => (
+                  <div key={index} className="flex items-center bg-secondary/10 rounded-full px-3 py-1">
+                    <span className="text-sm">{feature}</span>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-5 w-5 p-0 ml-1"
+                      onClick={() => {
+                        setForm(prev => ({
+                          ...prev,
+                          features: prev.features.filter((_, i) => i !== index)
+                        }));
+                      }}
+                    >
+                      <X size={12} />
+                    </Button>
+                  </div>
+                ))}
+                <div className="relative w-full">
+                  <Input 
+                    id="newFeature" 
+                    placeholder="Add feature (e.g., 'Fireplace') and press Enter"
+                    className="w-full"
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const target = e.target as HTMLInputElement;
+                        const value = target.value.trim();
+                        if (value) {
+                          setForm(prev => ({
+                            ...prev, 
+                            features: [...prev.features, value]
+                          }));
+                          target.value = '';
+                        }
+                      }
+                    }}
+                  />
+                </div>
               </div>
             </div>
             

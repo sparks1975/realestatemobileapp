@@ -348,6 +348,34 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateProperty(id: number, updates: Partial<Property>): Promise<Property | undefined> {
+    // Ensure yearBuilt, parkingSpaces, and features are included in the update
+    if (updates.yearBuilt === undefined) {
+      const [existingProperty] = await db.select({ yearBuilt: properties.yearBuilt })
+        .from(properties)
+        .where(eq(properties.id, id));
+      if (existingProperty) {
+        updates.yearBuilt = existingProperty.yearBuilt;
+      }
+    }
+
+    if (updates.parkingSpaces === undefined) {
+      const [existingProperty] = await db.select({ parkingSpaces: properties.parkingSpaces })
+        .from(properties)
+        .where(eq(properties.id, id));
+      if (existingProperty) {
+        updates.parkingSpaces = existingProperty.parkingSpaces;
+      }
+    }
+
+    if (updates.features === undefined) {
+      const [existingProperty] = await db.select({ features: properties.features })
+        .from(properties)
+        .where(eq(properties.id, id));
+      if (existingProperty) {
+        updates.features = existingProperty.features;
+      }
+    }
+
     const [property] = await db
       .update(properties)
       .set(updates)
