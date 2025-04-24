@@ -386,17 +386,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     app.get('/properties', (req, res) => {
       res.sendFile(path.join(pwaDist, 'properties.html'));
     });
+
+    app.get('/property-details', (req, res) => {
+      res.sendFile(path.join(pwaDist, 'property-details.html'));
+    });
+
+    app.get('/property-edit', (req, res) => {
+      res.sendFile(path.join(pwaDist, 'property-edit.html'));
+    });
     
     app.get('/schedule', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html')); // Fallback to index for now
+      res.sendFile(path.join(pwaDist, 'schedule.html'));
     });
     
     app.get('/messages', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html')); // Fallback to index for now
+      res.sendFile(path.join(pwaDist, 'messages.html'));
     });
     
     app.get('/profile', (req, res) => {
-      res.sendFile(path.join(pwaDist, 'index.html')); // Fallback to index for now
+      res.sendFile(path.join(pwaDist, 'profile.html'));
     });
     
     // For any other route that doesn't match an API or static file, serve the PWA index.html
