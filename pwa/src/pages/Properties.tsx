@@ -1,39 +1,25 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FiPlus, FiSearch, FiFilter, FiCheck, FiHome, FiMapPin, FiDollarSign } from 'react-icons/fi';
+import { FiHome, FiEdit, FiTrash2, FiPlus, FiFilter, FiSearch } from 'react-icons/fi';
 import apiClient from '../api/client';
 import { Property } from '../types';
 
 const Properties = () => {
   const [properties, setProperties] = useState<Property[]>([]);
-  const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState({
-    status: 'all',
-    type: 'all',
-    minPrice: '',
-    maxPrice: '',
-    minBedrooms: '',
-    minBathrooms: ''
-  });
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
   
   useEffect(() => {
     fetchProperties();
   }, []);
-  
-  useEffect(() => {
-    applyFilters();
-  }, [searchQuery, filters, properties]);
   
   const fetchProperties = async () => {
     try {
       setLoading(true);
       const response = await apiClient.get('/api/properties');
       setProperties(response.data);
-      setFilteredProperties(response.data);
       setError(null);
     } catch (err) {
       console.error('Error fetching properties:', err);
@@ -43,86 +29,45 @@ const Properties = () => {
     }
   };
   
-  const applyFilters = () => {
-    if (!properties.length) return;
-    
-    let result = [...properties];
-    
-    // Apply search query
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(property => 
-        property.title.toLowerCase().includes(query) ||
-        property.address.toLowerCase().includes(query) ||
-        property.city.toLowerCase().includes(query) ||
-        property.state.toLowerCase().includes(query) ||
-        property.zipCode.toLowerCase().includes(query)
-      );
+  const handleDeleteProperty = async (id: number) => {
+    if (!window.confirm('Are you sure you want to delete this property?')) {
+      return;
     }
     
-    // Apply filters
-    if (filters.status !== 'all') {
-      result = result.filter(property => property.status === filters.status);
+    try {
+      await apiClient.delete(`/api/properties/${id}`);
+      // Remove from local state
+      setProperties(properties.filter(p => p.id !== id));
+    } catch (err) {
+      console.error('Error deleting property:', err);
+      alert('Failed to delete property. Please try again.');
     }
-    
-    if (filters.type !== 'all') {
-      result = result.filter(property => property.type === filters.type);
-    }
-    
-    if (filters.minPrice) {
-      const minPrice = parseFloat(filters.minPrice);
-      result = result.filter(property => property.price >= minPrice);
-    }
-    
-    if (filters.maxPrice) {
-      const maxPrice = parseFloat(filters.maxPrice);
-      result = result.filter(property => property.price <= maxPrice);
-    }
-    
-    if (filters.minBedrooms) {
-      const minBedrooms = parseInt(filters.minBedrooms);
-      result = result.filter(property => property.bedrooms >= minBedrooms);
-    }
-    
-    if (filters.minBathrooms) {
-      const minBathrooms = parseFloat(filters.minBathrooms);
-      result = result.filter(property => property.bathrooms >= minBathrooms);
-    }
-    
-    setFilteredProperties(result);
   };
   
-  const toggleFilters = () => {
-    setShowFilters(prev => !prev);
-  };
-  
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFilters(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-  
-  const resetFilters = () => {
-    setFilters({
-      status: 'all',
-      type: 'all',
-      minPrice: '',
-      maxPrice: '',
-      minBedrooms: '',
-      minBathrooms: ''
-    });
-    setSearchQuery('');
-  };
-  
-  const formatPrice = (price: number) => {
+  const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       maximumFractionDigits: 0
-    }).format(price);
+    }).format(value);
   };
+  
+  const filteredProperties = properties
+    .filter(property => {
+      // Apply status filter
+      if (filterStatus !== 'all' && property.status !== filterStatus) {
+        return false;
+      }
+      
+      // Apply search query filter
+      const query = searchQuery.toLowerCase();
+      return (
+        property.title.toLowerCase().includes(query) ||
+        property.address.toLowerCase().includes(query) ||
+        property.city.toLowerCase().includes(query) ||
+        property.state.toLowerCase().includes(query)
+      );
+    });
   
   if (loading) {
     return (
@@ -133,306 +78,132 @@ const Properties = () => {
     );
   }
   
-  if (error) {
-    return (
-      <div className="text-center py-lg">
-        <p className="text-error mb-md">{error}</p>
-        <button className="btn btn-primary" onClick={fetchProperties}>
-          Retry
-        </button>
-      </div>
-    );
-  }
-  
   return (
-    <div className="properties-page">
-      <div className="flex justify-between items-center mb-lg">
-        <h1 className="page-title mb-0">Properties</h1>
+    <div className="properties">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-lg">
+        <h1 className="page-title mb-sm md:mb-0">Properties</h1>
         
-        <Link 
-          to="/properties/new" 
-          className="btn btn-primary flex items-center gap-sm"
-        >
+        <Link to="/properties/new" className="btn btn-primary flex items-center gap-sm">
           <FiPlus size={18} />
           <span>Add Property</span>
         </Link>
       </div>
       
-      {/* Search and filter bar */}
-      <div className="search-filter-bar card mb-lg">
-        <div className="flex flex-col md:flex-row items-center gap-md">
-          <div className="search-container flex-1 w-full">
-            <div className="search-input-wrapper relative">
-              <input 
-                type="text" 
-                className="form-input" 
-                placeholder="Search by address, title, city..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ paddingLeft: '40px' }}
-              />
-              <FiSearch 
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary" 
-                size={18} 
-              />
-            </div>
-          </div>
-          
-          <div className="filter-container">
-            <button 
-              className="btn btn-secondary flex items-center gap-sm"
-              onClick={toggleFilters}
-            >
-              <FiFilter size={18} />
-              <span>Filters</span>
-            </button>
-          </div>
+      <div className="flex flex-col md:flex-row gap-md mb-lg">
+        <div className="search-container flex-1 relative">
+          <FiSearch size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-tertiary" />
+          <input
+            type="text"
+            placeholder="Search properties..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="bg-bg-elevated w-full py-sm px-lg pl-10 rounded-md border border-color-border"
+          />
         </div>
         
-        {showFilters && (
-          <div className="filters-panel mt-md pt-md" style={{ borderTop: '1px solid var(--color-border)' }}>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-md">
-              <div className="form-group">
-                <label className="form-label">Status</label>
-                <select 
-                  name="status" 
-                  className="form-input" 
-                  value={filters.status}
-                  onChange={handleFilterChange}
-                >
-                  <option value="all">All Statuses</option>
-                  <option value="Active">Active</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Sold">Sold</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <label className="form-label">Type</label>
-                <select 
-                  name="type" 
-                  className="form-input" 
-                  value={filters.type}
-                  onChange={handleFilterChange}
-                >
-                  <option value="all">All Types</option>
-                  <option value="For Sale">For Sale</option>
-                  <option value="For Rent">For Rent</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <label className="form-label">Min. Bedrooms</label>
-                <input 
-                  type="number" 
-                  name="minBedrooms" 
-                  className="form-input" 
-                  placeholder="Any"
-                  value={filters.minBedrooms}
-                  onChange={handleFilterChange}
-                  min="0"
-                />
-              </div>
-              
-              <div className="form-group">
-                <label className="form-label">Min. Bathrooms</label>
-                <input 
-                  type="number" 
-                  name="minBathrooms" 
-                  className="form-input" 
-                  placeholder="Any"
-                  value={filters.minBathrooms}
-                  onChange={handleFilterChange}
-                  min="0"
-                  step="0.5"
-                />
-              </div>
-              
-              <div className="form-group">
-                <label className="form-label">Min. Price</label>
-                <input 
-                  type="number" 
-                  name="minPrice" 
-                  className="form-input" 
-                  placeholder="No minimum"
-                  value={filters.minPrice}
-                  onChange={handleFilterChange}
-                  min="0"
-                />
-              </div>
-              
-              <div className="form-group">
-                <label className="form-label">Max. Price</label>
-                <input 
-                  type="number" 
-                  name="maxPrice" 
-                  className="form-input" 
-                  placeholder="No maximum"
-                  value={filters.maxPrice}
-                  onChange={handleFilterChange}
-                  min="0"
-                />
-              </div>
-            </div>
-            
-            <div className="flex justify-end gap-md mt-md">
-              <button 
-                className="btn btn-secondary"
-                onClick={resetFilters}
-              >
-                Reset Filters
-              </button>
-              
-              <button 
-                className="btn btn-primary flex items-center gap-sm"
-                onClick={applyFilters}
-              >
-                <FiCheck size={18} />
-                <span>Apply Filters</span>
-              </button>
-            </div>
+        <div className="filter-container">
+          <div className="flex items-center gap-sm bg-bg-elevated px-md py-sm rounded-md border border-color-border">
+            <FiFilter size={18} className="text-tertiary" />
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="bg-transparent border-0 outline-none"
+            >
+              <option value="all">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+              <option value="Sold">Sold</option>
+              <option value="Off Market">Off Market</option>
+            </select>
           </div>
-        )}
+        </div>
       </div>
       
-      {/* Properties grid */}
-      {filteredProperties.length === 0 ? (
-        <div className="text-center py-lg card">
-          <FiHome size={48} className="text-tertiary mb-md mx-auto" />
-          <h3 className="mb-sm">No properties found</h3>
-          <p className="text-tertiary mb-md">
-            {searchQuery || Object.values(filters).some(v => v !== 'all' && v !== '') ? 
-              'Try adjusting your filters or search query.' : 
-              'Add your first property to get started.'}
-          </p>
-          
-          {searchQuery || Object.values(filters).some(v => v !== 'all' && v !== '') ? (
+      {error && (
+        <div className="text-center py-lg">
+          <p className="text-error mb-md">{error}</p>
+          <button className="btn btn-primary" onClick={fetchProperties}>
+            Retry
+          </button>
+        </div>
+      )}
+      
+      {!error && filteredProperties.length === 0 && (
+        <div className="text-center py-lg">
+          <FiHome size={48} className="text-tertiary mx-auto mb-md" />
+          <p className="text-tertiary mb-md">No properties found</p>
+          {searchQuery || filterStatus !== 'all' ? (
             <button 
               className="btn btn-secondary"
-              onClick={resetFilters}
+              onClick={() => {
+                setSearchQuery('');
+                setFilterStatus('all');
+              }}
             >
               Clear Filters
             </button>
           ) : (
-            <Link 
-              to="/properties/new" 
-              className="btn btn-primary flex items-center gap-sm"
-              style={{ margin: '0 auto', display: 'inline-flex' }}
-            >
+            <Link to="/properties/new" className="btn btn-primary flex items-center gap-sm justify-center mx-auto" style={{ width: 'fit-content' }}>
               <FiPlus size={18} />
-              <span>Add Property</span>
+              <span>Add Your First Property</span>
             </Link>
           )}
         </div>
-      ) : (
-        <div className="properties-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
-          {filteredProperties.map((property) => (
-            <Link 
-              key={property.id} 
-              to={`/properties/${property.id}`}
-              className="property-card card transition-transform hover:shadow-lg hover:-translate-y-1"
-              style={{ overflow: 'hidden', textDecoration: 'none', color: 'inherit' }}
-            >
-              <div className="property-image" style={{ position: 'relative' }}>
+      )}
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-md">
+        {filteredProperties.map((property) => (
+          <div key={property.id} className="card hover:shadow-md transition-shadow">
+            <div className="flex">
+              <div className="property-image mr-md" style={{ width: '120px', height: '100px', overflow: 'hidden', borderRadius: 'var(--radius-sm)' }}>
                 <img 
                   src={property.mainImage} 
                   alt={property.title}
-                  style={{ 
-                    width: '100%', 
-                    height: '200px', 
-                    objectFit: 'cover',
-                    borderTopLeftRadius: 'var(--radius-md)',
-                    borderTopRightRadius: 'var(--radius-md)'
-                  }}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                
-                <div className="property-status" style={{ 
-                  position: 'absolute',
-                  top: '12px',
-                  left: '12px',
-                  backgroundColor: property.status === 'Active' ? '#4CAF50' : 
-                                     property.status === 'Pending' ? '#FF9800' : '#9E9E9E',
-                  padding: '4px 8px',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  color: 'white'
-                }}>
-                  {property.status}
-                </div>
-                
-                <div className="property-price" style={{ 
-                  position: 'absolute',
-                  bottom: '12px',
-                  left: '12px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                  padding: '4px 8px',
-                  borderRadius: 'var(--radius-sm)',
-                  fontWeight: 600,
-                  color: 'white'
-                }}>
-                  {formatPrice(property.price)}
-                </div>
-                
-                <div className="property-type" style={{ 
-                  position: 'absolute',
-                  bottom: '12px',
-                  right: '12px',
-                  backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                  padding: '4px 8px',
-                  borderRadius: 'var(--radius-sm)',
-                  fontSize: '0.75rem',
-                  color: 'white'
-                }}>
-                  {property.type}
-                </div>
               </div>
               
-              <div className="property-details p-md">
-                <h3 className="property-title text-lg font-semibold mb-xs">{property.title}</h3>
-                
-                <div className="property-address text-tertiary mb-sm flex items-center gap-xs">
-                  <FiMapPin size={14} />
-                  <span>{property.address}, {property.city}, {property.state}</span>
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+                  <h3 className="font-semibold">{property.title}</h3>
+                  <div className={`status-badge py-xs px-sm rounded-pill text-xs ${
+                    property.status === 'Active' ? 'bg-success text-black' :
+                    property.status === 'Pending' ? 'bg-warning text-black' :
+                    property.status === 'Sold' ? 'bg-info text-black' :
+                    'bg-tertiary'
+                  }`}>
+                    {property.status}
+                  </div>
                 </div>
                 
-                <div className="property-specs flex justify-between text-sm mt-md">
-                  <div className="flex items-center gap-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 22v-2a4 4 0 0 1 4-4h1a4 4 0 0 1 4 4v2H3z"/>
-                      <path d="M8 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                      <path d="M17 13h.01"/>
-                      <path d="M21 13h.01"/>
-                      <path d="M21 7h.01"/>
-                      <path d="M17 7h.01"/>
-                      <path d="M17 17h.01"/>
-                      <path d="M21 17h.01"/>
-                    </svg>
-                    <span>{property.bedrooms} Beds</span>
-                  </div>
+                <p className="text-secondary text-sm mb-xs">{property.address}, {property.city}, {property.state}</p>
+                
+                <div className="flex items-center gap-xl mb-sm">
+                  <div className="text-tertiary text-sm">{property.bedrooms} bed</div>
+                  <div className="text-tertiary text-sm">{property.bathrooms} bath</div>
+                  <div className="text-tertiary text-sm">{property.squareFeet.toLocaleString()} sqft</div>
+                </div>
+                
+                <div className="flex justify-between items-center">
+                  <div className="price font-semibold gradient-text">{formatCurrency(property.price)}</div>
                   
-                  <div className="flex items-center gap-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 9l9-6 9 6M3 9v6m9-6v12m9-12v6"/>
-                      <rect x="3" y="15" width="18" height="4" rx="1"/>
-                    </svg>
-                    <span>{property.bathrooms} Baths</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-xs">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="3" width="18" height="18" rx="2"/>
-                      <line x1="3" y1="9" x2="21" y2="9"/>
-                      <line x1="9" y1="21" x2="9" y2="9"/>
-                    </svg>
-                    <span>{property.squareFeet.toLocaleString()} sqft</span>
+                  <div className="actions flex gap-sm">
+                    <Link to={`/properties/${property.id}/edit`} className="action-btn p-xs rounded-full hover:bg-bg-elevated">
+                      <FiEdit size={16} className="text-secondary" />
+                    </Link>
+                    <button 
+                      className="action-btn p-xs rounded-full hover:bg-bg-elevated"
+                      onClick={() => handleDeleteProperty(property.id)}
+                    >
+                      <FiTrash2 size={16} className="text-error" />
+                    </button>
                   </div>
                 </div>
               </div>
-            </Link>
-          ))}
-        </div>
-      )}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

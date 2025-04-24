@@ -1,106 +1,123 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { FiHome, FiList, FiCalendar, FiMessageCircle, FiUser } from 'react-icons/fi';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { FiHome, FiList, FiCalendar, FiMessageSquare, FiUser, FiMoon, FiSun } from 'react-icons/fi';
 
-// Import pages
+// Pages
 import Dashboard from './pages/Dashboard';
 import Properties from './pages/Properties';
 import PropertyDetails from './pages/PropertyDetails';
-import PropertyEdit from './pages/PropertyEdit';
 import Schedule from './pages/Schedule';
 import Messages from './pages/Messages';
-import Chat from './pages/Chat';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 
-// CSS imports
-import './index.css';
+// API
+import apiClient from './api/client';
 
-const App = () => {
+// Types
+import { User } from './types';
+
+// Styles
+import './App.css';
+
+// Navigation component with active route highlighting
+const BottomNav = () => {
   const location = useLocation();
-  const [isNavVisible, setIsNavVisible] = useState(true);
-
-  // Hide bottom navigation on these routes
-  useEffect(() => {
-    const pathsWithoutNav = ['/login', '/register', '/chat/'];
-    const shouldHideNav = pathsWithoutNav.some(path => 
-      location.pathname === path || location.pathname.startsWith(path)
-    );
-    setIsNavVisible(!shouldHideNav);
-  }, [location]);
-
+  const path = location.pathname;
+  
   return (
-    <div className="app">
-      <div className="main-content">
-        <Routes>
-          {/* Dashboard routes */}
-          <Route path="/" element={<Dashboard />} />
-          
-          {/* Property routes */}
-          <Route path="/properties" element={<Properties />} />
-          <Route path="/properties/:id" element={<PropertyDetails />} />
-          <Route path="/properties/new" element={<PropertyEdit />} />
-          <Route path="/properties/:id/edit" element={<PropertyEdit />} />
-          
-          {/* Schedule route */}
-          <Route path="/schedule" element={<Schedule />} />
-          
-          {/* Messages routes */}
-          <Route path="/messages" element={<Messages />} />
-          <Route path="/messages/:userId" element={<Chat />} />
-          
-          {/* Profile route */}
-          <Route path="/profile" element={<Profile />} />
-          
-          {/* Catch-all and redirect routes */}
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
-      </div>
-      
-      {isNavVisible && (
-        <div className="bottom-nav">
-          <div className="nav-container">
-            <NavLink to="/" icon={<FiHome size={22} />} label="Home" />
-            <NavLink to="/properties" icon={<FiList size={22} />} label="Properties" />
-            <NavLink to="/schedule" icon={<FiCalendar size={22} />} label="Schedule" />
-            <NavLink to="/messages" icon={<FiMessageCircle size={22} />} label="Messages" />
-            <NavLink to="/profile" icon={<FiUser size={22} />} label="Profile" />
-          </div>
-        </div>
-      )}
+    <div className="bottom-nav">
+      <Link to="/" className={`nav-item ${path === '/' ? 'active' : ''}`}>
+        <FiHome size={24} />
+        <span className="nav-label">Home</span>
+      </Link>
+      <Link to="/properties" className={`nav-item ${path.includes('/properties') ? 'active' : ''}`}>
+        <FiList size={24} />
+        <span className="nav-label">Properties</span>
+      </Link>
+      <Link to="/schedule" className={`nav-item ${path === '/schedule' ? 'active' : ''}`}>
+        <FiCalendar size={24} />
+        <span className="nav-label">Schedule</span>
+      </Link>
+      <Link to="/messages" className={`nav-item ${path === '/messages' ? 'active' : ''}`}>
+        <FiMessageSquare size={24} />
+        <span className="nav-label">Messages</span>
+      </Link>
+      <Link to="/profile" className={`nav-item ${path === '/profile' ? 'active' : ''}`}>
+        <FiUser size={24} />
+        <span className="nav-label">Profile</span>
+      </Link>
     </div>
   );
 };
 
-// Bottom navigation link component
-interface NavLinkProps {
-  to: string;
-  icon: React.ReactNode;
-  label: string;
-}
-
-const NavLink = ({ to, icon, label }: NavLinkProps) => {
-  const location = useLocation();
-  const isActive = location.pathname === to || 
-                   (to !== '/' && location.pathname.startsWith(to));
+function App() {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true); // Always default to dark mode
+  
+  useEffect(() => {
+    // Apply dark mode class to body
+    document.body.classList.toggle('dark-mode', isDarkMode);
+    document.body.classList.toggle('light-mode', !isDarkMode);
+    
+    // Set theme meta tag for mobile
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', isDarkMode ? '#0C0C0C' : '#ffffff');
+    }
+  }, [isDarkMode]);
+  
+  useEffect(() => {
+    // Fetch user data
+    const fetchUser = async () => {
+      try {
+        setLoading(true);
+        const response = await apiClient.get('/api/auth/user');
+        setUser(response.data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching user:', err);
+        setError('Failed to load user data. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchUser();
+  }, []);
   
   return (
-    <a 
-      href={to} 
-      className={`nav-link ${isActive ? 'active' : ''}`}
-      onClick={(e) => {
-        // Only prevent default if we're not already on this route
-        if (!isActive) {
-          window.location.href = to;
-        }
-        e.preventDefault();
-      }}
-    >
-      <div className="nav-icon">{icon}</div>
-      <div className="nav-label">{label}</div>
-    </a>
+    <Router>
+      <div className={`app ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+        <header className="app-header">
+          <h1 className="app-title">Realtor Dashboard</h1>
+          <button 
+            className="theme-toggle"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            {isDarkMode ? <FiSun size={24} /> : <FiMoon size={24} />}
+          </button>
+        </header>
+        
+        <main className="app-content">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/properties" element={<Properties />} />
+            <Route path="/properties/:id" element={<PropertyDetails />} />
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/messages" element={<Messages />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        
+        <BottomNav />
+      </div>
+    </Router>
   );
-};
+}
 
 export default App;

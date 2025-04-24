@@ -1,98 +1,127 @@
-// Service worker for PWA functionality
+// PWA Service Worker for Realtor Dashboard
+
 const CACHE_NAME = 'realtor-dashboard-v1';
-const URLS_TO_CACHE = [
+
+// List of URLs to cache
+const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/icons/apple-touch-icon.png',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-512x512.png',
+  '/icons/icon-192x192-maskable.png',
+  '/icons/icon-512x512-maskable.png'
 ];
 
-// Install service worker and cache assets
-self.addEventListener('install', event => {
+// Install event - cache files
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Cache opened');
-        return cache.addAll(URLS_TO_CACHE);
+      .then((cache) => {
+        console.log('Opened cache');
+        return cache.addAll(urlsToCache);
       })
-      .then(() => self.skipWaiting())
   );
+  // Force the waiting service worker to become the active service worker
+  self.skipWaiting();
 });
 
-// Clean up old caches on activation
-self.addEventListener('activate', event => {
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
-    caches.keys().then(cacheNames => {
+    caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.map(cacheName => {
+        cacheNames.map((cacheName) => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            // If this cache name isn't in the whitelist, delete it
             return caches.delete(cacheName);
           }
         })
       );
-    }).then(() => self.clients.claim())
+    })
   );
+  // Tell the active service worker to take control of the page immediately
+  self.clients.claim();
 });
 
-// Serve cached content when offline
-self.addEventListener('fetch', event => {
-  // Skip cross-origin requests
-  if (!event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
-
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') {
-    return;
-  }
-
-  // Skip API requests - we don't want to cache these
+// Fetch event - serve from cache if available, otherwise fetch from network
+self.addEventListener('fetch', (event) => {
+  // Skip for API requests
   if (event.request.url.includes('/api/')) {
     return;
   }
 
   event.respondWith(
     caches.match(event.request)
-      .then(response => {
-        // Cache hit - return the response from the cached version
+      .then((response) => {
+        // Cache hit - return response
         if (response) {
           return response;
         }
 
-        // Not in cache - fetch and cache the response
-        return fetch(event.request).then(response => {
-          // Check if we received a valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
+        return fetch(event.request)
+          .then((response) => {
+            // Check if we received a valid response
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Clone the response as it's a stream that can only be consumed once
+            const responseToCache = response.clone();
+
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                // Don't cache API requests
+                if (!event.request.url.includes('/api/')) {
+                  cache.put(event.request, responseToCache);
+                }
+              });
+
             return response;
-          }
-
-          // Clone the response as it can only be used once
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        });
-      })
-      .catch(() => {
-        // If both the cache and network fail, show a generic fallback
-        if (event.request.url.includes('.html')) {
-          return caches.match('/');
-        }
-        
-        // No fallback for other resources
-        return new Response('Network error occurred', {
-          status: 503,
-          statusText: 'Service Unavailable',
-          headers: new Headers({
-            'Content-Type': 'text/plain'
           })
-        });
+          .catch((error) => {
+            // If there's no internet connection, try to serve the offline page
+            if (event.request.mode === 'navigate') {
+              return caches.match('/');
+            }
+            
+            return new Response('Network error happened', {
+              status: 408,
+              headers: { 'Content-Type': 'text/plain' }
+            });
+          });
       })
+  );
+});
+
+// Handle push notifications
+self.addEventListener('push', (event) => {
+  if (event.data) {
+    const data = event.data.json();
+    
+    const options = {
+      body: data.body,
+      icon: '/icons/icon-192x192.png',
+      badge: '/icons/icon-192x192.png',
+      vibrate: [100, 50, 100],
+      data: {
+        url: data.url || '/'
+      }
+    };
+    
+    event.waitUntil(
+      self.registration.showNotification(data.title, options)
+    );
+  }
+});
+
+// Handle notification click
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
   );
 });

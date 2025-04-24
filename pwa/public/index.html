@@ -3,88 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#CBA328">
-  <meta name="description" content="Professional realtor dashboard for managing properties and clients">
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" type="image/png" href="/icons/icon-192x192.png">
-  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <meta name="theme-color" content="#0C0C0C">
+  <meta name="description" content="Property management dashboard for real estate professionals">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Realtor Dashboard">
+  
   <title>Realtor Dashboard</title>
+  
+  <!-- PWA assets -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icons/icon-512x512.svg">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  
+  <!-- iOS splash screens - for future enhancement -->
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="/splash/apple-splash-1290-2796.png">
+  
+  <!-- Preload assets -->
+  <link rel="preload" href="/icons/icon-192x192.png" as="image">
+  
+  <!-- Fonts - System fonts used by default -->
+  
+  <!-- Prefetch API endpoints -->
+  <link rel="prefetch" href="/api/dashboard">
+  <link rel="prefetch" href="/api/properties">
+  
   <style>
-    /* Initial loading styles */
-    body {
+    /* Critical CSS for initial load */
+    html, body {
+      height: 100%;
+      width: 100%;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: #0c0c0c;
-      color: #ffffff;
+      background-color: #0C0C0C;
+      color: #EEEEEE;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     
+    #root {
+      height: 100%;
+    }
+    
+    /* Loading spinner style */
     .initial-loader {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      width: 100vw;
+      height: 100%;
+      width: 100%;
     }
     
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid rgba(203, 163, 40, 0.1);
-      border-top-color: #CBA328;
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-left-color: #CBA328;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin-bottom: 16px;
     }
     
+    .loader-text {
+      color: #AAAAAA;
+      font-size: 16px;
+    }
+    
     @keyframes spin {
       to { transform: rotate(360deg); }
-    }
-    
-    .app-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-    
-    .app-subtitle {
-      font-size: 16px;
-      color: #9e9e9e;
     }
   </style>
 </head>
 <body>
   <div id="root">
-    <!-- Initial loading state before React hydrates -->
+    <!-- Initial loading state before React loads -->
     <div class="initial-loader">
-      <div class="spinner"></div>
-      <h1 class="app-title">Realtor Dashboard</h1>
-      <p class="app-subtitle">Loading your experience...</p>
+      <div class="loader-spinner"></div>
+      <p class="loader-text">Loading dashboard...</p>
     </div>
   </div>
   
   <script type="module" src="/src/main.tsx"></script>
   
-  <!-- Add any global scripts here -->
-  <script>
-    // This script checks if the browser is online
-    window.addEventListener('online', () => {
-      console.log('Application is online');
-      document.body.classList.remove('offline-mode');
-    });
-    window.addEventListener('offline', () => {
-      console.log('Application is offline');
-      document.body.classList.add('offline-mode');
-    });
-    
-    // iOS PWA fixes
-    // Prevent the "bounce" effect when scrolling beyond page boundaries
-    document.addEventListener('touchmove', function(event) {
-      if(!event.target.closest('div.scrollable-area')) {
-        event.preventDefault();
-      }
-    }, { passive: false });
-  </script>
+  <noscript>
+    <div style="padding: 2rem; text-align: center; line-height: 1.5;">
+      <h1 style="margin-bottom: 1rem; color: #CBA328;">JavaScript Required</h1>
+      <p>This application requires JavaScript to run. Please enable JavaScript in your browser settings and reload the page.</p>
+    </div>
+  </noscript>
 </body>
 </html>
