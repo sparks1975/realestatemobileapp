@@ -422,19 +422,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   }
   
+  // Route for the React client app at /client/
+  app.get('/client', (req, res) => {
+    // Redirect to /client/ to ensure relative paths work correctly
+    res.redirect('/client/');
+  });
+  
   // Serve the React client app at /client/ path
   app.get('/client/*', (req, res, next) => {
-    // Strip the /client/ prefix to get the actual path
-    const clientPath = req.path.replace(/^\/client\//, '');
-    
-    // Pass to Vite middleware if in development or serve static files
-    if (process.env.NODE_ENV === 'development') {
-      // Let Vite middleware handle it
-      next();
-    } else {
-      // In production, serve static files from client/dist
-      res.sendFile(path.join(__dirname, '../client/dist', clientPath));
+    if (req.path === '/client/') {
+      // For the client root, serve the client index.html
+      const indexPath = path.join(__dirname, '../client/src/index.html');
+      if (fs.existsSync(indexPath)) {
+        return res.sendFile(indexPath);
+      } else {
+        console.log("Client index.html not found at:", indexPath);
+        return res.send(`
+          <html>
+            <head>
+              <title>React Client</title>
+              <style>
+                body { font-family: sans-serif; padding: 2rem; background: #f5f5f5; color: #333; }
+                .message { max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                h1 { color: #CBA328; }
+                pre { background: #eee; padding: 1rem; border-radius: 4px; overflow: auto; }
+                a { color: #CBA328; text-decoration: none; }
+                a:hover { text-decoration: underline; }
+              </style>
+            </head>
+            <body>
+              <div class="message">
+                <h1>React Client View</h1>
+                <p>This is the React client application. The client source code is available, but the client/index.html file wasn't found.</p>
+                <p>To run the React client directly, please access it through the regular development server.</p>
+                <p><a href="/">← Back to PWA Dashboard</a></p>
+              </div>
+            </body>
+          </html>
+        `);
+      }
     }
+    
+    // For other client paths, try to serve the file directly
+    try {
+      const filePath = path.join(__dirname, '../client/src', req.path.replace(/^\/client\//, ''));
+      if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        return res.sendFile(filePath);
+      }
+    } catch (error) {
+      console.error("Error serving client file:", error);
+    }
+    
+    // If we get here, we couldn't find the file, so pass to next middleware
+    // which will eventually serve the client index.html
+    next();
   });
 
   // Initialize some data for demo purposes (only if there's none)
