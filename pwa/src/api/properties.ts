@@ -1,21 +1,18 @@
 import apiClient from './client';
 import { Property } from '../types';
 
-// Function to get all properties
+// Get all properties
 export const getProperties = async (): Promise<Property[]> => {
   try {
-    console.log('Attempting to fetch properties from API...');
     const response = await apiClient.get('/api/properties');
-    console.log('Successfully fetched properties:', response.data.length);
     return response.data;
   } catch (error) {
-    // Log detailed error information to help with debugging
     console.error('Error fetching properties:', error);
     throw error;
   }
 };
 
-// Function to get a specific property by ID
+// Get property by id
 export const getPropertyById = async (id: number): Promise<Property> => {
   try {
     const response = await apiClient.get(`/api/properties/${id}`);
@@ -26,10 +23,9 @@ export const getPropertyById = async (id: number): Promise<Property> => {
   }
 };
 
-// Function to create a new property
-export const createProperty = async (propertyData: Omit<Property, 'id' | 'createdAt'>): Promise<Property> => {
+// Create a new property
+export const createProperty = async (propertyData: Partial<Property>): Promise<Property> => {
   try {
-    console.log('Creating property with data:', JSON.stringify(propertyData));
     const response = await apiClient.post('/api/properties', propertyData);
     return response.data;
   } catch (error) {
@@ -38,38 +34,38 @@ export const createProperty = async (propertyData: Omit<Property, 'id' | 'create
   }
 };
 
-// Function to update a property
+// Update an existing property
 export const updateProperty = async (id: number, propertyData: Partial<Property>): Promise<Property> => {
   try {
-    // Log update operation for debugging
-    console.log(`Updating property ${id} with data:`, JSON.stringify(propertyData));
-    
-    // Create a sanitized copy with only the fields we want to update
-    const updates = {
-      title: propertyData.title,
-      type: propertyData.type,
-      status: propertyData.status,
-      address: propertyData.address,
-      city: propertyData.city,
-      state: propertyData.state,
-      zipCode: propertyData.zipCode,
-      price: propertyData.price,
-      bedrooms: propertyData.bedrooms,
-      bathrooms: propertyData.bathrooms,
-      squareFeet: propertyData.squareFeet,
-      lotSize: propertyData.lotSize,
-      yearBuilt: propertyData.yearBuilt,
-      parkingSpaces: propertyData.parkingSpaces,
-      description: propertyData.description,
-      features: propertyData.features,
-      mainImage: propertyData.mainImage,
-      images: propertyData.images,
-    };
-    
-    const response = await apiClient.patch(`/api/properties/${id}`, updates);
+    const response = await apiClient.put(`/api/properties/${id}`, propertyData);
     return response.data;
   } catch (error) {
     console.error(`Error updating property with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+// Delete a property
+export const deleteProperty = async (id: number): Promise<void> => {
+  try {
+    await apiClient.delete(`/api/properties/${id}`);
+  } catch (error) {
+    console.error(`Error deleting property with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+// Upload property images
+export const uploadPropertyImages = async (id: number, formData: FormData): Promise<string[]> => {
+  try {
+    const response = await apiClient.post(`/api/properties/${id}/images`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data.imageUrls;
+  } catch (error) {
+    console.error(`Error uploading images for property with ID ${id}:`, error);
     throw error;
   }
 };

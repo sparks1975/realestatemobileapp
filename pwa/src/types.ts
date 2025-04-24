@@ -1,4 +1,4 @@
-// Define all the shared types for the PWA
+// User related types
 export interface User {
   id: number;
   username: string;
@@ -10,6 +10,7 @@ export interface User {
   createdAt: Date | null;
 }
 
+// Property related types
 export interface Property {
   id: number;
   type: string;
@@ -34,6 +35,7 @@ export interface Property {
   createdAt: Date | null;
 }
 
+// Client related types
 export interface Client {
   id: number;
   name: string;
@@ -44,6 +46,7 @@ export interface Client {
   createdAt: Date | null;
 }
 
+// Message related types
 export interface Message {
   id: number;
   senderId: number;
@@ -53,6 +56,7 @@ export interface Message {
   createdAt: Date | null;
 }
 
+// Appointment related types
 export interface Appointment {
   id: number;
   date: Date;
@@ -65,6 +69,7 @@ export interface Appointment {
   createdAt: Date | null;
 }
 
+// Activity related types
 export interface Activity {
   id: number;
   userId: number;
@@ -75,6 +80,7 @@ export interface Activity {
   createdAt: Date | null;
 }
 
+// Complex types
 export type Conversation = {
   user: User | Client;
   lastMessage: Message;
