@@ -14,7 +14,7 @@ import { currentUser } from "@/lib/mock-data";
 import { motion } from "framer-motion";
 
 export default function Profile() {
-  const { theme } = useTheme(); // Keep for type compatibility
+  const { theme, setTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   
   // Fetch user data
@@ -46,8 +46,8 @@ export default function Profile() {
         <div className="flex flex-col items-center mb-8">
           <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-primary">
             <img 
-              src={data?.profileImage} 
-              alt={data?.name} 
+              src={data?.profileImage || ''} 
+              alt={data?.name || 'User'} 
               className="w-full h-full object-cover"
             />
           </div>
@@ -159,9 +159,10 @@ export default function Profile() {
                 </div>
                 <span>Dark Mode</span>
               </div>
-              <div className="text-xs text-muted-foreground">
-                Always On
-              </div>
+              <Switch 
+                checked={theme === "dark"} 
+                onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+              />
             </div>
           </Card>
         </div>
