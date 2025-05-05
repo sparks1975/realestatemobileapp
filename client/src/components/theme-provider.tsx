@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { createContext, useContext, useEffect } from "react";
 
 // Keep the types for backward compatibility
@@ -17,55 +16,34 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
 };
 
+// Create a fixed context that always returns dark mode
 const ThemeProviderContext = createContext<ThemeProviderState>({
   theme: "dark",
   setTheme: () => null,
 });
 
+// ThemeProvider component that enforces dark mode
 export function ThemeProvider({
   children,
-  defaultTheme = "dark",
-  storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  // Get theme from local storage or use default
-  const [theme, setTheme] = React.useState<Theme>(() => {
-    try {
-      return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
-    } catch (error) {
-      return defaultTheme;
-    }
-  });
-
-  // Apply theme class to root element when theme changes
+  // Apply dark mode class to root element on mount
   useEffect(() => {
     const root = window.document.documentElement;
     // Remove any existing theme classes
-    root.classList.remove("light", "dark", "system");
-    // Add new theme class
-    root.classList.add(theme);
-    // Save to local storage
-    try {
-      localStorage.setItem(storageKey, theme);
-    } catch (error) {
-      console.error("Failed to save theme to local storage", error);
-    }
-  }, [theme, storageKey]);
-
-  // Create memoized context value
-  const value = React.useMemo(
-    () => ({
-      theme,
-      setTheme: (newTheme: Theme) => {
-        setTheme(newTheme);
-      },
-    }),
-    [theme]
-  );
+    root.classList.remove("light", "system");
+    // Always add dark class
+    root.classList.add("dark");
+  }, []); // Only run once on mount
 
   return (
     <ThemeProviderContext.Provider 
-      value={value}
+      value={{
+        theme: "dark",
+        setTheme: () => {
+          // No-op function - dark mode is always enforced
+        },
+      }}
       {...props}
     >
       {children}

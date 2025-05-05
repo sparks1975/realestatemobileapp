@@ -76,20 +76,20 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%; /* White */
-    --foreground: 0 0% 30%; /* #4d4d4d */
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
     
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 30%;
+    --card-foreground: 222.2 84% 4.9%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 30%;
+    --popover-foreground: 222.2 84% 4.9%;
     
-    --primary: 220 70% 25%; /* Dark Navy Blue */
-    --primary-foreground: 0 0% 100%;
+    --primary: 45 66% 48%; /* #CBA328 - Gold */
+    --primary-foreground: 210 40% 98%;
     
-    --secondary: 220 20% 65%; /* Light Navy */
-    --secondary-foreground: 0 0% 30%;
+    --secondary: 210 10% 50%; /* #808080 - Gray */
+    --secondary-foreground: 222.2 84% 4.9%;
     
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -102,7 +102,7 @@
     
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 220 70% 25%; /* Dark Navy Blue */
+    --ring: 45 66% 48%; /* #CBA328 - Gold */
     
     --radius: 0.5rem;
     
@@ -113,13 +113,13 @@
     --chart-5: 210 100% 59%;
     
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 0 0% 30%; /* #4d4d4d */
-    --sidebar-primary: 220 70% 25%; /* Dark Navy Blue */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 20% 65%; /* Light Navy */
-    --sidebar-accent-foreground: 0 0% 30%;
-    --sidebar-border: 220 15% 90%;
-    --sidebar-ring: 220 70% 25%; /* Dark Navy Blue */
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-primary: 45 66% 48%; /* #CBA328 - Gold */
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 10% 50%; /* Gray */
+    --sidebar-accent-foreground: 222.2 84% 4.9%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 45 66% 48%; /* #CBA328 - Gold */
   }
   
   .dark {
@@ -188,10 +188,6 @@
   box-shadow: 0 0 15px rgba(203, 163, 40, 0.5);
 }
 
-.shadow-glow-primary.light {
-  box-shadow: 0 0 15px rgba(25, 48, 87, 0.5); /* Dark Navy Blue */
-}
-
 .shadow-glow-secondary {
   box-shadow: 0 0 15px rgba(128, 128, 128, 0.5);
 }
@@ -216,10 +212,6 @@
 /* Gradient effects */
 .gradient-primary {
   background: linear-gradient(135deg, hsl(45, 66%, 48%), hsl(45, 66%, 58%));
-}
-
-.light .gradient-primary {
-  background: linear-gradient(135deg, hsl(220, 70%, 25%), hsl(220, 70%, 35%));
 }
 
 /* Calendar day styling */

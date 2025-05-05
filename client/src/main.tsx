@@ -6,7 +6,8 @@ import { queryClient } from "./lib/queryClient";
 import { ThemeProvider } from "./components/theme-provider";
 import { initCacheBusting } from "./lib/cache-buster";
 
-// Theme will be handled by ThemeProvider
+// Force dark mode for initial render
+document.documentElement.classList.add('dark');
 
 // Initialize cache busting mechanisms
 initCacheBusting();
