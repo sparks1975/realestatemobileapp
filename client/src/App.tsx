@@ -10,12 +10,16 @@ import EditProperty from "@/pages/edit-property";
 import Messages from "@/pages/messages";
 import Schedule from "@/pages/schedule";
 import Profile from "@/pages/profile";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 function App() {
   return (
     <TooltipProvider>
       <Toaster />
       <div className="flex flex-col h-full max-w-md mx-auto relative overflow-hidden bg-background text-foreground">
+        <div className="absolute right-4 top-4 z-50">
+          <ThemeToggle />
+        </div>
         <div className="flex-1 overflow-auto pb-20">
           <Switch>
             <Route path="/" component={Dashboard} />
