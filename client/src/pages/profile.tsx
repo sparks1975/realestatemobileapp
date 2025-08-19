@@ -46,7 +46,7 @@ export default function Profile() {
         <div className="flex flex-col items-center mb-8">
           <div className="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-primary">
             <img 
-              src={data?.profileImage} 
+              src={data?.profileImage || ''} 
               alt={data?.name} 
               className="w-full h-full object-cover"
             />

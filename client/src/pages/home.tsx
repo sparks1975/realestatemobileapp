@@ -56,7 +56,7 @@ export default function HomePage() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="%23f8f9fa"/><rect x="0" y="600" width="1200" height="200" fill="%23e9ecef"/><rect x="400" y="200" width="400" height="400" fill="%23495057" rx="8"/><circle cx="600" cy="400" r="50" fill="%23343a40"/></svg>')`
+            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&h=1080')`
           }}
         />
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
@@ -107,9 +107,11 @@ export default function HomePage() {
               </Button>
             </div>
             <div className="relative">
-              <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
-                <Users className="h-24 w-24 text-gray-400" />
-              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=800"
+                alt="Professional Realtor"
+                className="rounded-lg h-96 w-full object-cover shadow-lg"
+              />
             </div>
           </div>
         </div>
@@ -139,9 +141,11 @@ export default function HomePage() {
               {featuredProperties.map((property) => (
                 <Card key={property.id} className="group cursor-pointer border-0 shadow-lg hover:shadow-xl transition-all duration-300">
                   <div className="relative overflow-hidden rounded-t-lg">
-                    <div className="h-64 bg-gray-200 flex items-center justify-center">
-                      <Home className="h-16 w-16 text-gray-400" />
-                    </div>
+                    <img 
+                      src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800`}
+                      alt={property.title}
+                      className="h-64 w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                     <Badge className="absolute top-4 left-4 bg-white text-gray-900">
                       {property.status}
                     </Badge>
@@ -191,9 +195,11 @@ export default function HomePage() {
             {currentInventory.map((property) => (
               <Card key={property.id} className="group cursor-pointer border-0 shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="relative overflow-hidden rounded-t-lg">
-                  <div className="h-80 bg-gray-200 flex items-center justify-center">
-                    <Home className="h-20 w-20 text-gray-400" />
-                  </div>
+                  <img 
+                    src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800`}
+                    alt={property.title}
+                    className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
                 <CardContent className="p-6">
                   <div className="flex items-center text-sm text-gray-500 mb-2">
@@ -216,9 +222,11 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
-              <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
-                <Award className="h-24 w-24 text-gray-400" />
-              </div>
+              <img 
+                src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=600&h=800"
+                alt="Luxury Real Estate Experience"
+                className="rounded-lg h-96 w-full object-cover shadow-lg"
+              />
             </div>
             <div>
               <h2 className="text-4xl font-light text-gray-900 mb-6">
