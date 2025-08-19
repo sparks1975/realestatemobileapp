@@ -140,8 +140,8 @@ export default function HomePage() {
           ) : (
             <div className="grid md:grid-cols-3 gap-8">
               {featuredProperties.map((property) => (
-                <Card key={property.id} className="group cursor-pointer border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <div className="relative overflow-hidden rounded-t-lg">
+                <Card key={property.id} className="group cursor-pointer bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden" style={{backgroundColor: 'white', borderColor: '#e5e7eb', overflow: 'hidden'}}>
+                  <div className="relative overflow-hidden rounded-t-lg" style={{overflow: 'hidden'}}>
                     <img 
                       src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800`}
                       alt={property.title}
@@ -151,18 +151,18 @@ export default function HomePage() {
                       {property.status}
                     </Badge>
                   </div>
-                  <CardContent className="p-6">
-                    <div className="flex items-center text-sm text-gray-500 mb-2">
+                  <CardContent className="p-6 bg-white" style={{backgroundColor: 'white'}}>
+                    <div className="flex items-center text-sm text-gray-500 mb-2" style={{color: '#6b7280'}}>
                       <MapPin className="h-4 w-4 mr-1" />
                       {property.address}
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 mb-4">{property.title}</h3>
-                    <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+                    <h3 className="text-xl font-medium text-gray-900 mb-4" style={{color: '#111827'}}>{property.title}</h3>
+                    <div className="flex items-center justify-between text-sm text-gray-600 mb-4" style={{color: '#4b5563'}}>
                       <span>{property.bedrooms} Bed</span>
                       <span>{property.bathrooms} Bath</span>
-                      <span>{property.squareFootage?.toLocaleString()} sq ft</span>
+                      <span>{property.squareFeet?.toLocaleString()} sq ft</span>
                     </div>
-                    <div className="text-2xl font-light text-gray-900">
+                    <div className="text-2xl font-light text-gray-900" style={{color: '#111827'}}>
                       ${property.price?.toLocaleString()}
                     </div>
                   </CardContent>
