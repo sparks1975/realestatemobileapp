@@ -326,6 +326,11 @@
   color: #6b7280 !important;
 }
 
+.agent-website .text-card-foreground {
+  background-color: white !important;
+  color: #111827 !important;
+}
+
 /* Admin Panel Retool-like Styling */
 .admin-panel {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
