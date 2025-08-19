@@ -8,17 +8,24 @@ interface Property {
   id: number;
   title: string;
   address: string;
+  city: string;
+  state: string;
+  zipCode: string;
   price: number;
   bedrooms: number;
   bathrooms: number;
-  squareFootage: number;
-  images: string[];
+  squareFeet: number;
+  lotSize?: number;
+  yearBuilt?: number;
+  parkingSpaces?: string;
   description: string;
-  propertyType: string;
+  type: string;
   status: string;
-  listingDate: string;
-  agent: string;
+  mainImage?: string;
+  images: string[];
   features: string[];
+  listedById: number;
+  createdAt: string;
 }
 
 export default function HomePage() {

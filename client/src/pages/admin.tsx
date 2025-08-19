@@ -85,7 +85,11 @@ export default function AdminPanel() {
       return response.json();
     },
     onSuccess: () => {
+      // Invalidate all property-related queries to ensure UI updates
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.removeQueries({ queryKey: ['/api/properties'] });
+      // Force a refetch
+      queryClient.refetchQueries({ queryKey: ['/api/properties'] });
       toast({ title: "Property created successfully" });
       setIsEditDialogOpen(false);
       resetForm();
@@ -103,7 +107,11 @@ export default function AdminPanel() {
       return response.json();
     },
     onSuccess: () => {
+      // Invalidate all property-related queries to ensure UI updates
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.removeQueries({ queryKey: ['/api/properties'] });
+      // Force a refetch
+      queryClient.refetchQueries({ queryKey: ['/api/properties'] });
       toast({ title: "Property updated successfully" });
       setIsEditDialogOpen(false);
       resetForm();
@@ -118,7 +126,11 @@ export default function AdminPanel() {
       if (!response.ok) throw new Error('Failed to delete property');
     },
     onSuccess: () => {
+      // Invalidate all property-related queries to ensure UI updates
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.removeQueries({ queryKey: ['/api/properties'] });
+      // Force a refetch
+      queryClient.refetchQueries({ queryKey: ['/api/properties'] });
       toast({ title: "Property deleted successfully" });
     }
   });
