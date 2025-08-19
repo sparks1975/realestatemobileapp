@@ -331,6 +331,11 @@
   color: #111827 !important;
 }
 
+/* Ensure website cards have proper overflow handling */
+.agent-website .overflow-hidden {
+  overflow: hidden !important;
+}
+
 /* Admin Panel Retool-like Styling */
 .admin-panel {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;

@@ -194,8 +194,8 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {currentInventory.map((property) => (
-              <Card key={property.id} className="group cursor-pointer bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300" style={{backgroundColor: 'white', borderColor: '#e5e7eb'}}>
-                <div className="relative overflow-hidden rounded-t-lg">
+              <Card key={property.id} className="group cursor-pointer bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden" style={{backgroundColor: 'white', borderColor: '#e5e7eb', overflow: 'hidden'}}>
+                <div className="relative overflow-hidden rounded-t-lg" style={{overflow: 'hidden'}}>
                   <img 
                     src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800`}
                     alt={property.title}
