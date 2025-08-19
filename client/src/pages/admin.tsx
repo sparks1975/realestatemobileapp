@@ -78,6 +78,7 @@ export default function AdminPanel() {
   const { data: properties = [], isLoading, refetch } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
     queryFn: async () => {
+      console.log('Fetching properties at:', new Date().toLocaleTimeString());
       const response = await fetch(`/api/properties?_t=${Date.now()}`, {
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -87,12 +88,16 @@ export default function AdminPanel() {
         cache: 'no-store'
       });
       if (!response.ok) throw new Error('Failed to fetch properties');
-      return response.json();
+      const data = await response.json();
+      console.log('Fetched properties:', data.length, 'properties');
+      console.log('First property title:', data[0]?.title);
+      return data;
     },
     enabled: true,
     staleTime: 0,
     gcTime: 0,
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
+    refetchInterval: 5000 // Refetch every 5 seconds to monitor changes
   });
 
   // Create/Update property mutation
@@ -128,9 +133,11 @@ export default function AdminPanel() {
       if (!response.ok) throw new Error('Failed to update property');
       return response.json();
     },
-    onSuccess: async () => {
+    onSuccess: async (updatedProperty) => {
+      console.log('Property updated successfully:', updatedProperty);
       // Force immediate refresh
-      await refetch();
+      const freshData = await refetch();
+      console.log('Fresh data after refetch:', freshData);
       toast({ title: "Property updated successfully" });
       setIsEditDialogOpen(false);
       resetForm();
