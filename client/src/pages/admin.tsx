@@ -124,8 +124,16 @@ export default function AdminPanel() {
   const saveThemeSettingsMutation = useMutation({
     mutationFn: async (settings: typeof themeSettings) => {
       console.log('🎨 Sending theme settings:', settings);
-      const response = await apiRequest('PUT', '/api/theme-settings/1', settings);
-      return response.json();
+      try {
+        const response = await apiRequest('PUT', '/api/theme-settings/1', settings);
+        console.log('🎨 Response received:', response.status);
+        const result = await response.json();
+        console.log('🎨 Response data:', result);
+        return result;
+      } catch (error) {
+        console.error('🎨 Mutation error:', error);
+        throw error;
+      }
     },
     onSuccess: () => {
       // Reset the unsaved changes flag
@@ -143,10 +151,11 @@ export default function AdminPanel() {
         description: "Your website's style has been updated successfully. Visit the homepage to see changes."
       });
     },
-    onError: () => {
+    onError: (error) => {
+      console.error('🎨 Save theme settings error:', error);
       toast({
         title: "Save Failed",
-        description: "Failed to save theme settings. Please try again.",
+        description: `Failed to save theme settings: ${error.message}`,
         variant: "destructive"
       });
     }
