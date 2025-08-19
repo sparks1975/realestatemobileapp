@@ -5,8 +5,9 @@ import {
   Message, InsertMessage,
   Appointment, InsertAppointment,
   Activity, InsertActivity,
+  ThemeSettings, InsertThemeSettings,
   // Import all the schema tables
-  users, properties, clients, messages, appointments, activities
+  users, properties, clients, messages, appointments, activities, themeSettings
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, or, desc, gte, lte } from "drizzle-orm";
@@ -49,6 +50,11 @@ export interface IStorage {
   getActivitiesByUser(userId: number, limit?: number): Promise<Activity[]>;
   createActivity(activity: InsertActivity): Promise<Activity>;
   
+  // Theme settings operations
+  getThemeSettings(userId: number): Promise<ThemeSettings | undefined>;
+  createThemeSettings(themeSettings: InsertThemeSettings): Promise<ThemeSettings>;
+  updateThemeSettings(userId: number, themeSettings: Partial<ThemeSettings>): Promise<ThemeSettings | undefined>;
+  
   // Dashboard operations
   getPortfolioValue(realtorId: number): Promise<number>;
   getStatistics(realtorId: number): Promise<{
@@ -66,6 +72,7 @@ export class MemStorage implements IStorage {
   private messages: Map<number, Message>;
   private appointments: Map<number, Appointment>;
   private activities: Map<number, Activity>;
+  private themeSettings: Map<number, ThemeSettings>;
   
   private userIdCounter: number;
   private propertyIdCounter: number;
@@ -73,6 +80,7 @@ export class MemStorage implements IStorage {
   private messageIdCounter: number;
   private appointmentIdCounter: number;
   private activityIdCounter: number;
+  private themeIdCounter: number;
 
   constructor() {
     this.users = new Map();
@@ -81,6 +89,7 @@ export class MemStorage implements IStorage {
     this.messages = new Map();
     this.appointments = new Map();
     this.activities = new Map();
+    this.themeSettings = new Map();
     
     this.userIdCounter = 1;
     this.propertyIdCounter = 1;
@@ -88,6 +97,7 @@ export class MemStorage implements IStorage {
     this.messageIdCounter = 1;
     this.appointmentIdCounter = 1;
     this.activityIdCounter = 1;
+    this.themeIdCounter = 1;
     
     // Initialize with a default user
     this.createUser({
@@ -555,6 +565,26 @@ export class DatabaseStorage implements IStorage {
       .values(insertActivity)
       .returning();
     return activity;
+  }
+
+  // Theme settings operations
+  async getThemeSettings(userId: number): Promise<ThemeSettings | undefined> {
+    const [settings] = await db.select().from(themeSettings).where(eq(themeSettings.userId, userId));
+    return settings;
+  }
+
+  async createThemeSettings(insertThemeSettings: InsertThemeSettings): Promise<ThemeSettings> {
+    const [settings] = await db.insert(themeSettings).values(insertThemeSettings).returning();
+    return settings;
+  }
+
+  async updateThemeSettings(userId: number, updates: Partial<ThemeSettings>): Promise<ThemeSettings | undefined> {
+    const [settings] = await db
+      .update(themeSettings)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(themeSettings.userId, userId))
+      .returning();
+    return settings;
   }
 
   // Dashboard operations

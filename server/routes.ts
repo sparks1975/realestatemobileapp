@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { log } from "./vite";
-import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema } from "@shared/schema";
+import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema, insertThemeSettingsSchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -462,6 +462,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
   
+  // Theme settings routes
+  app.get("/api/theme-settings/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const settings = await storage.getThemeSettings(userId);
+      
+      if (!settings) {
+        // Create default theme settings if none exist
+        const defaultSettings = await storage.createThemeSettings({
+          primaryColor: '#CBA328',
+          secondaryColor: '#1a1a1a',
+          tertiaryColor: '#f5f5f5',
+          textColor: '#333333',
+          linkColor: '#CBA328',
+          linkHoverColor: '#b8951f',
+          fontFamily: 'Inter',
+          userId: userId
+        });
+        return res.json(defaultSettings);
+      }
+      
+      res.json(settings);
+    } catch (error) {
+      console.error("Failed to get theme settings:", error);
+      res.status(500).json({ message: "Failed to get theme settings" });
+    }
+  });
+
+  app.put("/api/theme-settings/:userId", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      const themeData = insertThemeSettingsSchema.parse({
+        ...req.body,
+        userId: userId
+      });
+      
+      // Try to update first
+      let settings = await storage.updateThemeSettings(userId, themeData);
+      
+      // If no settings exist, create new ones
+      if (!settings) {
+        settings = await storage.createThemeSettings(themeData);
+      }
+      
+      res.json(settings);
+    } catch (error) {
+      console.error("Failed to update theme settings:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid theme settings data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to update theme settings" });
+    }
+  });
+
   // Initialize some data for demo purposes (only if there's none)
   initializeDemoData();
 

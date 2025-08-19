@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, doublePrecision, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, doublePrecision, uniqueIndex, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -151,6 +151,32 @@ export const insertActivitySchema = createInsertSchema(activities).pick({
   propertyId: true,
 });
 
+// Theme settings schema
+export const themeSettings = pgTable('theme_settings', {
+  id: serial('id').primaryKey(),
+  primaryColor: varchar('primary_color', { length: 7 }).notNull().default('#CBA328'),
+  secondaryColor: varchar('secondary_color', { length: 7 }).notNull().default('#1a1a1a'),
+  tertiaryColor: varchar('tertiary_color', { length: 7 }).notNull().default('#f5f5f5'),
+  textColor: varchar('text_color', { length: 7 }).notNull().default('#333333'),
+  linkColor: varchar('link_color', { length: 7 }).notNull().default('#CBA328'),
+  linkHoverColor: varchar('link_hover_color', { length: 7 }).notNull().default('#b8951f'),
+  fontFamily: varchar('font_family', { length: 100 }).notNull().default('Inter'),
+  userId: integer('user_id').notNull().references(() => users.id),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export const insertThemeSettingsSchema = createInsertSchema(themeSettings).pick({
+  primaryColor: true,
+  secondaryColor: true,
+  tertiaryColor: true,
+  textColor: true,
+  linkColor: true,
+  linkHoverColor: true,
+  fontFamily: true,
+  userId: true,
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   properties: many(properties),
@@ -158,7 +184,8 @@ export const usersRelations = relations(users, ({ many }) => ({
   sentMessages: many(messages, { relationName: "sender" }),
   receivedMessages: many(messages, { relationName: "receiver" }),
   appointments: many(appointments, { relationName: "realtor" }),
-  activities: many(activities)
+  activities: many(activities),
+  themeSettings: many(themeSettings)
 }));
 
 export const propertiesRelations = relations(properties, ({ one, many }) => ({
@@ -218,6 +245,13 @@ export const activitiesRelations = relations(activities, ({ one }) => ({
   })
 }));
 
+export const themeSettingsRelations = relations(themeSettings, ({ one }) => ({
+  user: one(users, {
+    fields: [themeSettings.userId],
+    references: [users.id]
+  })
+}));
+
 // Export types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -236,3 +270,6 @@ export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
 
 export type Activity = typeof activities.$inferSelect;
 export type InsertActivity = z.infer<typeof insertActivitySchema>;
+
+export type ThemeSettings = typeof themeSettings.$inferSelect;
+export type InsertThemeSettings = z.infer<typeof insertThemeSettingsSchema>;

@@ -77,6 +77,83 @@ export default function AdminPanel() {
   const [newImageUrl, setNewImageUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [themeSettings, setThemeSettings] = useState({
+    primaryColor: '#CBA328',
+    secondaryColor: '#1a1a1a',
+    tertiaryColor: '#f5f5f5',
+    textColor: '#333333',
+    linkColor: '#CBA328',
+    linkHoverColor: '#b8951f',
+    fontFamily: 'Inter'
+  });
+
+  // Load theme settings
+  const { data: currentThemeSettings } = useQuery({
+    queryKey: ['/api/theme-settings/1'],
+    queryFn: async () => {
+      const response = await fetch('/api/theme-settings/1');
+      if (!response.ok) throw new Error('Failed to fetch theme settings');
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data) {
+        setThemeSettings({
+          primaryColor: data.primaryColor,
+          secondaryColor: data.secondaryColor,
+          tertiaryColor: data.tertiaryColor,
+          textColor: data.textColor,
+          linkColor: data.linkColor,
+          linkHoverColor: data.linkHoverColor,
+          fontFamily: data.fontFamily
+        });
+      }
+    }
+  });
+
+  // Save theme settings mutation
+  const saveThemeSettingsMutation = useMutation({
+    mutationFn: async (settings: typeof themeSettings) => {
+      const response = await fetch('/api/theme-settings/1', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(settings)
+      });
+      if (!response.ok) throw new Error('Failed to save theme settings');
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Theme Settings Saved",
+        description: "Your website's style has been updated successfully"
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/theme-settings/1'] });
+    },
+    onError: () => {
+      toast({
+        title: "Save Failed",
+        description: "Failed to save theme settings. Please try again.",
+        variant: "destructive"
+      });
+    }
+  });
+
+  const handleSaveTheme = () => {
+    saveThemeSettingsMutation.mutate(themeSettings);
+  };
+
+  const handleResetTheme = () => {
+    const defaultTheme = {
+      primaryColor: '#CBA328',
+      secondaryColor: '#1a1a1a',
+      tertiaryColor: '#f5f5f5',
+      textColor: '#333333',
+      linkColor: '#CBA328',
+      linkHoverColor: '#b8951f',
+      fontFamily: 'Inter'
+    };
+    setThemeSettings(defaultTheme);
+  };
 
   // Fetch properties using apiRequest for consistent cache-busting
   const { data: properties = [], isLoading, refetch } = useQuery<Property[]>({
@@ -476,8 +553,19 @@ export default function AdminPanel() {
 
         {/* Main Content */}
         <div className="flex-1 p-6 admin-content">
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6 admin-card">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-6 bg-gray-100 mb-6">
+              <TabsTrigger value="overview" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">📊 Overview</TabsTrigger>
+              <TabsTrigger value="properties" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">🏠 Properties</TabsTrigger>
+              <TabsTrigger value="clients" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">👥 Clients</TabsTrigger>
+              <TabsTrigger value="appointments" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">📅 Appointments</TabsTrigger>
+              <TabsTrigger value="messages" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">💬 Messages</TabsTrigger>
+              <TabsTrigger value="style" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">🎨 Style</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="overview" className="space-y-6">
+              {/* Stats Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6 admin-card">
             <Card className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
@@ -539,10 +627,12 @@ export default function AdminPanel() {
                 </div>
               </CardContent>
             </Card>
-          </div>
+              </div>
+            </TabsContent>
 
-          {/* Properties Table */}
-          <Card className="bg-white border border-gray-200 admin-table">
+            <TabsContent value="properties" className="space-y-6">
+              {/* Properties Table */}
+              <Card className="bg-white border border-gray-200 admin-table">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-gray-900">Property Management</CardTitle>
@@ -920,8 +1010,228 @@ export default function AdminPanel() {
                   </tbody>
                 </table>
               </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="clients" className="space-y-6">
+              <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-gray-900">Client Management</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-500">Client management features coming soon...</p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="appointments" className="space-y-6">
+              <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-gray-900">Appointment Management</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-500">Appointment scheduling features coming soon...</p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="messages" className="space-y-6">
+              <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-gray-900">Message Center</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-500">Message management features coming soon...</p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="style" className="space-y-6">
+              <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-gray-900">Website Style Customization</CardTitle>
+                  <p className="text-sm text-gray-600">Customize your website's appearance with colors and fonts</p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium text-gray-900">Colors</h3>
+                      
+                      <div className="space-y-3">
+                        <div>
+                          <Label htmlFor="primaryColor" className="text-gray-700 text-sm font-medium">Primary Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="primaryColor"
+                              value={themeSettings.primaryColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, primaryColor: e.target.value})}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.primaryColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, primaryColor: e.target.value})}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#CBA328"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="secondaryColor" className="text-gray-700 text-sm font-medium">Secondary Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="secondaryColor"
+                              value={themeSettings.secondaryColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, secondaryColor: e.target.value})}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.secondaryColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, secondaryColor: e.target.value})}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#1a1a1a"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="tertiaryColor" className="text-gray-700 text-sm font-medium">Tertiary Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="tertiaryColor"
+                              value={themeSettings.tertiaryColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, tertiaryColor: e.target.value})}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.tertiaryColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, tertiaryColor: e.target.value})}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#f5f5f5"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-medium text-gray-900">Text & Links</h3>
+                      
+                      <div className="space-y-3">
+                        <div>
+                          <Label htmlFor="textColor" className="text-gray-700 text-sm font-medium">Text Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="textColor"
+                              value={themeSettings.textColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, textColor: e.target.value})}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.textColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, textColor: e.target.value})}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#333333"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="linkColor" className="text-gray-700 text-sm font-medium">Link Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="linkColor"
+                              value={themeSettings.linkColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, linkColor: e.target.value})}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.linkColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, linkColor: e.target.value})}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#CBA328"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="linkHoverColor" className="text-gray-700 text-sm font-medium">Link Hover Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="linkHoverColor"
+                              value={themeSettings.linkHoverColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, linkHoverColor: e.target.value})}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.linkHoverColor}
+                              onChange={(e) => setThemeSettings({...themeSettings, linkHoverColor: e.target.value})}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#b8951f"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-4">
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">Typography</h3>
+                    <div>
+                      <Label htmlFor="fontFamily" className="text-gray-700 text-sm font-medium">Font Family</Label>
+                      <Select
+                        value={themeSettings.fontFamily}
+                        onValueChange={(value) => setThemeSettings({...themeSettings, fontFamily: value})}
+                      >
+                        <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="bg-white border-gray-300">
+                          <SelectItem value="Inter">Inter</SelectItem>
+                          <SelectItem value="Roboto">Roboto</SelectItem>
+                          <SelectItem value="Open Sans">Open Sans</SelectItem>
+                          <SelectItem value="Lato">Lato</SelectItem>
+                          <SelectItem value="Montserrat">Montserrat</SelectItem>
+                          <SelectItem value="Poppins">Poppins</SelectItem>
+                          <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
+                          <SelectItem value="Nunito">Nunito</SelectItem>
+                          <SelectItem value="Playfair Display">Playfair Display</SelectItem>
+                          <SelectItem value="Merriweather">Merriweather</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+
+                  <div className="pt-6 border-t border-gray-200">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-900">Style Preview</h4>
+                        <p className="text-sm text-gray-600">Changes will be applied to your website</p>
+                      </div>
+                      <div className="flex space-x-3">
+                        <Button variant="outline" onClick={handleResetTheme}>
+                          Reset to Default
+                        </Button>
+                        <Button 
+                          onClick={handleSaveTheme} 
+                          disabled={saveThemeSettingsMutation.isPending}
+                        >
+                          {saveThemeSettingsMutation.isPending ? 'Saving...' : 'Save Changes'}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>
