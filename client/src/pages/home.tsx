@@ -36,7 +36,7 @@ export default function HomePage() {
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-gray-900">KUMARA</div>
+            <div className="text-2xl font-bold text-gray-900">LuxeLead</div>
             <div className="hidden md:flex items-center space-x-8">
               <a href="#home" className="text-gray-700 hover:text-gray-900 transition-colors">Home</a>
               <a href="#properties" className="text-gray-700 hover:text-gray-900 transition-colors">Properties</a>
@@ -184,7 +184,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-light text-gray-900 mb-4">
-              Kumara's Current Inventory
+              LuxeLead's Current Inventory
             </h2>
             <p className="text-lg text-gray-600">
               Exclusive listings available now
@@ -230,7 +230,7 @@ export default function HomePage() {
             </div>
             <div>
               <h2 className="text-4xl font-light text-gray-900 mb-6">
-                Why Choose Kumara?
+                Why Choose LuxeLead?
               </h2>
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
@@ -297,7 +297,7 @@ export default function HomePage() {
             <div>
               <Mail className="h-8 w-8 mx-auto mb-4 text-gray-300" />
               <h4 className="text-lg font-medium mb-2">Email</h4>
-              <p className="text-gray-300">kumara@luxuryaustin.com</p>
+              <p className="text-gray-300">contact@luxelead.com</p>
             </div>
             <div>
               <MapPin className="h-8 w-8 mx-auto mb-4 text-gray-300" />
@@ -313,7 +313,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <div className="text-2xl font-bold mb-4">KUMARA</div>
+              <div className="text-2xl font-bold mb-4">LuxeLead</div>
               <p className="text-gray-400 leading-relaxed">
                 Austin's premier luxury real estate professional, dedicated to exceptional service and results.
               </p>
@@ -347,7 +347,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 mt-8 text-center text-gray-400">
-            <p>&copy; 2024 Kumara Real Estate. All rights reserved.</p>
+            <p>&copy; 2024 LuxeLead Real Estate. All rights reserved.</p>
           </div>
         </div>
       </footer>
