@@ -38,9 +38,9 @@ interface PropertyFormData {
   price: number;
   bedrooms: number;
   bathrooms: number;
-  squareFootage: number;
+  squareFeet: number;
   description: string;
-  propertyType: string;
+  type: string;
   status: string;
   images: string[];
   features: string[];
@@ -59,9 +59,9 @@ export default function AdminPanel() {
     price: 0,
     bedrooms: 0,
     bathrooms: 0,
-    squareFootage: 0,
+    squareFeet: 0,
     description: "",
-    propertyType: "For Sale",
+    type: "For Sale",
     status: "Active",
     images: [],
     features: []
@@ -130,9 +130,9 @@ export default function AdminPanel() {
       price: 0,
       bedrooms: 0,
       bathrooms: 0,
-      squareFootage: 0,
+      squareFeet: 0,
       description: "",
-      propertyType: "For Sale",
+      type: "For Sale",
       status: "Active",
       images: [],
       features: []
@@ -149,9 +149,9 @@ export default function AdminPanel() {
         price: property.price,
         bedrooms: property.bedrooms,
         bathrooms: property.bathrooms,
-        squareFootage: property.squareFootage,
+        squareFeet: property.squareFeet || 0,
         description: property.description,
-        propertyType: property.propertyType,
+        type: property.type,
         status: property.status,
         images: property.images,
         features: property.features
@@ -163,10 +163,17 @@ export default function AdminPanel() {
   };
 
   const handleSubmit = () => {
+    // Convert admin form data to API format
+    const propertyData = {
+      ...formData,
+      mainImage: formData.images[0] || '',
+      images: formData.images
+    };
+    
     if (selectedProperty) {
-      updatePropertyMutation.mutate({ ...selectedProperty, ...formData });
+      updatePropertyMutation.mutate({ ...selectedProperty, ...propertyData });
     } else {
-      createPropertyMutation.mutate(formData);
+      createPropertyMutation.mutate(propertyData);
     }
   };
 
@@ -376,22 +383,22 @@ export default function AdminPanel() {
                           />
                         </div>
                         <div>
-                          <Label htmlFor="squareFootage" className="text-gray-700">Square Footage</Label>
+                          <Label htmlFor="squareFeet" className="text-gray-700">Square Feet</Label>
                           <Input
-                            id="squareFootage"
+                            id="squareFeet"
                             type="number"
                             className="bg-white border-gray-300 text-gray-900"
-                            value={formData.squareFootage}
-                            onChange={(e) => setFormData({ ...formData, squareFootage: Number(e.target.value) })}
+                            value={formData.squareFeet}
+                            onChange={(e) => setFormData({ ...formData, squareFeet: Number(e.target.value) })}
                           />
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor="propertyType" className="text-gray-700">Property Type</Label>
+                          <Label htmlFor="type" className="text-gray-700">Property Type</Label>
                           <Select
-                            value={formData.propertyType}
-                            onValueChange={(value) => setFormData({ ...formData, propertyType: value })}
+                            value={formData.type}
+                            onValueChange={(value) => setFormData({ ...formData, type: value })}
                           >
                             <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                               <SelectValue />
@@ -542,7 +549,7 @@ export default function AdminPanel() {
                             ${property.price?.toLocaleString()}
                           </td>
                           <td className="py-3 px-4 text-sm text-gray-500">
-                            {property.bedrooms} bed • {property.bathrooms} bath • {property.squareFootage?.toLocaleString()} sq ft
+                            {property.bedrooms} bed • {property.bathrooms} bath • {property.squareFeet?.toLocaleString()} sq ft
                           </td>
                           <td className="py-3 px-4">
                             <Badge variant={

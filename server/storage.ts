@@ -151,10 +151,6 @@ export class MemStorage implements IStorage {
     return this.properties.delete(id);
   }
 
-  async deleteProperty(id: number): Promise<boolean> {
-    return this.properties.delete(id);
-  }
-
   // Client operations
   async getClient(id: number): Promise<Client | undefined> {
     return this.clients.get(id);
