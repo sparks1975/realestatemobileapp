@@ -326,55 +326,61 @@ export default function AdminPanel() {
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor="title">Title</Label>
+                          <Label htmlFor="title" className="text-gray-700">Title</Label>
                           <Input
                             id="title"
+                            className="bg-white border-gray-300 text-gray-900"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                           />
                         </div>
                         <div>
-                          <Label htmlFor="price">Price</Label>
+                          <Label htmlFor="price" className="text-gray-700">Price</Label>
                           <Input
                             id="price"
                             type="number"
+                            className="bg-white border-gray-300 text-gray-900"
                             value={formData.price}
                             onChange={(e) => setFormData({ ...formData, price: Number(e.target.value) })}
                           />
                         </div>
                       </div>
                       <div>
-                        <Label htmlFor="address">Address</Label>
+                        <Label htmlFor="address" className="text-gray-700">Address</Label>
                         <Input
                           id="address"
+                          className="bg-white border-gray-300 text-gray-900"
                           value={formData.address}
                           onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                         />
                       </div>
                       <div className="grid grid-cols-3 gap-4">
                         <div>
-                          <Label htmlFor="bedrooms">Bedrooms</Label>
+                          <Label htmlFor="bedrooms" className="text-gray-700">Bedrooms</Label>
                           <Input
                             id="bedrooms"
                             type="number"
+                            className="bg-white border-gray-300 text-gray-900"
                             value={formData.bedrooms}
                             onChange={(e) => setFormData({ ...formData, bedrooms: Number(e.target.value) })}
                           />
                         </div>
                         <div>
-                          <Label htmlFor="bathrooms">Bathrooms</Label>
+                          <Label htmlFor="bathrooms" className="text-gray-700">Bathrooms</Label>
                           <Input
                             id="bathrooms"
                             type="number"
+                            className="bg-white border-gray-300 text-gray-900"
                             value={formData.bathrooms}
                             onChange={(e) => setFormData({ ...formData, bathrooms: Number(e.target.value) })}
                           />
                         </div>
                         <div>
-                          <Label htmlFor="squareFootage">Square Footage</Label>
+                          <Label htmlFor="squareFootage" className="text-gray-700">Square Footage</Label>
                           <Input
                             id="squareFootage"
                             type="number"
+                            className="bg-white border-gray-300 text-gray-900"
                             value={formData.squareFootage}
                             onChange={(e) => setFormData({ ...formData, squareFootage: Number(e.target.value) })}
                           />
@@ -382,15 +388,15 @@ export default function AdminPanel() {
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <Label htmlFor="propertyType">Property Type</Label>
+                          <Label htmlFor="propertyType" className="text-gray-700">Property Type</Label>
                           <Select
                             value={formData.propertyType}
                             onValueChange={(value) => setFormData({ ...formData, propertyType: value })}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                               <SelectValue />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-white border-gray-300">
                               <SelectItem value="For Sale">For Sale</SelectItem>
                               <SelectItem value="For Rent">For Rent</SelectItem>
                               <SelectItem value="Sold">Sold</SelectItem>
@@ -398,15 +404,15 @@ export default function AdminPanel() {
                           </Select>
                         </div>
                         <div>
-                          <Label htmlFor="status">Status</Label>
+                          <Label htmlFor="status" className="text-gray-700">Status</Label>
                           <Select
                             value={formData.status}
                             onValueChange={(value) => setFormData({ ...formData, status: value })}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-white border-gray-300 text-gray-900">
                               <SelectValue />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent className="bg-white border-gray-300">
                               <SelectItem value="Active">Active</SelectItem>
                               <SelectItem value="Pending">Pending</SelectItem>
                               <SelectItem value="Sold">Sold</SelectItem>
@@ -416,18 +422,20 @@ export default function AdminPanel() {
                         </div>
                       </div>
                       <div>
-                        <Label htmlFor="description">Description</Label>
+                        <Label htmlFor="description" className="text-gray-700">Description</Label>
                         <Textarea
                           id="description"
+                          className="bg-white border-gray-300 text-gray-900"
                           value={formData.description}
                           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                           rows={4}
                         />
                       </div>
                       <div>
-                        <Label htmlFor="images">Image URLs (comma separated)</Label>
+                        <Label htmlFor="images" className="text-gray-700">Image URLs (comma separated)</Label>
                         <Textarea
                           id="images"
+                          className="bg-white border-gray-300 text-gray-900"
                           value={formData.images.join(', ')}
                           onChange={(e) => setFormData({ 
                             ...formData, 
@@ -437,9 +445,10 @@ export default function AdminPanel() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="features">Features (comma separated)</Label>
+                        <Label htmlFor="features" className="text-gray-700">Features (comma separated)</Label>
                         <Textarea
                           id="features"
+                          className="bg-white border-gray-300 text-gray-900"
                           value={formData.features.join(', ')}
                           onChange={(e) => setFormData({ 
                             ...formData, 
@@ -470,15 +479,15 @@ export default function AdminPanel() {
                     placeholder="Search properties..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 bg-white border-gray-300 text-gray-900"
                   />
                 </div>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-40">
+                  <SelectTrigger className="w-40 bg-white border-gray-300 text-gray-900">
                     <Filter className="h-4 w-4 mr-2" />
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white border-gray-300">
                     <SelectItem value="all">All Status</SelectItem>
                     <SelectItem value="Active">Active</SelectItem>
                     <SelectItem value="Pending">Pending</SelectItem>
