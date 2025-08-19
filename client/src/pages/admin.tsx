@@ -198,6 +198,12 @@ export default function AdminPanel() {
   const openEditDialog = (property?: Property) => {
     if (property) {
       setSelectedProperty(property);
+      // Clean up any invalid image URLs when loading into form
+      const cleanImages = property.images?.filter(img => img && img.startsWith('http')) || [];
+      if (cleanImages.length === 0) {
+        cleanImages.push('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800');
+      }
+      
       setFormData({
         title: property.title,
         address: property.address,
@@ -208,7 +214,7 @@ export default function AdminPanel() {
         description: property.description,
         type: property.type,
         status: property.status,
-        images: property.images,
+        images: cleanImages,
         features: property.features
       });
     } else {
