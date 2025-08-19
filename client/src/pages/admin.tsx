@@ -103,13 +103,27 @@ export default function AdminPanel() {
   // Create/Update property mutation
   const createPropertyMutation = useMutation({
     mutationFn: async (property: PropertyFormData) => {
+      console.log('🌐 Creating property with payload:', property);
+      
+      const requestBody = JSON.stringify(property);
       const response = await fetch('/api/properties', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(property)
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: requestBody
       });
-      if (!response.ok) throw new Error('Failed to create property');
-      return response.json();
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ POST request failed:', response.status, errorText);
+        throw new Error('Failed to create property');
+      }
+      
+      const result = await response.json();
+      console.log('🎉 POST response received:', result);
+      return result;
     },
     onSuccess: async (newProperty) => {
       console.log('✅ Property created successfully:', newProperty);
@@ -138,27 +152,52 @@ export default function AdminPanel() {
       console.log('📦 Serialized request body:', requestBody);
       console.log('📏 Request body length:', requestBody.length);
       
-      // Try absolute URL to bypass any proxy issues
-      const response = await fetch(`http://localhost:5000/api/properties/${property.id}?_t=${Date.now()}`, {
+      // Try relative URL first (should work with proper headers)
+      try {
+        const response = await fetch(`/api/properties/${property.id}?_t=${Date.now()}`, {
+          method: 'PUT',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache'
+          },
+          body: requestBody
+        });
+        
+        console.log('📡 Response status:', response.status);
+        
+        if (response.ok) {
+          const result = await response.json();
+          console.log('🎉 PUT response received:', result);
+          return result;
+        } else {
+          const errorText = await response.text();
+          console.warn('⚠️ Relative URL failed:', response.status, errorText);
+        }
+      } catch (error) {
+        console.warn('⚠️ Relative URL error:', error);
+      }
+      
+      // Fallback to absolute URL
+      console.log('🔄 Trying absolute URL fallback...');
+      const fallbackResponse = await fetch(`http://localhost:5000/api/properties/${property.id}?_t=${Date.now()}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache',
-          'Content-Length': requestBody.length.toString()
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache'
         },
         body: requestBody
       });
       
-      console.log('📡 Response status:', response.status);
-      console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('❌ PUT request failed:', response.status, errorText);
+      if (!fallbackResponse.ok) {
+        const errorText = await fallbackResponse.text();
+        console.error('❌ Both requests failed:', fallbackResponse.status, errorText);
         throw new Error('Failed to update property');
       }
-      const result = await response.json();
-      console.log('🎉 PUT response received:', result);
+      
+      const result = await fallbackResponse.json();
+      console.log('🎉 Fallback PUT response received:', result);
       return result;
     },
     onSuccess: async (updatedProperty) => {
