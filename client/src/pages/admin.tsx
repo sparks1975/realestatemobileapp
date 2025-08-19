@@ -106,7 +106,8 @@ export default function AdminPanel() {
       console.log('🌐 Creating property with payload:', property);
       
       const requestBody = JSON.stringify(property);
-      const response = await fetch('http://localhost:5000/api/properties', {
+      const baseUrl = window.location.origin;
+      const response = await fetch(`${baseUrl}/api/properties`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -152,48 +153,32 @@ export default function AdminPanel() {
       console.log('📦 Serialized request body:', requestBody);
       console.log('📏 Request body length:', requestBody.length);
       
-      // Use absolute URL directly to bypass Vite middleware that strips request bodies
-      console.log('🎯 Using absolute URL to bypass Vite middleware...');
-      try {
-        const response = await fetch(`http://localhost:5000/api/properties/${property.id}?_t=${Date.now()}`, {
-          method: 'PUT',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Cache-Control': 'no-cache'
-          },
-          body: requestBody
-        });
-        
-        console.log('📡 Response status:', response.status);
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error('❌ PUT request failed:', response.status, errorText);
-          throw new Error(`Failed to update property: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        console.log('🎉 PUT response received:', result);
-        return result;
-      } catch (error) {
-        console.error('🚨 Network error during PUT:', error);
-        // Try one more time without cache busting
-        const retryResponse = await fetch(`http://localhost:5000/api/properties/${property.id}`, {
-          method: 'PUT',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: requestBody
-        });
-        
-        if (!retryResponse.ok) {
-          throw new Error(`Failed to update property after retry: ${retryResponse.status}`);
-        }
-        
-        return await retryResponse.json();
+      // Use current window location for dynamic API base URL
+      const baseUrl = window.location.origin;
+      const apiUrl = `${baseUrl}/api/properties/${property.id}?_t=${Date.now()}`;
+      console.log('🎯 Using dynamic base URL:', apiUrl);
+      
+      const response = await fetch(apiUrl, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        body: requestBody
+      });
+      
+      console.log('📡 Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ PUT request failed:', response.status, errorText);
+        throw new Error(`Failed to update property: ${response.status}`);
       }
+      
+      const result = await response.json();
+      console.log('🎉 PUT response received:', result);
+      return result;
     },
     onSuccess: async (updatedProperty) => {
       console.log('✅ Property updated successfully:', updatedProperty);
