@@ -132,6 +132,7 @@ export default function AdminPanel() {
 
   const updatePropertyMutation = useMutation({
     mutationFn: async (property: Property) => {
+      console.log('🌐 Making PUT request with payload:', property);
       const response = await fetch(`/api/properties/${property.id}?_t=${Date.now()}`, {
         method: 'PUT',
         headers: { 
@@ -140,8 +141,14 @@ export default function AdminPanel() {
         },
         body: JSON.stringify(property)
       });
-      if (!response.ok) throw new Error('Failed to update property');
-      return response.json();
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ PUT request failed:', response.status, errorText);
+        throw new Error('Failed to update property');
+      }
+      const result = await response.json();
+      console.log('🎉 PUT response received:', result);
+      return result;
     },
     onSuccess: async (updatedProperty) => {
       console.log('✅ Property updated successfully:', updatedProperty);
@@ -244,8 +251,10 @@ export default function AdminPanel() {
       // Ensure ID is included for updates
       const updateData = { ...selectedProperty, ...propertyData, id: selectedProperty.id };
       console.log('📝 Update payload with ID:', updateData.id, 'squareFeet:', updateData.squareFeet);
+      console.log('🔍 Full update payload:', JSON.stringify(updateData, null, 2));
       updatePropertyMutation.mutate(updateData);
     } else {
+      console.log('🆕 Creating new property:', JSON.stringify(propertyData, null, 2));
       createPropertyMutation.mutate(propertyData);
     }
   };
