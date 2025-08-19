@@ -97,7 +97,7 @@ export default function AdminPanel() {
     staleTime: 0,
     gcTime: 0,
     refetchOnWindowFocus: true,
-    refetchInterval: 5000 // Refetch every 5 seconds to monitor changes
+    refetchInterval: 3000 // Refetch every 3 seconds to monitor changes
   });
 
   // Create/Update property mutation
@@ -198,12 +198,14 @@ export default function AdminPanel() {
   };
 
   const handleSubmit = () => {
-    // Convert admin form data to API format
+    // Convert admin form data to API format with proper image URLs
     const propertyData = {
       ...formData,
-      mainImage: formData.images[0] || '',
-      images: formData.images
+      mainImage: formData.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800',
+      images: formData.images.length > 0 ? formData.images : ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800']
     };
+    
+    console.log('Submitting property data:', propertyData);
     
     if (selectedProperty) {
       updatePropertyMutation.mutate({ ...selectedProperty, ...propertyData });
@@ -570,9 +572,12 @@ export default function AdminPanel() {
                           <td className="py-3 px-4">
                             <div className="flex items-center space-x-3">
                               <img
-                                src={property.images?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=100&h=100'}
+                                src={property.mainImage || property.images?.[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=100&h=100'}
                                 alt={property.title}
                                 className="w-12 h-12 rounded-lg object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.src = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=100&h=100';
+                                }}
                               />
                               <div>
                                 <div className="font-medium text-gray-900">{property.title}</div>
