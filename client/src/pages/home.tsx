@@ -29,10 +29,20 @@ interface Property {
 }
 
 export default function HomePage() {
-  const { data: properties = [], isLoading } = useQuery<Property[]>({
+  const { data: properties = [], isLoading, refetch } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
-    enabled: true
+    enabled: true,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true,
+    refetchInterval: 5000 // Refetch every 5 seconds for testing
   });
+
+  // Debug logging - shows when data changes
+  console.log('Properties data updated:', new Date().toLocaleTimeString());
+  console.log('Properties count:', properties.length);
+  console.log('First property title:', properties[0]?.title);
+  console.log('First property price:', properties[0]?.price);
 
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
