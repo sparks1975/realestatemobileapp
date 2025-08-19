@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -75,6 +75,8 @@ export default function AdminPanel() {
   });
   
   const [newImageUrl, setNewImageUrl] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch properties using apiRequest for consistent cache-busting
   const { data: properties = [], isLoading, refetch } = useQuery<Property[]>({
@@ -235,8 +237,8 @@ export default function AdminPanel() {
     setNewImageUrl('');
   };
 
-  // Handle adding a new image
-  const handleAddImage = () => {
+  // Handle adding a new image from URL
+  const handleAddImageUrl = () => {
     if (!newImageUrl.trim()) {
       toast({
         title: "Invalid Image URL",
@@ -257,6 +259,90 @@ export default function AdminPanel() {
       title: "Image Added",
       description: "Image URL has been added to the property",
     });
+  };
+
+  // Handle file upload
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid File Type",
+        description: "Please select an image file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File Too Large",
+        description: "Please select an image smaller than 10MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    try {
+      // Get upload URL from backend
+      const uploadResponse = await fetch('/api/objects/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (!uploadResponse.ok) {
+        throw new Error('Failed to get upload URL');
+      }
+
+      const { uploadURL } = await uploadResponse.json();
+
+      // Upload file to object storage
+      const uploadFileResponse = await fetch(uploadURL, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type,
+        }
+      });
+
+      if (!uploadFileResponse.ok) {
+        throw new Error('Failed to upload file');
+      }
+
+      // Extract the object path from the upload URL and convert to serving URL
+      const objectPath = uploadURL.split('?')[0].split('/').slice(-2).join('/');
+      const imageUrl = `/objects/${objectPath}`;
+
+      // Add to form data
+      setFormData(prev => ({
+        ...prev,
+        images: [...prev.images, imageUrl]
+      }));
+
+      toast({
+        title: "Image Uploaded",
+        description: "Image has been successfully uploaded and added to the property",
+      });
+
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload Failed",
+        description: "Failed to upload image. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
   };
 
   const openEditDialog = (property?: Property) => {
@@ -635,27 +721,52 @@ export default function AdminPanel() {
                         )}
                         
                         {/* Add New Image */}
-                        <div className="flex gap-2">
-                          <Input
-                            placeholder="Enter image URL..."
-                            className="bg-white border-gray-300 text-gray-900 flex-1"
-                            value={newImageUrl}
-                            onChange={(e) => setNewImageUrl(e.target.value)}
-                            onKeyPress={(e) => {
-                              if (e.key === 'Enter') {
-                                e.preventDefault();
-                                handleAddImage();
-                              }
-                            }}
-                          />
-                          <Button
-                            type="button"
-                            onClick={handleAddImage}
-                            variant="outline"
-                            className="px-4"
-                          >
-                            Add Image
-                          </Button>
+                        <div className="space-y-2">
+                          {/* File Upload */}
+                          <div className="flex gap-2">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleFileUpload}
+                              className="hidden"
+                              ref={fileInputRef}
+                            />
+                            <Button
+                              type="button"
+                              onClick={() => fileInputRef.current?.click()}
+                              variant="outline"
+                              className="px-4"
+                            >
+                              📁 Upload Image
+                            </Button>
+                            <span className="text-sm text-gray-500 self-center">
+                              {isUploading ? 'Uploading...' : 'or enter URL below'}
+                            </span>
+                          </div>
+                          
+                          {/* URL Input */}
+                          <div className="flex gap-2">
+                            <Input
+                              placeholder="Enter image URL..."
+                              className="bg-white border-gray-300 text-gray-900 flex-1"
+                              value={newImageUrl}
+                              onChange={(e) => setNewImageUrl(e.target.value)}
+                              onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.preventDefault();
+                                  handleAddImageUrl();
+                                }
+                              }}
+                            />
+                            <Button
+                              type="button"
+                              onClick={handleAddImageUrl}
+                              variant="outline"
+                              className="px-4"
+                            >
+                              Add URL
+                            </Button>
+                          </div>
                         </div>
                         
                         {formData.images.length === 0 && (

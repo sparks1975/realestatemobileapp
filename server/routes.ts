@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { z } from "zod";
 import { log } from "./vite";
 import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema } from "@shared/schema";
+import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Users
@@ -464,6 +465,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize some data for demo purposes (only if there's none)
   initializeDemoData();
 
+  // Object storage routes for file uploads
+  app.post("/api/objects/upload", async (req, res) => {
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const uploadURL = await objectStorageService.getObjectEntityUploadURL();
+      res.json({ uploadURL });
+    } catch (error) {
+      console.error("Error getting upload URL:", error);
+      res.status(500).json({ error: "Failed to get upload URL" });
+    }
+  });
+
+  app.get("/objects/:objectPath(*)", async (req, res) => {
+    try {
+      const objectStorageService = new ObjectStorageService();
+      const objectFile = await objectStorageService.getObjectEntityFile(req.path);
+      objectStorageService.downloadObject(objectFile, res);
+    } catch (error) {
+      console.error("Error serving object:", error);
+      if (error instanceof ObjectNotFoundError) {
+        return res.sendStatus(404);
+      }
+      return res.sendStatus(500);
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
@@ -720,3 +747,4 @@ async function initializeDemoData() {
     }
   }
 }
+import { ObjectStorageService } from "./objectStorage";
