@@ -242,6 +242,10 @@ export default function AdminPanel() {
   };
 
   const handleSubmit = () => {
+    console.log('🚀 handleSubmit called!');
+    console.log('🔄 Current formData:', formData);
+    console.log('🔄 selectedProperty:', selectedProperty);
+    
     // Convert admin form data to API format with proper image URLs
     const propertyData = {
       ...formData,
@@ -561,7 +565,16 @@ export default function AdminPanel() {
                         <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
                           Cancel
                         </Button>
-                        <Button onClick={handleSubmit} disabled={createPropertyMutation.isPending || updatePropertyMutation.isPending}>
+                        <Button 
+                          onClick={(e) => {
+                            e.preventDefault();
+                            console.log('🖱️ Submit button clicked!');
+                            console.log('🖱️ selectedProperty:', selectedProperty?.id);
+                            console.log('🖱️ formData squareFeet:', formData.squareFeet);
+                            handleSubmit();
+                          }} 
+                          disabled={createPropertyMutation.isPending || updatePropertyMutation.isPending}
+                        >
                           {selectedProperty ? 'Update' : 'Create'} Property
                         </Button>
                       </div>
