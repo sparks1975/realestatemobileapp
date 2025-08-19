@@ -111,9 +111,19 @@ export default function AdminPanel() {
       if (!response.ok) throw new Error('Failed to create property');
       return response.json();
     },
-    onSuccess: () => {
-      // Simple cache invalidation
+    onSuccess: async (newProperty) => {
+      console.log('✅ Property created successfully:', newProperty);
+      console.log('🔄 Triggering UI refresh...');
+      
+      // Force refresh for new property
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.removeQueries({ queryKey: ['/api/properties'] });
+      
+      setTimeout(async () => {
+        await refetch();
+        console.log('📊 Fresh data loaded after creation');
+      }, 100);
+      
       toast({ title: "Property created successfully" });
       setIsEditDialogOpen(false);
       resetForm();
@@ -134,10 +144,20 @@ export default function AdminPanel() {
       return response.json();
     },
     onSuccess: async (updatedProperty) => {
-      console.log('Property updated successfully:', updatedProperty);
-      // Force immediate refresh
-      const freshData = await refetch();
-      console.log('Fresh data after refetch:', freshData);
+      console.log('✅ Property updated successfully:', updatedProperty);
+      console.log('🔄 Triggering UI refresh...');
+      
+      // Multiple strategies to force UI update
+      queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
+      queryClient.removeQueries({ queryKey: ['/api/properties'] });
+      
+      // Wait a moment then force refetch
+      setTimeout(async () => {
+        const freshData = await refetch();
+        console.log('📊 Fresh data loaded:', freshData?.data?.length, 'properties');
+        console.log('🎯 Updated property title should be:', updatedProperty.title);
+      }, 100);
+      
       toast({ title: "Property updated successfully" });
       setIsEditDialogOpen(false);
       resetForm();
