@@ -352,6 +352,11 @@ export class DatabaseStorage implements IStorage {
     return property;
   }
 
+  async deleteProperty(id: number): Promise<boolean> {
+    const result = await db.delete(properties).where(eq(properties.id, id));
+    return true;
+  }
+
   async updateProperty(id: number, updates: Partial<Property>): Promise<Property | undefined> {
     // Ensure yearBuilt, parkingSpaces, and features are included in the update
     if (updates.yearBuilt === undefined) {
