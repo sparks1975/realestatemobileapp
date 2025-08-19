@@ -96,7 +96,12 @@ export const updateProperty = async (id: number, propertyData: Partial<Property>
       images: propertyData.images,
     };
     
-    const response = await apiClient.patch(`/api/properties/${id}`, updates);
+    // Use raw endpoint to bypass middleware issues that strip request bodies
+    console.log('📱 Mobile - Using raw endpoint for property update');
+    console.log('📱 Mobile - Sending data:', JSON.stringify(updates));
+    
+    const response = await apiClient.put(`/api/properties/${id}/raw`, updates);
+    console.log('📱 Mobile - Raw endpoint response:', response.data);
     return response.data;
   } catch (error) {
     console.error(`Error updating property with ID ${id}:`, error);

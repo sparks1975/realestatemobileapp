@@ -99,7 +99,30 @@ export default function EditProperty() {
   // Create a mutation for updating the property
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      return apiRequest('PATCH', `/api/properties/${propertyId}`, data);
+      console.log('🌐 Edit Property - Making PUT request to raw endpoint:', data);
+      const requestBody = JSON.stringify(data);
+      console.log('📦 Edit Property - Serialized body length:', requestBody.length);
+      
+      const baseUrl = window.location.origin;
+      const response = await fetch(`${baseUrl}/api/properties/${propertyId}/raw`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
+        body: requestBody
+      });
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Edit Property - PUT failed:', response.status, errorText);
+        throw new Error(`Failed to update property: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      console.log('🎉 Edit Property - Updated successfully:', result);
+      return result;
     },
     onSuccess: () => {
       // Invalidate queries to refresh data
