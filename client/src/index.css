@@ -120,6 +120,15 @@
     --sidebar-accent-foreground: 222.2 84% 4.9%;
     --sidebar-border: 217.2 32.6% 17.5%;
     --sidebar-ring: 45 66% 48%; /* #CBA328 - Gold */
+    
+    /* Dynamic Theme Variables */
+    --primary-color: #CBA328;
+    --secondary-color: #1a1a1a;
+    --tertiary-color: #f5f5f5;
+    --text-color: #333333;
+    --link-color: #CBA328;
+    --link-hover-color: #b8951f;
+    --font-family: 'Inter', sans-serif;
   }
   
   .dark {
@@ -175,7 +184,8 @@
   
   body {
     @apply bg-background text-foreground font-sans antialiased h-full;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: var(--font-family, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: var(--text-color);
   }
   
   html, body, #root {
@@ -190,6 +200,39 @@
 
 .shadow-glow-secondary {
   box-shadow: 0 0 15px rgba(128, 128, 128, 0.5);
+}
+
+/* Dynamic Theme Classes */
+.theme-primary-bg {
+  background-color: var(--primary-color);
+}
+
+.theme-primary-text {
+  color: var(--primary-color);
+}
+
+.theme-secondary-bg {
+  background-color: var(--secondary-color);
+}
+
+.theme-secondary-text {
+  color: var(--secondary-color);
+}
+
+.theme-text-color {
+  color: var(--text-color);
+}
+
+.theme-link {
+  color: var(--link-color);
+}
+
+.theme-link:hover {
+  color: var(--link-hover-color);
+}
+
+.theme-font {
+  font-family: var(--font-family);
 }
 
 /* Hide scrollbar for WebKit browsers */

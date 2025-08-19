@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award } from "lucide-react";
+import { useEffect } from "react";
 
 interface Property {
   id: number;
@@ -37,6 +38,44 @@ export default function HomePage() {
     refetchOnWindowFocus: true
   });
 
+  // Load theme settings
+  const { data: themeSettings } = useQuery({
+    queryKey: ['/api/theme-settings/1'],
+    queryFn: async () => {
+      const response = await fetch('/api/theme-settings/1');
+      if (!response.ok) throw new Error('Failed to fetch theme settings');
+      return response.json();
+    }
+  });
+
+  // Apply theme settings to CSS variables
+  useEffect(() => {
+    if (themeSettings) {
+      const root = document.documentElement;
+      root.style.setProperty('--primary-color', themeSettings.primaryColor);
+      root.style.setProperty('--secondary-color', themeSettings.secondaryColor);
+      root.style.setProperty('--tertiary-color', themeSettings.tertiaryColor);
+      root.style.setProperty('--text-color', themeSettings.textColor);
+      root.style.setProperty('--link-color', themeSettings.linkColor);
+      root.style.setProperty('--link-hover-color', themeSettings.linkHoverColor);
+      root.style.setProperty('--font-family', themeSettings.fontFamily);
+
+      // Load Google Font dynamically
+      if (themeSettings.fontFamily && themeSettings.fontFamily !== 'Inter') {
+        const fontUrl = `https://fonts.googleapis.com/css2?family=${themeSettings.fontFamily.replace(' ', '+')}:wght@300;400;500;600;700&display=swap`;
+        
+        // Check if font is already loaded
+        const existingLink = document.querySelector(`link[href*="${themeSettings.fontFamily.replace(' ', '+')}"]`);
+        if (!existingLink) {
+          const link = document.createElement('link');
+          link.href = fontUrl;
+          link.rel = 'stylesheet';
+          document.head.appendChild(link);
+        }
+      }
+    }
+  }, [themeSettings]);
+
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
 
@@ -46,16 +85,16 @@ export default function HomePage() {
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold text-gray-900">LuxeLead</div>
+            <div className="text-2xl font-bold theme-text-color">LuxeLead</div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="text-gray-700 hover:text-gray-900 transition-colors">Home</a>
-              <a href="#properties" className="text-gray-700 hover:text-gray-900 transition-colors">Properties</a>
-              <a href="#about" className="text-gray-700 hover:text-gray-900 transition-colors">About</a>
-              <a href="#contact" className="text-gray-700 hover:text-gray-900 transition-colors">Contact</a>
-              <a href="/app/dashboard" className="text-gray-700 hover:text-gray-900 transition-colors">Mobile App</a>
-              <a href="/admin" className="text-gray-700 hover:text-gray-900 transition-colors">Admin</a>
+              <a href="#home" className="theme-link transition-colors">Home</a>
+              <a href="#properties" className="theme-link transition-colors">Properties</a>
+              <a href="#about" className="theme-link transition-colors">About</a>
+              <a href="#contact" className="theme-link transition-colors">Contact</a>
+              <a href="/app/dashboard" className="theme-link transition-colors">Mobile App</a>
+              <a href="/admin" className="theme-link transition-colors">Admin</a>
             </div>
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white">
+            <Button className="theme-primary-bg hover:opacity-90 text-white">
               Get in Touch
             </Button>
           </div>
