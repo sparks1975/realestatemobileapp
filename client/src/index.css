@@ -305,6 +305,27 @@
   overflow: visible !important;
 }
 
+/* Ensure website cards have white backgrounds */
+.agent-website [data-sonner-toaster] {
+  background: white !important;
+}
+
+.agent-website .bg-white {
+  background-color: white !important;
+}
+
+.agent-website .border-gray-200 {
+  border-color: #e5e7eb !important;
+}
+
+.agent-website .text-gray-900 {
+  color: #111827 !important;
+}
+
+.agent-website .text-gray-500 {
+  color: #6b7280 !important;
+}
+
 /* Admin Panel Retool-like Styling */
 .admin-panel {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
