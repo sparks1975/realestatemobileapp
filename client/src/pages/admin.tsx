@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import { 
   Plus, Edit2, Trash2, Search, Filter, Download, Upload, 
   BarChart3, Users, Building2, Calendar, Settings, Eye
