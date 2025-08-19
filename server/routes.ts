@@ -129,6 +129,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid property ID" });
       }
       
+      console.log('🔄 PUT /api/properties/' + id + ' - Request body:', req.body);
+      console.log('🎯 Incoming squareFeet value:', req.body.squareFeet);
+      
       const user = await storage.getUserByUsername("alexmorgan");
       if (!user) {
         return res.status(404).json({ message: "User not found" });
@@ -139,10 +142,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Property not found" });
       }
       
+      console.log('📊 Before update - existing squareFeet:', existingProperty.squareFeet);
+      
       const updatedProperty = await storage.updateProperty(id, req.body);
       if (!updatedProperty) {
         return res.status(500).json({ message: "Failed to update property" });
       }
+      
+      console.log('✅ After update - updated squareFeet:', updatedProperty.squareFeet);
       
       await storage.createActivity({
         type: "property_update",
@@ -154,6 +161,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(updatedProperty);
     } catch (error) {
+      console.error('❌ PUT error:', error);
       res.status(500).json({ message: "Failed to update property" });
     }
   });

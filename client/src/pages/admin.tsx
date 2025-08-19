@@ -227,14 +227,24 @@ export default function AdminPanel() {
     // Convert admin form data to API format with proper image URLs
     const propertyData = {
       ...formData,
+      // Ensure squareFeet is properly included
+      squareFeet: Number(formData.squareFeet),
+      city: selectedProperty?.city || 'Default City',
+      state: selectedProperty?.state || 'CA',
+      zipCode: selectedProperty?.zipCode || '90210',
+      listedById: selectedProperty?.listedById || 1,
       mainImage: formData.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800',
       images: formData.images.length > 0 ? formData.images : ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800']
     };
     
-    console.log('Submitting property data:', propertyData);
+    console.log('📤 Submitting property data:', propertyData);
+    console.log('🎯 Key field - squareFeet:', propertyData.squareFeet);
     
     if (selectedProperty) {
-      updatePropertyMutation.mutate({ ...selectedProperty, ...propertyData });
+      // Ensure ID is included for updates
+      const updateData = { ...selectedProperty, ...propertyData, id: selectedProperty.id };
+      console.log('📝 Update payload with ID:', updateData.id, 'squareFeet:', updateData.squareFeet);
+      updatePropertyMutation.mutate(updateData);
     } else {
       createPropertyMutation.mutate(propertyData);
     }
