@@ -111,8 +111,7 @@ export default function AdminPanel() {
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
       queryClient.removeQueries({ queryKey: ['/api/properties'] });
       
-      // Debug logging
-      console.log('Property updated, clearing cache and refetching...');
+
       
       // Force a refetch
       queryClient.refetchQueries({ queryKey: ['/api/properties'] });
