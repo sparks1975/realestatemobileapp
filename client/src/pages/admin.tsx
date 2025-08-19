@@ -73,6 +73,8 @@ export default function AdminPanel() {
     images: [],
     features: []
   });
+  
+  const [newImageUrl, setNewImageUrl] = useState('');
 
   // Fetch properties using apiRequest for consistent cache-busting
   const { data: properties = [], isLoading, refetch } = useQuery<Property[]>({
@@ -230,6 +232,31 @@ export default function AdminPanel() {
       features: []
     });
     setSelectedProperty(null);
+    setNewImageUrl('');
+  };
+
+  // Handle adding a new image
+  const handleAddImage = () => {
+    if (!newImageUrl.trim()) {
+      toast({
+        title: "Invalid Image URL",
+        description: "Please enter a valid image URL",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setFormData(prev => ({
+      ...prev,
+      images: [...prev.images, newImageUrl.trim()]
+    }));
+    
+    setNewImageUrl("");
+    
+    toast({
+      title: "Image Added",
+      description: "Image URL has been added to the property",
+    });
   };
 
   const openEditDialog = (property?: Property) => {
@@ -555,17 +582,87 @@ export default function AdminPanel() {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="images" className="text-gray-700">Image URLs (comma separated)</Label>
-                        <Textarea
-                          id="images"
-                          className="bg-white border-gray-300 text-gray-900"
-                          value={formData.images.join(', ')}
-                          onChange={(e) => setFormData({ 
-                            ...formData, 
-                            images: e.target.value.split(',').map(url => url.trim()).filter(url => url.length > 0)
-                          })}
-                          rows={2}
-                        />
+                        <Label className="text-gray-700">Property Images</Label>
+                        
+                        {/* Current Images Grid */}
+                        {formData.images.length > 0 && (
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3 mb-4">
+                            {formData.images.map((imageUrl, index) => (
+                              <div key={index} className="relative group">
+                                <img
+                                  src={imageUrl}
+                                  alt={`Property image ${index + 1}`}
+                                  className="w-full h-24 object-cover rounded-lg border border-gray-200"
+                                  onError={(e) => {
+                                    e.currentTarget.src = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=200&h=150';
+                                  }}
+                                />
+                                {/* Main Image Badge */}
+                                {index === 0 && (
+                                  <div className="absolute top-1 left-1 bg-primary text-white text-xs px-2 py-1 rounded">
+                                    Main
+                                  </div>
+                                )}
+                                {/* Delete Button */}
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const newImages = formData.images.filter((_, i) => i !== index);
+                                    setFormData({ ...formData, images: newImages });
+                                  }}
+                                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  ×
+                                </button>
+                                {/* Set as Main Button */}
+                                {index !== 0 && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const newImages = [...formData.images];
+                                      const [mainImage] = newImages.splice(index, 1);
+                                      newImages.unshift(mainImage);
+                                      setFormData({ ...formData, images: newImages });
+                                    }}
+                                    className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                                  >
+                                    Set Main
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        
+                        {/* Add New Image */}
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="Enter image URL..."
+                            className="bg-white border-gray-300 text-gray-900 flex-1"
+                            value={newImageUrl}
+                            onChange={(e) => setNewImageUrl(e.target.value)}
+                            onKeyPress={(e) => {
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                                handleAddImage();
+                              }
+                            }}
+                          />
+                          <Button
+                            type="button"
+                            onClick={handleAddImage}
+                            variant="outline"
+                            className="px-4"
+                          >
+                            Add Image
+                          </Button>
+                        </div>
+                        
+                        {formData.images.length === 0 && (
+                          <p className="text-sm text-gray-500 mt-2">
+                            No images added yet. Add at least one image for the property.
+                          </p>
+                        )}
                       </div>
                       <div>
                         <Label htmlFor="features" className="text-gray-700">Features (comma separated)</Label>
