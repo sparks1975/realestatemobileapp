@@ -247,3 +247,60 @@
 .tab-indicator {
   transition: transform 0.3s ease;
 }
+
+/* Agent Website Specific Styles */
+.agent-website {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.agent-website * {
+  max-width: none !important;
+}
+
+.agent-website .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.agent-website h1, 
+.agent-website h2, 
+.agent-website h3, 
+.agent-website h4 {
+  font-weight: 300;
+  letter-spacing: -0.025em;
+}
+
+.agent-website .hero-section {
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+.agent-website .section-padding {
+  padding: 5rem 0;
+}
+
+.agent-website .card-hover {
+  transition: all 0.3s ease;
+}
+
+.agent-website .card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* Smooth scrolling for agent website */
+.agent-website html {
+  scroll-behavior: smooth;
+}
+
+/* Override mobile app constraints for website */
+.agent-website .max-w-md {
+  max-width: none !important;
+}
+
+.agent-website .relative.overflow-hidden {
+  overflow: visible !important;
+}
