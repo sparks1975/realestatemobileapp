@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { 
@@ -95,21 +95,23 @@ export default function AdminPanel() {
       const response = await fetch('/api/theme-settings/1');
       if (!response.ok) throw new Error('Failed to fetch theme settings');
       return response.json();
-    },
-    onSuccess: (data) => {
-      if (data) {
-        setThemeSettings({
-          primaryColor: data.primaryColor,
-          secondaryColor: data.secondaryColor,
-          tertiaryColor: data.tertiaryColor,
-          textColor: data.textColor,
-          linkColor: data.linkColor,
-          linkHoverColor: data.linkHoverColor,
-          fontFamily: data.fontFamily
-        });
-      }
     }
   });
+
+  // Update theme settings when data loads
+  useEffect(() => {
+    if (currentThemeSettings) {
+      setThemeSettings({
+        primaryColor: currentThemeSettings.primaryColor,
+        secondaryColor: currentThemeSettings.secondaryColor,
+        tertiaryColor: currentThemeSettings.tertiaryColor,
+        textColor: currentThemeSettings.textColor,
+        linkColor: currentThemeSettings.linkColor,
+        linkHoverColor: currentThemeSettings.linkHoverColor,
+        fontFamily: currentThemeSettings.fontFamily
+      });
+    }
+  }, [currentThemeSettings]);
 
   // Save theme settings mutation
   const saveThemeSettingsMutation = useMutation({
@@ -525,45 +527,87 @@ export default function AdminPanel() {
       </div>
 
       <div className="flex">
-        {/* Sidebar */}
-        <div className="w-64 bg-white border-r border-gray-200 min-h-screen">
-          <nav className="p-4 space-y-2">
-            <a href="#" className="flex items-center px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-md">
-              <BarChart3 className="h-4 w-4 mr-3" />
-              Dashboard
-            </a>
-            <a href="#" className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md">
-              <Building2 className="h-4 w-4 mr-3" />
+        {/* Left Sidebar */}
+        <div className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-80px)]">
+          <nav className="p-4 space-y-1">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'overview' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <BarChart3 className="h-5 w-5 mr-3" />
+              Overview
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('properties')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'properties' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Building2 className="h-5 w-5 mr-3" />
               Properties
-            </a>
-            <a href="#" className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md">
-              <Users className="h-4 w-4 mr-3" />
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('clients')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'clients' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Users className="h-5 w-5 mr-3" />
               Clients
-            </a>
-            <a href="#" className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md">
-              <Calendar className="h-4 w-4 mr-3" />
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('appointments')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'appointments' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Calendar className="h-5 w-5 mr-3" />
               Appointments
-            </a>
-            <a href="#" className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md">
-              <Settings className="h-4 w-4 mr-3" />
-              Settings
-            </a>
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('messages')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'messages' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Eye className="h-5 w-5 mr-3" />
+              Messages
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('style')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'style' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Settings className="h-5 w-5 mr-3" />
+              Website Style
+            </button>
           </nav>
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-6 admin-content">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-6 bg-gray-100 mb-6">
-              <TabsTrigger value="overview" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">📊 Overview</TabsTrigger>
-              <TabsTrigger value="properties" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">🏠 Properties</TabsTrigger>
-              <TabsTrigger value="clients" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">👥 Clients</TabsTrigger>
-              <TabsTrigger value="appointments" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">📅 Appointments</TabsTrigger>
-              <TabsTrigger value="messages" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">💬 Messages</TabsTrigger>
-              <TabsTrigger value="style" className="bg-gray-100 data-[state=active]:bg-white text-gray-900">🎨 Style</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="overview" className="space-y-6">
+        <div className="flex-1 p-6">
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
               {/* Stats Cards */}
               <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6 admin-card">
             <Card className="bg-white border border-gray-200">
@@ -628,9 +672,11 @@ export default function AdminPanel() {
               </CardContent>
             </Card>
               </div>
-            </TabsContent>
+            </div>
+          )}
 
-            <TabsContent value="properties" className="space-y-6">
+          {activeTab === 'properties' && (
+            <div className="space-y-6">
               {/* Properties Table */}
               <Card className="bg-white border border-gray-200 admin-table">
             <CardHeader>
@@ -1012,9 +1058,11 @@ export default function AdminPanel() {
               </div>
               </CardContent>
               </Card>
-            </TabsContent>
+            </div>
+          )}
 
-            <TabsContent value="clients" className="space-y-6">
+          {activeTab === 'clients' && (
+            <div className="space-y-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-gray-900">Client Management</CardTitle>
@@ -1023,9 +1071,11 @@ export default function AdminPanel() {
                   <p className="text-gray-500">Client management features coming soon...</p>
                 </CardContent>
               </Card>
-            </TabsContent>
+            </div>
+          )}
 
-            <TabsContent value="appointments" className="space-y-6">
+          {activeTab === 'appointments' && (
+            <div className="space-y-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-gray-900">Appointment Management</CardTitle>
@@ -1034,9 +1084,11 @@ export default function AdminPanel() {
                   <p className="text-gray-500">Appointment scheduling features coming soon...</p>
                 </CardContent>
               </Card>
-            </TabsContent>
+            </div>
+          )}
 
-            <TabsContent value="messages" className="space-y-6">
+          {activeTab === 'messages' && (
+            <div className="space-y-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-gray-900">Message Center</CardTitle>
@@ -1045,9 +1097,11 @@ export default function AdminPanel() {
                   <p className="text-gray-500">Message management features coming soon...</p>
                 </CardContent>
               </Card>
-            </TabsContent>
+            </div>
+          )}
 
-            <TabsContent value="style" className="space-y-6">
+          {activeTab === 'style' && (
+            <div className="space-y-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-gray-900">Website Style Customization</CardTitle>
@@ -1230,8 +1284,8 @@ export default function AdminPanel() {
                   </div>
                 </CardContent>
               </Card>
-            </TabsContent>
-          </Tabs>
+            </div>
+          )}
         </div>
       </div>
     </div>
