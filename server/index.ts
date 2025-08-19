@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
 // Debug middleware to log request body parsing
 app.use((req, res, next) => {
-  if ((req.method === 'PUT' || req.method === 'POST') && req.url.includes('/api/properties')) {
+  if ((req.method === 'PUT' || req.method === 'POST') && (req.url.includes('/api/properties') || req.url.includes('/api/theme-settings'))) {
     console.log('🔧 Middleware - Method:', req.method, 'URL:', req.url);
     console.log('🔧 Middleware - Raw body:', req.body);
     console.log('🔧 Middleware - Body type:', typeof req.body);

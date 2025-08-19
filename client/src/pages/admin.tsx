@@ -124,11 +124,17 @@ export default function AdminPanel() {
   const saveThemeSettingsMutation = useMutation({
     mutationFn: async (settings: typeof themeSettings) => {
       console.log('🎨 Sending theme settings:', settings);
+      const body = JSON.stringify(settings);
+      console.log('🎨 JSON stringified body:', body);
       const response = await fetch('/api/theme-settings/1', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(settings)
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: body
       });
+      console.log('🎨 Response status:', response.status);
       if (!response.ok) throw new Error('Failed to save theme settings');
       return response.json();
     },
