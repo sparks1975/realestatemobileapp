@@ -123,6 +123,7 @@ export default function AdminPanel() {
   // Save theme settings mutation
   const saveThemeSettingsMutation = useMutation({
     mutationFn: async (settings: typeof themeSettings) => {
+      console.log('🎨 Sending theme settings:', settings);
       const response = await fetch('/api/theme-settings/1', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -157,6 +158,8 @@ export default function AdminPanel() {
   });
 
   const handleSaveTheme = () => {
+    console.log('🎨 Current theme settings before save:', themeSettings);
+    console.log('🎨 Has unsaved changes:', hasUnsavedChanges);
     saveThemeSettingsMutation.mutate(themeSettings);
   };
 
