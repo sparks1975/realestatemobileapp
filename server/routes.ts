@@ -493,19 +493,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put("/api/theme-settings/:userId", async (req, res) => {
     try {
       const userId = parseInt(req.params.userId);
+      console.log("🎨 PUT /api/theme-settings/" + userId);
+      console.log("🎨 Request body:", req.body);
+      
       const themeData = insertThemeSettingsSchema.parse({
         ...req.body,
         userId: userId
       });
+      
+      console.log("🎨 Parsed theme data:", themeData);
       
       // Try to update first
       let settings = await storage.updateThemeSettings(userId, themeData);
       
       // If no settings exist, create new ones
       if (!settings) {
+        console.log("🎨 No existing settings, creating new ones");
         settings = await storage.createThemeSettings(themeData);
       }
       
+      console.log("🎨 Final settings result:", settings);
       res.json(settings);
     } catch (error) {
       console.error("Failed to update theme settings:", error);

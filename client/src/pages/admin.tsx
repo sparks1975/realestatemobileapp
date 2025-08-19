@@ -87,6 +87,7 @@ export default function AdminPanel() {
     linkHoverColor: '#b8951f',
     fontFamily: 'Inter'
   });
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   // Load theme settings
   const { data: currentThemeSettings } = useQuery({
@@ -98,9 +99,9 @@ export default function AdminPanel() {
     }
   });
 
-  // Update theme settings when data loads
+  // Update theme settings when data loads (only if no unsaved changes)
   useEffect(() => {
-    if (currentThemeSettings) {
+    if (currentThemeSettings && !hasUnsavedChanges) {
       setThemeSettings({
         primaryColor: currentThemeSettings.primaryColor,
         secondaryColor: currentThemeSettings.secondaryColor,
@@ -111,7 +112,13 @@ export default function AdminPanel() {
         fontFamily: currentThemeSettings.fontFamily
       });
     }
-  }, [currentThemeSettings]);
+  }, [currentThemeSettings, hasUnsavedChanges]);
+
+  // Mark as having unsaved changes when theme settings are modified
+  const updateThemeSetting = (key: string, value: string) => {
+    setThemeSettings(prev => ({ ...prev, [key]: value }));
+    setHasUnsavedChanges(true);
+  };
 
   // Save theme settings mutation
   const saveThemeSettingsMutation = useMutation({
@@ -125,6 +132,9 @@ export default function AdminPanel() {
       return response.json();
     },
     onSuccess: () => {
+      // Reset the unsaved changes flag
+      setHasUnsavedChanges(false);
+      
       // Force all theme-related queries to refetch across the app
       queryClient.invalidateQueries({ queryKey: ['/api/theme-settings'] });
       queryClient.invalidateQueries({ queryKey: ['/api/theme-settings/1'] });
@@ -1126,12 +1136,12 @@ export default function AdminPanel() {
                               type="color"
                               id="primaryColor"
                               value={themeSettings.primaryColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, primaryColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('primaryColor', e.target.value)}
                               className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                             />
                             <Input
                               value={themeSettings.primaryColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, primaryColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('primaryColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#CBA328"
                             />
@@ -1145,12 +1155,12 @@ export default function AdminPanel() {
                               type="color"
                               id="secondaryColor"
                               value={themeSettings.secondaryColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, secondaryColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('secondaryColor', e.target.value)}
                               className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                             />
                             <Input
                               value={themeSettings.secondaryColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, secondaryColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('secondaryColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#1a1a1a"
                             />
