@@ -239,9 +239,9 @@ export default function AdminPanel() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-6">
+        <div className="flex-1 p-6 admin-content">
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6 admin-card">
             <Card className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
@@ -306,7 +306,7 @@ export default function AdminPanel() {
           </div>
 
           {/* Properties Table */}
-          <Card className="bg-white border border-gray-200">
+          <Card className="bg-white border border-gray-200 admin-table">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-gray-900">Property Management</CardTitle>
