@@ -74,11 +74,20 @@ export default function AdminPanel() {
     features: []
   });
 
-  // Fetch properties
-  const { data: properties = [], isLoading } = useQuery<Property[]>({
+  // Fetch properties with aggressive refresh
+  const { data: properties = [], isLoading, refetch } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
-    enabled: true
+    enabled: true,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true,
+    refetchInterval: 2000 // Refetch every 2 seconds for debugging
   });
+
+  // Debug logging to track data changes
+  console.log('Admin properties updated:', new Date().toLocaleTimeString());
+  console.log('Properties count:', properties.length);
+  console.log('First property title:', properties[0]?.title);
 
   // Create/Update property mutation
   const createPropertyMutation = useMutation({
@@ -92,11 +101,8 @@ export default function AdminPanel() {
       return response.json();
     },
     onSuccess: () => {
-      // Invalidate all property-related queries to ensure UI updates
+      // Simple cache invalidation
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
-      queryClient.removeQueries({ queryKey: ['/api/properties'] });
-      // Force a refetch
-      queryClient.refetchQueries({ queryKey: ['/api/properties'] });
       toast({ title: "Property created successfully" });
       setIsEditDialogOpen(false);
       resetForm();
@@ -114,14 +120,10 @@ export default function AdminPanel() {
       return response.json();
     },
     onSuccess: () => {
-      // Invalidate all property-related queries to ensure UI updates
+      // Aggressive cache invalidation and manual refetch
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
       queryClient.removeQueries({ queryKey: ['/api/properties'] });
-      
-
-      
-      // Force a refetch
-      queryClient.refetchQueries({ queryKey: ['/api/properties'] });
+      refetch(); // Manual refetch
       toast({ title: "Property updated successfully" });
       setIsEditDialogOpen(false);
       resetForm();
@@ -136,11 +138,8 @@ export default function AdminPanel() {
       if (!response.ok) throw new Error('Failed to delete property');
     },
     onSuccess: () => {
-      // Invalidate all property-related queries to ensure UI updates
+      // Simple cache invalidation
       queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
-      queryClient.removeQueries({ queryKey: ['/api/properties'] });
-      // Force a refetch
-      queryClient.refetchQueries({ queryKey: ['/api/properties'] });
       toast({ title: "Property deleted successfully" });
     }
   });
