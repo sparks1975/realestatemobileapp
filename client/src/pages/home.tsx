@@ -38,34 +38,44 @@ export default function HomePage() {
     refetchOnWindowFocus: true
   });
 
-  // Load theme settings
-  const { data: themeSettings } = useQuery({
+  // Load theme settings with aggressive cache busting
+  const { data: themeSettings, refetch: refetchTheme } = useQuery({
     queryKey: ['/api/theme-settings/1'],
     queryFn: async () => {
-      const response = await fetch('/api/theme-settings/1');
+      const response = await fetch(`/api/theme-settings/1?_t=${Date.now()}`, {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        },
+        cache: 'no-store'
+      });
       if (!response.ok) throw new Error('Failed to fetch theme settings');
       return response.json();
-    }
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true
   });
 
   // Apply theme settings to CSS variables
-  useEffect(() => {
-    if (themeSettings) {
+  const applyThemeSettings = (settings: any) => {
+    if (settings) {
       const root = document.documentElement;
-      root.style.setProperty('--primary-color', themeSettings.primaryColor);
-      root.style.setProperty('--secondary-color', themeSettings.secondaryColor);
-      root.style.setProperty('--tertiary-color', themeSettings.tertiaryColor);
-      root.style.setProperty('--text-color', themeSettings.textColor);
-      root.style.setProperty('--link-color', themeSettings.linkColor);
-      root.style.setProperty('--link-hover-color', themeSettings.linkHoverColor);
-      root.style.setProperty('--font-family', themeSettings.fontFamily);
+      root.style.setProperty('--primary-color', settings.primaryColor);
+      root.style.setProperty('--secondary-color', settings.secondaryColor);
+      root.style.setProperty('--tertiary-color', settings.tertiaryColor);
+      root.style.setProperty('--text-color', settings.textColor);
+      root.style.setProperty('--link-color', settings.linkColor);
+      root.style.setProperty('--link-hover-color', settings.linkHoverColor);
+      root.style.setProperty('--font-family', settings.fontFamily);
 
       // Load Google Font dynamically
-      if (themeSettings.fontFamily && themeSettings.fontFamily !== 'Inter') {
-        const fontUrl = `https://fonts.googleapis.com/css2?family=${themeSettings.fontFamily.replace(' ', '+')}:wght@300;400;500;600;700&display=swap`;
+      if (settings.fontFamily && settings.fontFamily !== 'Inter') {
+        const fontUrl = `https://fonts.googleapis.com/css2?family=${settings.fontFamily.replace(' ', '+')}:wght@300;400;500;600;700&display=swap`;
         
         // Check if font is already loaded
-        const existingLink = document.querySelector(`link[href*="${themeSettings.fontFamily.replace(' ', '+')}"]`);
+        const existingLink = document.querySelector(`link[href*="${settings.fontFamily.replace(' ', '+')}"]`);
         if (!existingLink) {
           const link = document.createElement('link');
           link.href = fontUrl;
@@ -73,8 +83,26 @@ export default function HomePage() {
           document.head.appendChild(link);
         }
       }
+      
+      console.log('🎨 Theme applied:', settings);
     }
+  };
+
+  useEffect(() => {
+    applyThemeSettings(themeSettings);
   }, [themeSettings]);
+
+  // Listen for theme updates from admin panel
+  useEffect(() => {
+    const handleThemeUpdate = (event: any) => {
+      console.log('🎨 Theme update event received:', event.detail);
+      // Force refetch theme settings
+      refetchTheme();
+    };
+
+    window.addEventListener('theme-updated', handleThemeUpdate);
+    return () => window.removeEventListener('theme-updated', handleThemeUpdate);
+  }, [refetchTheme]);
 
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);

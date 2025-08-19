@@ -125,11 +125,17 @@ export default function AdminPanel() {
       return response.json();
     },
     onSuccess: () => {
+      // Force all theme-related queries to refetch across the app
+      queryClient.invalidateQueries({ queryKey: ['/api/theme-settings'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/theme-settings/1'] });
+      
+      // Trigger a manual reload of CSS variables on other pages
+      window.dispatchEvent(new CustomEvent('theme-updated', { detail: themeSettings }));
+      
       toast({
         title: "Theme Settings Saved",
-        description: "Your website's style has been updated successfully"
+        description: "Your website's style has been updated successfully. Visit the homepage to see changes."
       });
-      queryClient.invalidateQueries({ queryKey: ['/api/theme-settings/1'] });
     },
     onError: () => {
       toast({
