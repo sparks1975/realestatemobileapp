@@ -43,6 +43,7 @@ export default function HomePage() {
               <a href="#about" className="text-gray-700 hover:text-gray-900 transition-colors">About</a>
               <a href="#contact" className="text-gray-700 hover:text-gray-900 transition-colors">Contact</a>
               <a href="/app/dashboard" className="text-gray-700 hover:text-gray-900 transition-colors">Mobile App</a>
+              <a href="/admin" className="text-gray-700 hover:text-gray-900 transition-colors">Admin</a>
             </div>
             <Button className="bg-gray-900 hover:bg-gray-800 text-white">
               Get in Touch

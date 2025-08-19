@@ -122,6 +122,79 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.put("/api/properties/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid property ID" });
+      }
+      
+      const user = await storage.getUserByUsername("alexmorgan");
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      const existingProperty = await storage.getProperty(id);
+      if (!existingProperty) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+      
+      const updatedProperty = await storage.updateProperty(id, req.body);
+      if (!updatedProperty) {
+        return res.status(500).json({ message: "Failed to update property" });
+      }
+      
+      await storage.createActivity({
+        type: "property_update",
+        title: "Property updated",
+        description: updatedProperty.title,
+        userId: user.id,
+        propertyId: updatedProperty.id
+      });
+      
+      res.json(updatedProperty);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to update property" });
+    }
+  });
+
+  app.delete("/api/properties/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid property ID" });
+      }
+      
+      const user = await storage.getUserByUsername("alexmorgan");
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      const existingProperty = await storage.getProperty(id);
+      if (!existingProperty) {
+        return res.status(404).json({ message: "Property not found" });
+      }
+      
+      // Add delete method to storage interface
+      const deleted = await storage.deleteProperty(id);
+      if (!deleted) {
+        return res.status(500).json({ message: "Failed to delete property" });
+      }
+      
+      await storage.createActivity({
+        type: "property_delete",
+        title: "Property deleted",
+        description: existingProperty.title,
+        userId: user.id,
+        propertyId: null
+      });
+      
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete property" });
+    }
+  });
+
   // Clients
   app.get("/api/clients", async (req, res) => {
     const user = await storage.getUserByUsername("alexmorgan");

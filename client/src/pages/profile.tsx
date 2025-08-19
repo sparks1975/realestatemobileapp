@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { 
   User, Bell, Globe, Moon, ChevronRight, 
-  LogOut, Lock, CreditCard, CircleHelp, Info
+  LogOut, Lock, CreditCard, CircleHelp, Info, Settings
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -67,6 +67,14 @@ export default function Profile() {
             >
               <Globe className="w-4 h-4 inline mr-1" />
               Website
+            </motion.button>
+            <motion.button 
+              className="bg-card text-muted-foreground px-4 py-2 rounded-full text-sm shadow"
+              whileTap={{ scale: 0.95 }}
+              onClick={() => window.open('/admin', '_blank')}
+            >
+              <Settings className="w-4 h-4 inline mr-1" />
+              Admin
             </motion.button>
           </div>
         </div>

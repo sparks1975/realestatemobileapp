@@ -11,6 +11,7 @@ import Messages from "@/pages/messages";
 import Schedule from "@/pages/schedule";
 import Profile from "@/pages/profile";
 import HomePage from "@/pages/home";
+import AdminPanel from "@/pages/admin";
 
 function App() {
   const [location] = useLocation();
@@ -24,6 +25,16 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <HomePage />
+      </TooltipProvider>
+    );
+  }
+
+  // Admin panel
+  if (location === "/admin") {
+    return (
+      <TooltipProvider>
+        <Toaster />
+        <AdminPanel />
       </TooltipProvider>
     );
   }
