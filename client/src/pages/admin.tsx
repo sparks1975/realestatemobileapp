@@ -133,14 +133,24 @@ export default function AdminPanel() {
   const updatePropertyMutation = useMutation({
     mutationFn: async (property: Property) => {
       console.log('🌐 Making PUT request with payload:', property);
+      
+      const requestBody = JSON.stringify(property);
+      console.log('📦 Serialized request body:', requestBody);
+      console.log('📏 Request body length:', requestBody.length);
+      
       const response = await fetch(`/api/properties/${property.id}?_t=${Date.now()}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache',
+          'Content-Length': requestBody.length.toString()
         },
-        body: JSON.stringify(property)
+        body: requestBody
       });
+      
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response headers:', Object.fromEntries(response.headers.entries()));
+      
       if (!response.ok) {
         const errorText = await response.text();
         console.error('❌ PUT request failed:', response.status, errorText);

@@ -7,6 +7,16 @@ const app = express();
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
+// Debug middleware to log request body parsing
+app.use((req, res, next) => {
+  if (req.method === 'PUT' && req.url.includes('/api/properties/')) {
+    console.log('🔧 Middleware - Raw body:', req.body);
+    console.log('🔧 Middleware - Body type:', typeof req.body);
+    console.log('🔧 Middleware - Content-Type:', req.headers['content-type']);
+  }
+  next();
+});
+
 // Add cache-busting headers for all API requests and responses
 app.use((req, res, next) => {
   // Add cache control headers to prevent caching for API routes

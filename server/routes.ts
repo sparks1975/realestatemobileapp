@@ -130,6 +130,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
       
       console.log('🔄 PUT /api/properties/' + id + ' - Request body:', req.body);
+      console.log('🔍 Request headers:', req.headers['content-type']);
+      console.log('🔍 Raw body type:', typeof req.body);
+      console.log('🔍 Body keys:', Object.keys(req.body || {}));
       console.log('🎯 Incoming squareFeet value:', req.body.squareFeet);
       
       const user = await storage.getUserByUsername("alexmorgan");
