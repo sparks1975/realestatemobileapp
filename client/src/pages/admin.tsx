@@ -138,7 +138,8 @@ export default function AdminPanel() {
       console.log('📦 Serialized request body:', requestBody);
       console.log('📏 Request body length:', requestBody.length);
       
-      const response = await fetch(`/api/properties/${property.id}?_t=${Date.now()}`, {
+      // Try absolute URL to bypass any proxy issues
+      const response = await fetch(`http://localhost:5000/api/properties/${property.id}?_t=${Date.now()}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
