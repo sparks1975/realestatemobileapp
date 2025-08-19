@@ -74,20 +74,26 @@ export default function AdminPanel() {
     features: []
   });
 
-  // Fetch properties with aggressive refresh
+  // Fetch properties using apiRequest for consistent cache-busting
   const { data: properties = [], isLoading, refetch } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
+    queryFn: async () => {
+      const response = await fetch(`/api/properties?_t=${Date.now()}`, {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        },
+        cache: 'no-store'
+      });
+      if (!response.ok) throw new Error('Failed to fetch properties');
+      return response.json();
+    },
     enabled: true,
     staleTime: 0,
     gcTime: 0,
-    refetchOnWindowFocus: true,
-    refetchInterval: 2000 // Refetch every 2 seconds for debugging
+    refetchOnWindowFocus: true
   });
-
-  // Debug logging to track data changes
-  console.log('Admin properties updated:', new Date().toLocaleTimeString());
-  console.log('Properties count:', properties.length);
-  console.log('First property title:', properties[0]?.title);
 
   // Create/Update property mutation
   const createPropertyMutation = useMutation({
@@ -111,19 +117,20 @@ export default function AdminPanel() {
 
   const updatePropertyMutation = useMutation({
     mutationFn: async (property: Property) => {
-      const response = await fetch(`/api/properties/${property.id}`, {
+      const response = await fetch(`/api/properties/${property.id}?_t=${Date.now()}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache'
+        },
         body: JSON.stringify(property)
       });
       if (!response.ok) throw new Error('Failed to update property');
       return response.json();
     },
-    onSuccess: () => {
-      // Aggressive cache invalidation and manual refetch
-      queryClient.invalidateQueries({ queryKey: ['/api/properties'] });
-      queryClient.removeQueries({ queryKey: ['/api/properties'] });
-      refetch(); // Manual refetch
+    onSuccess: async () => {
+      // Force immediate refresh
+      await refetch();
       toast({ title: "Property updated successfully" });
       setIsEditDialogOpen(false);
       resetForm();
