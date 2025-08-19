@@ -126,7 +126,14 @@ export default function AdminPanel() {
     mutationFn: async (settings: typeof themeSettings) => {
       console.log('🎨 Sending theme settings:', settings);
       try {
-        const response = await apiRequest('PUT', '/api/theme-settings/1', settings);
+        console.log('🎨 About to call fetch with JSON body:', JSON.stringify(settings));
+        const response = await fetch('/api/theme-settings/1', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(settings)
+        });
         console.log('🎨 Response received:', response.status);
         const result = await response.json();
         console.log('🎨 Response data:', result);
