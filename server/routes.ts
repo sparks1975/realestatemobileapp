@@ -122,6 +122,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Raw body PUT endpoint to bypass middleware parsing issues
+  app.put("/api/properties/:id/raw", (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ message: "Invalid property ID" });
+    }
+
+    let rawData = '';
+    req.on('data', chunk => {
+      rawData += chunk.toString();
+    });
+
+    req.on('end', async () => {
+      try {
+        console.log('🔥 RAW PUT - Received data:', rawData);
+        const requestBody = JSON.parse(rawData);
+        console.log('🔥 RAW PUT - Parsed squareFeet:', requestBody.squareFeet);
+
+        const user = await storage.getUserByUsername("alexmorgan");
+        if (!user) {
+          return res.status(404).json({ message: "User not found" });
+        }
+
+        const existingProperty = await storage.getProperty(id);
+        if (!existingProperty) {
+          return res.status(404).json({ message: "Property not found" });
+        }
+
+        const updateData = insertPropertySchema.parse({
+          ...existingProperty,
+          ...requestBody,
+          id: id,
+          listedById: existingProperty.listedById
+        });
+
+        const updatedProperty = await storage.updateProperty(id, updateData);
+        console.log('🔥 RAW PUT - Updated squareFeet:', updatedProperty.squareFeet);
+
+        res.json(updatedProperty);
+      } catch (error: any) {
+        console.error('❌ RAW PUT - Error:', error);
+        res.status(400).json({ message: error.message });
+      }
+    });
+  });
+
   app.put("/api/properties/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);

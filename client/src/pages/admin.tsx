@@ -153,10 +153,10 @@ export default function AdminPanel() {
       console.log('📦 Serialized request body:', requestBody);
       console.log('📏 Request body length:', requestBody.length);
       
-      // Use current window location for dynamic API base URL
+      // Use raw endpoint that bypasses all middleware parsing issues
       const baseUrl = window.location.origin;
-      const apiUrl = `${baseUrl}/api/properties/${property.id}?_t=${Date.now()}`;
-      console.log('🎯 Using dynamic base URL:', apiUrl);
+      const apiUrl = `${baseUrl}/api/properties/${property.id}/raw?_t=${Date.now()}`;
+      console.log('🎯 Using RAW endpoint:', apiUrl);
       
       const response = await fetch(apiUrl, {
         method: 'PUT',
