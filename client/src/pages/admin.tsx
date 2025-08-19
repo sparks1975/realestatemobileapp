@@ -242,7 +242,7 @@ export default function AdminPanel() {
         <div className="flex-1 p-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6">
-            <Card>
+            <Card className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -253,7 +253,7 @@ export default function AdminPanel() {
                 </div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -266,7 +266,7 @@ export default function AdminPanel() {
                 </div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -279,7 +279,7 @@ export default function AdminPanel() {
                 </div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -292,7 +292,7 @@ export default function AdminPanel() {
                 </div>
               </CardContent>
             </Card>
-            <Card>
+            <Card className="bg-white border border-gray-200">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between">
                   <div>
@@ -306,10 +306,10 @@ export default function AdminPanel() {
           </div>
 
           {/* Properties Table */}
-          <Card>
+          <Card className="bg-white border border-gray-200">
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Property Management</CardTitle>
+                <CardTitle className="text-gray-900">Property Management</CardTitle>
                 <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
                   <DialogTrigger asChild>
                     <Button onClick={() => openEditDialog()}>
@@ -317,9 +317,9 @@ export default function AdminPanel() {
                       Add Property
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                  <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-white">
                     <DialogHeader>
-                      <DialogTitle>
+                      <DialogTitle className="text-gray-900">
                         {selectedProperty ? 'Edit Property' : 'Add New Property'}
                       </DialogTitle>
                     </DialogHeader>
