@@ -61,7 +61,10 @@ export default function HomePage() {
   // Apply theme settings to CSS variables
   const applyThemeSettings = (settings: any) => {
     if (settings) {
+      console.log('🎨 Applying theme settings:', settings);
       const root = document.documentElement;
+      
+      // Set CSS variables with debugging
       root.style.setProperty('--primary-color', settings.primaryColor);
       root.style.setProperty('--secondary-color', settings.secondaryColor);
       root.style.setProperty('--tertiary-color', settings.tertiaryColor);
@@ -69,6 +72,13 @@ export default function HomePage() {
       root.style.setProperty('--link-color', settings.linkColor);
       root.style.setProperty('--link-hover-color', settings.linkHoverColor);
       root.style.setProperty('--font-family', settings.fontFamily);
+
+      // Debug: Check if variables were actually set
+      console.log('🔍 CSS Variables set:', {
+        '--primary-color': root.style.getPropertyValue('--primary-color'),
+        '--link-color': root.style.getPropertyValue('--link-color'),
+        '--text-color': root.style.getPropertyValue('--text-color')
+      });
 
       // Load Google Font dynamically
       if (settings.fontFamily && settings.fontFamily !== 'Inter') {
@@ -83,8 +93,8 @@ export default function HomePage() {
           document.head.appendChild(link);
         }
       }
-      
-      console.log('🎨 Theme applied:', settings);
+    } else {
+      console.log('⚠️ No theme settings to apply');
     }
   };
 
@@ -113,16 +123,60 @@ export default function HomePage() {
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-2xl font-bold theme-text-color">LuxeLead</div>
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="theme-link transition-colors">Home</a>
-              <a href="#properties" className="theme-link transition-colors">Properties</a>
-              <a href="#about" className="theme-link transition-colors">About</a>
-              <a href="#contact" className="theme-link transition-colors">Contact</a>
-              <a href="/app/dashboard" className="theme-link transition-colors">Mobile App</a>
-              <a href="/admin" className="theme-link transition-colors">Admin</a>
+            <div 
+              className="text-2xl font-bold"
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--font-family)' }}
+            >
+              LuxeLead
             </div>
-            <Button className="theme-primary-bg hover:opacity-90 text-white">
+            <div className="hidden md:flex items-center space-x-8">
+              <a 
+                href="#home" 
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--link-color)' }}
+              >
+                Home
+              </a>
+              <a 
+                href="#properties" 
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--link-color)' }}
+              >
+                Properties
+              </a>
+              <a 
+                href="#about" 
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--link-color)' }}
+              >
+                About
+              </a>
+              <a 
+                href="#contact" 
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--link-color)' }}
+              >
+                Contact
+              </a>
+              <a 
+                href="/app/dashboard" 
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--link-color)' }}
+              >
+                Mobile App
+              </a>
+              <a 
+                href="/admin" 
+                className="transition-colors hover:opacity-80"
+                style={{ color: 'var(--link-color)' }}
+              >
+                Admin
+              </a>
+            </div>
+            <Button 
+              className="hover:opacity-90 text-white"
+              style={{ backgroundColor: 'var(--primary-color)' }}
+            >
               Get in Touch
             </Button>
           </div>
@@ -144,7 +198,11 @@ export default function HomePage() {
             Real Estate<br />
             Experience
           </h1>
-          <Button size="lg" className="bg-white text-gray-900 hover:bg-gray-100">
+          <Button 
+            size="lg" 
+            className="hover:opacity-90 text-white"
+            style={{ backgroundColor: 'var(--primary-color)' }}
+          >
             View Properties
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
