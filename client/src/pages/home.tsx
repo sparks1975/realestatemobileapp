@@ -207,18 +207,27 @@ export default function HomePage() {
 
         {/* Mobile Off-Canvas Menu */}
         <div 
-          className={`fixed inset-y-0 right-0 w-64 bg-white transform transition-transform duration-300 ease-in-out z-50 md:hidden shadow-2xl ${
+          className={`fixed inset-y-0 right-0 w-64 transform transition-transform duration-300 ease-in-out z-50 md:hidden shadow-2xl ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           style={{ 
-            backgroundColor: 'var(--header-background-color, #ffffff)',
+            backgroundColor: 'var(--header-background-color)',
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)'
           }}
         >
-          <div className="flex flex-col h-full">
+          <div 
+            className="flex flex-col h-full w-full"
+            style={{ backgroundColor: 'var(--header-background-color)' }}
+          >
             {/* Close Button Header */}
-            <div className="flex justify-between items-center px-6 py-6 border-b border-opacity-20" style={{ borderColor: 'var(--navigation-color)' }}>
+            <div 
+              className="flex justify-between items-center px-6 py-6 border-b border-opacity-20 w-full" 
+              style={{ 
+                borderColor: 'var(--navigation-color)',
+                backgroundColor: 'var(--header-background-color)'
+              }}
+            >
               <div 
                 className="text-xl font-light tracking-wider"
                 style={{ color: 'var(--navigation-color)' }}
@@ -235,7 +244,10 @@ export default function HomePage() {
             </div>
             
             {/* Menu Items */}
-            <div className="flex-1 px-6 py-8">
+            <div 
+              className="flex-1 px-6 py-8 w-full"
+              style={{ backgroundColor: 'var(--header-background-color)' }}
+            >
               <div className="space-y-6">
                 <a 
                   href="#home" 
