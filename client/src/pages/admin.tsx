@@ -1720,18 +1720,18 @@ export default function AdminPanel() {
 
               <div className="grid gap-6">
                 {/* Home Page Card */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
+                <Card className="bg-white">
+                  <CardHeader className="bg-white">
+                    <CardTitle className="flex items-center text-gray-900">
                       <Edit2 className="h-5 w-5 mr-2" />
                       Home Page
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="bg-white">
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Hero Section */}
-                        <div className="p-4 border rounded-lg">
+                        <div className="p-4 border rounded-lg bg-white">
                           <h4 className="font-medium text-gray-900 mb-3">Hero Section</h4>
                           <div className="space-y-3">
                             <div>
@@ -1763,7 +1763,7 @@ export default function AdminPanel() {
                         </div>
 
                         {/* Featured Properties Section */}
-                        <div className="p-4 border rounded-lg">
+                        <div className="p-4 border rounded-lg bg-white">
                           <h4 className="font-medium text-gray-900 mb-3">Featured Properties</h4>
                           <div className="space-y-3">
                             <div>
@@ -1786,7 +1786,7 @@ export default function AdminPanel() {
                         </div>
 
                         {/* Featured Communities Section */}
-                        <div className="p-4 border rounded-lg">
+                        <div className="p-4 border rounded-lg bg-white">
                           <h4 className="font-medium text-gray-900 mb-3">Featured Communities</h4>
                           <div className="space-y-3">
                             <div>
@@ -1809,7 +1809,7 @@ export default function AdminPanel() {
                         </div>
 
                         {/* Newsletter Section */}
-                        <div className="p-4 border rounded-lg">
+                        <div className="p-4 border rounded-lg bg-white">
                           <h4 className="font-medium text-gray-900 mb-3">Newsletter Signup</h4>
                           <div className="space-y-3">
                             <div>
