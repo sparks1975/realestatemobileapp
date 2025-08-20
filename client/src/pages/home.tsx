@@ -73,6 +73,7 @@ export default function HomePage() {
       root.style.setProperty('--link-hover-color', settings.linkHoverColor);
       root.style.setProperty('--navigation-color', settings.navigationColor || '#1a1a1a');
       root.style.setProperty('--sub-navigation-color', settings.subNavigationColor || '#2a2a2a');
+      root.style.setProperty('--header-background-color', settings.headerBackgroundColor || '#ffffff');
       root.style.setProperty('--font-family', settings.fontFamily);
 
       // Debug: Check if variables were actually set
@@ -81,7 +82,8 @@ export default function HomePage() {
         '--link-color': root.style.getPropertyValue('--link-color'),
         '--text-color': root.style.getPropertyValue('--text-color'),
         '--navigation-color': root.style.getPropertyValue('--navigation-color'),
-        '--sub-navigation-color': root.style.getPropertyValue('--sub-navigation-color')
+        '--sub-navigation-color': root.style.getPropertyValue('--sub-navigation-color'),
+        '--header-background-color': root.style.getPropertyValue('--header-background-color')
       });
 
       // Load Google Font dynamically
@@ -124,7 +126,10 @@ export default function HomePage() {
   return (
     <div className="agent-website min-h-screen bg-white">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
+      <nav 
+        className="fixed top-0 w-full backdrop-blur-sm z-50 border-b border-gray-100"
+        style={{ backgroundColor: 'var(--header-background-color)' }}
+      >
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div 

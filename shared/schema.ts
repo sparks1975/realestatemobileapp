@@ -162,6 +162,7 @@ export const themeSettings = pgTable('theme_settings', {
   linkHoverColor: varchar('link_hover_color', { length: 7 }).notNull().default('#b8951f'),
   navigationColor: varchar('navigation_color', { length: 7 }).notNull().default('#1a1a1a'),
   subNavigationColor: varchar('sub_navigation_color', { length: 7 }).notNull().default('#2a2a2a'),
+  headerBackgroundColor: varchar('header_background_color', { length: 7 }).notNull().default('#ffffff'),
   fontFamily: varchar('font_family', { length: 100 }).notNull().default('Inter'),
   userId: integer('user_id').notNull().references(() => users.id),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -177,6 +178,7 @@ export const insertThemeSettingsSchema = createInsertSchema(themeSettings).pick(
   linkHoverColor: true,
   navigationColor: true,
   subNavigationColor: true,
+  headerBackgroundColor: true,
   fontFamily: true,
   userId: true,
 });

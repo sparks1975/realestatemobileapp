@@ -130,6 +130,7 @@
     --link-hover-color: #b8951f;
     --navigation-color: #1a1a1a;
     --sub-navigation-color: #2a2a2a;
+    --header-background-color: #ffffff;
     --font-family: 'Inter', sans-serif;
   }
 
@@ -185,6 +186,7 @@
     --link-hover-color: #b8951f;
     --navigation-color: #1a1a1a;
     --sub-navigation-color: #2a2a2a;
+    --header-background-color: #ffffff;
     --font-family: 'Inter', sans-serif;
   }
 }

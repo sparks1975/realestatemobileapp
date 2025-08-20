@@ -88,6 +88,7 @@ export default function AdminPanel() {
     linkHoverColor: '#b8951f',
     navigationColor: '#1a1a1a',
     subNavigationColor: '#2a2a2a',
+    headerBackgroundColor: '#ffffff',
     fontFamily: 'Inter'
   });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -114,6 +115,7 @@ export default function AdminPanel() {
         linkHoverColor: currentThemeSettings.linkHoverColor,
         navigationColor: currentThemeSettings.navigationColor || '#1a1a1a',
         subNavigationColor: currentThemeSettings.subNavigationColor || '#2a2a2a',
+        headerBackgroundColor: currentThemeSettings.headerBackgroundColor || '#ffffff',
         fontFamily: currentThemeSettings.fontFamily
       });
     }
@@ -1262,6 +1264,25 @@ export default function AdminPanel() {
                               onChange={(e) => updateThemeSetting('subNavigationColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#2a2a2a"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="headerBackgroundColor" className="text-gray-700 text-sm font-medium">Header Background</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="headerBackgroundColor"
+                              value={themeSettings.headerBackgroundColor}
+                              onChange={(e) => updateThemeSetting('headerBackgroundColor', e.target.value)}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.headerBackgroundColor}
+                              onChange={(e) => updateThemeSetting('headerBackgroundColor', e.target.value)}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#ffffff"
                             />
                           </div>
                         </div>
