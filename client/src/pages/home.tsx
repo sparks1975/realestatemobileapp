@@ -179,7 +179,7 @@ export default function HomePage() {
   const currentInventory = properties.slice(0, 3);
 
   return (
-    <div className="agent-website min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
       {/* Navigation */}
       <nav 
         className="fixed top-0 w-full backdrop-blur-sm z-50"
@@ -358,7 +358,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section - Inspired by Kumara */}
-      <section id="home" className="relative h-screen">
+      <section className="relative h-screen dynamic-content" data-theme-managed>
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -403,7 +403,7 @@ export default function HomePage() {
       </section>
 
       {/* Introduction Section - About LuxeLead */}
-      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
