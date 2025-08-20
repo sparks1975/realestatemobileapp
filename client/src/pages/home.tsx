@@ -124,10 +124,7 @@ export default function HomePage() {
   return (
     <div className="agent-website min-h-screen bg-white">
       {/* Navigation */}
-      <nav 
-        className="fixed top-0 w-full backdrop-blur-sm z-50 border-b border-gray-100"
-        style={{ backgroundColor: 'var(--navigation-color)' }}
-      >
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div 
@@ -140,42 +137,42 @@ export default function HomePage() {
               <a 
                 href="#home" 
                 className="transition-colors hover:opacity-80"
-                style={{ color: 'var(--link-color)' }}
+                style={{ color: 'var(--navigation-color)' }}
               >
                 Home
               </a>
               <a 
                 href="#properties" 
                 className="transition-colors hover:opacity-80"
-                style={{ color: 'var(--link-color)' }}
+                style={{ color: 'var(--navigation-color)' }}
               >
                 Properties
               </a>
               <a 
                 href="#about" 
                 className="transition-colors hover:opacity-80"
-                style={{ color: 'var(--link-color)' }}
+                style={{ color: 'var(--navigation-color)' }}
               >
                 About
               </a>
               <a 
                 href="#contact" 
                 className="transition-colors hover:opacity-80"
-                style={{ color: 'var(--link-color)' }}
+                style={{ color: 'var(--navigation-color)' }}
               >
                 Contact
               </a>
               <a 
                 href="/app/dashboard" 
                 className="transition-colors hover:opacity-80"
-                style={{ color: 'var(--link-color)' }}
+                style={{ color: 'var(--navigation-color)' }}
               >
                 Mobile App
               </a>
               <a 
                 href="/admin" 
                 className="transition-colors hover:opacity-80"
-                style={{ color: 'var(--link-color)' }}
+                style={{ color: 'var(--navigation-color)' }}
               >
                 Admin
               </a>
