@@ -284,9 +284,9 @@ export default function PropertiesPage() {
       </nav>
 
       {/* Main Content */}
-      <div className="pt-24">
+      <div className="pt-0">
         {/* Page Header */}
-        <section className="py-16" style={{ backgroundColor: 'var(--secondary-color)' }}>
+        <section className="pt-24 pb-16" style={{ backgroundColor: 'var(--secondary-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center">
               <p 
