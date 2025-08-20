@@ -187,6 +187,9 @@ export const insertThemeSettingsSchema = createInsertSchema(themeSettings).pick(
   headingFont: true,
   bodyFont: true,
   buttonFont: true,
+  headingFontWeight: true,
+  bodyFontWeight: true,
+  buttonFontWeight: true,
   userId: true,
 });
 
