@@ -243,6 +243,8 @@ export default function AdminPanel() {
           body: JSON.stringify(item),
         });
         if (!response.ok) {
+          const errorData = await response.text();
+          console.error('Failed to save content item:', item, 'Error:', errorData);
           throw new Error(`Failed to save content: ${response.statusText}`);
         }
       }
