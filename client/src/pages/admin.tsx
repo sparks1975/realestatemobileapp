@@ -127,26 +127,31 @@ export default function AdminPanel() {
       console.log('🎨 Sending theme settings:', settings);
       try {
         const bodyString = JSON.stringify(settings);
-        console.log('🎨 About to call fetch with JSON body:', bodyString);
-        console.log('🎨 Body length:', bodyString.length);
+        console.log('🎨 About to send via XMLHttpRequest with JSON body:', bodyString);
         
-        const response = await fetch('/api/theme-settings/1', {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': bodyString.length.toString()
-          },
-          body: bodyString
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('PUT', '/api/theme-settings/1', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          
+          xhr.onload = function() {
+            console.log('🎨 XMLHttpRequest response status:', xhr.status);
+            if (xhr.status === 200) {
+              const result = JSON.parse(xhr.responseText);
+              console.log('🎨 XMLHttpRequest response data:', result);
+              resolve(result);
+            } else {
+              reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
+            }
+          };
+          
+          xhr.onerror = function() {
+            reject(new Error('Network error'));
+          };
+          
+          console.log('🎨 Sending XMLHttpRequest...');
+          xhr.send(bodyString);
         });
-        
-        console.log('🎨 Request headers sent:', {
-          'Content-Type': 'application/json',
-          'Content-Length': bodyString.length
-        });
-        console.log('🎨 Response received:', response.status);
-        const result = await response.json();
-        console.log('🎨 Response data:', result);
-        return result;
       } catch (error) {
         console.error('🎨 Mutation error:', error);
         throw error;
