@@ -201,82 +201,62 @@
   }
 }
 
-/* Comprehensive Font Inheritance System - Fixes dynamic content font overrides */
+/* Font System - Precise targeting for dynamic content */
 
-/* Hero section font override - most specific */
+/* Hero heading uses Playfair Display - most specific */
 .hero-heading,
-.hero-heading span,
-.hero-heading *,
-#home h1,
-#home h1 *,
-section h1,
-section h1 * {
+.hero-heading span {
   font-family: 'Playfair Display', serif !important;
   font-weight: 700 !important;
 }
 
-/* All headings use theme heading font */
-#home h2, #home h2 *,
-#home h3, #home h3 *,
-#home h4, #home h4 *,
-#home h5, #home h5 *,
-#home h6, #home h6 *,
-section h2, section h2 *,
-section h3, section h3 *,
-section h4, section h4 *,
-section h5, section h5 *,
-section h6, section h6 *,
-.dynamic-content h2, .dynamic-content h2 *,
-.dynamic-content h3, .dynamic-content h3 *,
-.dynamic-content h4, .dynamic-content h4 *,
-.dynamic-content h5, .dynamic-content h5 *,
-.dynamic-content h6, .dynamic-content h6 * {
-  font-family: var(--heading-font, 'Inter'), sans-serif !important;
+/* Other headings use theme heading font */
+.dynamic-content h2,
+.dynamic-content h3,
+.dynamic-content h4,
+.dynamic-content h5,
+.dynamic-content h6,
+#home h2,
+#home h3,
+#home h4,
+#home h5,
+#home h6 {
+  font-family: var(--heading-font, 'Inter') !important;
   font-weight: var(--heading-font-weight, 600) !important;
 }
 
-/* Body text and paragraphs use theme body font */
-#home p, #home p *,
-#home span:not(.hero-heading span), #home span:not(.hero-heading span) *,
-#home div:not(.hero-heading), #home div:not(.hero-heading) *,
-section p, section p *,
-section span:not(.hero-heading span), section span:not(.hero-heading span) *,
-section div:not(.hero-heading), section div:not(.hero-heading) *,
-.dynamic-content p, .dynamic-content p *,
-.dynamic-content span:not(.hero-heading span), .dynamic-content span:not(.hero-heading span) *,
-.dynamic-content div:not(.hero-heading), .dynamic-content div:not(.hero-heading) * {
-  font-family: var(--body-font, 'Inter'), sans-serif !important;
+/* Body text uses theme body font */
+.dynamic-content p,
+#home p:not(.hero-heading p) {
+  font-family: var(--body-font, 'Inter') !important;
   font-weight: var(--body-font-weight, 400) !important;
 }
 
 /* Buttons use theme button font */
-#home button, #home button *,
-#home .btn, #home .btn *,
-section button, section button *,
-section .btn, section .btn *,
-.dynamic-content button, .dynamic-content button *,
-.dynamic-content .btn, .dynamic-content .btn *,
-Button, Button * {
-  font-family: var(--button-font, 'Inter'), sans-serif !important;
+.dynamic-content button,
+#home button {
+  font-family: var(--button-font, 'Inter') !important;
   font-weight: var(--button-font-weight, 500) !important;
 }
 
-/* Force font inheritance on all dynamic content */
-[data-theme-managed],
-[data-theme-managed] *,
-.dynamic-content,
-.dynamic-content * {
-  font-family: inherit !important;
+/* Ensure dynamic updates don't break font inheritance */
+[data-theme-managed] h2,
+[data-theme-managed] h3,
+[data-theme-managed] h4,
+[data-theme-managed] h5,
+[data-theme-managed] h6 {
+  font-family: var(--heading-font, 'Inter') !important;
+  font-weight: var(--heading-font-weight, 600) !important;
 }
 
-/* Override for dynamically updated elements */
-*[style*="font-family"] {
-  font-family: inherit !important;
+[data-theme-managed] p {
+  font-family: var(--body-font, 'Inter') !important;
+  font-weight: var(--body-font-weight, 400) !important;
 }
 
-/* Ensure React updates don't override fonts */
-.agent-website * {
-  font-family: inherit !important;
+[data-theme-managed] button {
+  font-family: var(--button-font, 'Inter') !important;
+  font-weight: var(--button-font-weight, 500) !important;
 }
 
 @layer base {
