@@ -454,54 +454,54 @@ export default function AgentPage() {
 
               {/* Specializations */}
               <div className="grid md:grid-cols-3 gap-8">
-                <Card className="text-center p-6">
+                <Card className="text-center p-6" style={{ backgroundColor: 'var(--tertiary-color)', border: 'none' }}>
                   <CardContent className="pt-6">
-                    <Home className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+                    <Home className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--tertiary-color)', filter: 'invert(1)' }} />
                     <h4 
                       className="text-xl font-light mb-3"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                      style={{ color: 'var(--secondary-color)', fontFamily: 'var(--heading-font)' }}
                     >
                       Luxury Homes
                     </h4>
                     <p 
                       className="text-sm leading-relaxed"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                      style={{ color: 'var(--secondary-color)', fontFamily: 'var(--body-font)' }}
                     >
                       Exclusive residential properties in Austin's most prestigious neighborhoods
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="text-center p-6">
+                <Card className="text-center p-6" style={{ backgroundColor: 'var(--tertiary-color)', border: 'none' }}>
                   <CardContent className="pt-6">
-                    <Users className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+                    <Users className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--tertiary-color)', filter: 'invert(1)' }} />
                     <h4 
                       className="text-xl font-light mb-3"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                      style={{ color: 'var(--secondary-color)', fontFamily: 'var(--heading-font)' }}
                     >
                       Investment Properties
                     </h4>
                     <p 
                       className="text-sm leading-relaxed"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                      style={{ color: 'var(--secondary-color)', fontFamily: 'var(--body-font)' }}
                     >
                       Strategic investment opportunities with proven ROI potential
                     </p>
                   </CardContent>
                 </Card>
 
-                <Card className="text-center p-6">
+                <Card className="text-center p-6" style={{ backgroundColor: 'var(--tertiary-color)', border: 'none' }}>
                   <CardContent className="pt-6">
-                    <Award className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+                    <Award className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--tertiary-color)', filter: 'invert(1)' }} />
                     <h4 
                       className="text-xl font-light mb-3"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                      style={{ color: 'var(--secondary-color)', fontFamily: 'var(--heading-font)' }}
                     >
                       Commercial Real Estate
                     </h4>
                     <p 
                       className="text-sm leading-relaxed"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                      style={{ color: 'var(--secondary-color)', fontFamily: 'var(--body-font)' }}
                     >
                       Premium commercial spaces and development opportunities
                     </p>
@@ -531,16 +531,16 @@ export default function AgentPage() {
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-              <Card className="p-8">
+              <Card className="p-8" style={{ backgroundColor: 'var(--secondary-color)', border: 'none' }}>
                 <CardContent className="pt-0">
                   <div className="flex mb-4">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="w-4 h-4 fill-current" style={{ color: 'var(--primary-color)' }} />
+                      <Star key={star} className="w-4 h-4 fill-current" style={{ color: '#FFD700' }} />
                     ))}
                   </div>
                   <p 
                     className="text-lg leading-relaxed mb-6 italic"
-                    style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                    style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                   >
                     "Alex made our dream home purchase seamless. His market knowledge and attention 
                     to detail are unmatched."
@@ -548,13 +548,13 @@ export default function AgentPage() {
                   <div>
                     <div 
                       className="font-medium"
-                      style={{ color: 'var(--text-color)' }}
+                      style={{ color: 'var(--tertiary-color)' }}
                     >
                       Sarah & Michael Chen
                     </div>
                     <div 
                       className="text-sm"
-                      style={{ color: 'var(--text-color)' }}
+                      style={{ color: 'var(--tertiary-color)' }}
                     >
                       Westlake Hills
                     </div>
@@ -562,16 +562,16 @@ export default function AgentPage() {
                 </CardContent>
               </Card>
 
-              <Card className="p-8">
+              <Card className="p-8" style={{ backgroundColor: 'var(--secondary-color)', border: 'none' }}>
                 <CardContent className="pt-0">
                   <div className="flex mb-4">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="w-4 h-4 fill-current" style={{ color: 'var(--primary-color)' }} />
+                      <Star key={star} className="w-4 h-4 fill-current" style={{ color: '#FFD700' }} />
                     ))}
                   </div>
                   <p 
                     className="text-lg leading-relaxed mb-6 italic"
-                    style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                    style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                   >
                     "Professional, responsive, and results-driven. Alex exceeded our expectations 
                     at every step of the selling process."
@@ -579,13 +579,13 @@ export default function AgentPage() {
                   <div>
                     <div 
                       className="font-medium"
-                      style={{ color: 'var(--text-color)' }}
+                      style={{ color: 'var(--tertiary-color)' }}
                     >
                       Robert Johnson
                     </div>
                     <div 
                       className="text-sm"
-                      style={{ color: 'var(--text-color)' }}
+                      style={{ color: 'var(--tertiary-color)' }}
                     >
                       Downtown Austin
                     </div>
@@ -593,16 +593,16 @@ export default function AgentPage() {
                 </CardContent>
               </Card>
 
-              <Card className="p-8">
+              <Card className="p-8" style={{ backgroundColor: 'var(--secondary-color)', border: 'none' }}>
                 <CardContent className="pt-0">
                   <div className="flex mb-4">
                     {[1, 2, 3, 4, 5].map((star) => (
-                      <Star key={star} className="w-4 h-4 fill-current" style={{ color: 'var(--primary-color)' }} />
+                      <Star key={star} className="w-4 h-4 fill-current" style={{ color: '#FFD700' }} />
                     ))}
                   </div>
                   <p 
                     className="text-lg leading-relaxed mb-6 italic"
-                    style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                    style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                   >
                     "Alex's expertise in luxury properties is evident. He found us the perfect 
                     investment opportunity with incredible ROI potential."
@@ -610,13 +610,13 @@ export default function AgentPage() {
                   <div>
                     <div 
                       className="font-medium"
-                      style={{ color: 'var(--text-color)' }}
+                      style={{ color: 'var(--tertiary-color)' }}
                     >
                       Jennifer Martinez
                     </div>
                     <div 
                       className="text-sm"
-                      style={{ color: 'var(--text-color)' }}
+                      style={{ color: 'var(--tertiary-color)' }}
                     >
                       Tarrytown
                     </div>
