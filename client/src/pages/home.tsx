@@ -207,61 +207,81 @@ export default function HomePage() {
 
         {/* Mobile Off-Canvas Menu */}
         <div 
-          className={`fixed inset-y-0 right-0 w-64 transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
+          className={`fixed inset-y-0 right-0 w-64 transform transition-transform duration-300 ease-in-out z-50 md:hidden backdrop-blur-sm ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
           style={{ backgroundColor: 'var(--header-background-color)' }}
         >
-          <div className="flex flex-col h-full pt-20 px-6">
-            <div className="space-y-6">
-              <a 
-                href="#home" 
-                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+          <div className="flex flex-col h-full">
+            {/* Close Button Header */}
+            <div className="flex justify-between items-center px-6 py-6 border-b border-opacity-20" style={{ borderColor: 'var(--navigation-color)' }}>
+              <div 
+                className="text-xl font-light tracking-wider"
                 style={{ color: 'var(--navigation-color)' }}
-                onClick={() => setIsMobileMenuOpen(false)}
               >
-                Home
-              </a>
-              <a 
-                href="#properties" 
-                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                MENU
+              </div>
+              <button
+                className="p-2 hover:opacity-70 transition-opacity"
+                onClick={() => setIsMobileMenuOpen(false)}
                 style={{ color: 'var(--navigation-color)' }}
-                onClick={() => setIsMobileMenuOpen(false)}
               >
-                Properties
-              </a>
-              <a 
-                href="#about" 
-                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                About
-              </a>
-              <a 
-                href="#contact" 
-                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Contact
-              </a>
-              <a 
-                href="/app" 
-                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Mobile App
-              </a>
-              <a 
-                href="/admin" 
-                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Admin
-              </a>
+                <X size={24} />
+              </button>
+            </div>
+            
+            {/* Menu Items */}
+            <div className="flex-1 px-6 py-8">
+              <div className="space-y-6">
+                <a 
+                  href="#home" 
+                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                  style={{ color: 'var(--navigation-color)' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Home
+                </a>
+                <a 
+                  href="#properties" 
+                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                  style={{ color: 'var(--navigation-color)' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Properties
+                </a>
+                <a 
+                  href="#about" 
+                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                  style={{ color: 'var(--navigation-color)' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  About
+                </a>
+                <a 
+                  href="#contact" 
+                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                  style={{ color: 'var(--navigation-color)' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </a>
+                <a 
+                  href="/app" 
+                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                  style={{ color: 'var(--navigation-color)' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Mobile App
+                </a>
+                <a 
+                  href="/admin" 
+                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                  style={{ color: 'var(--navigation-color)' }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Admin
+                </a>
+              </div>
             </div>
           </div>
         </div>
