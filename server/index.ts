@@ -4,8 +4,8 @@ import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 
-// Custom JSON parser specifically for theme-settings endpoint
-app.use('/api/theme-settings', (req, res, next) => {
+// Custom JSON parser for specific endpoints that need special handling
+app.use(['/api/theme-settings', '/api/pages/content'], (req, res, next) => {
   if (req.method === 'PUT' || req.method === 'POST') {
     let rawData = '';
     req.on('data', chunk => {
@@ -13,15 +13,16 @@ app.use('/api/theme-settings', (req, res, next) => {
     });
     
     req.on('end', () => {
-      console.log('🔧 Theme custom parser - Raw data:', rawData);
-      console.log('🔧 Theme custom parser - Data length:', rawData.length);
+      console.log('🔧 Custom parser - Raw data:', rawData);
+      console.log('🔧 Custom parser - Data length:', rawData.length);
+      console.log('🔧 Custom parser - URL:', req.url);
       
       if (rawData && rawData.trim().startsWith('{')) {
         try {
           req.body = JSON.parse(rawData);
-          console.log('🔧 Theme custom parser - Parsed body:', req.body);
+          console.log('🔧 Custom parser - Parsed body:', req.body);
         } catch (error) {
-          console.log('🔧 Theme custom parser - JSON parse error:', error);
+          console.log('🔧 Custom parser - JSON parse error:', error);
           req.body = {};
         }
       } else {
