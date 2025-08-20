@@ -127,7 +127,16 @@ export default function AdminPanel() {
       console.log('🎨 Sending theme settings:', settings);
       try {
         const bodyString = JSON.stringify(settings);
-        console.log('🎨 About to send via XMLHttpRequest with JSON body:', bodyString);
+        console.log('🎨 Testing simple JSON request first...');
+        
+        // First test with simple endpoint
+        const testXhr = new XMLHttpRequest();
+        testXhr.open('PUT', '/api/test-json', false); // synchronous for testing
+        testXhr.setRequestHeader('Content-Type', 'application/json');
+        testXhr.send(JSON.stringify({ test: 'data' }));
+        console.log('🔧 Test response:', testXhr.responseText);
+        
+        console.log('🎨 About to send theme settings via XMLHttpRequest with JSON body:', bodyString);
         
         return new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();

@@ -7,6 +7,13 @@ import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, inse
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Test endpoint to verify JSON parsing
+  app.put('/api/test-json', (req, res) => {
+    console.log('🔧 TEST - Content-Type:', req.headers['content-type']);
+    console.log('🔧 TEST - Body:', req.body);
+    console.log('🔧 TEST - Body type:', typeof req.body);
+    res.json({ received: req.body, success: true });
+  });
   // Users
   app.get("/api/users/me", async (req, res) => {
     // For demo purposes, always return the default user
