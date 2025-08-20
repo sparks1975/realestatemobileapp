@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, DollarSign, Bed, Bath, Square, Star, Plus } from "lucide-react";
+import { useLocation } from "wouter";
 
 interface Property {
   id: number;
@@ -22,6 +23,7 @@ interface Property {
 }
 
 export default function Properties() {
+  const [, navigate] = useLocation();
   const { data: properties, isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
     queryFn: async () => {
@@ -62,7 +64,11 @@ export default function Properties() {
       
       <div className="space-y-4">
         {properties?.map((property) => (
-          <Card key={property.id} className="overflow-hidden">
+          <Card 
+            key={property.id} 
+            className="overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => navigate(`/app/property-details/${property.id}`)}
+          >
             <CardContent className="p-0">
               <div className="flex">
                 <div className="w-24 h-24 relative">
