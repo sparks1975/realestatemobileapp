@@ -13,7 +13,8 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { 
   Plus, Edit2, Trash2, Search, Filter, Download, Upload, 
-  BarChart3, Users, Building2, Calendar, Settings, Eye
+  BarChart3, Users, Building2, Calendar, Settings, Eye,
+  TrendingUp, DollarSign, LineChart, Activity, Zap, Clock, MessageSquare
 } from "lucide-react";
 
 interface Property {
@@ -78,7 +79,7 @@ export default function AdminPanel() {
   const [newImageUrl, setNewImageUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [themeSettings, setThemeSettings] = useState({
     primaryColor: '#CBA328',
     secondaryColor: '#1a1a1a',
@@ -595,15 +596,15 @@ export default function AdminPanel() {
         <div className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-80px)]">
           <nav className="p-4 space-y-1">
             <button
-              onClick={() => setActiveTab('overview')}
+              onClick={() => setActiveTab('dashboard')}
               className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'overview' 
+                activeTab === 'dashboard' 
                   ? 'bg-gray-100 text-gray-900' 
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
               <BarChart3 className="h-5 w-5 mr-3" />
-              Overview
+              Dashboard
             </button>
             
             <button
@@ -670,71 +671,186 @@ export default function AdminPanel() {
 
         {/* Main Content */}
         <div className="flex-1 p-6">
-          {activeTab === 'overview' && (
+          {activeTab === 'dashboard' && (
             <div className="space-y-6">
-              {/* Stats Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-6 admin-card">
-            <Card className="bg-white border border-gray-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Properties</p>
-                    <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
-                  </div>
-                  <Building2 className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-white border border-gray-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Active Listings</p>
-                    <p className="text-2xl font-bold text-green-600">{stats.active}</p>
-                  </div>
-                  <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center">
-                    <div className="h-4 w-4 bg-green-600 rounded-full"></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-white border border-gray-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Pending</p>
-                    <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
-                  </div>
-                  <div className="h-8 w-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                    <div className="h-4 w-4 bg-yellow-600 rounded-full"></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-white border border-gray-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Sold</p>
-                    <p className="text-2xl font-bold text-gray-600">{stats.sold}</p>
-                  </div>
-                  <div className="h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center">
-                    <div className="h-4 w-4 bg-gray-600 rounded-full"></div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="bg-white border border-gray-200">
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Value</p>
-                    <p className="text-2xl font-bold text-blue-600">${(stats.totalValue / 1000000).toFixed(1)}M</p>
-                  </div>
-                  <BarChart3 className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
+              {/* Modern Stats Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {/* Total Properties */}
+                <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-0 shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-blue-600 mb-1">Total Properties</p>
+                        <p className="text-3xl font-bold text-blue-900">{stats.total}</p>
+                        <p className="text-xs text-blue-600 mt-1">+12% this month</p>
+                      </div>
+                      <div className="p-3 bg-blue-500 rounded-xl">
+                        <Building2 className="h-6 w-6 text-white stroke-[1.5]" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Active Listings */}
+                <Card className="bg-gradient-to-br from-green-50 to-green-100 border-0 shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-green-600 mb-1">Active Listings</p>
+                        <p className="text-3xl font-bold text-green-900">{stats.active}</p>
+                        <p className="text-xs text-green-600 mt-1">+8% this week</p>
+                      </div>
+                      <div className="p-3 bg-green-500 rounded-xl">
+                        <TrendingUp className="h-6 w-6 text-white stroke-[1.5]" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Total Value */}
+                <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-0 shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-purple-600 mb-1">Total Value</p>
+                        <p className="text-3xl font-bold text-purple-900">${(stats.totalValue / 1000000).toFixed(1)}M</p>
+                        <p className="text-xs text-purple-600 mt-1">+15% this quarter</p>
+                      </div>
+                      <div className="p-3 bg-purple-500 rounded-xl">
+                        <DollarSign className="h-6 w-6 text-white stroke-[1.5]" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Recent Activity */}
+                <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-0 shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-orange-600 mb-1">Recent Views</p>
+                        <p className="text-3xl font-bold text-orange-900">1.2K</p>
+                        <p className="text-xs text-orange-600 mt-1">+24% today</p>
+                      </div>
+                      <div className="p-3 bg-orange-500 rounded-xl">
+                        <Eye className="h-6 w-6 text-white stroke-[1.5]" />
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Analytics Charts */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                {/* Property Performance Chart */}
+                <Card className="bg-white border-0 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <CardTitle className="text-lg font-semibold text-gray-900">Property Performance</CardTitle>
+                        <p className="text-sm text-gray-500 mt-1">Last 6 months</p>
+                      </div>
+                      <BarChart3 className="h-5 w-5 text-gray-400 stroke-[1.5]" />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-64 w-full bg-gradient-to-t from-blue-50 to-transparent rounded-lg flex items-end justify-center">
+                      <div className="text-center text-gray-500">
+                        <LineChart className="h-12 w-12 mx-auto mb-2 stroke-[1]" />
+                        <p className="text-sm">Interactive charts coming soon</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Sales Trends */}
+                <Card className="bg-white border-0 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <CardTitle className="text-lg font-semibold text-gray-900">Sales Trends</CardTitle>
+                        <p className="text-sm text-gray-500 mt-1">Monthly overview</p>
+                      </div>
+                      <TrendingUp className="h-5 w-5 text-gray-400 stroke-[1.5]" />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-64 w-full bg-gradient-to-t from-green-50 to-transparent rounded-lg flex items-end justify-center">
+                      <div className="text-center text-gray-500">
+                        <Activity className="h-12 w-12 mx-auto mb-2 stroke-[1]" />
+                        <p className="text-sm">Revenue analytics loading...</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Quick Actions & Recent Activity */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Quick Actions */}
+                <Card className="bg-white border-0 shadow-lg">
+                  <CardHeader>
+                    <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+                      <Zap className="h-5 w-5 mr-2 stroke-[1.5]" />
+                      Quick Actions
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <button className="w-full flex items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
+                      <Plus className="h-4 w-4 mr-3 text-blue-600 stroke-[1.5]" />
+                      <span className="text-sm font-medium text-blue-900">Add New Property</span>
+                    </button>
+                    <button className="w-full flex items-center p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
+                      <Calendar className="h-4 w-4 mr-3 text-green-600 stroke-[1.5]" />
+                      <span className="text-sm font-medium text-green-900">Schedule Viewing</span>
+                    </button>
+                    <button className="w-full flex items-center p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
+                      <MessageSquare className="h-4 w-4 mr-3 text-purple-600 stroke-[1.5]" />
+                      <span className="text-sm font-medium text-purple-900">Contact Client</span>
+                    </button>
+                  </CardContent>
+                </Card>
+
+                {/* Recent Activity */}
+                <Card className="lg:col-span-2 bg-white border-0 shadow-lg">
+                  <CardHeader>
+                    <CardTitle className="text-lg font-semibold text-gray-900 flex items-center">
+                      <Clock className="h-5 w-5 mr-2 stroke-[1.5]" />
+                      Recent Activity
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <div className="p-2 bg-blue-100 rounded-lg mr-3">
+                          <Eye className="h-4 w-4 text-blue-600 stroke-[1.5]" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">Property viewed</p>
+                          <p className="text-xs text-gray-500">Modern House on Oak Street - 2 minutes ago</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <div className="p-2 bg-green-100 rounded-lg mr-3">
+                          <MessageSquare className="h-4 w-4 text-green-600 stroke-[1.5]" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">New message received</p>
+                          <p className="text-xs text-gray-500">From John Smith about Downtown Condo - 5 minutes ago</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+                        <div className="p-2 bg-orange-100 rounded-lg mr-3">
+                          <Calendar className="h-4 w-4 text-orange-600 stroke-[1.5]" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">Appointment scheduled</p>
+                          <p className="text-xs text-gray-500">Property viewing tomorrow at 2 PM - 10 minutes ago</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           )}
