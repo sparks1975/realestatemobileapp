@@ -177,9 +177,6 @@ export default function HomePage() {
 
   const featuredProperties = properties?.slice(0, 6) || [];
   const currentInventory = properties?.slice(0, 3) || [];
-  
-  console.log('🏠 Properties data:', properties);
-  console.log('🏠 Featured properties:', featuredProperties);
 
   return (
     <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
@@ -630,9 +627,6 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div style={{backgroundColor: 'lime', padding: '10px', color: 'black', fontSize: '20px'}}>
-              DEBUG: Properties count: {featuredProperties.length}
-            </div>
             {featuredProperties.slice(0, 3).map((property) => (
               <a 
                 key={property.id} 
@@ -651,15 +645,12 @@ export default function HomePage() {
                       background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
                     }}
                   >
-                    <div className="text-lg font-light mb-2" style={{ 
-                      color: 'white', 
-                      backgroundColor: 'red',
-                      padding: '4px',
-                      border: '2px solid yellow',
-                      zIndex: 1000,
-                      position: 'relative'
+                    <div className="text-lg mb-2" style={{ 
+                      color: 'white',
+                      fontFamily: 'var(--heading-font)',
+                      fontWeight: 'var(--heading-font-weight)'
                     }}>
-                      TITLE: {property.title || 'NO TITLE FOUND'}
+                      {property.title}
                     </div>
                     <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
                       {property.address}
