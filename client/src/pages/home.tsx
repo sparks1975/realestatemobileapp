@@ -177,6 +177,10 @@ export default function HomePage() {
 
   const featuredProperties = properties?.slice(0, 6) || [];
   const currentInventory = properties?.slice(0, 3) || [];
+  
+  console.log('🏠 HomePage - properties:', properties);
+  console.log('🏠 HomePage - isLoading:', isLoading);
+  console.log('🏠 HomePage - featuredProperties:', featuredProperties);
 
   return (
     <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
@@ -627,19 +631,24 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredProperties.slice(0, 3).map((property) => (
-              <a 
-                key={property.id} 
-                href={`/property/${property.id}`}
-                className="group cursor-pointer block"
-              >
-                <div className="relative overflow-hidden mb-4">
-                  <img 
-                    src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
-                    alt={property.title}
-                    className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div 
+            {isLoading ? (
+              <div>Loading properties...</div>
+            ) : featuredProperties.length === 0 ? (
+              <div>No properties found</div>
+            ) : (
+              featuredProperties.slice(0, 3).map((property) => (
+                <a 
+                  key={property.id} 
+                  href={`/property/${property.id}`}
+                  className="group cursor-pointer block"
+                >
+                  <div className="relative overflow-hidden mb-4">
+                    <img 
+                      src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
+                      alt={property.title}
+                      className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div 
                     className="absolute bottom-0 left-0 right-0 p-6 text-white"
                     style={{
                       background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
@@ -659,9 +668,10 @@ export default function HomePage() {
                       ${property.price?.toLocaleString()}
                     </div>
                   </div>
-                </div>
-              </a>
-            ))}
+                  </div>
+                </a>
+              ))
+            )}
           </div>
 
           <div className="text-center mt-12">
