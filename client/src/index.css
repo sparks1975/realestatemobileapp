@@ -74,6 +74,12 @@
   background-color: white;
 }
 
+/* Card title styling */
+.card-title {
+  font-family: var(--heading-font) !important;
+  font-weight: var(--heading-font-weight) !important;
+}
+
 @layer base {
   :root {
     --background: 210 40% 98%;
