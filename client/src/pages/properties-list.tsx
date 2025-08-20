@@ -139,11 +139,11 @@ export default function PropertiesPage() {
                 Properties
               </a>
               <a 
-                href="/#about" 
+                href="/agent" 
                 className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
-                About
+                Agent
               </a>
               <a 
                 href="/#contact" 
@@ -238,12 +238,12 @@ export default function PropertiesPage() {
                   Properties
                 </a>
                 <a 
-                  href="/#about" 
+                  href="/agent" 
                   className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
                   style={{ color: 'var(--navigation-color)' }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  About
+                  Agent
                 </a>
                 <a 
                   href="/#contact" 

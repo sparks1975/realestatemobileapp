@@ -165,11 +165,11 @@ export default function HomePage() {
                 Properties
               </a>
               <a 
-                href="#about" 
+                href="/agent" 
                 className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
-                About
+                Agent
               </a>
               <a 
                 href="#contact" 
@@ -266,12 +266,12 @@ export default function HomePage() {
                   Properties
                 </a>
                 <a 
-                  href="#about" 
+                  href="/agent" 
                   className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
                   style={{ color: 'var(--navigation-color)' }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  About
+                  Agent
                 </a>
                 <a 
                   href="#contact" 
@@ -691,18 +691,18 @@ export default function HomePage() {
             </div>
             <div className="flex justify-center space-x-8 mb-8">
               <a 
-                href="#" 
+                href="/properties" 
                 className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
                 style={{ color: 'var(--text-color)' }}
               >
                 Properties
               </a>
               <a 
-                href="#" 
+                href="/agent" 
                 className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
                 style={{ color: 'var(--text-color)' }}
               >
-                About
+                Agent
               </a>
               <a 
                 href="#" 
