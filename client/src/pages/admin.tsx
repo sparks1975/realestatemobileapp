@@ -235,10 +235,16 @@ export default function AdminPanel() {
       ];
 
       for (const item of contentItems) {
-        await apiRequest('/api/pages/content', {
+        const response = await fetch('/api/pages/content', {
           method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify(item),
         });
+        if (!response.ok) {
+          throw new Error(`Failed to save content: ${response.statusText}`);
+        }
       }
     },
     onSuccess: () => {
@@ -1739,7 +1745,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.heroHeadline}
                                 onChange={(e) => setPageContent({...pageContent, heroHeadline: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                             <div>
@@ -1747,7 +1753,7 @@ export default function AdminPanel() {
                               <Textarea
                                 value={pageContent.heroSubheadline}
                                 onChange={(e) => setPageContent({...pageContent, heroSubheadline: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                                 rows={3}
                               />
                             </div>
@@ -1756,7 +1762,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.heroImage}
                                 onChange={(e) => setPageContent({...pageContent, heroImage: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                           </div>
@@ -1771,7 +1777,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.featuredPropertiesTitle}
                                 onChange={(e) => setPageContent({...pageContent, featuredPropertiesTitle: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                             <div>
@@ -1779,7 +1785,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.featuredPropertiesSubtitle}
                                 onChange={(e) => setPageContent({...pageContent, featuredPropertiesSubtitle: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                           </div>
@@ -1794,7 +1800,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.communitiesTitle}
                                 onChange={(e) => setPageContent({...pageContent, communitiesTitle: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                             <div>
@@ -1802,7 +1808,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.communitiesSubtitle}
                                 onChange={(e) => setPageContent({...pageContent, communitiesSubtitle: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                           </div>
@@ -1817,7 +1823,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.newsletterTitle}
                                 onChange={(e) => setPageContent({...pageContent, newsletterTitle: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                             <div>
@@ -1825,7 +1831,7 @@ export default function AdminPanel() {
                               <Input
                                 value={pageContent.newsletterSubtitle}
                                 onChange={(e) => setPageContent({...pageContent, newsletterSubtitle: e.target.value})}
-                                className="mt-1"
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
                               />
                             </div>
                           </div>
