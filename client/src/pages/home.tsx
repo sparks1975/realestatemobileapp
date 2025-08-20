@@ -402,7 +402,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Introduction Section */}
+      {/* Introduction Section - About LuxeLead */}
       <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -412,23 +412,32 @@ export default function HomePage() {
                   className="text-sm uppercase tracking-[0.2em] mb-4"
                   style={{ color: 'var(--secondary-color)' }}
                 >
-                  About LuxeLead
+                  {pageContent?.about?.subtitle || "About LuxeLead"}
                 </p>
                 <h2 
                   className="text-4xl md:text-5xl font-light leading-tight mb-6"
                   style={{ color: 'var(--text-color)' }}
                 >
-                  Expert<br />
-                  Real Estate<br />
-                  Guidance
+                  {pageContent?.about?.title ? (
+                    pageContent.about.title.split('\n').map((line: string, index: number) => (
+                      <span key={index}>
+                        {line}
+                        {index < pageContent.about.title.split('\n').length - 1 && <br />}
+                      </span>
+                    ))
+                  ) : (
+                    <>
+                      Expert<br />
+                      Real Estate<br />
+                      Guidance
+                    </>
+                  )}
                 </h2>
                 <p 
                   className="text-lg leading-relaxed mb-8"
                   style={{ color: 'var(--text-color)' }}
                 >
-                  With over a decade of experience in Austin's luxury real estate market, 
-                  we provide unparalleled expertise and personalized service to help you 
-                  find your perfect home or investment opportunity.
+                  {pageContent?.about?.description || "With over a decade of experience in Austin's luxury real estate market, we provide unparalleled expertise and personalized service to help you find your perfect home or investment opportunity."}
                 </p>
                 <Button 
                   variant="outline" 
@@ -439,31 +448,31 @@ export default function HomePage() {
                     backgroundColor: 'transparent'
                   }}
                 >
-                  Learn More
+                  {pageContent?.about?.buttonText || "Learn More"}
                 </Button>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <img 
-                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=500"
+                  src={pageContent?.about?.image1 || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=500"}
                   alt="Luxury Interior"
                   className="w-full h-64 object-cover"
                 />
                 <img 
-                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&h=300"
+                  src={pageContent?.about?.image2 || "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&h=300"}
                   alt="Modern Kitchen"
                   className="w-full h-48 object-cover"
                 />
               </div>
               <div className="space-y-4 pt-8">
                 <img 
-                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=300"
+                  src={pageContent?.about?.image3 || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=300"}
                   alt="Living Room"
                   className="w-full h-48 object-cover"
                 />
                 <img 
-                  src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&h=500"
+                  src={pageContent?.about?.image4 || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&h=500"}
                   alt="Master Bedroom"
                   className="w-full h-64 object-cover"
                 />
