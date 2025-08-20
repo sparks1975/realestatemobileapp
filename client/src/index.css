@@ -455,8 +455,10 @@ section[data-theme-managed] h2 span,
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-.agent-website * {
-  max-width: none !important;
+.agent-website img,
+.agent-website video,
+.agent-website iframe {
+  max-width: 100% !important;
 }
 
 .agent-website .container {
