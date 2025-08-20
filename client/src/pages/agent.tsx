@@ -244,9 +244,9 @@ export default function AgentPage() {
       </nav>
 
       {/* Main Content */}
-      <div className="pt-24">
+      <div className="pt-0">
         {/* Hero Section */}
-        <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+        <section className="pt-24 pb-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="relative">
