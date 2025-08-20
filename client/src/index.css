@@ -203,11 +203,11 @@
 
 /* Font System - Precise targeting for dynamic content */
 
-/* Hero heading uses Playfair Display - most specific */
+/* Hero heading uses theme heading font */
 .hero-heading,
 .hero-heading span {
-  font-family: 'Playfair Display', serif !important;
-  font-weight: 700 !important;
+  font-family: var(--heading-font, 'Inter') !important;
+  font-weight: var(--heading-font-weight, 700) !important;
 }
 
 /* Other headings use theme heading font */
