@@ -178,14 +178,7 @@ export default function HomePage() {
   const featuredProperties = properties?.slice(0, 6) || [];
   const currentInventory = properties?.slice(0, 3) || [];
   
-  console.log('🏠 HomePage - properties:', properties);
-  console.log('🏠 HomePage - isLoading:', isLoading);
-  console.log('🏠 HomePage - featuredProperties:', featuredProperties);
-  
-  // Add error boundary to catch issues
-  if (error) {
-    console.error('🚨 Properties loading error:', error);
-  }
+  // Remove debug logging for cleaner console
 
   return (
     <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
@@ -636,7 +629,10 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {properties && properties.length > 0 ? (
+            <div style={{ backgroundColor: 'blue', color: 'white', padding: '20px' }}>
+              DEBUG VISIBLE: Found {properties?.length || 0} properties
+            </div>
+            {properties && properties.length > 0 && (
               properties.slice(0, 3).map((property) => (
                 <a 
                   key={property.id} 
@@ -655,12 +651,17 @@ export default function HomePage() {
                         background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
                       }}
                     >
-                      <div className="text-lg mb-2" style={{ 
-                        color: 'white',
-                        fontFamily: 'var(--heading-font)',
-                        fontWeight: 'var(--heading-font-weight)'
-                      }}>
-                        {property.title}
+                      <div 
+                        className="text-lg mb-2"
+                        style={{ 
+                          color: 'white',
+                          fontFamily: 'var(--heading-font)',
+                          fontWeight: 'var(--heading-font-weight)',
+                          backgroundColor: 'rgba(255,0,0,0.5)',
+                          padding: '2px'
+                        }}
+                      >
+                        TITLE: {property.title}
                       </div>
                       <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
                         {property.address}
@@ -672,8 +673,6 @@ export default function HomePage() {
                   </div>
                 </a>
               ))
-            ) : (
-              <div>Loading properties...</div>
             )}
           </div>
 
