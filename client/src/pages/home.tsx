@@ -175,8 +175,11 @@ export default function HomePage() {
     return () => window.removeEventListener('theme-updated', handleThemeUpdate);
   }, [refetchTheme]);
 
-  const featuredProperties = properties.slice(0, 6);
-  const currentInventory = properties.slice(0, 3);
+  const featuredProperties = properties?.slice(0, 6) || [];
+  const currentInventory = properties?.slice(0, 3) || [];
+  
+  console.log('🏠 Properties data:', properties);
+  console.log('🏠 Featured properties:', featuredProperties);
 
   return (
     <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
@@ -627,6 +630,9 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
+            <div style={{backgroundColor: 'lime', padding: '10px', color: 'black', fontSize: '20px'}}>
+              DEBUG: Properties count: {featuredProperties.length}
+            </div>
             {featuredProperties.slice(0, 3).map((property) => (
               <a 
                 key={property.id} 
