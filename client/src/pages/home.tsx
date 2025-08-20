@@ -121,6 +121,9 @@ export default function HomePage() {
         '--navigation-color': root.style.getPropertyValue('--navigation-color'),
         '--sub-navigation-color': root.style.getPropertyValue('--sub-navigation-color'),
         '--header-background-color': root.style.getPropertyValue('--header-background-color'),
+        '--heading-font': root.style.getPropertyValue('--heading-font'),
+        '--body-font': root.style.getPropertyValue('--body-font'),
+        '--button-font': root.style.getPropertyValue('--button-font'),
         '--heading-font-weight': root.style.getPropertyValue('--heading-font-weight'),
         '--body-font-weight': root.style.getPropertyValue('--body-font-weight'),
         '--button-font-weight': root.style.getPropertyValue('--button-font-weight')
@@ -364,8 +367,8 @@ export default function HomePage() {
                 className="text-5xl md:text-7xl mb-8 leading-tight"
                 style={{ 
                   color: 'var(--tertiary-color)',
-                  fontFamily: 'var(--heading-font)',
-                  fontWeight: 'var(--heading-font-weight)'
+                  fontFamily: themeSettings?.headingFont || 'Inter',
+                  fontWeight: themeSettings?.headingFontWeight || '600'
                 }}
               >
                 {pageContent?.hero?.headline ? (
