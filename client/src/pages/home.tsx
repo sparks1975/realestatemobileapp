@@ -390,15 +390,15 @@ export default function HomePage() {
               Stay Updated on the First to Know
             </h2>
             <div className="max-w-md mx-auto">
-              <div className="flex">
+              <div className="flex h-12">
                 <input 
                   type="email" 
                   placeholder="Email Address" 
-                  className="flex-1 px-6 py-4 text-center bg-transparent border border-gray-400 focus:outline-none focus:border-gray-600"
+                  className="flex-1 px-6 h-12 text-center bg-transparent border border-gray-400 focus:outline-none focus:border-gray-600"
                   style={{ color: 'var(--text-color)' }}
                 />
                 <Button 
-                  className="px-8 py-4 text-white uppercase tracking-wide"
+                  className="px-8 h-12 text-white uppercase tracking-wide border-0"
                   style={{ backgroundColor: 'var(--secondary-color)' }}
                 >
                   Submit
