@@ -485,16 +485,18 @@ export default function HomePage() {
           )}
 
           <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              className="uppercase tracking-wide border-2 px-8 py-3"
-              style={{ 
-                borderColor: 'var(--tertiary-color)', 
-                color: 'var(--tertiary-color)' 
-              }}
-            >
-              View Additional
-            </Button>
+            <a href="/properties">
+              <Button 
+                variant="outline" 
+                className="uppercase tracking-wide border-2 px-8 py-3"
+                style={{ 
+                  borderColor: 'var(--tertiary-color)', 
+                  color: 'var(--tertiary-color)' 
+                }}
+              >
+                View Additional
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -592,8 +594,8 @@ export default function HomePage() {
               variant="outline" 
               className="uppercase tracking-wide border-2 px-8 py-3"
               style={{ 
-                borderColor: 'var(--primary-color)', 
-                color: 'var(--primary-color)' 
+                borderColor: 'var(--secondary-color)', 
+                color: 'var(--secondary-color)' 
               }}
             >
               View Additional
