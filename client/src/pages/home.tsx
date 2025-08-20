@@ -645,8 +645,8 @@ export default function HomePage() {
                       background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
                     }}
                   >
-                    <div className="text-lg font-light mb-2">
-                      {property.title}
+                    <div className="text-lg font-light mb-2" style={{ color: 'white' }}>
+                      {property.title || 'No Title'}
                     </div>
                     <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
                       {property.address}
