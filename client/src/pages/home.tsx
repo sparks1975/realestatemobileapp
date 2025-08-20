@@ -361,8 +361,12 @@ export default function HomePage() {
                 {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
               </p>
               <h1 
-                className="text-5xl md:text-7xl font-light mb-8 leading-tight"
-                style={{ color: 'var(--tertiary-color)' }}
+                className="text-5xl md:text-7xl mb-8 leading-tight"
+                style={{ 
+                  color: 'var(--tertiary-color)',
+                  fontFamily: 'var(--heading-font)',
+                  fontWeight: 'var(--heading-font-weight)'
+                }}
               >
                 {pageContent?.hero?.headline ? (
                   pageContent.hero.headline.split('\n').map((line: string, index: number) => (
