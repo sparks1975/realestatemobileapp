@@ -223,7 +223,15 @@ export default function AdminPanel() {
       textColor: '#333333',
       linkColor: '#CBA328',
       linkHoverColor: '#b8951f',
-      fontFamily: 'Inter'
+      navigationColor: '#1a1a1a',
+      subNavigationColor: '#2a2a2a',
+      headerBackgroundColor: '#ffffff',
+      headingFont: 'Inter',
+      bodyFont: 'Inter',
+      buttonFont: 'Inter',
+      headingFontWeight: '600',
+      bodyFontWeight: '400',
+      buttonFontWeight: '500'
     };
     setThemeSettings(defaultTheme);
   };
