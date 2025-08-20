@@ -3,7 +3,38 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
-// Increase JSON payload size limit to 50MB to handle image uploads
+
+// Custom JSON parser that works around Content-Type header issues
+app.use('/api', (req, res, next) => {
+  if (req.method === 'PUT' || req.method === 'POST') {
+    let rawData = '';
+    req.on('data', chunk => {
+      rawData += chunk.toString();
+    });
+    
+    req.on('end', () => {
+      console.log('🔧 Custom parser - Raw data:', rawData);
+      console.log('🔧 Custom parser - Data length:', rawData.length);
+      
+      if (rawData && rawData.trim().startsWith('{')) {
+        try {
+          req.body = JSON.parse(rawData);
+          console.log('🔧 Custom parser - Parsed body:', req.body);
+        } catch (error) {
+          console.log('🔧 Custom parser - JSON parse error:', error);
+          req.body = {};
+        }
+      } else {
+        req.body = {};
+      }
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
+// Keep the original parsers as fallback
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
