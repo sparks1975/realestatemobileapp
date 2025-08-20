@@ -135,10 +135,23 @@ export default function HomePage() {
       fontsToLoad.forEach(font => {
         if (font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)) {
           const fontUrl = `https://fonts.googleapis.com/css2?family=${font.replace(' ', '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
+          console.log('🔤 Loading font:', font, 'URL:', fontUrl);
           const link = document.createElement('link');
           link.href = fontUrl;
           link.rel = 'stylesheet';
           document.head.appendChild(link);
+          
+          // Add load event listener to verify font loading
+          link.onload = () => {
+            console.log('✅ Font loaded successfully:', font);
+            // Force a re-render by updating a state or triggering a style recalculation
+            document.documentElement.style.setProperty('--font-load-trigger', Math.random().toString());
+          };
+          link.onerror = () => {
+            console.error('❌ Failed to load font:', font);
+          };
+        } else {
+          console.log('🔤 Font already loaded or is Inter:', font);
         }
       });
     } else {
@@ -364,13 +377,12 @@ export default function HomePage() {
                 {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
               </p>
               <h1 
-                className="text-5xl md:text-7xl mb-8 leading-tight"
+                className="text-5xl md:text-7xl mb-8 leading-tight hero-heading"
                 style={{ 
-                  color: 'var(--tertiary-color)',
-                  fontFamily: themeSettings?.headingFont || 'Inter',
-                  fontWeight: themeSettings?.headingFontWeight || '600'
+                  color: 'var(--tertiary-color)'
                 }}
               >
+                {console.log('🔍 Hero h1 render - Font:', themeSettings?.headingFont, 'Weight:', themeSettings?.headingFontWeight)}
                 {pageContent?.hero?.headline ? (
                   pageContent.hero.headline.split('\n').map((line: string, index: number) => (
                     <span key={index}>

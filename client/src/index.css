@@ -201,6 +201,12 @@
   }
 }
 
+/* Hero Heading Font Override */
+.hero-heading {
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 700 !important;
+}
+
 @layer base {
   * {
     @apply border-border;
