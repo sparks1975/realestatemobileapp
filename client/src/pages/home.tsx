@@ -131,375 +131,480 @@ export default function HomePage() {
   const currentInventory = properties.slice(0, 3);
 
   return (
-    <div className="agent-website min-h-screen bg-white">
+    <div className="agent-website min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
       {/* Navigation */}
       <nav 
-        className="fixed top-0 w-full backdrop-blur-sm z-50 border-b border-gray-100"
+        className="fixed top-0 w-full backdrop-blur-sm z-50"
         style={{ backgroundColor: 'var(--header-background-color)' }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div 
-              className="text-2xl font-bold"
-              style={{ color: 'var(--text-color)', fontFamily: 'var(--font-family)' }}
+              className="text-2xl font-light tracking-wider"
+              style={{ color: 'var(--navigation-color)' }}
             >
-              LuxeLead
+              LUXELEAD
             </div>
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex items-center space-x-12">
               <a 
                 href="#home" 
-                className="transition-colors hover:opacity-80"
+                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
                 Home
               </a>
               <a 
                 href="#properties" 
-                className="transition-colors hover:opacity-80"
+                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
                 Properties
               </a>
               <a 
                 href="#about" 
-                className="transition-colors hover:opacity-80"
+                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
                 About
               </a>
               <a 
                 href="#contact" 
-                className="transition-colors hover:opacity-80"
+                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
                 Contact
               </a>
               <a 
-                href="/app/dashboard" 
-                className="transition-colors hover:opacity-80"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Mobile App
-              </a>
-              <a 
                 href="/admin" 
-                className="transition-colors hover:opacity-80"
+                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
                 Admin
               </a>
             </div>
-            <Button 
-              className="hover:opacity-90 text-white"
-              style={{ backgroundColor: 'var(--primary-color)' }}
-            >
-              Get in Touch
-            </Button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section id="home" className="relative h-screen flex items-center justify-center">
+      {/* Hero Section - Inspired by Kumara */}
+      <section id="home" className="relative h-screen">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&h=1080')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1920&h=1080')`
           }}
         />
-        <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
-          <p className="text-lg mb-4 tracking-wide uppercase">Austin's #1 Luxury Realtor</p>
-          <h1 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
-            Exceptional<br />
-            Real Estate<br />
-            Experience
-          </h1>
-          <Button 
-            size="lg" 
-            className="hover:opacity-90 text-white"
-            style={{ backgroundColor: 'var(--primary-color)' }}
-          >
-            View Properties
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+        <div className="absolute inset-0 bg-black bg-opacity-30" />
+        
+        <div className="relative z-10 h-full flex items-end">
+          <div className="w-full max-w-7xl mx-auto px-6 pb-24">
+            <div className="max-w-2xl">
+              <p 
+                className="text-sm uppercase tracking-[0.2em] mb-4"
+                style={{ color: 'var(--tertiary-color)' }}
+              >
+                Austin's #1 Luxury Realtor
+              </p>
+              <h1 
+                className="text-5xl md:text-7xl font-light mb-8 leading-tight"
+                style={{ color: 'var(--tertiary-color)' }}
+              >
+                Exceptional<br />
+                Properties<br />
+                Await
+              </h1>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section className="py-20 bg-gray-50">
+      {/* Introduction Section */}
+      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-4xl font-light text-gray-900 mb-6">
-                Meet Your<br />
-                Dedicated Agent
-              </h2>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                With over a decade of experience in Austin's luxury real estate market, 
-                I specialize in connecting discerning clients with exceptional properties. 
-                My commitment to personalized service and market expertise ensures 
-                every transaction exceeds expectations.
-              </p>
-              <div className="flex items-center space-x-8 mb-8">
-                <div className="text-center">
-                  <div className="text-3xl font-light text-gray-900">500+</div>
-                  <div className="text-sm text-gray-600">Properties Sold</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-light text-gray-900">$2.5B+</div>
-                  <div className="text-sm text-gray-600">Total Sales</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-light text-gray-900">15</div>
-                  <div className="text-sm text-gray-600">Years Experience</div>
-                </div>
+            <div className="space-y-8">
+              <div>
+                <p 
+                  className="text-sm uppercase tracking-[0.2em] mb-4"
+                  style={{ color: 'var(--secondary-color)' }}
+                >
+                  About LuxeLead
+                </p>
+                <h2 
+                  className="text-4xl md:text-5xl font-light leading-tight mb-6"
+                  style={{ color: 'var(--text-color)' }}
+                >
+                  Expert<br />
+                  Real Estate<br />
+                  Guidance
+                </h2>
+                <p 
+                  className="text-lg leading-relaxed mb-8"
+                  style={{ color: 'var(--text-color)' }}
+                >
+                  With over a decade of experience in Austin's luxury real estate market, 
+                  we provide unparalleled expertise and personalized service to help you 
+                  find your perfect home or investment opportunity.
+                </p>
+                <Button 
+                  variant="outline" 
+                  className="uppercase tracking-wide border-2 px-8 py-3"
+                  style={{ 
+                    borderColor: 'var(--primary-color)', 
+                    color: 'var(--primary-color)' 
+                  }}
+                >
+                  Learn More
+                </Button>
               </div>
-              <Button className="bg-gray-900 hover:bg-gray-800 text-white">
-                Learn More About Me
-              </Button>
             </div>
-            <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=800"
-                alt="Professional Realtor"
-                className="rounded-lg h-96 w-full object-cover shadow-lg"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=400&h=500"
+                  alt="Luxury Interior"
+                  className="w-full h-64 object-cover"
+                />
+                <img 
+                  src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=400&h=300"
+                  alt="Modern Kitchen"
+                  className="w-full h-48 object-cover"
+                />
+              </div>
+              <div className="space-y-4 pt-8">
+                <img 
+                  src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=400&h=300"
+                  alt="Living Room"
+                  className="w-full h-48 object-cover"
+                />
+                <img 
+                  src="https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?auto=format&fit=crop&w=400&h=500"
+                  alt="Master Bedroom"
+                  className="w-full h-64 object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Properties */}
-      <section id="properties" className="py-20">
+      {/* Brand Partners */}
+      <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-light text-gray-900 mb-4">
-              Curated Properties
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover exceptional homes that represent the finest in luxury living, 
-              carefully selected for their unique character and prime locations.
-            </p>
-          </div>
-
-          {isLoading ? (
-            <div className="grid md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-gray-100 rounded-lg h-80 animate-pulse" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-3 gap-8">
-              {featuredProperties.map((property) => (
-                <Card key={property.id} className="group cursor-pointer bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden" style={{backgroundColor: 'white', borderColor: '#e5e7eb', overflow: 'hidden'}}>
-                  <div className="relative overflow-hidden rounded-t-lg" style={{overflow: 'hidden'}}>
-                    <img 
-                      src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800`}
-                      alt={property.title}
-                      className="h-64 w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <Badge className="absolute top-4 left-4 bg-white text-gray-900">
-                      {property.status}
-                    </Badge>
-                  </div>
-                  <CardContent className="p-6 bg-white" style={{backgroundColor: 'white'}}>
-                    <div className="flex items-center text-sm text-gray-500 mb-2" style={{color: '#6b7280'}}>
-                      <MapPin className="h-4 w-4 mr-1" />
-                      {property.address}
-                    </div>
-                    <h3 className="text-xl font-medium text-gray-900 mb-4" style={{color: '#111827'}}>{property.title}</h3>
-                    <div className="flex items-center justify-between text-sm text-gray-600 mb-4" style={{color: '#4b5563'}}>
-                      <span>{property.bedrooms} Bed</span>
-                      <span>{property.bathrooms} Bath</span>
-                      <span>{property.squareFeet?.toLocaleString()} sq ft</span>
-                    </div>
-                    <div className="text-2xl font-light text-gray-900" style={{color: '#111827'}}>
-                      ${property.price?.toLocaleString()}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-
-          <div className="text-center mt-12">
-            <Button variant="outline" size="lg" className="border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white">
-              View All Properties
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+          <div className="flex justify-center items-center space-x-12 opacity-60">
+            <div className="text-2xl font-light tracking-wider">SOTHEBY'S</div>
+            <div className="text-2xl font-light tracking-wider">CHRISTIE'S</div>
+            <div className="text-2xl font-light tracking-wider">COMPASS</div>
+            <div className="text-2xl font-light tracking-wider">COLDWELL</div>
+            <div className="text-2xl font-light tracking-wider">KELLER</div>
           </div>
         </div>
       </section>
 
       {/* Current Inventory */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-light text-gray-900 mb-4">
+            <p 
+              className="text-sm uppercase tracking-[0.2em] mb-4"
+              style={{ color: 'var(--tertiary-color)' }}
+            >
               LuxeLead's Current Inventory
-            </h2>
-            <p className="text-lg text-gray-600">
-              Exclusive listings available now
             </p>
+            <h2 
+              className="text-4xl md:text-5xl font-light leading-tight"
+              style={{ color: 'var(--tertiary-color)' }}
+            >
+              Featured Properties
+            </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {currentInventory.map((property) => (
-              <Card key={property.id} className="group cursor-pointer bg-white border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden" style={{backgroundColor: 'white', borderColor: '#e5e7eb', overflow: 'hidden'}}>
-                <div className="relative overflow-hidden rounded-t-lg" style={{overflow: 'hidden'}}>
-                  <img 
-                    src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800`}
-                    alt={property.title}
-                    className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+          {isLoading ? (
+            <div className="grid md:grid-cols-3 gap-8">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-gray-700 h-80 animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-8">
+              {currentInventory.map((property) => (
+                <div key={property.id} className="group cursor-pointer">
+                  <div className="relative overflow-hidden mb-4">
+                    <img 
+                      src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
+                      alt={property.title}
+                      className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div 
+                      className="absolute bottom-0 left-0 right-0 p-6 text-white"
+                      style={{
+                        background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
+                      }}
+                    >
+                      <div className="text-sm uppercase tracking-wide mb-2">
+                        {property.address}
+                      </div>
+                      <div className="text-2xl font-light">
+                        ${property.price?.toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <CardContent className="p-6 bg-white" style={{backgroundColor: 'white'}}>
-                  <div className="flex items-center text-sm text-gray-500 mb-2" style={{color: '#6b7280'}}>
-                    <MapPin className="h-4 w-4 mr-1" />
-                    {property.address}
-                  </div>
-                  <h3 className="text-xl font-medium text-gray-900 mb-4" style={{color: '#111827'}}>{property.title}</h3>
-                  <div className="text-2xl font-light text-gray-900" style={{color: '#111827'}}>
-                    ${property.price?.toLocaleString()}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+              ))}
+            </div>
+          )}
+
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              className="uppercase tracking-wide border-2 px-8 py-3"
+              style={{ 
+                borderColor: 'var(--tertiary-color)', 
+                color: 'var(--tertiary-color)' 
+              }}
+            >
+              View Additional
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Experience Section */}
-      <section className="py-20">
+      {/* Showcase Section */}
+      <section 
+        className="py-24"
+        style={{ backgroundColor: '#E5D5C8' }}
+      >
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=600&h=800"
-                alt="Luxury Real Estate Experience"
-                className="rounded-lg h-96 w-full object-cover shadow-lg"
-              />
-            </div>
-            <div>
-              <h2 className="text-4xl font-light text-gray-900 mb-6">
-                Why Choose LuxeLead?
-              </h2>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gray-900 text-white rounded-full p-2 mt-1">
-                    <Star className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-medium text-gray-900 mb-2">Market Expertise</h4>
-                    <p className="text-gray-600">Deep knowledge of Austin's luxury market trends and neighborhoods.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gray-900 text-white rounded-full p-2 mt-1">
-                    <Users className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-medium text-gray-900 mb-2">Personalized Service</h4>
-                    <p className="text-gray-600">Tailored approach to meet your unique real estate goals.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gray-900 text-white rounded-full p-2 mt-1">
-                    <Award className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-medium text-gray-900 mb-2">Proven Results</h4>
-                    <p className="text-gray-600">Track record of successful transactions and satisfied clients.</p>
-                  </div>
-                </div>
+          <div className="text-center mb-16">
+            <p 
+              className="text-sm uppercase tracking-[0.2em] mb-4"
+              style={{ color: 'var(--secondary-color)' }}
+            >
+              View Spotlight
+            </p>
+            <h2 
+              className="text-4xl md:text-5xl font-light leading-tight mb-8"
+              style={{ color: 'var(--text-color)' }}
+            >
+              Stay Updated on the First to Know
+            </h2>
+            <div className="max-w-md mx-auto">
+              <div className="flex">
+                <input 
+                  type="email" 
+                  placeholder="Email Address" 
+                  className="flex-1 px-6 py-4 text-center bg-transparent border border-gray-400 focus:outline-none focus:border-gray-600"
+                  style={{ color: 'var(--text-color)' }}
+                />
+                <Button 
+                  className="px-8 py-4 text-white uppercase tracking-wide"
+                  style={{ backgroundColor: 'var(--secondary-color)' }}
+                >
+                  Submit
+                </Button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-900 text-white">
+      {/* Featured Communities Section */}
+      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-light mb-4">
-              Stay Updated on the First to Know
-            </h2>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
-              Get exclusive access to new listings, market insights, and luxury real estate opportunities.
+            <p 
+              className="text-sm uppercase tracking-[0.2em] mb-4"
+              style={{ color: 'var(--secondary-color)' }}
+            >
+              Featured Communities
             </p>
-            <div className="flex max-w-md mx-auto">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="flex-1 px-4 py-3 bg-white text-gray-900 rounded-l-lg focus:outline-none"
-              />
-              <Button className="bg-gray-700 hover:bg-gray-600 text-white rounded-l-none">
-                Subscribe
-              </Button>
+            <h2 
+              className="text-4xl md:text-5xl font-light leading-tight"
+              style={{ color: 'var(--text-color)' }}
+            >
+              The Advisor
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden mb-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400"
+                  alt="Modern Estate"
+                  className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden mb-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&h=400"
+                  alt="Luxury Interior"
+                  className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
+            <div className="group cursor-pointer">
+              <div className="relative overflow-hidden mb-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&h=400"
+                  alt="Contemporary Home"
+                  className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div>
-              <Phone className="h-8 w-8 mx-auto mb-4 text-gray-300" />
-              <h4 className="text-lg font-medium mb-2">Call</h4>
-              <p className="text-gray-300">(512) 555-0123</p>
+          <div className="text-center mt-12">
+            <Button 
+              variant="outline" 
+              className="uppercase tracking-wide border-2 px-8 py-3"
+              style={{ 
+                borderColor: 'var(--primary-color)', 
+                color: 'var(--primary-color)' 
+              }}
+            >
+              View Additional
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Agent Section */}
+      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <img 
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=700"
+                alt="LuxeLead Agent"
+                className="w-full h-96 object-cover"
+              />
             </div>
             <div>
-              <Mail className="h-8 w-8 mx-auto mb-4 text-gray-300" />
-              <h4 className="text-lg font-medium mb-2">Email</h4>
-              <p className="text-gray-300">contact@luxelead.com</p>
-            </div>
-            <div>
-              <MapPin className="h-8 w-8 mx-auto mb-4 text-gray-300" />
-              <h4 className="text-lg font-medium mb-2">Office</h4>
-              <p className="text-gray-300">Downtown Austin, TX</p>
+              <p 
+                className="text-sm uppercase tracking-[0.2em] mb-4"
+                style={{ color: 'var(--tertiary-color)' }}
+              >
+                LuxeLead
+              </p>
+              <h2 
+                className="text-4xl md:text-5xl font-light leading-tight mb-6"
+                style={{ color: 'var(--tertiary-color)' }}
+              >
+                Alex Rodriguez
+              </h2>
+              <p 
+                className="text-lg leading-relaxed mb-8"
+                style={{ color: 'var(--tertiary-color)' }}
+              >
+                With over 15 years of experience in Austin's luxury real estate market, 
+                Alex brings unparalleled expertise and a passion for exceptional service 
+                to every client relationship.
+              </p>
+              <div className="flex space-x-6 mb-8">
+                <div className="text-center">
+                  <div 
+                    className="text-3xl font-light mb-2"
+                    style={{ color: 'var(--tertiary-color)' }}
+                  >
+                    500+
+                  </div>
+                  <div 
+                    className="text-sm uppercase tracking-wide"
+                    style={{ color: 'var(--tertiary-color)' }}
+                  >
+                    Properties Sold
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div 
+                    className="text-3xl font-light mb-2"
+                    style={{ color: 'var(--tertiary-color)' }}
+                  >
+                    $2.5B
+                  </div>
+                  <div 
+                    className="text-sm uppercase tracking-wide"
+                    style={{ color: 'var(--tertiary-color)' }}
+                  >
+                    Total Sales
+                  </div>
+                </div>
+              </div>
+              <Button 
+                variant="outline" 
+                className="uppercase tracking-wide border-2 px-8 py-3"
+                style={{ 
+                  borderColor: 'var(--tertiary-color)', 
+                  color: 'var(--tertiary-color)' 
+                }}
+              >
+                Contact Alex
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 border-t border-gray-800">
+      <footer className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="text-2xl font-bold mb-4">LuxeLead</div>
-              <p className="text-gray-400 leading-relaxed">
-                Austin's premier luxury real estate professional, dedicated to exceptional service and results.
-              </p>
+          <div className="text-center">
+            <div 
+              className="text-3xl font-light mb-8 tracking-wider"
+              style={{ color: 'var(--text-color)' }}
+            >
+              LUXELEAD
             </div>
-            <div>
-              <h4 className="text-lg font-medium mb-4">Services</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Luxury Home Sales</li>
-                <li>Investment Properties</li>
-                <li>Market Analysis</li>
-                <li>Property Management</li>
-              </ul>
+            <div className="flex justify-center space-x-8 mb-8">
+              <a 
+                href="#" 
+                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
+                style={{ color: 'var(--text-color)' }}
+              >
+                Properties
+              </a>
+              <a 
+                href="#" 
+                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
+                style={{ color: 'var(--text-color)' }}
+              >
+                About
+              </a>
+              <a 
+                href="#" 
+                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
+                style={{ color: 'var(--text-color)' }}
+              >
+                Contact
+              </a>
+              <a 
+                href="/admin" 
+                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
+                style={{ color: 'var(--text-color)' }}
+              >
+                Admin
+              </a>
             </div>
-            <div>
-              <h4 className="text-lg font-medium mb-4">Areas</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Downtown Austin</li>
-                <li>West Lake Hills</li>
-                <li>Tarrytown</li>
-                <li>Lake Austin</li>
-              </ul>
+            <div className="flex justify-center space-x-6 mb-8">
+              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
+                <span className="text-xs">f</span>
+              </div>
+              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
+                <span className="text-xs">in</span>
+              </div>
+              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
+                <span className="text-xs">ig</span>
+              </div>
             </div>
-            <div>
-              <h4 className="text-lg font-medium mb-4">Connect</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>LinkedIn</li>
-                <li>Instagram</li>
-                <li>Facebook</li>
-                <li>YouTube</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 pt-8 mt-8 text-center text-gray-400">
-            <p>&copy; 2024 LuxeLead Real Estate. All rights reserved.</p>
+            <p 
+              className="text-sm"
+              style={{ color: 'var(--text-color)' }}
+            >
+              © 2024 LuxeLead. All rights reserved. Austin's premier luxury real estate professionals.
+            </p>
           </div>
         </div>
       </footer>
