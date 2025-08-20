@@ -10,11 +10,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 const tabs = [
-  { icon: Home, label: "Dashboard", path: "/" },
-  { icon: Building2, label: "Properties", path: "/properties" },
-  { icon: MessageSquare, label: "Messages", path: "/messages" },
-  { icon: Calendar, label: "Schedule", path: "/schedule" },
-  { icon: User, label: "Profile", path: "/profile" }
+  { icon: Home, label: "Dashboard", path: "/app" },
+  { icon: Building2, label: "Properties", path: "/app/properties" },
+  { icon: MessageSquare, label: "Messages", path: "/app/messages" },
+  { icon: Calendar, label: "Schedule", path: "/app/schedule" },
+  { icon: User, label: "Profile", path: "/app/profile" }
 ];
 
 export default function TabBar() {
@@ -23,19 +23,20 @@ export default function TabBar() {
   
   // Determine active tab based on current location
   useEffect(() => {
-    const currentPath = location.split("/")[1];
+    const pathSegments = location.split("/");
+    const appPath = pathSegments[2] || ""; // Get the segment after /app/
     const pathToTabIndex = {
-      "": 0,
-      "properties": 1,
-      "messages": 2,
-      "schedule": 3,
-      "profile": 4
+      "": 0, // /app
+      "properties": 1, // /app/properties
+      "messages": 2, // /app/messages
+      "schedule": 3, // /app/schedule
+      "profile": 4 // /app/profile
     } as Record<string, number>;
     
     // Only update if we're on a main tab path 
     // (not for nested routes like property details)
-    if (pathToTabIndex[currentPath] !== undefined) {
-      setActiveTabIndex(pathToTabIndex[currentPath]);
+    if (location.startsWith("/app") && pathToTabIndex[appPath] !== undefined) {
+      setActiveTabIndex(pathToTabIndex[appPath]);
     }
   }, [location]);
   
