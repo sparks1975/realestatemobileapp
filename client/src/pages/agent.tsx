@@ -681,12 +681,12 @@ export default function AgentPage() {
       </div>
 
       {/* Footer - Same as other pages */}
-      <footer className="py-16" style={{ backgroundColor: 'var(--secondary-color)' }}>
+      <footer className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center">
             <div 
               className="text-3xl font-light mb-8 tracking-wider"
-              style={{ color: 'var(--tertiary-color)' }}
+              style={{ color: 'var(--text-color)' }}
             >
               LUXELEAD
             </div>
@@ -694,35 +694,35 @@ export default function AgentPage() {
               <a 
                 href="/" 
                 className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 Home
               </a>
               <a 
                 href="/properties" 
                 className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 Properties
               </a>
               <a 
                 href="/agent" 
                 className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 Agent
               </a>
               <a 
                 href="/#contact" 
                 className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 Contact
               </a>
               <a 
                 href="/admin" 
                 className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 Admin
               </a>
