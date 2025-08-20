@@ -101,7 +101,7 @@ export default function AgentPage() {
               <a 
                 href="/agent" 
                 className="text-sm uppercase tracking-wide transition-colors"
-                style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
+                style={{ color: 'var(--tertiary-color)', fontWeight: 'bold' }}
               >
                 Agent
               </a>
@@ -200,7 +200,7 @@ export default function AgentPage() {
                 <a 
                   href="/agent" 
                   className="block text-lg uppercase tracking-wide transition-colors"
-                  style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
+                  style={{ color: 'var(--tertiary-color)', fontWeight: 'bold' }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Agent
