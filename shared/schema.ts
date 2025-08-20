@@ -151,6 +151,27 @@ export const insertActivitySchema = createInsertSchema(activities).pick({
   propertyId: true,
 });
 
+// Page content schema for CMS functionality
+export const pageContent = pgTable("page_content", {
+  id: serial("id").primaryKey(),
+  pageName: text("page_name").notNull(), // 'home', 'about', etc.
+  sectionName: text("section_name").notNull(), // 'hero', 'featured-properties', etc.
+  contentKey: text("content_key").notNull(), // 'title', 'description', 'image-url'
+  contentValue: text("content_value").notNull(),
+  contentType: text("content_type").notNull().default('text'), // 'text', 'image', 'link'
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => ({
+  uniquePageSectionContent: uniqueIndex('unique_page_section_content').on(table.pageName, table.sectionName, table.contentKey),
+}));
+
+export const insertPageContentSchema = createInsertSchema(pageContent).pick({
+  pageName: true,
+  sectionName: true,
+  contentKey: true,
+  contentValue: true,
+  contentType: true,
+});
+
 // Theme settings schema
 export const themeSettings = pgTable('theme_settings', {
   id: serial('id').primaryKey(),
@@ -289,3 +310,6 @@ export type InsertActivity = z.infer<typeof insertActivitySchema>;
 
 export type ThemeSettings = typeof themeSettings.$inferSelect;
 export type InsertThemeSettings = z.infer<typeof insertThemeSettingsSchema>;
+
+export type PageContent = typeof pageContent.$inferSelect;
+export type InsertPageContent = z.infer<typeof insertPageContentSchema>;

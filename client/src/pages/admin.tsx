@@ -80,6 +80,17 @@ export default function AdminPanel() {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [pageContent, setPageContent] = useState({
+    heroHeadline: "Bespoke Properties for Discerning Clients",
+    heroSubheadline: "Introducing our latest collection of extraordinary homes, each thoughtfully curated for those who appreciate uncompromising quality and distinctive design.",
+    heroImage: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1920&h=1080",
+    featuredPropertiesTitle: "Featured Properties",
+    featuredPropertiesSubtitle: "LuxeLead's Current Inventory",
+    communitiesTitle: "The Advisor", 
+    communitiesSubtitle: "Featured Communities",
+    newsletterTitle: "Stay Updated on the First to Know",
+    newsletterSubtitle: "View Spotlight"
+  });
   const [themeSettings, setThemeSettings] = useState({
     primaryColor: '#CBA328',
     secondaryColor: '#1a1a1a',
@@ -205,6 +216,43 @@ export default function AdminPanel() {
         title: "Save Failed",
         description: `Failed to save theme settings: ${error.message}`,
         variant: "destructive"
+      });
+    }
+  });
+
+  const savePageContentMutation = useMutation({
+    mutationFn: async (content: typeof pageContent) => {
+      const contentItems = [
+        { pageName: 'home', sectionName: 'hero', contentKey: 'headline', contentValue: content.heroHeadline, contentType: 'text' },
+        { pageName: 'home', sectionName: 'hero', contentKey: 'subheadline', contentValue: content.heroSubheadline, contentType: 'text' },
+        { pageName: 'home', sectionName: 'hero', contentKey: 'image', contentValue: content.heroImage, contentType: 'image' },
+        { pageName: 'home', sectionName: 'featured-properties', contentKey: 'title', contentValue: content.featuredPropertiesTitle, contentType: 'text' },
+        { pageName: 'home', sectionName: 'featured-properties', contentKey: 'subtitle', contentValue: content.featuredPropertiesSubtitle, contentType: 'text' },
+        { pageName: 'home', sectionName: 'communities', contentKey: 'title', contentValue: content.communitiesTitle, contentType: 'text' },
+        { pageName: 'home', sectionName: 'communities', contentKey: 'subtitle', contentValue: content.communitiesSubtitle, contentType: 'text' },
+        { pageName: 'home', sectionName: 'newsletter', contentKey: 'title', contentValue: content.newsletterTitle, contentType: 'text' },
+        { pageName: 'home', sectionName: 'newsletter', contentKey: 'subtitle', contentValue: content.newsletterSubtitle, contentType: 'text' }
+      ];
+
+      for (const item of contentItems) {
+        await apiRequest('/api/pages/content', {
+          method: 'POST',
+          body: JSON.stringify(item),
+        });
+      }
+    },
+    onSuccess: () => {
+      toast({
+        title: "Page Content Updated",
+        description: "Your website content has been successfully updated",
+      });
+    },
+    onError: (error: any) => {
+      console.error('Page content update error:', error);
+      toast({
+        title: "Update Failed",
+        description: "Failed to update page content. Please try again.",
+        variant: "destructive",
       });
     }
   });
@@ -665,8 +713,20 @@ export default function AdminPanel() {
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
-              <Eye className="h-5 w-5 mr-3" />
+              <MessageSquare className="h-5 w-5 mr-3" />
               Messages
+            </button>
+            
+            <button
+              onClick={() => setActiveTab('pages')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'pages' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Edit2 className="h-5 w-5 mr-3" />
+              Pages
             </button>
             
             <button
@@ -1646,6 +1706,170 @@ export default function AdminPanel() {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+          )}
+
+          {activeTab === 'pages' && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">Website Pages</h2>
+                  <p className="text-gray-600">Edit content and imagery for your website pages</p>
+                </div>
+              </div>
+
+              <div className="grid gap-6">
+                {/* Home Page Card */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Edit2 className="h-5 w-5 mr-2" />
+                      Home Page
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Hero Section */}
+                        <div className="p-4 border rounded-lg">
+                          <h4 className="font-medium text-gray-900 mb-3">Hero Section</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Main Headline</Label>
+                              <Input
+                                value={pageContent.heroHeadline}
+                                onChange={(e) => setPageContent({...pageContent, heroHeadline: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Subheadline</Label>
+                              <Textarea
+                                value={pageContent.heroSubheadline}
+                                onChange={(e) => setPageContent({...pageContent, heroSubheadline: e.target.value})}
+                                className="mt-1"
+                                rows={3}
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Hero Image URL</Label>
+                              <Input
+                                value={pageContent.heroImage}
+                                onChange={(e) => setPageContent({...pageContent, heroImage: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Featured Properties Section */}
+                        <div className="p-4 border rounded-lg">
+                          <h4 className="font-medium text-gray-900 mb-3">Featured Properties</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.featuredPropertiesTitle}
+                                onChange={(e) => setPageContent({...pageContent, featuredPropertiesTitle: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.featuredPropertiesSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, featuredPropertiesSubtitle: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Featured Communities Section */}
+                        <div className="p-4 border rounded-lg">
+                          <h4 className="font-medium text-gray-900 mb-3">Featured Communities</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.communitiesTitle}
+                                onChange={(e) => setPageContent({...pageContent, communitiesTitle: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.communitiesSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, communitiesSubtitle: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Newsletter Section */}
+                        <div className="p-4 border rounded-lg">
+                          <h4 className="font-medium text-gray-900 mb-3">Newsletter Signup</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.newsletterTitle}
+                                onChange={(e) => setPageContent({...pageContent, newsletterTitle: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.newsletterSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, newsletterSubtitle: e.target.value})}
+                                className="mt-1"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="pt-4 border-t">
+                        <div className="flex justify-end space-x-3">
+                          <Button variant="outline">
+                            Preview Changes
+                          </Button>
+                          <Button 
+                            onClick={() => savePageContentMutation.mutate(pageContent)}
+                            disabled={savePageContentMutation.isPending}
+                          >
+                            {savePageContentMutation.isPending ? 'Saving...' : 'Save Page Content'}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Future Pages */}
+                <Card className="opacity-60">
+                  <CardHeader>
+                    <CardTitle className="flex items-center text-gray-500">
+                      <Edit2 className="h-5 w-5 mr-2" />
+                      About Page
+                      <Badge variant="outline" className="ml-2">Coming Soon</Badge>
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+
+                <Card className="opacity-60">
+                  <CardHeader>
+                    <CardTitle className="flex items-center text-gray-500">
+                      <Edit2 className="h-5 w-5 mr-2" />
+                      Contact Page
+                      <Badge variant="outline" className="ml-2">Coming Soon</Badge>
+                    </CardTitle>
+                  </CardHeader>
+                </Card>
+              </div>
             </div>
           )}
         </div>

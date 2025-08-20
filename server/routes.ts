@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { log } from "./vite";
-import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema, insertThemeSettingsSchema } from "@shared/schema";
+import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema, insertThemeSettingsSchema, insertPageContentSchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -530,6 +530,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Page content routes for CMS functionality
+  app.get("/api/page-content/:pageName", async (req, res) => {
+    try {
+      const pageName = req.params.pageName;
+      const content = await storage.getPageContent(pageName);
+      res.json(content);
+    } catch (error) {
+      console.error("Failed to get page content:", error);
+      res.status(500).json({ message: "Failed to get page content" });
+    }
+  });
+
+  app.put("/api/page-content", async (req, res) => {
+    try {
+      const contentUpdates = req.body; // Array of content updates
+      
+      if (!Array.isArray(contentUpdates)) {
+        return res.status(400).json({ message: "Content updates must be an array" });
+      }
+
+      const results = [];
+      for (const update of contentUpdates) {
+        const contentData = insertPageContentSchema.parse(update);
+        const content = await storage.upsertPageContent(contentData);
+        results.push(content);
+      }
+      
+      res.json(results);
+    } catch (error) {
+      console.error("Failed to update page content:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid page content data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to update page content" });
+    }
+  });
+
   // Initialize some data for demo purposes (only if there's none)
   initializeDemoData();
 
@@ -556,6 +593,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.sendStatus(404);
       }
       return res.sendStatus(500);
+    }
+  });
+
+  // Page content routes
+  app.get("/api/pages/:pageName/content", async (req, res) => {
+    try {
+      const { pageName } = req.params;
+      const content = await storage.getPageContent(pageName);
+      res.json(content);
+    } catch (error) {
+      console.error('Error fetching page content:', error);
+      res.status(500).json({ error: "Failed to fetch page content" });
+    }
+  });
+
+  app.post("/api/pages/content", async (req, res) => {
+    try {
+      const validatedContent = insertPageContentSchema.parse(req.body);
+      const content = await storage.upsertPageContent(validatedContent);
+      res.json(content);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: "Invalid page content data", details: error.errors });
+      }
+      console.error('Error saving page content:', error);
+      res.status(500).json({ error: "Failed to save page content" });
     }
   });
 
@@ -815,4 +878,3 @@ async function initializeDemoData() {
     }
   }
 }
-import { ObjectStorageService } from "./objectStorage";

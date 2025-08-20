@@ -6,8 +6,9 @@ import {
   Appointment, InsertAppointment,
   Activity, InsertActivity,
   ThemeSettings, InsertThemeSettings,
+  PageContent, InsertPageContent,
   // Import all the schema tables
-  users, properties, clients, messages, appointments, activities, themeSettings
+  users, properties, clients, messages, appointments, activities, themeSettings, pageContent
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, or, desc, gte, lte } from "drizzle-orm";
@@ -54,6 +55,10 @@ export interface IStorage {
   getThemeSettings(userId: number): Promise<ThemeSettings | undefined>;
   createThemeSettings(themeSettings: InsertThemeSettings): Promise<ThemeSettings>;
   updateThemeSettings(userId: number, themeSettings: Partial<ThemeSettings>): Promise<ThemeSettings | undefined>;
+  
+  // Page content operations
+  getPageContent(pageName: string): Promise<PageContent[]>;
+  upsertPageContent(pageContent: InsertPageContent): Promise<PageContent>;
   
   // Dashboard operations
   getPortfolioValue(realtorId: number): Promise<number>;
@@ -325,8 +330,30 @@ export class MemStorage implements IStorage {
       activeListings: properties.filter(p => p.status === "Active").length,
       pendingSales: properties.filter(p => p.status === "Pending").length,
       closedSales: properties.filter(p => p.status === "Sold").length,
-      newLeads: clients.filter(c => c.createdAt > oneWeekAgo).length
+      newLeads: clients.filter(c => c.createdAt! > oneWeekAgo).length
     };
+  }
+
+  // Theme settings operations (stub implementations)
+  async getThemeSettings(userId: number): Promise<ThemeSettings | undefined> {
+    return undefined;
+  }
+
+  async createThemeSettings(themeSettings: InsertThemeSettings): Promise<ThemeSettings> {
+    throw new Error("Theme settings not implemented in MemStorage");
+  }
+
+  async updateThemeSettings(userId: number, themeSettings: Partial<ThemeSettings>): Promise<ThemeSettings | undefined> {
+    return undefined;
+  }
+
+  // Page content operations (stub implementations)
+  async getPageContent(pageName: string): Promise<PageContent[]> {
+    return [];
+  }
+
+  async upsertPageContent(pageContent: InsertPageContent): Promise<PageContent> {
+    throw new Error("Page content not implemented in MemStorage");
   }
 }
 
@@ -585,6 +612,46 @@ export class DatabaseStorage implements IStorage {
       .where(eq(themeSettings.userId, userId))
       .returning();
     return settings;
+  }
+
+  // Page content operations
+  async getPageContent(pageName: string): Promise<PageContent[]> {
+    return await db.select().from(pageContent).where(eq(pageContent.pageName, pageName));
+  }
+
+  async upsertPageContent(insertPageContent: InsertPageContent): Promise<PageContent> {
+    // Try to find existing content first
+    const existing = await db
+      .select()
+      .from(pageContent)
+      .where(
+        and(
+          eq(pageContent.pageName, insertPageContent.pageName),
+          eq(pageContent.sectionName, insertPageContent.sectionName),
+          eq(pageContent.contentKey, insertPageContent.contentKey)
+        )
+      );
+
+    if (existing.length > 0) {
+      // Update existing content
+      const [updated] = await db
+        .update(pageContent)
+        .set({ 
+          contentValue: insertPageContent.contentValue,
+          contentType: insertPageContent.contentType,
+          updatedAt: new Date()
+        })
+        .where(eq(pageContent.id, existing[0].id))
+        .returning();
+      return updated;
+    } else {
+      // Create new content
+      const [created] = await db
+        .insert(pageContent)
+        .values(insertPageContent)
+        .returning();
+      return created;
+    }
   }
 
   // Dashboard operations
