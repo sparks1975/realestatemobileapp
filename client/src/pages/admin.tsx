@@ -86,6 +86,8 @@ export default function AdminPanel() {
     textColor: '#333333',
     linkColor: '#CBA328',
     linkHoverColor: '#b8951f',
+    navigationColor: '#1a1a1a',
+    subNavigationColor: '#2a2a2a',
     fontFamily: 'Inter'
   });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -110,6 +112,8 @@ export default function AdminPanel() {
         textColor: currentThemeSettings.textColor,
         linkColor: currentThemeSettings.linkColor,
         linkHoverColor: currentThemeSettings.linkHoverColor,
+        navigationColor: currentThemeSettings.navigationColor || '#1a1a1a',
+        subNavigationColor: currentThemeSettings.subNavigationColor || '#2a2a2a',
         fontFamily: currentThemeSettings.fontFamily
       });
     }
@@ -1212,14 +1216,52 @@ export default function AdminPanel() {
                               type="color"
                               id="tertiaryColor"
                               value={themeSettings.tertiaryColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, tertiaryColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('tertiaryColor', e.target.value)}
                               className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                             />
                             <Input
                               value={themeSettings.tertiaryColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, tertiaryColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('tertiaryColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#f5f5f5"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="navigationColor" className="text-gray-700 text-sm font-medium">Navigation Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="navigationColor"
+                              value={themeSettings.navigationColor}
+                              onChange={(e) => updateThemeSetting('navigationColor', e.target.value)}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.navigationColor}
+                              onChange={(e) => updateThemeSetting('navigationColor', e.target.value)}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#1a1a1a"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="subNavigationColor" className="text-gray-700 text-sm font-medium">Sub-Navigation Color</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="subNavigationColor"
+                              value={themeSettings.subNavigationColor}
+                              onChange={(e) => updateThemeSetting('subNavigationColor', e.target.value)}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.subNavigationColor}
+                              onChange={(e) => updateThemeSetting('subNavigationColor', e.target.value)}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#2a2a2a"
                             />
                           </div>
                         </div>
@@ -1237,12 +1279,12 @@ export default function AdminPanel() {
                               type="color"
                               id="textColor"
                               value={themeSettings.textColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, textColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('textColor', e.target.value)}
                               className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                             />
                             <Input
                               value={themeSettings.textColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, textColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('textColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#333333"
                             />
@@ -1256,12 +1298,12 @@ export default function AdminPanel() {
                               type="color"
                               id="linkColor"
                               value={themeSettings.linkColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, linkColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('linkColor', e.target.value)}
                               className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                             />
                             <Input
                               value={themeSettings.linkColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, linkColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('linkColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#CBA328"
                             />
@@ -1275,12 +1317,12 @@ export default function AdminPanel() {
                               type="color"
                               id="linkHoverColor"
                               value={themeSettings.linkHoverColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, linkHoverColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('linkHoverColor', e.target.value)}
                               className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
                             />
                             <Input
                               value={themeSettings.linkHoverColor}
-                              onChange={(e) => setThemeSettings({...themeSettings, linkHoverColor: e.target.value})}
+                              onChange={(e) => updateThemeSetting('linkHoverColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#b8951f"
                             />
@@ -1296,7 +1338,7 @@ export default function AdminPanel() {
                       <Label htmlFor="fontFamily" className="text-gray-700 text-sm font-medium">Font Family</Label>
                       <Select
                         value={themeSettings.fontFamily}
-                        onValueChange={(value) => setThemeSettings({...themeSettings, fontFamily: value})}
+                        onValueChange={(value) => updateThemeSetting('fontFamily', value)}
                       >
                         <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
                           <SelectValue />
