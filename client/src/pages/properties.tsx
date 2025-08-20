@@ -87,7 +87,15 @@ export default function Properties() {
                 
                 <div className="flex-1 p-3">
                   <div className="flex justify-between items-start mb-1">
-                    <h3 className="font-medium text-sm leading-tight">{property.title}</h3>
+                    <h3 
+                      className="text-sm leading-tight"
+                      style={{ 
+                        fontFamily: 'var(--heading-font)', 
+                        fontWeight: 'var(--heading-font-weight)' 
+                      }}
+                    >
+                      {property.title}
+                    </h3>
                     <span className="text-sm font-bold text-primary">
                       ${property.price?.toLocaleString()}
                     </span>
