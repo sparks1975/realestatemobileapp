@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X, MessageCircle, Calendar } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, MessageCircle, Calendar } from "lucide-react";
+import { useEffect } from "react";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 export default function AgentPage() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Load theme settings
   const { data: themeSettings, refetch: refetchTheme } = useQuery({
@@ -68,180 +69,7 @@ export default function AgentPage() {
 
   return (
     <div className="agent-page min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-      {/* Navigation - Same as other pages */}
-      <nav 
-        className="fixed top-0 w-full backdrop-blur-sm z-50"
-        style={{ backgroundColor: 'var(--header-background-color)' }}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div 
-              className="text-2xl font-light tracking-wider"
-              style={{ color: 'var(--navigation-color)' }}
-            >
-              <a href="/">LUXELEAD</a>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-12">
-              <a 
-                href="/" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Home
-              </a>
-              <a 
-                href="/properties" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Properties
-              </a>
-              <a 
-                href="/agent" 
-                className="text-sm uppercase tracking-wide transition-colors"
-                style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
-              >
-                Agent
-              </a>
-              <a 
-                href="/#contact" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Contact
-              </a>
-              <a 
-                href="/app" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Mobile App
-              </a>
-              <a 
-                href="/admin" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Admin
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              style={{ color: 'var(--navigation-color)' }}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Off-Canvas Menu */}
-        <div 
-          className={`fixed inset-y-0 right-0 w-64 transform transition-transform duration-300 ease-in-out z-50 md:hidden shadow-2xl ${
-            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          style={{ 
-            backgroundColor: 'var(--header-background-color)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)'
-          }}
-        >
-          <div 
-            className="flex flex-col h-full w-full"
-            style={{ backgroundColor: 'var(--header-background-color)' }}
-          >
-            <div 
-              className="flex justify-between items-center px-6 py-6 border-b border-opacity-20 w-full" 
-              style={{ 
-                borderColor: 'var(--navigation-color)',
-                backgroundColor: 'var(--header-background-color)'
-              }}
-            >
-              <div 
-                className="text-xl font-light tracking-wider"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                MENU
-              </div>
-              <button
-                className="p-2 hover:opacity-70 transition-opacity"
-                onClick={() => setIsMobileMenuOpen(false)}
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                <X size={24} />
-              </button>
-            </div>
-            
-            <div 
-              className="flex-1 px-6 py-8 w-full"
-              style={{ backgroundColor: 'var(--header-background-color)' }}
-            >
-              <div className="space-y-6">
-                <a 
-                  href="/" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Home
-                </a>
-                <a 
-                  href="/properties" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Properties
-                </a>
-                <a 
-                  href="/agent" 
-                  className="block text-lg uppercase tracking-wide transition-colors"
-                  style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Agent
-                </a>
-                <a 
-                  href="/#contact" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </a>
-                <a 
-                  href="/app" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Mobile App
-                </a>
-                <a 
-                  href="/admin" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Admin
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        {isMobileMenuOpen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
-      </nav>
+      <Header currentPage="agent" />
 
       {/* Main Content */}
       <div className="pt-0">
@@ -680,70 +508,7 @@ export default function AgentPage() {
         </section>
       </div>
 
-      {/* Footer - Same as other pages */}
-      <footer className="py-16" style={{ backgroundColor: 'var(--secondary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center">
-            <div 
-              className="text-3xl font-light mb-8 tracking-wider"
-              style={{ color: 'var(--tertiary-color)' }}
-            >
-              LUXELEAD
-            </div>
-            <div className="flex justify-center space-x-8 mb-8">
-              <a 
-                href="/" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
-              >
-                Home
-              </a>
-              <a 
-                href="/properties" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
-              >
-                Properties
-              </a>
-              <a 
-                href="/agent" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
-              >
-                Agent
-              </a>
-              <a 
-                href="/#contact" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
-              >
-                Contact
-              </a>
-              <a 
-                href="/admin" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--tertiary-color)' }}
-              >
-                Admin
-              </a>
-            </div>
-            <div className="flex justify-center space-x-6 mb-8">
-              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
-                <span className="text-xs">f</span>
-              </div>
-              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
-                <span className="text-xs">t</span>
-              </div>
-              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
-                <span className="text-xs">in</span>
-              </div>
-            </div>
-            <div className="text-sm text-gray-500">
-              © 2024 LuxeLead. All rights reserved.
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

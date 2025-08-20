@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award } from "lucide-react";
+import { useEffect } from "react";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 interface Property {
   id: number;
@@ -30,17 +32,15 @@ interface Property {
 }
 
 export default function HomePage() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
     enabled: true,
-    staleTime: 0,
-    gcTime: 0,
-    refetchOnWindowFocus: true
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
-  // Load theme settings with aggressive cache busting
+  // Load theme settings
   const { data: themeSettings, refetch: refetchTheme } = useQuery({
     queryKey: ['/api/theme-settings/1'],
     queryFn: async () => {
@@ -60,13 +60,11 @@ export default function HomePage() {
     refetchOnWindowFocus: true
   });
 
-  // Apply theme settings to CSS variables
+  // Apply theme settings
   const applyThemeSettings = (settings: any) => {
     if (settings) {
       console.log('🎨 Applying theme settings:', settings);
       const root = document.documentElement;
-      
-      // Set CSS variables with debugging
       root.style.setProperty('--primary-color', settings.primaryColor);
       root.style.setProperty('--secondary-color', settings.secondaryColor);
       root.style.setProperty('--tertiary-color', settings.tertiaryColor);
@@ -83,22 +81,8 @@ export default function HomePage() {
       root.style.setProperty('--body-font-weight', settings.bodyFontWeight || '400');
       root.style.setProperty('--button-font-weight', settings.buttonFontWeight || '500');
 
-      // Debug: Check if variables were actually set
-      console.log('🔍 CSS Variables set:', {
-        '--primary-color': root.style.getPropertyValue('--primary-color'),
-        '--link-color': root.style.getPropertyValue('--link-color'),
-        '--text-color': root.style.getPropertyValue('--text-color'),
-        '--navigation-color': root.style.getPropertyValue('--navigation-color'),
-        '--sub-navigation-color': root.style.getPropertyValue('--sub-navigation-color'),
-        '--header-background-color': root.style.getPropertyValue('--header-background-color'),
-        '--heading-font-weight': root.style.getPropertyValue('--heading-font-weight'),
-        '--body-font-weight': root.style.getPropertyValue('--body-font-weight'),
-        '--button-font-weight': root.style.getPropertyValue('--button-font-weight')
-      });
-
-      // Load Google Fonts dynamically with all font weights
+      // Load Google Fonts
       const fontsToLoad = new Set([settings.headingFont, settings.bodyFont, settings.buttonFont]);
-      
       fontsToLoad.forEach(font => {
         if (font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)) {
           const fontUrl = `https://fonts.googleapis.com/css2?family=${font.replace(' ', '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
@@ -134,348 +118,151 @@ export default function HomePage() {
 
   return (
     <div className="agent-website min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-      {/* Navigation */}
-      <nav 
-        className="fixed top-0 w-full backdrop-blur-sm z-50"
-        style={{ backgroundColor: 'var(--header-background-color)' }}
+      <Header currentPage="home" />
+
+      {/* Hero Section */}
+      <section 
+        className="relative pt-24 pb-32 overflow-hidden"
+        style={{ backgroundColor: 'var(--secondary-color)' }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div 
-              className="text-2xl font-light tracking-wider"
-              style={{ color: 'var(--navigation-color)' }}
-            >
-              LUXELEAD
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-12">
-              <a 
-                href="#home" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Home
-              </a>
-              <a 
-                href="/properties" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Properties
-              </a>
-              <a 
-                href="/agent" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Agent
-              </a>
-              <a 
-                href="#contact" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Contact
-              </a>
-              <a 
-                href="/app" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Mobile App
-              </a>
-              <a 
-                href="/admin" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                Admin
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              style={{ color: 'var(--navigation-color)' }}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Off-Canvas Menu */}
-        <div 
-          className={`fixed inset-y-0 right-0 w-64 transform transition-transform duration-300 ease-in-out z-50 md:hidden shadow-2xl ${
-            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          style={{ 
-            backgroundColor: 'var(--header-background-color)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)'
-          }}
-        >
-          <div 
-            className="flex flex-col h-full w-full"
-            style={{ backgroundColor: 'var(--header-background-color)' }}
-          >
-            {/* Close Button Header */}
-            <div 
-              className="flex justify-between items-center px-6 py-6 border-b border-opacity-20 w-full" 
-              style={{ 
-                borderColor: 'var(--navigation-color)',
-                backgroundColor: 'var(--header-background-color)'
-              }}
-            >
-              <div 
-                className="text-xl font-light tracking-wider"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                MENU
-              </div>
-              <button
-                className="p-2 hover:opacity-70 transition-opacity"
-                onClick={() => setIsMobileMenuOpen(false)}
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                <X size={24} />
-              </button>
-            </div>
-            
-            {/* Menu Items */}
-            <div 
-              className="flex-1 px-6 py-8 w-full"
-              style={{ backgroundColor: 'var(--header-background-color)' }}
-            >
-              <div className="space-y-6">
-                <a 
-                  href="#home" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Home
-                </a>
-                <a 
-                  href="/properties" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Properties
-                </a>
-                <a 
-                  href="/agent" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Agent
-                </a>
-                <a 
-                  href="#contact" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </a>
-                <a 
-                  href="/app" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Mobile App
-                </a>
-                <a 
-                  href="/admin" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Admin
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        {isMobileMenuOpen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&h=1000"
+            alt="Luxury Home"
+            className="w-full h-full object-cover"
           />
-        )}
-      </nav>
-
-      {/* Hero Section - Inspired by Kumara */}
-      <section id="home" className="relative h-screen">
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1920&h=1080')`
-          }}
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-30" />
+          <div 
+            className="absolute inset-0 bg-opacity-70"
+            style={{ backgroundColor: 'var(--secondary-color)' }}
+          ></div>
+        </div>
         
-        <div className="relative z-10 h-full flex items-end">
-          <div className="w-full max-w-7xl mx-auto px-6 pb-24">
-            <div className="max-w-2xl">
-              <p 
-                className="text-sm uppercase tracking-[0.2em] mb-4"
-                style={{ color: 'var(--tertiary-color)' }}
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="max-w-3xl">
+            <p 
+              className="text-sm uppercase tracking-[0.2em] mb-6"
+              style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+            >
+              Austin's Premier Real Estate
+            </p>
+            <h1 
+              className="text-5xl md:text-7xl font-light leading-tight mb-8"
+              style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+            >
+              Find Your Dream Home
+            </h1>
+            <p 
+              className="text-xl leading-relaxed mb-12"
+              style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+            >
+              Discover luxury properties in Austin's most exclusive neighborhoods. 
+              From modern penthouses to historic estates, we help you find the perfect home.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-6">
+              <Button 
+                className="px-8 py-4 text-white text-lg uppercase tracking-wide border-0"
+                style={{ 
+                  backgroundColor: 'var(--primary-color)',
+                  fontFamily: 'var(--button-font)',
+                  fontWeight: 'var(--button-font-weight)'
+                }}
               >
-                Austin's #1 Luxury Realtor
-              </p>
-              <h1 
-                className="text-5xl md:text-7xl font-light mb-8 leading-tight"
-                style={{ color: 'var(--tertiary-color)' }}
+                View Properties
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+              <Button 
+                variant="outline" 
+                className="px-8 py-4 text-lg uppercase tracking-wide border-2"
+                style={{ 
+                  borderColor: 'var(--tertiary-color)', 
+                  color: 'var(--tertiary-color)',
+                  fontFamily: 'var(--button-font)',
+                  fontWeight: 'var(--button-font-weight)'
+                }}
               >
-                Exceptional<br />
-                Properties<br />
-                Await
-              </h1>
+                <Phone className="mr-2 w-5 h-5" />
+                Call Today
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introduction Section */}
-      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div>
-                <p 
-                  className="text-sm uppercase tracking-[0.2em] mb-4"
-                  style={{ color: 'var(--secondary-color)' }}
-                >
-                  About LuxeLead
-                </p>
-                <h2 
-                  className="text-4xl md:text-5xl font-light leading-tight mb-6"
-                  style={{ color: 'var(--text-color)' }}
-                >
-                  Expert<br />
-                  Real Estate<br />
-                  Guidance
-                </h2>
-                <p 
-                  className="text-lg leading-relaxed mb-8"
-                  style={{ color: 'var(--text-color)' }}
-                >
-                  With over a decade of experience in Austin's luxury real estate market, 
-                  we provide unparalleled expertise and personalized service to help you 
-                  find your perfect home or investment opportunity.
-                </p>
-                <Button 
-                  variant="outline" 
-                  className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
-                  style={{ 
-                    borderColor: 'var(--primary-color)', 
-                    color: 'var(--primary-color)',
-                    backgroundColor: 'transparent'
-                  }}
-                >
-                  Learn More
-                </Button>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=500"
-                  alt="Luxury Interior"
-                  className="w-full h-64 object-cover"
-                />
-                <img 
-                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&h=300"
-                  alt="Modern Kitchen"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="space-y-4 pt-8">
-                <img 
-                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=300"
-                  alt="Living Room"
-                  className="w-full h-48 object-cover"
-                />
-                <img 
-                  src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&h=500"
-                  alt="Master Bedroom"
-                  className="w-full h-64 object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Brand Partners */}
-      <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-center items-center space-x-12 opacity-60">
-            <div className="text-2xl font-light tracking-wider">SOTHEBY'S</div>
-            <div className="text-2xl font-light tracking-wider">CHRISTIE'S</div>
-            <div className="text-2xl font-light tracking-wider">COMPASS</div>
-            <div className="text-2xl font-light tracking-wider">COLDWELL</div>
-            <div className="text-2xl font-light tracking-wider">KELLER</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Current Inventory */}
-      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+      {/* Featured Properties */}
+      <section id="properties" className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ color: 'var(--tertiary-color)' }}
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
             >
-              LuxeLead's Current Inventory
+              Featured Properties
             </p>
             <h2 
               className="text-4xl md:text-5xl font-light leading-tight"
-              style={{ color: 'var(--tertiary-color)' }}
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
             >
-              Featured Properties
+              Luxury Listings
             </h2>
           </div>
 
           {isLoading ? (
-            <div className="grid md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-gray-700 h-80 animate-pulse" />
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="bg-gray-200 h-96 animate-pulse"></div>
               ))}
             </div>
           ) : (
-            <div className="grid md:grid-cols-3 gap-8">
-              {currentInventory.map((property) => (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredProperties.map((property) => (
                 <a 
-                  key={property.id} 
+                  key={property.id}
                   href={`/property/${property.id}`}
-                  className="group cursor-pointer block"
+                  className="group relative overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
-                  <div className="relative overflow-hidden mb-4">
+                  <div className="aspect-[4/3] overflow-hidden">
                     <img 
-                      src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
+                      src={property.mainImage || property.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&h=600'}
                       alt={property.title}
-                      className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <div 
-                      className="absolute bottom-0 left-0 right-0 p-6 text-white"
-                      style={{
-                        background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
-                      }}
+                  </div>
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                  
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge 
+                        variant="secondary" 
+                        className="text-xs font-medium px-2 py-1"
+                        style={{ backgroundColor: 'var(--primary-color)', color: 'white' }}
+                      >
+                        {property.status}
+                      </Badge>
+                    </div>
+                    
+                    <h3 
+                      className="text-xl font-light leading-tight mb-2"
+                      style={{ fontFamily: 'var(--heading-font)' }}
                     >
-                      <div className="text-sm uppercase tracking-wide mb-2">
-                        {property.address}
+                      {property.title}
+                    </h3>
+                    
+                    <div className="flex items-center gap-1 mb-3 text-sm">
+                      <MapPin className="w-4 h-4" />
+                      <span>{property.city}, {property.state}</span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <div 
+                        className="text-2xl font-light"
+                        style={{ fontFamily: 'var(--heading-font)' }}
+                      >
+                        ${property.price.toLocaleString()}
                       </div>
-                      <div className="text-2xl font-light">
-                        ${property.price?.toLocaleString()}
+                      <div className="text-sm">
+                        {property.bedrooms}bd • {property.bathrooms}ba
                       </div>
                     </div>
                   </div>
@@ -483,152 +270,107 @@ export default function HomePage() {
               ))}
             </div>
           )}
-
-          <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              className="uppercase tracking-wide border-2 px-8 py-3"
-              style={{ 
-                borderColor: 'var(--tertiary-color)', 
-                color: 'var(--tertiary-color)' 
-              }}
-            >
-              View Additional
-            </Button>
-          </div>
         </div>
       </section>
 
-      {/* Showcase Section */}
-      <section 
-        className="py-24"
-        style={{ backgroundColor: '#E5D5C8' }}
-      >
+      {/* Stats */}
+      <section className="py-16" style={{ backgroundColor: 'var(--secondary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <p 
-              className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ color: 'var(--secondary-color)' }}
-            >
-              View Spotlight
-            </p>
-            <h2 
-              className="text-4xl md:text-5xl font-light leading-tight mb-8"
-              style={{ color: 'var(--text-color)' }}
-            >
-              Stay Updated on the First to Know
-            </h2>
-            <div className="max-w-md mx-auto">
-              <div className="flex h-12 gap-3">
-                <input 
-                  type="email" 
-                  placeholder="Email Address" 
-                  className="flex-1 px-6 h-12 text-center bg-transparent border border-gray-400 focus:outline-none focus:border-gray-600"
-                  style={{ color: 'var(--text-color)' }}
-                />
-                <Button 
-                  className="px-8 h-12 text-white uppercase tracking-wide border-0"
-                  style={{ backgroundColor: 'var(--secondary-color)' }}
-                >
-                  Submit
-                </Button>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div 
+                className="text-4xl md:text-5xl font-light mb-2"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                500+
+              </div>
+              <div 
+                className="text-sm uppercase tracking-wide"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+              >
+                Properties Sold
+              </div>
+            </div>
+            <div>
+              <div 
+                className="text-4xl md:text-5xl font-light mb-2"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                $2.5B
+              </div>
+              <div 
+                className="text-sm uppercase tracking-wide"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+              >
+                Total Sales
+              </div>
+            </div>
+            <div>
+              <div 
+                className="text-4xl md:text-5xl font-light mb-2"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                98%
+              </div>
+              <div 
+                className="text-sm uppercase tracking-wide"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+              >
+                Client Satisfaction
+              </div>
+            </div>
+            <div>
+              <div 
+                className="text-4xl md:text-5xl font-light mb-2"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                15+
+              </div>
+              <div 
+                className="text-sm uppercase tracking-wide"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+              >
+                Years Experience
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Communities Section */}
+      {/* About Agent */}
       <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <p 
-              className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ color: 'var(--secondary-color)' }}
-            >
-              Featured Communities
-            </p>
-            <h2 
-              className="text-4xl md:text-5xl font-light leading-tight"
-              style={{ color: 'var(--text-color)' }}
-            >
-              The Advisor
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredProperties.slice(0, 3).map((property) => (
-              <a 
-                key={property.id} 
-                href={`/property/${property.id}`}
-                className="group cursor-pointer block"
-              >
-                <div className="relative overflow-hidden mb-4">
-                  <img 
-                    src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
-                    alt={property.title}
-                    className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div 
-                    className="absolute bottom-0 left-0 right-0 p-6 text-white"
-                    style={{
-                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
-                    }}
-                  >
-                    <div className="text-sm uppercase tracking-wide mb-2">
-                      {property.address}
-                    </div>
-                    <div className="text-2xl font-light">
-                      ${property.price?.toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Button 
-              variant="outline" 
-              className="uppercase tracking-wide border-2 px-8 py-3"
-              style={{ 
-                borderColor: 'var(--primary-color)', 
-                color: 'var(--primary-color)' 
-              }}
-            >
-              View Additional
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Agent Section */}
-      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <img 
                 src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&h=700"
-                alt="LuxeLead Agent"
+                alt="Alex Rodriguez"
                 className="w-full h-96 object-cover"
               />
+              <div className="absolute -bottom-8 -right-8 w-24 h-24 flex items-center justify-center text-white"
+                   style={{ backgroundColor: 'var(--primary-color)' }}>
+                <div className="text-center">
+                  <div className="text-2xl font-bold">15+</div>
+                  <div className="text-xs uppercase">Years</div>
+                </div>
+              </div>
             </div>
             <div>
               <p 
                 className="text-sm uppercase tracking-[0.2em] mb-4"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
               >
-                LuxeLead
+                Your Trusted Agent
               </p>
               <h2 
                 className="text-4xl md:text-5xl font-light leading-tight mb-6"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
               >
                 Alex Rodriguez
               </h2>
               <p 
                 className="text-lg leading-relaxed mb-8"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
               >
                 With over 15 years of experience in Austin's luxury real estate market, 
                 Alex brings unparalleled expertise and a passion for exceptional service 
@@ -638,13 +380,13 @@ export default function HomePage() {
                 <div className="text-center">
                   <div 
                     className="text-3xl font-light mb-2"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
                   >
                     500+
                   </div>
                   <div 
                     className="text-sm uppercase tracking-wide"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
                   >
                     Properties Sold
                   </div>
@@ -652,13 +394,13 @@ export default function HomePage() {
                 <div className="text-center">
                   <div 
                     className="text-3xl font-light mb-2"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
                   >
                     $2.5B
                   </div>
                   <div 
                     className="text-sm uppercase tracking-wide"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
                   >
                     Total Sales
                   </div>
@@ -668,8 +410,10 @@ export default function HomePage() {
                 variant="outline" 
                 className="uppercase tracking-wide border-2 px-8 py-3"
                 style={{ 
-                  borderColor: 'var(--tertiary-color)', 
-                  color: 'var(--tertiary-color)' 
+                  borderColor: 'var(--text-color)', 
+                  color: 'var(--text-color)',
+                  fontFamily: 'var(--button-font)',
+                  fontWeight: 'var(--button-font-weight)'
                 }}
               >
                 Contact Alex
@@ -679,66 +423,115 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center">
-            <div 
-              className="text-3xl font-light mb-8 tracking-wider"
-              style={{ color: 'var(--text-color)' }}
+      {/* Contact Section */}
+      <section id="contact" className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p 
+            className="text-sm uppercase tracking-[0.2em] mb-4"
+            style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+          >
+            Get In Touch
+          </p>
+          <h2 
+            className="text-4xl md:text-5xl font-light leading-tight mb-8"
+            style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+          >
+            Ready to Find Your Dream Home?
+          </h2>
+          <p 
+            className="text-xl leading-relaxed mb-12 max-w-2xl mx-auto"
+            style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+          >
+            Let's discuss your real estate goals and find the perfect property 
+            that matches your lifestyle and investment objectives.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+            <Button 
+              className="px-12 py-4 text-white text-lg uppercase tracking-wide border-0"
+              style={{ 
+                backgroundColor: 'var(--primary-color)',
+                fontFamily: 'var(--button-font)',
+                fontWeight: 'var(--button-font-weight)'
+              }}
             >
-              LUXELEAD
-            </div>
-            <div className="flex justify-center space-x-8 mb-8">
+              <Phone className="w-5 h-5 mr-3" />
+              Call Today
+            </Button>
+            
+            <div className="flex items-center gap-6">
               <a 
-                href="/properties" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--text-color)' }}
+                href="tel:+1234567890"
+                className="flex items-center text-lg hover:opacity-70 transition-opacity"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
               >
-                Properties
+                <Phone className="w-5 h-5 mr-2" />
+                (512) 555-0123
               </a>
               <a 
-                href="/agent" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--text-color)' }}
+                href="mailto:alex@luxelead.com"
+                className="flex items-center text-lg hover:opacity-70 transition-opacity"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
               >
-                Agent
-              </a>
-              <a 
-                href="#" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--text-color)' }}
-              >
-                Contact
-              </a>
-              <a 
-                href="/admin" 
-                className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                style={{ color: 'var(--text-color)' }}
-              >
-                Admin
+                <Mail className="w-5 h-5 mr-2" />
+                alex@luxelead.com
               </a>
             </div>
-            <div className="flex justify-center space-x-6 mb-8">
-              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
-                <span className="text-xs">f</span>
-              </div>
-              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
-                <span className="text-xs">in</span>
-              </div>
-              <div className="w-8 h-8 border border-gray-400 flex items-center justify-center hover:bg-gray-400 hover:text-white transition-colors cursor-pointer">
-                <span className="text-xs">ig</span>
-              </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <Home className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+              <h4 
+                className="text-xl font-light mb-3"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                Luxury Homes
+              </h4>
+              <p 
+                className="text-sm leading-relaxed"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+              >
+                Exclusive residential properties in Austin's most prestigious neighborhoods
+              </p>
             </div>
-            <p 
-              className="text-sm"
-              style={{ color: 'var(--text-color)' }}
-            >
-              © 2024 LuxeLead. All rights reserved. Austin's premier luxury real estate professionals.
-            </p>
+
+            <div className="text-center">
+              <Users className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+              <h4 
+                className="text-xl font-light mb-3"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                Investment Properties
+              </h4>
+              <p 
+                className="text-sm leading-relaxed"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+              >
+                Strategic investment opportunities with proven ROI potential
+              </p>
+            </div>
+
+            <div className="text-center">
+              <Award className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+              <h4 
+                className="text-xl font-light mb-3"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                Commercial Real Estate
+              </h4>
+              <p 
+                className="text-sm leading-relaxed"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+              >
+                Premium commercial spaces and development opportunities
+              </p>
+            </div>
           </div>
         </div>
-      </footer>
+      </section>
+
+      <Footer />
     </div>
   );
 }
