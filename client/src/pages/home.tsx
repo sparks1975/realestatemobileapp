@@ -158,7 +158,7 @@ export default function HomePage() {
                 Home
               </a>
               <a 
-                href="#properties" 
+                href="/properties" 
                 className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
               >
@@ -258,7 +258,7 @@ export default function HomePage() {
                   Home
                 </a>
                 <a 
-                  href="#properties" 
+                  href="/properties" 
                   className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
                   style={{ color: 'var(--navigation-color)' }}
                   onClick={() => setIsMobileMenuOpen(false)}

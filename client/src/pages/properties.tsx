@@ -1,121 +1,117 @@
 import { useQuery } from "@tanstack/react-query";
-import { Plus, Search } from "lucide-react";
-import { useState } from "react";
-import PropertyCard from "@/components/ui/property-card";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Property } from "@shared/schema";
-import { getQueryFn } from "@/lib/queryClient";
+import { MapPin, DollarSign, Bed, Bath, Square, Star, Plus } from "lucide-react";
 
-type FilterType = "All Properties" | "For Sale" | "For Rent" | "Recent" | "Pending";
+interface Property {
+  id: number;
+  title: string;
+  address: string;
+  city: string;
+  state: string;
+  price: number;
+  bedrooms: number;
+  bathrooms: number;
+  squareFeet: number;
+  description: string;
+  type: string;
+  status: string;
+  mainImage?: string;
+  images: string[];
+}
 
 export default function Properties() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeFilter, setActiveFilter] = useState<FilterType>("All Properties");
-  
-  // Fetch properties
-  const { data, isLoading } = useQuery({
-    queryKey: ["/api/properties"],
-    queryFn: getQueryFn({ on401: 'throw' })
+  const { data: properties, isLoading } = useQuery<Property[]>({
+    queryKey: ['/api/properties'],
+    queryFn: async () => {
+      const response = await fetch('/api/properties');
+      if (!response.ok) throw new Error('Failed to fetch properties');
+      return response.json();
+    }
   });
-  
-  // Filter properties based on search term and active filter
-  const filteredProperties = data?.filter(property => {
-    // Search filter
-    const matchesSearch = searchTerm === "" || 
-      property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.city.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    // Type/status filter
-    const matchesFilter = 
-      activeFilter === "All Properties" || 
-      (activeFilter === "For Sale" && property.type === "For Sale") ||
-      (activeFilter === "For Rent" && property.type === "For Rent") ||
-      (activeFilter === "Pending" && property.status === "Pending") ||
-      (activeFilter === "Recent" && (
-        new Date(property.createdAt).getTime() > 
-        Date.now() - 7 * 24 * 60 * 60 * 1000 // 7 days
-      ));
-    
-    return matchesSearch && matchesFilter;
-  });
-  
-  // Available filters
-  const filters: FilterType[] = [
-    "All Properties",
-    "For Sale",
-    "For Rent",
-    "Recent",
-    "Pending"
-  ];
-  
+
+  if (isLoading) {
+    return (
+      <div className="p-6 space-y-4">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Properties</h1>
+          <Button size="sm">
+            <Plus className="w-4 h-4 mr-2" />
+            Add
+          </Button>
+        </div>
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-32 bg-gray-200 rounded animate-pulse" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="px-4 pt-12 pb-6">
-      {/* Header with title and add button */}
+    <div className="p-6 space-y-4">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Properties</h1>
-        <Button className="w-10 h-10 p-0 rounded-full bg-primary shadow-glow-primary">
-          <Plus className="h-5 w-5" />
+        <Button size="sm">
+          <Plus className="w-4 h-4 mr-2" />
+          Add
         </Button>
       </div>
       
-      {/* Search bar */}
-      <div className="relative mb-6">
-        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="text"
-          placeholder="Search properties..."
-          className="pl-9 bg-card"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-      
-      {/* Filters */}
-      <div className="flex space-x-2 mb-6 overflow-x-auto pb-2 scrollbar-hide">
-        {filters.map((filter) => (
-          <Button
-            key={filter}
-            variant={activeFilter === filter ? "default" : "outline"}
-            className={`rounded-full whitespace-nowrap ${
-              activeFilter === filter 
-                ? "bg-primary text-white" 
-                : "bg-card text-muted-foreground"
-            }`}
-            onClick={() => setActiveFilter(filter)}
-          >
-            {filter}
-          </Button>
+      <div className="space-y-4">
+        {properties?.map((property) => (
+          <Card key={property.id} className="overflow-hidden">
+            <CardContent className="p-0">
+              <div className="flex">
+                <div className="w-24 h-24 relative">
+                  <img 
+                    src={property.mainImage || property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=200&h=200`}
+                    alt={property.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <Badge 
+                    variant={property.status === 'available' ? 'default' : 'secondary'} 
+                    className="absolute top-1 left-1 text-xs"
+                  >
+                    {property.status}
+                  </Badge>
+                </div>
+                
+                <div className="flex-1 p-3">
+                  <div className="flex justify-between items-start mb-1">
+                    <h3 className="font-medium text-sm leading-tight">{property.title}</h3>
+                    <span className="text-sm font-bold text-primary">
+                      ${property.price?.toLocaleString()}
+                    </span>
+                  </div>
+                  
+                  <p className="text-xs text-muted-foreground mb-2 flex items-center">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    {property.address}, {property.city}
+                  </p>
+                  
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    <div className="flex items-center">
+                      <Bed className="w-3 h-3 mr-1" />
+                      {property.bedrooms}
+                    </div>
+                    <div className="flex items-center">
+                      <Bath className="w-3 h-3 mr-1" />
+                      {property.bathrooms}
+                    </div>
+                    <div className="flex items-center">
+                      <Square className="w-3 h-3 mr-1" />
+                      {property.squareFeet?.toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
-      
-      {/* Properties Grid */}
-      {isLoading ? (
-        <div className="space-y-5">
-          <div className="h-64 bg-muted animate-pulse rounded-xl"></div>
-          <div className="h-64 bg-muted animate-pulse rounded-xl"></div>
-        </div>
-      ) : filteredProperties && filteredProperties.length > 0 ? (
-        <div className="grid grid-cols-1 gap-5">
-          {filteredProperties.map((property) => (
-            <PropertyCard key={property.id} property={property} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-10">
-          <p className="text-muted-foreground">No properties found</p>
-          {searchTerm && (
-            <Button
-              variant="link"
-              className="mt-2 text-primary"
-              onClick={() => setSearchTerm("")}
-            >
-              Clear search
-            </Button>
-          )}
-        </div>
-      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import NotFound from "@/pages/not-found";
 import TabBar from "@/components/layout/TabBar";
 import Dashboard from "@/pages/dashboard";
 import Properties from "@/pages/properties";
+import PropertiesList from "@/pages/properties-list";
 import PropertyDetails from "@/pages/property-details";
 import EditProperty from "@/pages/edit-property";
 import Messages from "@/pages/messages";
@@ -18,14 +19,24 @@ function App() {
   const [location] = useLocation();
   
   // Check if we're on the agent website or mobile app
-  const isAgentWebsite = location === "/" || location.startsWith("/website") || location.startsWith("/property/");
-  const isMobileApp = location.startsWith("/app") || (!isAgentWebsite && location !== "/" && !location.startsWith("/property/") && !location.startsWith("/admin"));
+  const isAgentWebsite = location === "/" || location.startsWith("/website") || location.startsWith("/property/") || location === "/properties";
+  const isMobileApp = location.startsWith("/app") || (!isAgentWebsite && location !== "/" && !location.startsWith("/property/") && !location.startsWith("/admin") && location !== "/properties");
 
   if (isAgentWebsite && location === "/") {
     return (
       <TooltipProvider>
         <Toaster />
         <HomePage />
+      </TooltipProvider>
+    );
+  }
+
+  // Properties list page
+  if (location === "/properties") {
+    return (
+      <TooltipProvider>
+        <Toaster />
+        <PropertiesList />
       </TooltipProvider>
     );
   }
@@ -68,7 +79,7 @@ function App() {
             
             {/* Legacy routes for backward compatibility */}
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/properties" component={Properties} />
+            <Route path="/properties" component={PropertiesList} />
             <Route path="/property-details/:id" component={PropertyDetails} />
             <Route path="/edit-property/:id" component={EditProperty} />
             <Route path="/messages" component={Messages} />
