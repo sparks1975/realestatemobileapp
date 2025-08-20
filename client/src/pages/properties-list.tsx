@@ -414,14 +414,7 @@ export default function PropertiesPage() {
                             background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
                           }}
                         >
-                          <div 
-                            className="text-lg mb-2"
-                            style={{ 
-                              color: 'white',
-                              fontFamily: 'var(--heading-font)',
-                              fontWeight: 'var(--heading-font-weight)'
-                            }}
-                          >
+                          <div className="text-lg font-light mb-2">
                             {property.title}
                           </div>
                           <div className="text-sm uppercase tracking-wide mb-2 opacity-90">

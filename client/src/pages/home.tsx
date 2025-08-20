@@ -32,7 +32,7 @@ interface Property {
 export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  const { data: properties = [], isLoading, error } = useQuery<Property[]>({
+  const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
     enabled: true,
     staleTime: 0,
@@ -175,10 +175,8 @@ export default function HomePage() {
     return () => window.removeEventListener('theme-updated', handleThemeUpdate);
   }, [refetchTheme]);
 
-  const featuredProperties = properties?.slice(0, 6) || [];
-  const currentInventory = properties?.slice(0, 3) || [];
-  
-  // Remove debug logging for cleaner console
+  const featuredProperties = properties.slice(0, 6);
+  const currentInventory = properties.slice(0, 3);
 
   return (
     <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
@@ -628,16 +626,8 @@ export default function HomePage() {
             </h2>
           </div>
 
-          {/* DEBUG: Show raw properties data */}
-          <div style={{ backgroundColor: 'yellow', color: 'black', padding: '10px', marginBottom: '20px' }}>
-            Properties found: {properties?.length || 0}
-            {properties && properties.length > 0 && (
-              <div>First property: {properties[0]?.title || 'NO TITLE'}</div>
-            )}
-          </div>
-
           <div className="grid md:grid-cols-3 gap-8">
-            {properties?.slice(0, 3).map((property) => (
+            {featuredProperties.slice(0, 3).map((property) => (
               <a 
                 key={property.id} 
                 href={`/property/${property.id}`}
@@ -655,17 +645,8 @@ export default function HomePage() {
                       background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
                     }}
                   >
-                    <div 
-                      className="text-lg mb-2"
-                      style={{ 
-                        color: 'red',
-                        fontFamily: 'var(--heading-font)',
-                        fontWeight: 'var(--heading-font-weight)',
-                        backgroundColor: 'white',
-                        padding: '4px'
-                      }}
-                    >
-                      TITLE: {property.title}
+                    <div className="text-lg font-light mb-2">
+                      {property.title}
                     </div>
                     <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
                       {property.address}
