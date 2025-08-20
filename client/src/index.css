@@ -123,6 +123,14 @@
     
     /* Dynamic Theme Variables */
     --primary-color: #CBA328;
+    --secondary-color: #1a1a1a;
+    --tertiary-color: #f5f5f5;
+    --text-color: #333333;
+    --link-color: #CBA328;
+    --link-hover-color: #b8951f;
+    --navigation-color: #1a1a1a;
+    --sub-navigation-color: #2a2a2a;
+    --font-family: 'Inter', sans-serif;
   }
 
   .dark {
@@ -175,6 +183,8 @@
     --text-color: #ffffff;
     --link-color: #CBA328;
     --link-hover-color: #b8951f;
+    --navigation-color: #1a1a1a;
+    --sub-navigation-color: #2a2a2a;
     --font-family: 'Inter', sans-serif;
   }
 }
