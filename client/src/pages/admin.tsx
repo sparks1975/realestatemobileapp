@@ -92,7 +92,10 @@ export default function AdminPanel() {
     headerBackgroundColor: '#ffffff',
     headingFont: 'Inter',
     bodyFont: 'Inter',
-    buttonFont: 'Inter'
+    buttonFont: 'Inter',
+    headingFontWeight: '600',
+    bodyFontWeight: '400',
+    buttonFontWeight: '500'
   });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -121,7 +124,10 @@ export default function AdminPanel() {
         headerBackgroundColor: currentThemeSettings.headerBackgroundColor || '#ffffff',
         headingFont: currentThemeSettings.headingFont || 'Inter',
         bodyFont: currentThemeSettings.bodyFont || 'Inter',
-        buttonFont: currentThemeSettings.buttonFont || 'Inter'
+        buttonFont: currentThemeSettings.buttonFont || 'Inter',
+        headingFontWeight: currentThemeSettings.headingFontWeight || '600',
+        bodyFontWeight: currentThemeSettings.bodyFontWeight || '400',
+        buttonFontWeight: currentThemeSettings.buttonFontWeight || '500'
       });
     }
   }, [currentThemeSettings, hasUnsavedChanges]);
@@ -1475,77 +1481,138 @@ export default function AdminPanel() {
 
                   <div className="pt-4">
                     <h3 className="text-lg font-medium text-gray-900 mb-4">Typography</h3>
-                    <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="headingFont" className="text-gray-700 text-sm font-medium">Heading Font</Label>
-                        <Select
-                          value={themeSettings.headingFont}
-                          onValueChange={(value) => updateThemeSetting('headingFont', value)}
-                        >
-                          <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
-                            <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
-                            <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
-                            <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
-                            <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
-                            <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
-                            <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
-                            <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
-                            <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
-                            <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
-                          </SelectContent>
-                        </Select>
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="col-span-2">
+                          <Label htmlFor="headingFont" className="text-gray-700 text-sm font-medium">Heading Font</Label>
+                          <Select
+                            value={themeSettings.headingFont}
+                            onValueChange={(value) => updateThemeSetting('headingFont', value)}
+                          >
+                            <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-gray-300">
+                              <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
+                              <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
+                              <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
+                              <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
+                              <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
+                              <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
+                              <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
+                              <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
+                              <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
+                              <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <Label htmlFor="headingFontWeight" className="text-gray-700 text-sm font-medium">Weight</Label>
+                          <Select
+                            value={themeSettings.headingFontWeight}
+                            onValueChange={(value) => updateThemeSetting('headingFontWeight', value)}
+                          >
+                            <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-gray-300">
+                              <SelectItem value="300" className="text-gray-900 hover:bg-gray-100">Light (300)</SelectItem>
+                              <SelectItem value="400" className="text-gray-900 hover:bg-gray-100">Normal (400)</SelectItem>
+                              <SelectItem value="500" className="text-gray-900 hover:bg-gray-100">Medium (500)</SelectItem>
+                              <SelectItem value="600" className="text-gray-900 hover:bg-gray-100">Semibold (600)</SelectItem>
+                              <SelectItem value="700" className="text-gray-900 hover:bg-gray-100">Bold (700)</SelectItem>
+                              <SelectItem value="800" className="text-gray-900 hover:bg-gray-100">Extra Bold (800)</SelectItem>
+                              <SelectItem value="900" className="text-gray-900 hover:bg-gray-100">Black (900)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
                       
-                      <div>
-                        <Label htmlFor="bodyFont" className="text-gray-700 text-sm font-medium">Body Font</Label>
-                        <Select
-                          value={themeSettings.bodyFont}
-                          onValueChange={(value) => updateThemeSetting('bodyFont', value)}
-                        >
-                          <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
-                            <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
-                            <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
-                            <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
-                            <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
-                            <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
-                            <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
-                            <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
-                            <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
-                            <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
-                          </SelectContent>
-                        </Select>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="col-span-2">
+                          <Label htmlFor="bodyFont" className="text-gray-700 text-sm font-medium">Body Font</Label>
+                          <Select
+                            value={themeSettings.bodyFont}
+                            onValueChange={(value) => updateThemeSetting('bodyFont', value)}
+                          >
+                            <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-gray-300">
+                              <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
+                              <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
+                              <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
+                              <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
+                              <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
+                              <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
+                              <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
+                              <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
+                              <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
+                              <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <Label htmlFor="bodyFontWeight" className="text-gray-700 text-sm font-medium">Weight</Label>
+                          <Select
+                            value={themeSettings.bodyFontWeight}
+                            onValueChange={(value) => updateThemeSetting('bodyFontWeight', value)}
+                          >
+                            <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-gray-300">
+                              <SelectItem value="300" className="text-gray-900 hover:bg-gray-100">Light (300)</SelectItem>
+                              <SelectItem value="400" className="text-gray-900 hover:bg-gray-100">Normal (400)</SelectItem>
+                              <SelectItem value="500" className="text-gray-900 hover:bg-gray-100">Medium (500)</SelectItem>
+                              <SelectItem value="600" className="text-gray-900 hover:bg-gray-100">Semibold (600)</SelectItem>
+                              <SelectItem value="700" className="text-gray-900 hover:bg-gray-100">Bold (700)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
                       
-                      <div>
-                        <Label htmlFor="buttonFont" className="text-gray-700 text-sm font-medium">Button Font</Label>
-                        <Select
-                          value={themeSettings.buttonFont}
-                          onValueChange={(value) => updateThemeSetting('buttonFont', value)}
-                        >
-                          <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
-                            <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
-                            <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
-                            <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
-                            <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
-                            <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
-                            <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
-                            <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
-                            <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
-                            <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
-                          </SelectContent>
-                        </Select>
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="col-span-2">
+                          <Label htmlFor="buttonFont" className="text-gray-700 text-sm font-medium">Button Font</Label>
+                          <Select
+                            value={themeSettings.buttonFont}
+                            onValueChange={(value) => updateThemeSetting('buttonFont', value)}
+                          >
+                            <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-gray-300">
+                              <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
+                              <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
+                              <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
+                              <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
+                              <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
+                              <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
+                              <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
+                              <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
+                              <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
+                              <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <Label htmlFor="buttonFontWeight" className="text-gray-700 text-sm font-medium">Weight</Label>
+                          <Select
+                            value={themeSettings.buttonFontWeight}
+                            onValueChange={(value) => updateThemeSetting('buttonFontWeight', value)}
+                          >
+                            <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent className="bg-white border-gray-300">
+                              <SelectItem value="400" className="text-gray-900 hover:bg-gray-100">Normal (400)</SelectItem>
+                              <SelectItem value="500" className="text-gray-900 hover:bg-gray-100">Medium (500)</SelectItem>
+                              <SelectItem value="600" className="text-gray-900 hover:bg-gray-100">Semibold (600)</SelectItem>
+                              <SelectItem value="700" className="text-gray-900 hover:bg-gray-100">Bold (700)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
                     </div>
                   </div>

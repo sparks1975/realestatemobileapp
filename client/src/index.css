@@ -134,6 +134,9 @@
     --heading-font: 'Inter', sans-serif;
     --body-font: 'Inter', sans-serif;
     --button-font: 'Inter', sans-serif;
+    --heading-font-weight: 600;
+    --body-font-weight: 400;
+    --button-font-weight: 500;
   }
 
   .dark {
@@ -192,6 +195,9 @@
     --heading-font: 'Inter', sans-serif;
     --body-font: 'Inter', sans-serif;
     --button-font: 'Inter', sans-serif;
+    --heading-font-weight: 600;
+    --body-font-weight: 400;
+    --button-font-weight: 500;
   }
 }
 
@@ -203,16 +209,19 @@
   body {
     @apply bg-background text-foreground font-sans antialiased h-full;
     font-family: var(--body-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-weight: var(--body-font-weight, 400);
     color: var(--text-color);
   }
 
   /* Typography Styles */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--heading-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: var(--heading-font-weight, 600);
   }
 
   button, .button, .btn {
     font-family: var(--button-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: var(--button-font-weight, 500);
   }
   
   /* Admin panel button fixes */

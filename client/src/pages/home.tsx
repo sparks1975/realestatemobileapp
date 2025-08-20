@@ -77,6 +77,9 @@ export default function HomePage() {
       root.style.setProperty('--heading-font', settings.headingFont || 'Inter');
       root.style.setProperty('--body-font', settings.bodyFont || 'Inter');
       root.style.setProperty('--button-font', settings.buttonFont || 'Inter');
+      root.style.setProperty('--heading-font-weight', settings.headingFontWeight || '600');
+      root.style.setProperty('--body-font-weight', settings.bodyFontWeight || '400');
+      root.style.setProperty('--button-font-weight', settings.buttonFontWeight || '500');
 
       // Debug: Check if variables were actually set
       console.log('🔍 CSS Variables set:', {
