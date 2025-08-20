@@ -1486,16 +1486,16 @@ export default function AdminPanel() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Inter">Inter</SelectItem>
-                            <SelectItem value="Roboto">Roboto</SelectItem>
-                            <SelectItem value="Open Sans">Open Sans</SelectItem>
-                            <SelectItem value="Lato">Lato</SelectItem>
-                            <SelectItem value="Montserrat">Montserrat</SelectItem>
-                            <SelectItem value="Poppins">Poppins</SelectItem>
-                            <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
-                            <SelectItem value="Nunito">Nunito</SelectItem>
-                            <SelectItem value="Playfair Display">Playfair Display</SelectItem>
-                            <SelectItem value="Merriweather">Merriweather</SelectItem>
+                            <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
+                            <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
+                            <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
+                            <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
+                            <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
+                            <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
+                            <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
+                            <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
+                            <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
+                            <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -1510,16 +1510,16 @@ export default function AdminPanel() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Inter">Inter</SelectItem>
-                            <SelectItem value="Roboto">Roboto</SelectItem>
-                            <SelectItem value="Open Sans">Open Sans</SelectItem>
-                            <SelectItem value="Lato">Lato</SelectItem>
-                            <SelectItem value="Montserrat">Montserrat</SelectItem>
-                            <SelectItem value="Poppins">Poppins</SelectItem>
-                            <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
-                            <SelectItem value="Nunito">Nunito</SelectItem>
-                            <SelectItem value="Playfair Display">Playfair Display</SelectItem>
-                            <SelectItem value="Merriweather">Merriweather</SelectItem>
+                            <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
+                            <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
+                            <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
+                            <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
+                            <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
+                            <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
+                            <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
+                            <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
+                            <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
+                            <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -1534,16 +1534,16 @@ export default function AdminPanel() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="bg-white border-gray-300">
-                            <SelectItem value="Inter">Inter</SelectItem>
-                            <SelectItem value="Roboto">Roboto</SelectItem>
-                            <SelectItem value="Open Sans">Open Sans</SelectItem>
-                            <SelectItem value="Lato">Lato</SelectItem>
-                            <SelectItem value="Montserrat">Montserrat</SelectItem>
-                            <SelectItem value="Poppins">Poppins</SelectItem>
-                            <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
-                            <SelectItem value="Nunito">Nunito</SelectItem>
-                            <SelectItem value="Playfair Display">Playfair Display</SelectItem>
-                            <SelectItem value="Merriweather">Merriweather</SelectItem>
+                            <SelectItem value="Inter" className="text-gray-900 hover:bg-gray-100">Inter</SelectItem>
+                            <SelectItem value="Roboto" className="text-gray-900 hover:bg-gray-100">Roboto</SelectItem>
+                            <SelectItem value="Open Sans" className="text-gray-900 hover:bg-gray-100">Open Sans</SelectItem>
+                            <SelectItem value="Lato" className="text-gray-900 hover:bg-gray-100">Lato</SelectItem>
+                            <SelectItem value="Montserrat" className="text-gray-900 hover:bg-gray-100">Montserrat</SelectItem>
+                            <SelectItem value="Poppins" className="text-gray-900 hover:bg-gray-100">Poppins</SelectItem>
+                            <SelectItem value="Source Sans Pro" className="text-gray-900 hover:bg-gray-100">Source Sans Pro</SelectItem>
+                            <SelectItem value="Nunito" className="text-gray-900 hover:bg-gray-100">Nunito</SelectItem>
+                            <SelectItem value="Playfair Display" className="text-gray-900 hover:bg-gray-100">Playfair Display</SelectItem>
+                            <SelectItem value="Merriweather" className="text-gray-900 hover:bg-gray-100">Merriweather</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
