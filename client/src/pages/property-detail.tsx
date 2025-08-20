@@ -292,9 +292,9 @@ export default function PropertyDetailPage() {
       </nav>
 
       {/* Main Content */}
-      <div className="pt-24">
+      <div>
         {/* Hero Image Section */}
-        <section className="relative h-screen">
+        <section className="relative" style={{ height: '70vh' }}>
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
