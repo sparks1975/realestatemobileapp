@@ -592,10 +592,11 @@ export default function HomePage() {
           <div className="text-center mt-12">
             <Button 
               variant="outline" 
-              className="uppercase tracking-wide border-2 px-8 py-3"
+              className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
               style={{ 
                 borderColor: 'var(--secondary-color)', 
-                color: 'var(--secondary-color)' 
+                color: 'var(--secondary-color)',
+                backgroundColor: 'transparent'
               }}
             >
               View Additional
