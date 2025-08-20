@@ -220,7 +220,12 @@
 #home h3,
 #home h4,
 #home h5,
-#home h6 {
+#home h6,
+section[data-theme-managed] h2,
+section[data-theme-managed] h3,
+section[data-theme-managed] h4,
+section[data-theme-managed] h5,
+section[data-theme-managed] h6 {
   font-family: var(--heading-font, 'Inter') !important;
   font-weight: var(--heading-font-weight, 600) !important;
 }
@@ -257,6 +262,13 @@
 [data-theme-managed] button {
   font-family: var(--button-font, 'Inter') !important;
   font-weight: var(--button-font-weight, 500) !important;
+}
+
+/* Specific fix for About section heading */
+section[data-theme-managed] h2 span,
+.dynamic-content h2 span {
+  font-family: var(--heading-font, 'Inter') !important;
+  font-weight: var(--heading-font-weight, 600) !important;
 }
 
 @layer base {
