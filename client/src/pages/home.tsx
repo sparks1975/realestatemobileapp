@@ -629,51 +629,44 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div style={{ backgroundColor: 'blue', color: 'white', padding: '20px' }}>
-              DEBUG VISIBLE: Found {properties?.length || 0} properties
-            </div>
-            {properties && properties.length > 0 && (
-              properties.slice(0, 3).map((property) => (
-                <a 
-                  key={property.id} 
-                  href={`/property/${property.id}`}
-                  className="group cursor-pointer block"
-                >
-                  <div className="relative overflow-hidden mb-4">
-                    <img 
-                      src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
-                      alt={property.title}
-                      className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
+            {properties?.slice(0, 3).map((property) => (
+              <a 
+                key={property.id} 
+                href={`/property/${property.id}`}
+                className="group cursor-pointer block"
+              >
+                <div className="relative overflow-hidden mb-4">
+                  <img 
+                    src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
+                    alt={property.title}
+                    className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div 
+                    className="absolute bottom-0 left-0 right-0 p-6 text-white"
+                    style={{
+                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
+                    }}
+                  >
                     <div 
-                      className="absolute bottom-0 left-0 right-0 p-6 text-white"
-                      style={{
-                        background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
+                      className="text-lg mb-2"
+                      style={{ 
+                        color: 'white',
+                        fontFamily: 'var(--heading-font)',
+                        fontWeight: 'var(--heading-font-weight)'
                       }}
                     >
-                      <div 
-                        className="text-lg mb-2"
-                        style={{ 
-                          color: 'white',
-                          fontFamily: 'var(--heading-font)',
-                          fontWeight: 'var(--heading-font-weight)',
-                          backgroundColor: 'rgba(255,0,0,0.5)',
-                          padding: '2px'
-                        }}
-                      >
-                        TITLE: {property.title}
-                      </div>
-                      <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
-                        {property.address}
-                      </div>
-                      <div className="text-2xl font-light">
-                        ${property.price?.toLocaleString()}
-                      </div>
+                      {property.title}
+                    </div>
+                    <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
+                      {property.address}
+                    </div>
+                    <div className="text-2xl font-light">
+                      ${property.price?.toLocaleString()}
                     </div>
                   </div>
-                </a>
-              ))
-            )}
+                </div>
+              </a>
+            ))}
           </div>
 
           <div className="text-center mt-12">
