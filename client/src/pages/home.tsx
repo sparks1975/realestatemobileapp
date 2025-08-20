@@ -454,7 +454,11 @@ export default function HomePage() {
           ) : (
             <div className="grid md:grid-cols-3 gap-8">
               {currentInventory.map((property) => (
-                <div key={property.id} className="group cursor-pointer">
+                <a 
+                  key={property.id} 
+                  href={`/property/${property.id}`}
+                  className="group cursor-pointer block"
+                >
                   <div className="relative overflow-hidden mb-4">
                     <img 
                       src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
@@ -475,7 +479,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           )}
@@ -553,33 +557,34 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400"
-                  alt="Modern Estate"
-                  className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            </div>
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&h=400"
-                  alt="Luxury Interior"
-                  className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            </div>
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden mb-4">
-                <img 
-                  src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&h=400"
-                  alt="Contemporary Home"
-                  className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            </div>
+            {featuredProperties.slice(0, 3).map((property) => (
+              <a 
+                key={property.id} 
+                href={`/property/${property.id}`}
+                className="group cursor-pointer block"
+              >
+                <div className="relative overflow-hidden mb-4">
+                  <img 
+                    src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
+                    alt={property.title}
+                    className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div 
+                    className="absolute bottom-0 left-0 right-0 p-6 text-white"
+                    style={{
+                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
+                    }}
+                  >
+                    <div className="text-sm uppercase tracking-wide mb-2">
+                      {property.address}
+                    </div>
+                    <div className="text-2xl font-light">
+                      ${property.price?.toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
 
           <div className="text-center mt-12">

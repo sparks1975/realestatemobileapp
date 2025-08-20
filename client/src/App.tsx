@@ -12,19 +12,30 @@ import Schedule from "@/pages/schedule";
 import Profile from "@/pages/profile";
 import HomePage from "@/pages/home";
 import AdminPanel from "@/pages/admin";
+import PropertyDetailPage from "@/pages/property-detail";
 
 function App() {
   const [location] = useLocation();
   
   // Check if we're on the agent website or mobile app
-  const isAgentWebsite = location === "/" || location.startsWith("/website");
-  const isMobileApp = location.startsWith("/app") || (!isAgentWebsite && location !== "/");
+  const isAgentWebsite = location === "/" || location.startsWith("/website") || location.startsWith("/property/");
+  const isMobileApp = location.startsWith("/app") || (!isAgentWebsite && location !== "/" && !location.startsWith("/property/") && !location.startsWith("/admin"));
 
   if (isAgentWebsite && location === "/") {
     return (
       <TooltipProvider>
         <Toaster />
         <HomePage />
+      </TooltipProvider>
+    );
+  }
+
+  // Property detail pages
+  if (location.startsWith("/property/")) {
+    return (
+      <TooltipProvider>
+        <Toaster />
+        <PropertyDetailPage />
       </TooltipProvider>
     );
   }
