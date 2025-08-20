@@ -628,6 +628,14 @@ export default function HomePage() {
             </h2>
           </div>
 
+          {/* DEBUG: Show raw properties data */}
+          <div style={{ backgroundColor: 'yellow', color: 'black', padding: '10px', marginBottom: '20px' }}>
+            Properties found: {properties?.length || 0}
+            {properties && properties.length > 0 && (
+              <div>First property: {properties[0]?.title || 'NO TITLE'}</div>
+            )}
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8">
             {properties?.slice(0, 3).map((property) => (
               <a 
@@ -650,12 +658,14 @@ export default function HomePage() {
                     <div 
                       className="text-lg mb-2"
                       style={{ 
-                        color: 'white',
+                        color: 'red',
                         fontFamily: 'var(--heading-font)',
-                        fontWeight: 'var(--heading-font-weight)'
+                        fontWeight: 'var(--heading-font-weight)',
+                        backgroundColor: 'white',
+                        padding: '4px'
                       }}
                     >
-                      {property.title}
+                      TITLE: {property.title}
                     </div>
                     <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
                       {property.address}
