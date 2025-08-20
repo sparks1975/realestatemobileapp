@@ -201,8 +201,15 @@
   }
 }
 
-/* Hero Heading Font Override */
-.hero-heading {
+/* Hero Heading Font Override - More specific selector to persist through updates */
+.hero-heading,
+.hero-heading span {
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 700 !important;
+}
+
+/* Alternative approach - target the hero section h1 directly */
+#home h1 {
   font-family: 'Playfair Display', serif !important;
   font-weight: 700 !important;
 }

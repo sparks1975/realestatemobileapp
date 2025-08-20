@@ -382,8 +382,7 @@ export default function HomePage() {
                   color: 'var(--tertiary-color)'
                 }}
               >
-                {console.log('🔍 Hero h1 render - Font:', themeSettings?.headingFont, 'Weight:', themeSettings?.headingFontWeight)}
-                {pageContent?.hero?.headline ? (
+{pageContent?.hero?.headline ? (
                   pageContent.hero.headline.split('\n').map((line: string, index: number) => (
                     <span key={index}>
                       {line}
