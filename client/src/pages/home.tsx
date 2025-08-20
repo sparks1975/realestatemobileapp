@@ -248,10 +248,11 @@ export default function HomePage() {
                 </p>
                 <Button 
                   variant="outline" 
-                  className="uppercase tracking-wide border-2 px-8 py-3"
+                  className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
                   style={{ 
                     borderColor: 'var(--primary-color)', 
-                    color: 'var(--primary-color)' 
+                    color: 'var(--primary-color)',
+                    backgroundColor: 'transparent'
                   }}
                 >
                   Learn More
@@ -261,24 +262,24 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-4">
                 <img 
-                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=400&h=500"
+                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=500"
                   alt="Luxury Interior"
                   className="w-full h-64 object-cover"
                 />
                 <img 
-                  src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=400&h=300"
+                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&h=300"
                   alt="Modern Kitchen"
                   className="w-full h-48 object-cover"
                 />
               </div>
               <div className="space-y-4 pt-8">
                 <img 
-                  src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=400&h=300"
+                  src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=300"
                   alt="Living Room"
                   className="w-full h-48 object-cover"
                 />
                 <img 
-                  src="https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?auto=format&fit=crop&w=400&h=500"
+                  src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&h=500"
                   alt="Master Bedroom"
                   className="w-full h-64 object-cover"
                 />
