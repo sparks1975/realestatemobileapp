@@ -32,7 +32,7 @@ interface Property {
 export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  const { data: properties = [], isLoading } = useQuery<Property[]>({
+  const { data: properties = [], isLoading, error } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
     enabled: true,
     staleTime: 0,
@@ -181,6 +181,11 @@ export default function HomePage() {
   console.log('🏠 HomePage - properties:', properties);
   console.log('🏠 HomePage - isLoading:', isLoading);
   console.log('🏠 HomePage - featuredProperties:', featuredProperties);
+  
+  // Add error boundary to catch issues
+  if (error) {
+    console.error('🚨 Properties loading error:', error);
+  }
 
   return (
     <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
@@ -631,12 +636,8 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {isLoading ? (
-              <div>Loading properties...</div>
-            ) : featuredProperties.length === 0 ? (
-              <div>No properties found</div>
-            ) : (
-              featuredProperties.slice(0, 3).map((property) => (
+            {properties && properties.length > 0 ? (
+              properties.slice(0, 3).map((property) => (
                 <a 
                   key={property.id} 
                   href={`/property/${property.id}`}
@@ -649,28 +650,30 @@ export default function HomePage() {
                       className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div 
-                    className="absolute bottom-0 left-0 right-0 p-6 text-white"
-                    style={{
-                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
-                    }}
-                  >
-                    <div className="text-lg mb-2" style={{ 
-                      color: 'white',
-                      fontFamily: 'var(--heading-font)',
-                      fontWeight: 'var(--heading-font-weight)'
-                    }}>
-                      {property.title}
+                      className="absolute bottom-0 left-0 right-0 p-6 text-white"
+                      style={{
+                        background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
+                      }}
+                    >
+                      <div className="text-lg mb-2" style={{ 
+                        color: 'white',
+                        fontFamily: 'var(--heading-font)',
+                        fontWeight: 'var(--heading-font-weight)'
+                      }}>
+                        {property.title}
+                      </div>
+                      <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
+                        {property.address}
+                      </div>
+                      <div className="text-2xl font-light">
+                        ${property.price?.toLocaleString()}
+                      </div>
                     </div>
-                    <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
-                      {property.address}
-                    </div>
-                    <div className="text-2xl font-light">
-                      ${property.price?.toLocaleString()}
-                    </div>
-                  </div>
                   </div>
                 </a>
               ))
+            ) : (
+              <div>Loading properties...</div>
             )}
           </div>
 
