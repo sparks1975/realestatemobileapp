@@ -73,6 +73,31 @@ export const insertPropertySchema = createInsertSchema(properties).pick({
   listedById: true,
 });
 
+// Communities schema
+export const communities = pgTable("communities", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  location: text("location").notNull(),
+  priceRange: text("price_range").notNull(),
+  image: text("image").notNull(),
+  features: text("features").array(),
+  propertyCount: integer("property_count").default(0),
+  averagePrice: doublePrecision("average_price").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertCommunitySchema = createInsertSchema(communities).pick({
+  name: true,
+  description: true,
+  location: true,
+  priceRange: true,
+  image: true,
+  features: true,
+  propertyCount: true,
+  averagePrice: true,
+});
+
 // Client schema
 export const clients = pgTable("clients", {
   id: serial("id").primaryKey(),
@@ -313,3 +338,6 @@ export type InsertThemeSettings = z.infer<typeof insertThemeSettingsSchema>;
 
 export type PageContent = typeof pageContent.$inferSelect;
 export type InsertPageContent = z.infer<typeof insertPageContentSchema>;
+
+export type Community = typeof communities.$inferSelect;
+export type InsertCommunity = z.infer<typeof insertCommunitySchema>;

@@ -37,6 +37,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(properties);
   });
 
+  // Communities
+  app.get("/api/communities", async (req, res) => {
+    try {
+      const communities = await storage.getCommunities();
+      res.json(communities);
+    } catch (error) {
+      console.error("Error fetching communities:", error);
+      res.status(500).json({ message: "Failed to fetch communities" });
+    }
+  });
+
   app.get("/api/properties/:id", async (req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {

@@ -40,6 +40,16 @@ export default function HomePage() {
     refetchOnWindowFocus: true
   });
 
+  // Load communities
+  const { data: communities = [], isLoading: communitiesLoading } = useQuery({
+    queryKey: ['/api/communities'],
+    queryFn: async () => {
+      const response = await fetch('/api/communities');
+      if (!response.ok) throw new Error('Failed to fetch communities');
+      return response.json();
+    }
+  });
+
   // Load theme settings with aggressive cache busting
   const { data: themeSettings, refetch: refetchTheme } = useQuery({
     queryKey: ['/api/theme-settings/1'],
@@ -627,37 +637,43 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {featuredProperties.slice(0, 3).map((property) => (
-              <a 
-                key={property.id} 
-                href={`/property/${property.id}`}
-                className="group cursor-pointer block"
-              >
-                <div className="relative overflow-hidden mb-4">
-                  <img 
-                    src={property.images?.[0] || `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400`}
-                    alt={property.title}
-                    className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div 
-                    className="absolute bottom-0 left-0 right-0 p-6 text-white"
-                    style={{
-                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
-                    }}
-                  >
-                    <div className="text-lg font-light mb-2">
-                      {property.title}
-                    </div>
-                    <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
-                      {property.address}
-                    </div>
-                    <div className="text-2xl font-light">
-                      ${property.price?.toLocaleString()}
+            {communitiesLoading ? (
+              // Loading state
+              [1, 2, 3].map((i) => (
+                <div key={i} className="bg-gray-200 animate-pulse h-80 rounded" />
+              ))
+            ) : (
+              communities.map((community: any) => (
+                <div 
+                  key={community.id} 
+                  className="group cursor-pointer block"
+                >
+                  <div className="relative overflow-hidden mb-4">
+                    <img 
+                      src={community.image}
+                      alt={community.name}
+                      className="h-80 w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div 
+                      className="absolute bottom-0 left-0 right-0 p-6 text-white"
+                      style={{
+                        background: 'linear-gradient(transparent, rgba(0,0,0,0.8))'
+                      }}
+                    >
+                      <div className="text-lg font-light mb-2">
+                        {community.name}
+                      </div>
+                      <div className="text-sm uppercase tracking-wide mb-2 opacity-90">
+                        {community.location}
+                      </div>
+                      <div className="text-2xl font-light">
+                        {community.priceRange}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </a>
-            ))}
+              ))
+            )}
           </div>
 
           <div className="text-center mt-12">

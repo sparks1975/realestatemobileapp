@@ -7,8 +7,9 @@ import {
   Activity, InsertActivity,
   ThemeSettings, InsertThemeSettings,
   PageContent, InsertPageContent,
+  Community, InsertCommunity,
   // Import all the schema tables
-  users, properties, clients, messages, appointments, activities, themeSettings, pageContent
+  users, properties, clients, messages, appointments, activities, themeSettings, pageContent, communities
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, or, desc, gte, lte } from "drizzle-orm";
@@ -59,6 +60,9 @@ export interface IStorage {
   // Page content operations
   getPageContent(pageName: string): Promise<PageContent[]>;
   upsertPageContent(pageContent: InsertPageContent): Promise<PageContent>;
+  
+  // Community operations
+  getCommunities(): Promise<Community[]>;
   
   // Dashboard operations
   getPortfolioValue(realtorId: number): Promise<number>;
@@ -652,6 +656,11 @@ export class DatabaseStorage implements IStorage {
         .returning();
       return created;
     }
+  }
+
+  // Community operations
+  async getCommunities(): Promise<Community[]> {
+    return await db.select().from(communities);
   }
 
   // Dashboard operations
