@@ -390,7 +390,7 @@ export default function HomePage() {
               Stay Updated on the First to Know
             </h2>
             <div className="max-w-md mx-auto">
-              <div className="flex h-12">
+              <div className="flex h-12 gap-3">
                 <input 
                   type="email" 
                   placeholder="Email Address" 
