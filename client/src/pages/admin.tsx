@@ -234,7 +234,10 @@ export default function AdminPanel() {
         { pageName: 'home', sectionName: 'newsletter', contentKey: 'subtitle', contentValue: content.newsletterSubtitle, contentType: 'text' }
       ];
 
+      console.log('Sending content items:', contentItems);
+      
       for (const item of contentItems) {
+        console.log('Saving individual item:', item);
         const response = await fetch('/api/pages/content', {
           method: 'POST',
           headers: {
@@ -247,6 +250,7 @@ export default function AdminPanel() {
           console.error('Failed to save content item:', item, 'Error:', errorData);
           throw new Error(`Failed to save content: ${response.statusText}`);
         }
+        console.log('Successfully saved item:', item.contentKey);
       }
     },
     onSuccess: () => {

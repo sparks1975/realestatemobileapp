@@ -610,14 +610,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/pages/content", async (req, res) => {
     try {
+      console.log('📝 Received page content data:', req.body);
+      console.log('📝 Data type:', typeof req.body);
+      console.log('📝 Keys:', Object.keys(req.body));
+      
       const validatedContent = insertPageContentSchema.parse(req.body);
+      console.log('📝 Validated content:', validatedContent);
+      
       const content = await storage.upsertPageContent(validatedContent);
+      console.log('📝 Saved content successfully:', content);
       res.json(content);
     } catch (error) {
+      console.error('📝 Error saving page content:', error);
       if (error instanceof z.ZodError) {
+        console.error('📝 Zod validation errors:', error.errors);
         return res.status(400).json({ error: "Invalid page content data", details: error.errors });
       }
-      console.error('Error saving page content:', error);
       res.status(500).json({ error: "Failed to save page content" });
     }
   });
