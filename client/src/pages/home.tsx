@@ -185,7 +185,7 @@ export default function HomePage() {
         className="fixed top-0 w-full backdrop-blur-sm z-50"
         style={{ backgroundColor: 'var(--header-background-color)' }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-[1200px] mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div 
               className="text-2xl font-light tracking-wider"
@@ -368,7 +368,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black bg-opacity-30" />
         
         <div className="relative z-10 h-full flex items-end">
-          <div className="w-full max-w-7xl mx-auto px-6 pb-24">
+          <div className="w-full max-w-[1200px] mx-auto px-6 pb-24">
             <div className="max-w-2xl">
               <p 
                 className="text-sm uppercase tracking-[0.2em] mb-4"
@@ -404,7 +404,7 @@ export default function HomePage() {
 
       {/* Introduction Section - About LuxeLead */}
       <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
               <div>
@@ -484,7 +484,7 @@ export default function HomePage() {
 
       {/* Brand Partners */}
       <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex justify-center items-center space-x-12 opacity-60">
             <div className="text-2xl font-light tracking-wider">SOTHEBY'S</div>
             <div className="text-2xl font-light tracking-wider">CHRISTIE'S</div>
@@ -497,7 +497,7 @@ export default function HomePage() {
 
       {/* Current Inventory */}
       <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
@@ -574,7 +574,7 @@ export default function HomePage() {
         className="py-24"
         style={{ backgroundColor: '#E5D5C8' }}
       >
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
@@ -610,7 +610,7 @@ export default function HomePage() {
 
       {/* Featured Communities Section */}
       <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
@@ -675,7 +675,7 @@ export default function HomePage() {
 
       {/* Agent Section */}
       <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <img 
@@ -752,7 +752,7 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center">
             <div 
               className="text-3xl font-light mb-8 tracking-wider"
