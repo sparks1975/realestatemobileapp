@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award } from "lucide-react";
-import { useEffect } from "react";
+import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface Property {
   id: number;
@@ -30,6 +30,8 @@ interface Property {
 }
 
 export default function HomePage() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
     enabled: true,
@@ -145,6 +147,8 @@ export default function HomePage() {
             >
               LUXELEAD
             </div>
+            
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-12">
               <a 
                 href="#home" 
@@ -189,8 +193,86 @@ export default function HomePage() {
                 Admin
               </a>
             </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              style={{ color: 'var(--navigation-color)' }}
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Off-Canvas Menu */}
+        <div 
+          className={`fixed inset-y-0 right-0 w-64 transform transition-transform duration-300 ease-in-out z-50 md:hidden ${
+            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          style={{ backgroundColor: 'var(--header-background-color)' }}
+        >
+          <div className="flex flex-col h-full pt-20 px-6">
+            <div className="space-y-6">
+              <a 
+                href="#home" 
+                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                style={{ color: 'var(--navigation-color)' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Home
+              </a>
+              <a 
+                href="#properties" 
+                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                style={{ color: 'var(--navigation-color)' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Properties
+              </a>
+              <a 
+                href="#about" 
+                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                style={{ color: 'var(--navigation-color)' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                About
+              </a>
+              <a 
+                href="#contact" 
+                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                style={{ color: 'var(--navigation-color)' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Contact
+              </a>
+              <a 
+                href="/app" 
+                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                style={{ color: 'var(--navigation-color)' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Mobile App
+              </a>
+              <a 
+                href="/admin" 
+                className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
+                style={{ color: 'var(--navigation-color)' }}
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Admin
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div 
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
       </nav>
 
       {/* Hero Section - Inspired by Kumara */}
