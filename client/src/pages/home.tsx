@@ -88,15 +88,18 @@ export default function HomePage() {
         '--text-color': root.style.getPropertyValue('--text-color'),
         '--navigation-color': root.style.getPropertyValue('--navigation-color'),
         '--sub-navigation-color': root.style.getPropertyValue('--sub-navigation-color'),
-        '--header-background-color': root.style.getPropertyValue('--header-background-color')
+        '--header-background-color': root.style.getPropertyValue('--header-background-color'),
+        '--heading-font-weight': root.style.getPropertyValue('--heading-font-weight'),
+        '--body-font-weight': root.style.getPropertyValue('--body-font-weight'),
+        '--button-font-weight': root.style.getPropertyValue('--button-font-weight')
       });
 
-      // Load Google Fonts dynamically
+      // Load Google Fonts dynamically with all font weights
       const fontsToLoad = new Set([settings.headingFont, settings.bodyFont, settings.buttonFont]);
       
       fontsToLoad.forEach(font => {
         if (font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)) {
-          const fontUrl = `https://fonts.googleapis.com/css2?family=${font.replace(' ', '+')}:wght@300;400;500;600;700&display=swap`;
+          const fontUrl = `https://fonts.googleapis.com/css2?family=${font.replace(' ', '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
           const link = document.createElement('link');
           link.href = fontUrl;
           link.rel = 'stylesheet';

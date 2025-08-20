@@ -215,13 +215,18 @@
 
   /* Typography Styles */
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--heading-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-weight: var(--heading-font-weight, 600);
+    font-family: var(--heading-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-weight: var(--heading-font-weight, 600) !important;
   }
 
   button, .button, .btn {
-    font-family: var(--button-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-weight: var(--button-font-weight, 500);
+    font-family: var(--button-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    font-weight: var(--button-font-weight, 500) !important;
+  }
+  
+  /* Apply font weight to all text elements */
+  p, span, div, td, th, li, a {
+    font-weight: var(--body-font-weight, 400);
   }
   
   /* Admin panel button fixes */
