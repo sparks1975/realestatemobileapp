@@ -7,8 +7,6 @@ A comprehensive real estate management system consisting of a web dashboard and 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
-Homepage design: Prefers the original Kumara-inspired layout with clean sections, property grids, and newsletter signup.
-Footer styling: Prefers gray background (bg-gray-100) with dark text instead of theme-colored backgrounds.
 
 ## System Architecture
 
