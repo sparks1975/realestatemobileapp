@@ -60,6 +60,36 @@ export default function HomePage() {
     refetchOnWindowFocus: true
   });
 
+  // Load page content from database
+  const { data: pageContent = {}, refetch: refetchPageContent } = useQuery({
+    queryKey: ['/api/pages/home/content'],
+    queryFn: async () => {
+      const response = await fetch(`/api/pages/home/content?_t=${Date.now()}`, {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        },
+        cache: 'no-store'
+      });
+      if (!response.ok) throw new Error('Failed to fetch page content');
+      const contentArray = await response.json();
+      
+      // Convert array to object structure for easier access
+      const contentObj: any = {};
+      contentArray.forEach((item: any) => {
+        if (!contentObj[item.sectionName]) {
+          contentObj[item.sectionName] = {};
+        }
+        contentObj[item.sectionName][item.contentKey] = item.contentValue;
+      });
+      return contentObj;
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true
+  });
+
   // Apply theme settings to CSS variables
   const applyThemeSettings = (settings: any) => {
     if (settings) {
@@ -328,15 +358,26 @@ export default function HomePage() {
                 className="text-sm uppercase tracking-[0.2em] mb-4"
                 style={{ color: 'var(--tertiary-color)' }}
               >
-                Austin's #1 Luxury Realtor
+                {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
               </p>
               <h1 
                 className="text-5xl md:text-7xl font-light mb-8 leading-tight"
                 style={{ color: 'var(--tertiary-color)' }}
               >
-                Exceptional<br />
-                Properties<br />
-                Await
+                {pageContent?.hero?.headline ? (
+                  pageContent.hero.headline.split('\n').map((line: string, index: number) => (
+                    <span key={index}>
+                      {line}
+                      {index < pageContent.hero.headline.split('\n').length - 1 && <br />}
+                    </span>
+                  ))
+                ) : (
+                  <>
+                    Exceptional<br />
+                    Properties<br />
+                    Await
+                  </>
+                )}
               </h1>
             </div>
           </div>
@@ -435,13 +476,13 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ color: 'var(--tertiary-color)' }}
             >
-              LuxeLead's Current Inventory
+              {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
             </p>
             <h2 
               className="text-4xl md:text-5xl font-light leading-tight"
               style={{ color: 'var(--tertiary-color)' }}
             >
-              Featured Properties
+              {pageContent?.['featured-properties']?.title || "Featured Properties"}
             </h2>
           </div>
 
@@ -512,13 +553,13 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ color: 'var(--secondary-color)' }}
             >
-              View Spotlight
+              {pageContent?.newsletter?.subtitle || "View Spotlight"}
             </p>
             <h2 
               className="text-4xl md:text-5xl font-light leading-tight mb-8"
               style={{ color: 'var(--text-color)' }}
             >
-              Stay Updated on the First to Know
+              {pageContent?.newsletter?.title || "Stay Updated on the First to Know"}
             </h2>
             <div className="max-w-md mx-auto">
               <div className="flex h-12 gap-3">
@@ -548,13 +589,13 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ color: 'var(--secondary-color)' }}
             >
-              Featured Communities
+              {pageContent?.communities?.subtitle || "Featured Communities"}
             </p>
             <h2 
               className="text-4xl md:text-5xl font-light leading-tight"
               style={{ color: 'var(--text-color)' }}
             >
-              The Advisor
+              {pageContent?.communities?.title || "The Advisor"}
             </h2>
           </div>
 
