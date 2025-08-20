@@ -175,6 +175,13 @@ export default function HomePage() {
                 Contact
               </a>
               <a 
+                href="/app" 
+                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
+                style={{ color: 'var(--navigation-color)' }}
+              >
+                Mobile App
+              </a>
+              <a 
                 href="/admin" 
                 className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
                 style={{ color: 'var(--navigation-color)' }}
