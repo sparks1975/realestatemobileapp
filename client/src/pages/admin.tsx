@@ -89,7 +89,9 @@ export default function AdminPanel() {
     navigationColor: '#1a1a1a',
     subNavigationColor: '#2a2a2a',
     headerBackgroundColor: '#ffffff',
-    fontFamily: 'Inter'
+    headingFont: 'Inter',
+    bodyFont: 'Inter',
+    buttonFont: 'Inter'
   });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
@@ -116,7 +118,9 @@ export default function AdminPanel() {
         navigationColor: currentThemeSettings.navigationColor || '#1a1a1a',
         subNavigationColor: currentThemeSettings.subNavigationColor || '#2a2a2a',
         headerBackgroundColor: currentThemeSettings.headerBackgroundColor || '#ffffff',
-        fontFamily: currentThemeSettings.fontFamily
+        headingFont: currentThemeSettings.headingFont || 'Inter',
+        bodyFont: currentThemeSettings.bodyFont || 'Inter',
+        buttonFont: currentThemeSettings.buttonFont || 'Inter'
       });
     }
   }, [currentThemeSettings, hasUnsavedChanges]);
@@ -1355,28 +1359,78 @@ export default function AdminPanel() {
 
                   <div className="pt-4">
                     <h3 className="text-lg font-medium text-gray-900 mb-4">Typography</h3>
-                    <div>
-                      <Label htmlFor="fontFamily" className="text-gray-700 text-sm font-medium">Font Family</Label>
-                      <Select
-                        value={themeSettings.fontFamily}
-                        onValueChange={(value) => updateThemeSetting('fontFamily', value)}
-                      >
-                        <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white border-gray-300">
-                          <SelectItem value="Inter">Inter</SelectItem>
-                          <SelectItem value="Roboto">Roboto</SelectItem>
-                          <SelectItem value="Open Sans">Open Sans</SelectItem>
-                          <SelectItem value="Lato">Lato</SelectItem>
-                          <SelectItem value="Montserrat">Montserrat</SelectItem>
-                          <SelectItem value="Poppins">Poppins</SelectItem>
-                          <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
-                          <SelectItem value="Nunito">Nunito</SelectItem>
-                          <SelectItem value="Playfair Display">Playfair Display</SelectItem>
-                          <SelectItem value="Merriweather">Merriweather</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="headingFont" className="text-gray-700 text-sm font-medium">Heading Font</Label>
+                        <Select
+                          value={themeSettings.headingFont}
+                          onValueChange={(value) => updateThemeSetting('headingFont', value)}
+                        >
+                          <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-300">
+                            <SelectItem value="Inter">Inter</SelectItem>
+                            <SelectItem value="Roboto">Roboto</SelectItem>
+                            <SelectItem value="Open Sans">Open Sans</SelectItem>
+                            <SelectItem value="Lato">Lato</SelectItem>
+                            <SelectItem value="Montserrat">Montserrat</SelectItem>
+                            <SelectItem value="Poppins">Poppins</SelectItem>
+                            <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
+                            <SelectItem value="Nunito">Nunito</SelectItem>
+                            <SelectItem value="Playfair Display">Playfair Display</SelectItem>
+                            <SelectItem value="Merriweather">Merriweather</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="bodyFont" className="text-gray-700 text-sm font-medium">Body Font</Label>
+                        <Select
+                          value={themeSettings.bodyFont}
+                          onValueChange={(value) => updateThemeSetting('bodyFont', value)}
+                        >
+                          <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-300">
+                            <SelectItem value="Inter">Inter</SelectItem>
+                            <SelectItem value="Roboto">Roboto</SelectItem>
+                            <SelectItem value="Open Sans">Open Sans</SelectItem>
+                            <SelectItem value="Lato">Lato</SelectItem>
+                            <SelectItem value="Montserrat">Montserrat</SelectItem>
+                            <SelectItem value="Poppins">Poppins</SelectItem>
+                            <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
+                            <SelectItem value="Nunito">Nunito</SelectItem>
+                            <SelectItem value="Playfair Display">Playfair Display</SelectItem>
+                            <SelectItem value="Merriweather">Merriweather</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="buttonFont" className="text-gray-700 text-sm font-medium">Button Font</Label>
+                        <Select
+                          value={themeSettings.buttonFont}
+                          onValueChange={(value) => updateThemeSetting('buttonFont', value)}
+                        >
+                          <SelectTrigger className="w-full bg-white border-gray-300 text-gray-900 mt-1">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-300">
+                            <SelectItem value="Inter">Inter</SelectItem>
+                            <SelectItem value="Roboto">Roboto</SelectItem>
+                            <SelectItem value="Open Sans">Open Sans</SelectItem>
+                            <SelectItem value="Lato">Lato</SelectItem>
+                            <SelectItem value="Montserrat">Montserrat</SelectItem>
+                            <SelectItem value="Poppins">Poppins</SelectItem>
+                            <SelectItem value="Source Sans Pro">Source Sans Pro</SelectItem>
+                            <SelectItem value="Nunito">Nunito</SelectItem>
+                            <SelectItem value="Playfair Display">Playfair Display</SelectItem>
+                            <SelectItem value="Merriweather">Merriweather</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
                   </div>
 

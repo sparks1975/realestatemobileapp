@@ -74,7 +74,9 @@ export default function HomePage() {
       root.style.setProperty('--navigation-color', settings.navigationColor || '#1a1a1a');
       root.style.setProperty('--sub-navigation-color', settings.subNavigationColor || '#2a2a2a');
       root.style.setProperty('--header-background-color', settings.headerBackgroundColor || '#ffffff');
-      root.style.setProperty('--font-family', settings.fontFamily);
+      root.style.setProperty('--heading-font', settings.headingFont || 'Inter');
+      root.style.setProperty('--body-font', settings.bodyFont || 'Inter');
+      root.style.setProperty('--button-font', settings.buttonFont || 'Inter');
 
       // Debug: Check if variables were actually set
       console.log('🔍 CSS Variables set:', {
@@ -86,19 +88,18 @@ export default function HomePage() {
         '--header-background-color': root.style.getPropertyValue('--header-background-color')
       });
 
-      // Load Google Font dynamically
-      if (settings.fontFamily && settings.fontFamily !== 'Inter') {
-        const fontUrl = `https://fonts.googleapis.com/css2?family=${settings.fontFamily.replace(' ', '+')}:wght@300;400;500;600;700&display=swap`;
-        
-        // Check if font is already loaded
-        const existingLink = document.querySelector(`link[href*="${settings.fontFamily.replace(' ', '+')}"]`);
-        if (!existingLink) {
+      // Load Google Fonts dynamically
+      const fontsToLoad = new Set([settings.headingFont, settings.bodyFont, settings.buttonFont]);
+      
+      fontsToLoad.forEach(font => {
+        if (font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)) {
+          const fontUrl = `https://fonts.googleapis.com/css2?family=${font.replace(' ', '+')}:wght@300;400;500;600;700&display=swap`;
           const link = document.createElement('link');
           link.href = fontUrl;
           link.rel = 'stylesheet';
           document.head.appendChild(link);
         }
-      }
+      });
     } else {
       console.log('⚠️ No theme settings to apply');
     }

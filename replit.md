@@ -37,6 +37,13 @@ Preferred communication style: Simple, everyday language.
 - **Navigation Stack**: Stack and Tab navigators for hierarchical app structure
 - **Platform Optimization**: iOS and Android specific configurations
 
+### Theme Customization System
+- **Granular Typography Controls**: Separate font settings for headings, body text, and buttons
+- **Navigation Styling**: Independent color controls for navigation text and header background
+- **Dynamic Font Loading**: Automatic Google Fonts integration for custom typography
+- **CSS Variable System**: Real-time theme updates using CSS custom properties
+- **Database-Driven Themes**: Theme settings stored in PostgreSQL with user-specific configurations
+
 ### Shared Components
 - **Schema Definition**: Centralized TypeScript schemas shared between client and server
 - **Type Safety**: Zod validation schemas derived from database schemas
