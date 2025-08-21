@@ -64,31 +64,31 @@ export default function PropertyDetails() {
     return <div className="flex justify-center items-center h-screen">Property not found</div>;
   }
 
-  // Create an array of all images without duplicates
-  const allImages: string[] = [];
+  // Create deduplicated image array
+  const imageSet = new Set<string>();
   
-  // Always start with the main image if it exists
-  if (property.mainImage && property.mainImage.trim() !== '') {
-    allImages.push(property.mainImage);
+  // Add main image first if it exists
+  if (property.mainImage && property.mainImage.trim()) {
+    imageSet.add(property.mainImage);
   }
   
-  // Then add other images from the images array, but skip any that match the main image
-  if (property.images && property.images.length > 0) {
+  // Add additional images, Set will automatically prevent duplicates
+  if (property.images?.length) {
     property.images.forEach(img => {
-      if (img && img.trim() !== '' && img !== property.mainImage && !allImages.includes(img)) {
-        allImages.push(img);
+      if (img && img.trim()) {
+        imageSet.add(img);
       }
     });
   }
   
-  // Final filtered images (should already be unique)
-  const filteredImages = allImages;
+  // Convert to array - main image will be first if it wasn't already in images array
+  const filteredImages = Array.from(imageSet);
 
-  // For debugging - check for duplicates
+  // For debugging
   console.log("🖼️ Property mainImage:", property.mainImage);
   console.log("🖼️ Property images array:", property.images);
   console.log("🖼️ Final filteredImages:", filteredImages);
-  console.log("🖼️ Duplicate check - mainImage in images array:", property.images?.includes(property.mainImage || ""));
+  console.log("🖼️ Total unique images:", filteredImages.length);
 
   return (
     <div className="container mx-auto py-8">
