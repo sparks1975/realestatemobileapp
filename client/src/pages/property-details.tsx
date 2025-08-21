@@ -65,21 +65,25 @@ export default function PropertyDetails() {
   }
 
   // Create an array of all images without duplicates
-  // First add the main image
-  const allImages = [property.mainImage || ''];
+  const allImages: string[] = [];
   
-  // Then add any additional images from the images array that aren't duplicates of the main image
+  // Add the main image if it exists
+  if (property.mainImage && property.mainImage.trim() !== '') {
+    allImages.push(property.mainImage);
+  }
+  
+  // Then add any additional images from the images array that aren't duplicates
   if (property.images && property.images.length > 0) {
     property.images.forEach(img => {
-      // Only add if it's not already in the array (avoid duplicates)
-      if (img && img !== '' && !allImages.includes(img)) {
+      // Only add if it's not already in the array and not empty
+      if (img && img.trim() !== '' && !allImages.includes(img)) {
         allImages.push(img);
       }
     });
   }
   
-  // Final filter to remove any empty strings
-  const filteredImages = allImages.filter(img => img !== '');
+  // Final filtered images array (already clean, no need to filter again)
+  const filteredImages = allImages;
 
   // For debugging
   console.log("Property data:", property);
