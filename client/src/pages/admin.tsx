@@ -76,6 +76,9 @@ export default function AdminPanel() {
     features: []
   });
   
+  // Separate state for raw features text input
+  const [featuresText, setFeaturesText] = useState("");
+  
   const [newImageUrl, setNewImageUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -506,6 +509,7 @@ export default function AdminPanel() {
       images: [],
       features: []
     });
+    setFeaturesText(""); // Reset features text input
     setSelectedProperty(null);
     setNewImageUrl('');
   };
@@ -640,6 +644,9 @@ export default function AdminPanel() {
         images: cleanImages,
         features: property.features
       });
+      
+      // Set the raw features text for editing
+      setFeaturesText(property.features.join(', '));
     } else {
       resetForm();
     }
@@ -1237,11 +1244,13 @@ export default function AdminPanel() {
                         <Textarea
                           id="features"
                           className="bg-white border-gray-300 text-gray-900"
-                          value={formData.features.join(', ')}
-                          onChange={(e) => setFormData({ 
-                            ...formData, 
-                            features: e.target.value.split(',').map(feature => feature.trim()).filter(feature => feature.length > 0)
-                          })}
+                          value={featuresText}
+                          onChange={(e) => {
+                            setFeaturesText(e.target.value);
+                            // Update the features array in real time, but allow typing commas and spaces
+                            const features = e.target.value.split(',').map(feature => feature.trim()).filter(feature => feature.length > 0);
+                            setFormData({ ...formData, features });
+                          }}
                           rows={2}
                         />
                       </div>
