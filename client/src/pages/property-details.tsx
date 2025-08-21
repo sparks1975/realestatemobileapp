@@ -65,28 +65,26 @@ export default function PropertyDetails() {
   }
 
   // Create an array of all images without duplicates
-  const allImages: string[] = [];
+  let allImages: string[] = [];
   
-  // Add the main image if it exists
-  if (property.mainImage && property.mainImage.trim() !== '') {
-    allImages.push(property.mainImage);
-  }
-  
-  // Then add any additional images from the images array that aren't duplicates
+  // Start with the images array (which may or may not include the main image)
   if (property.images && property.images.length > 0) {
-    property.images.forEach(img => {
-      // Only add if it's not already in the array and not empty
-      if (img && img.trim() !== '' && !allImages.includes(img)) {
-        allImages.push(img);
-      }
-    });
+    allImages = [...property.images.filter(img => img && img.trim() !== '')];
   }
   
-  // Final filtered images array (already clean, no need to filter again)
-  const filteredImages = allImages;
+  // If main image exists and is not already in the array, add it to the beginning
+  if (property.mainImage && property.mainImage.trim() !== '' && !allImages.includes(property.mainImage)) {
+    allImages.unshift(property.mainImage);
+  }
+  
+  // Remove any duplicates using Set (more reliable than includes)
+  const filteredImages = [...new Set(allImages)];
 
-  // For debugging
-  console.log("Property data:", property);
+  // For debugging - check for duplicates
+  console.log("🖼️ Property mainImage:", property.mainImage);
+  console.log("🖼️ Property images array:", property.images);
+  console.log("🖼️ Final filteredImages:", filteredImages);
+  console.log("🖼️ Duplicate check - mainImage in images array:", property.images?.includes(property.mainImage));
 
   return (
     <div className="container mx-auto py-8">
