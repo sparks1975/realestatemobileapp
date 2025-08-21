@@ -132,7 +132,9 @@ export default function PropertiesPage() {
 
   // Hide skeleton after minimum duration and when all data and fonts are loaded
   useEffect(() => {
-    if (!isLoading && themeSettings && isThemeApplied && fontsLoaded) {
+    const hasRealProperties = properties && properties.length > 0;
+    
+    if (!isLoading && themeSettings && hasRealProperties && isThemeApplied && fontsLoaded) {
       // Ensure skeleton shows for at least 3 seconds to prevent flash and allow full content styling
       const minDuration = 3000;
       const timer = setTimeout(() => {
@@ -141,7 +143,7 @@ export default function PropertiesPage() {
       
       return () => clearTimeout(timer);
     }
-  }, [isLoading, themeSettings, isThemeApplied, fontsLoaded]);
+  }, [isLoading, themeSettings, properties, isThemeApplied, fontsLoaded]);
 
   // Filter properties based on search and filter criteria
   const filteredProperties = properties.filter(property => {
@@ -152,8 +154,11 @@ export default function PropertiesPage() {
     return matchesSearch && matchesFilter;
   });
 
-  // Show loading skeleton while data is loading, theme is not applied, fonts not loaded, or during minimum duration
-  const isDataLoading = isLoading || !themeSettings || !isThemeApplied || !fontsLoaded;
+  // Check if we have real properties data
+  const hasRealProperties = properties && properties.length > 0;
+  
+  // Show loading skeleton while data is loading, theme is not applied, fonts not loaded, or real content not available
+  const isDataLoading = isLoading || !themeSettings || !hasRealProperties || !isThemeApplied || !fontsLoaded;
   
   if (showSkeleton || isDataLoading) {
     return (

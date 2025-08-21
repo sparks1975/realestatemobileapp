@@ -202,17 +202,27 @@ export default function HomePage() {
 
   // Hide skeleton after minimum duration and when all data and fonts are loaded
   useEffect(() => {
-    if (!isLoading && !communitiesLoading && themeSettings && pageContent && isThemeApplied && fontsLoaded) {
+    // Check if we have actual content data, not just empty objects
+    const hasRealContent = pageContent && 
+      Object.keys(pageContent).length > 0 && 
+      pageContent.hero && 
+      pageContent.hero.title && 
+      pageContent.hero.title.trim() !== '';
+    
+    const hasRealProperties = properties && properties.length > 0;
+    const hasRealCommunities = communities && communities.length > 0;
+    
+    if (!isLoading && !communitiesLoading && themeSettings && hasRealContent && hasRealProperties && hasRealCommunities && isThemeApplied && fontsLoaded) {
       // Ensure skeleton shows for at least 3 seconds to prevent flash and allow full content styling
       const minDuration = 3000;
       const timer = setTimeout(() => {
-        console.log('🎯 All conditions met, hiding skeleton');
+        console.log('🎯 All conditions met with real content, hiding skeleton');
         setShowSkeleton(false);
       }, minDuration);
       
       return () => clearTimeout(timer);
     }
-  }, [isLoading, communitiesLoading, themeSettings, pageContent, isThemeApplied, fontsLoaded]);
+  }, [isLoading, communitiesLoading, themeSettings, pageContent, properties, communities, isThemeApplied, fontsLoaded]);
 
   // Listen for theme updates from admin panel
   useEffect(() => {
@@ -229,8 +239,18 @@ export default function HomePage() {
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
 
-  // Show skeleton loader while data is loading, theme is not applied, fonts not loaded, or during minimum duration
-  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !pageContent || !isThemeApplied || !fontsLoaded;
+  // Check if we have actual content data, not just empty objects
+  const hasRealContent = pageContent && 
+    Object.keys(pageContent).length > 0 && 
+    pageContent.hero && 
+    pageContent.hero.title && 
+    pageContent.hero.title.trim() !== '';
+  
+  const hasRealProperties = properties && properties.length > 0;
+  const hasRealCommunities = communities && communities.length > 0;
+  
+  // Show skeleton loader while data is loading, theme is not applied, fonts not loaded, or real content not available
+  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !hasRealContent || !hasRealProperties || !hasRealCommunities || !isThemeApplied || !fontsLoaded;
   
   if (showSkeleton || isDataLoading) {
     return <HomePageSkeleton />;
