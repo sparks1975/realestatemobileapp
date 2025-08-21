@@ -202,21 +202,33 @@ export default function HomePage() {
   const currentInventory = properties.slice(0, 3);
 
   // Show skeleton loader while data is loading or theme is not applied
-  const isDataLoading = isLoading || communitiesLoading || isThemeLoading || !themeSettings || !pageContent || !isThemeApplied || isInitialLoad;
+  const isDataLoading = isLoading || communitiesLoading || isThemeLoading || !themeSettings || !isThemeApplied;
+  
+  // Debug logging to understand loading states
+  console.log('🔍 Loading states:', {
+    isLoading,
+    communitiesLoading,
+    isThemeLoading,
+    hasThemeSettings: !!themeSettings,
+    hasPageContent: !!pageContent,
+    isThemeApplied,
+    isInitialLoad,
+    showContent
+  });
   
   // Handle initial load state - give more time for everything to settle
   React.useEffect(() => {
-    if (!isLoading && !communitiesLoading && !isThemeLoading && themeSettings && pageContent && isThemeApplied) {
+    if (!isLoading && !communitiesLoading && !isThemeLoading && themeSettings && isThemeApplied) {
       const timer = setTimeout(() => {
         setIsInitialLoad(false);
         setShowContent(true);
-      }, 100); // Shorter delay for faster transition
+      }, 200);
       return () => clearTimeout(timer);
     }
-  }, [isLoading, communitiesLoading, isThemeLoading, themeSettings, pageContent, isThemeApplied]);
+  }, [isLoading, communitiesLoading, isThemeLoading, themeSettings, isThemeApplied]);
   
-  // Always show skeleton until everything is fully ready
-  if (isDataLoading || !showContent) {
+  // Show skeleton only during actual data loading, not for page content
+  if (isDataLoading || isInitialLoad) {
     return <HomePageSkeleton />;
   }
 
