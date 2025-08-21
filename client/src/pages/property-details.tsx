@@ -64,31 +64,36 @@ export default function PropertyDetails() {
     return <div className="flex justify-center items-center h-screen">Property not found</div>;
   }
 
-  // Create deduplicated image array
-  const imageSet = new Set<string>();
+  // Create deduplicated image array - more explicit debugging
+  console.log("🔍 Raw property data:");
+  console.log("  mainImage:", `"${property.mainImage}"`);
+  console.log("  images:", property.images);
   
-  // Add main image first if it exists
-  if (property.mainImage && property.mainImage.trim()) {
-    imageSet.add(property.mainImage);
+  // Use a simple array approach with explicit duplicate checking
+  const allImages: string[] = [];
+  
+  // Add main image if it exists
+  if (property.mainImage?.trim()) {
+    allImages.push(property.mainImage.trim());
+    console.log("  ✅ Added main image");
   }
   
-  // Add additional images, Set will automatically prevent duplicates
+  // Process additional images
   if (property.images?.length) {
-    property.images.forEach(img => {
-      if (img && img.trim()) {
-        imageSet.add(img);
+    property.images.forEach((img, index) => {
+      const trimmedImg = img?.trim();
+      if (trimmedImg && !allImages.includes(trimmedImg)) {
+        allImages.push(trimmedImg);
+        console.log(`  ✅ Added image ${index}: unique`);
+      } else {
+        console.log(`  ❌ Skipped image ${index}: ${!trimmedImg ? 'empty' : 'duplicate'}`);
       }
     });
   }
   
-  // Convert to array - main image will be first if it wasn't already in images array
-  const filteredImages = Array.from(imageSet);
-
-  // For debugging
-  console.log("🖼️ Property mainImage:", property.mainImage);
-  console.log("🖼️ Property images array:", property.images);
-  console.log("🖼️ Final filteredImages:", filteredImages);
-  console.log("🖼️ Total unique images:", filteredImages.length);
+  const filteredImages = allImages;
+  console.log("🎯 Final result:", filteredImages.length, "images");
+  console.log("🎯 Images:", filteredImages);
 
   return (
     <div className="container mx-auto py-8">
