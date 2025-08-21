@@ -272,7 +272,7 @@ export default function PropertyDetails() {
                   <ul className="grid grid-cols-2 gap-2">
                     {property.features.map((feature, index) => (
                       <li key={index} className="flex items-center">
-                        <span className="mr-2">✓</span>
+                        <span className="mr-2">-</span>
                         <span>{feature}</span>
                       </li>
                     ))}
