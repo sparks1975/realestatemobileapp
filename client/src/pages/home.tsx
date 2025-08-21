@@ -220,14 +220,8 @@ export default function HomePage() {
     });
     
     if (!isLoading && !communitiesLoading && themeSettings && hasRealContent && hasRealProperties && hasRealCommunities && isThemeApplied && fontsLoaded) {
-      // Ensure skeleton shows for at least 2 seconds to prevent flash and allow full content styling
-      const minDuration = 2000;
-      const timer = setTimeout(() => {
-        console.log('🎯 All conditions met with real content, hiding skeleton');
-        setShowSkeleton(false);
-      }, minDuration);
-      
-      return () => clearTimeout(timer);
+      console.log('🎯 All conditions met with real content, hiding skeleton');
+      setShowSkeleton(false);
     }
   }, [isLoading, communitiesLoading, themeSettings, pageContent, properties, communities, isThemeApplied, fontsLoaded]);
 

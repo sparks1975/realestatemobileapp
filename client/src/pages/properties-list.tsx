@@ -143,13 +143,7 @@ export default function PropertiesPage() {
     });
     
     if (!isLoading && themeSettings && hasRealProperties && isThemeApplied && fontsLoaded) {
-      // Ensure skeleton shows for at least 2 seconds to prevent flash and allow full content styling
-      const minDuration = 2000;
-      const timer = setTimeout(() => {
-        setShowSkeleton(false);
-      }, minDuration);
-      
-      return () => clearTimeout(timer);
+      setShowSkeleton(false);
     }
   }, [isLoading, themeSettings, properties, isThemeApplied, fontsLoaded]);
 
