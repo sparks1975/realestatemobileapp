@@ -203,18 +203,25 @@ export default function HomePage() {
   // Hide skeleton after minimum duration and when all data and fonts are loaded
   useEffect(() => {
     // Check if we have actual content data, not just empty objects
-    const hasRealContent = pageContent && 
-      Object.keys(pageContent).length > 0 && 
-      pageContent.hero && 
-      pageContent.hero.title && 
-      pageContent.hero.title.trim() !== '';
-    
+    const hasRealContent = pageContent && Object.keys(pageContent).length > 0;
     const hasRealProperties = properties && properties.length > 0;
     const hasRealCommunities = communities && communities.length > 0;
     
+    // Log current state for debugging
+    console.log('🔍 Skeleton conditions check:', {
+      isLoading,
+      communitiesLoading,
+      hasThemeSettings: !!themeSettings,
+      hasRealContent,
+      hasRealProperties,
+      hasRealCommunities,
+      isThemeApplied,
+      fontsLoaded
+    });
+    
     if (!isLoading && !communitiesLoading && themeSettings && hasRealContent && hasRealProperties && hasRealCommunities && isThemeApplied && fontsLoaded) {
-      // Ensure skeleton shows for at least 3 seconds to prevent flash and allow full content styling
-      const minDuration = 3000;
+      // Ensure skeleton shows for at least 2 seconds to prevent flash and allow full content styling
+      const minDuration = 2000;
       const timer = setTimeout(() => {
         console.log('🎯 All conditions met with real content, hiding skeleton');
         setShowSkeleton(false);
@@ -240,12 +247,7 @@ export default function HomePage() {
   const currentInventory = properties.slice(0, 3);
 
   // Check if we have actual content data, not just empty objects
-  const hasRealContent = pageContent && 
-    Object.keys(pageContent).length > 0 && 
-    pageContent.hero && 
-    pageContent.hero.title && 
-    pageContent.hero.title.trim() !== '';
-  
+  const hasRealContent = pageContent && Object.keys(pageContent).length > 0;
   const hasRealProperties = properties && properties.length > 0;
   const hasRealCommunities = communities && communities.length > 0;
   

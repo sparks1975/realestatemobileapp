@@ -134,9 +134,17 @@ export default function PropertiesPage() {
   useEffect(() => {
     const hasRealProperties = properties && properties.length > 0;
     
+    console.log('🔍 Properties page skeleton conditions:', {
+      isLoading,
+      hasThemeSettings: !!themeSettings,
+      hasRealProperties,
+      isThemeApplied,
+      fontsLoaded
+    });
+    
     if (!isLoading && themeSettings && hasRealProperties && isThemeApplied && fontsLoaded) {
-      // Ensure skeleton shows for at least 3 seconds to prevent flash and allow full content styling
-      const minDuration = 3000;
+      // Ensure skeleton shows for at least 2 seconds to prevent flash and allow full content styling
+      const minDuration = 2000;
       const timer = setTimeout(() => {
         setShowSkeleton(false);
       }, minDuration);
