@@ -479,7 +479,7 @@ export default function PropertyDetailPage() {
                           className="flex items-center p-3 rounded-lg"
                           style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
                         >
-                          <Home size={16} className="mr-3" style={{ color: 'var(--primary-color)' }} />
+                          <span className="mr-3" style={{ color: 'var(--primary-color)' }}>-</span>
                           <span style={{ color: 'var(--text-color)' }}>{feature}</span>
                         </div>
                       ))}
