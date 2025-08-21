@@ -34,6 +34,7 @@ export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isThemeApplied, setIsThemeApplied] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -144,6 +145,13 @@ export default function HomePage() {
 
       // Load Google Fonts dynamically with all font weights
       const fontsToLoad = new Set([settings.headingFont, settings.bodyFont, settings.buttonFont]);
+      let loadedFontsCount = 0;
+      const totalFontsToLoad = Array.from(fontsToLoad).filter(font => font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)).length;
+      
+      // If no fonts to load, mark as loaded
+      if (totalFontsToLoad === 0) {
+        setFontsLoaded(true);
+      }
       
       fontsToLoad.forEach(font => {
         if (font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)) {
@@ -157,24 +165,34 @@ export default function HomePage() {
           // Add load event listener to verify font loading
           link.onload = () => {
             console.log('✅ Font loaded successfully:', font);
-            // Force a re-render by updating a state or triggering a style recalculation
-            document.documentElement.style.setProperty('--font-load-trigger', Math.random().toString());
+            loadedFontsCount++;
+            
+            // Wait for font to actually be applied by the browser
+            setTimeout(() => {
+              if (loadedFontsCount >= totalFontsToLoad) {
+                console.log('🎉 All fonts loaded successfully');
+                setFontsLoaded(true);
+              }
+            }, 200);
           };
           link.onerror = () => {
             console.error('❌ Failed to load font:', font);
+            loadedFontsCount++;
+            if (loadedFontsCount >= totalFontsToLoad) {
+              setFontsLoaded(true);
+            }
           };
         } else {
           console.log('🔤 Font already loaded or is Inter:', font);
         }
       });
       
-      // Mark theme as applied after a longer delay to allow fonts to load completely
-      setTimeout(() => {
-        setIsThemeApplied(true);
-      }, 1000);
+      // Mark theme as applied immediately since we're tracking fonts separately
+      setIsThemeApplied(true);
     } else {
       console.log('⚠️ No theme settings to apply');
-      setIsThemeApplied(true); // No theme to apply, show content
+      setIsThemeApplied(true);
+      setFontsLoaded(true); // No fonts to load
     }
   };
 
@@ -182,18 +200,19 @@ export default function HomePage() {
     applyThemeSettings(themeSettings);
   }, [themeSettings]);
 
-  // Hide skeleton after minimum duration and when all data is loaded
+  // Hide skeleton after minimum duration and when all data and fonts are loaded
   useEffect(() => {
-    if (!isLoading && !communitiesLoading && themeSettings && pageContent && isThemeApplied) {
-      // Ensure skeleton shows for at least 2.5 seconds to prevent flash and allow full content styling
-      const minDuration = 2500;
+    if (!isLoading && !communitiesLoading && themeSettings && pageContent && isThemeApplied && fontsLoaded) {
+      // Ensure skeleton shows for at least 3 seconds to prevent flash and allow full content styling
+      const minDuration = 3000;
       const timer = setTimeout(() => {
+        console.log('🎯 All conditions met, hiding skeleton');
         setShowSkeleton(false);
       }, minDuration);
       
       return () => clearTimeout(timer);
     }
-  }, [isLoading, communitiesLoading, themeSettings, pageContent, isThemeApplied]);
+  }, [isLoading, communitiesLoading, themeSettings, pageContent, isThemeApplied, fontsLoaded]);
 
   // Listen for theme updates from admin panel
   useEffect(() => {
@@ -210,8 +229,8 @@ export default function HomePage() {
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
 
-  // Show skeleton loader while data is loading, theme is not applied, or during minimum duration
-  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !pageContent || !isThemeApplied;
+  // Show skeleton loader while data is loading, theme is not applied, fonts not loaded, or during minimum duration
+  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !pageContent || !isThemeApplied || !fontsLoaded;
   
   if (showSkeleton || isDataLoading) {
     return <HomePageSkeleton />;

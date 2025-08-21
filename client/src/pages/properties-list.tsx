@@ -31,6 +31,7 @@ export default function PropertiesPage() {
   const [filterType, setFilterType] = useState('all');
   const [isThemeApplied, setIsThemeApplied] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   // Load theme settings
   const { data: themeSettings } = useQuery({
@@ -84,6 +85,14 @@ export default function PropertiesPage() {
 
       // Load Google Fonts
       const fontsToLoad = new Set([settings.headingFont, settings.bodyFont, settings.buttonFont]);
+      let loadedFontsCount = 0;
+      const totalFontsToLoad = Array.from(fontsToLoad).filter(font => font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)).length;
+      
+      // If no fonts to load, mark as loaded
+      if (totalFontsToLoad === 0) {
+        setFontsLoaded(true);
+      }
+      
       fontsToLoad.forEach(font => {
         if (font && font !== 'Inter' && !document.querySelector(`link[href*="${font.replace(' ', '+')}"]`)) {
           const fontUrl = `https://fonts.googleapis.com/css2?family=${font.replace(' ', '+')}:wght@100;200;300;400;500;600;700;800;900&display=swap`;
@@ -91,15 +100,29 @@ export default function PropertiesPage() {
           link.href = fontUrl;
           link.rel = 'stylesheet';
           document.head.appendChild(link);
+          
+          link.onload = () => {
+            loadedFontsCount++;
+            setTimeout(() => {
+              if (loadedFontsCount >= totalFontsToLoad) {
+                setFontsLoaded(true);
+              }
+            }, 200);
+          };
+          link.onerror = () => {
+            loadedFontsCount++;
+            if (loadedFontsCount >= totalFontsToLoad) {
+              setFontsLoaded(true);
+            }
+          };
         }
       });
       
-      // Mark theme as applied after a longer delay to allow fonts to load completely
-      setTimeout(() => {
-        setIsThemeApplied(true);
-      }, 1000);
+      // Mark theme as applied immediately since we're tracking fonts separately
+      setIsThemeApplied(true);
     } else {
-      setIsThemeApplied(true); // No theme to apply, show content
+      setIsThemeApplied(true);
+      setFontsLoaded(true); // No fonts to load
     }
   };
 
@@ -107,18 +130,18 @@ export default function PropertiesPage() {
     applyThemeSettings(themeSettings);
   }, [themeSettings]);
 
-  // Hide skeleton after minimum duration and when all data is loaded
+  // Hide skeleton after minimum duration and when all data and fonts are loaded
   useEffect(() => {
-    if (!isLoading && themeSettings && isThemeApplied) {
-      // Ensure skeleton shows for at least 2.5 seconds to prevent flash and allow full content styling
-      const minDuration = 2500;
+    if (!isLoading && themeSettings && isThemeApplied && fontsLoaded) {
+      // Ensure skeleton shows for at least 3 seconds to prevent flash and allow full content styling
+      const minDuration = 3000;
       const timer = setTimeout(() => {
         setShowSkeleton(false);
       }, minDuration);
       
       return () => clearTimeout(timer);
     }
-  }, [isLoading, themeSettings, isThemeApplied]);
+  }, [isLoading, themeSettings, isThemeApplied, fontsLoaded]);
 
   // Filter properties based on search and filter criteria
   const filteredProperties = properties.filter(property => {
@@ -129,8 +152,8 @@ export default function PropertiesPage() {
     return matchesSearch && matchesFilter;
   });
 
-  // Show loading skeleton while data is loading, theme is not applied, or during minimum duration
-  const isDataLoading = isLoading || !themeSettings || !isThemeApplied;
+  // Show loading skeleton while data is loading, theme is not applied, fonts not loaded, or during minimum duration
+  const isDataLoading = isLoading || !themeSettings || !isThemeApplied || !fontsLoaded;
   
   if (showSkeleton || isDataLoading) {
     return (
