@@ -112,7 +112,31 @@ export default function PropertyDetailPage() {
     return <div className="min-h-screen flex items-center justify-center">Property not found</div>;
   }
 
-  const allImages = property.mainImage ? [property.mainImage, ...property.images] : property.images;
+  // Create deduplicated image array
+  console.log("🔍 Property Detail Page - Raw Data:");
+  console.log("  mainImage:", property.mainImage);
+  console.log("  images:", property.images);
+  
+  const imageSet = new Set<string>();
+  
+  // Add main image first if it exists
+  if (property.mainImage?.trim()) {
+    imageSet.add(property.mainImage);
+  }
+  
+  // Add additional images, Set automatically prevents duplicates
+  if (property.images?.length) {
+    property.images.forEach(img => {
+      if (img?.trim()) {
+        imageSet.add(img);
+      }
+    });
+  }
+  
+  const allImages = Array.from(imageSet);
+  
+  console.log("🎯 Final unique images:", allImages.length);
+  console.log("🎯 Images:", allImages);
 
   return (
     <div className="property-detail min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>

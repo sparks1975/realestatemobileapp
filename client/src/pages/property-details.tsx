@@ -65,9 +65,12 @@ export default function PropertyDetails() {
   }
 
   // Create deduplicated image array - more explicit debugging
-  console.log("🔍 Raw property data:");
-  console.log("  mainImage:", `"${property.mainImage}"`);
-  console.log("  images:", property.images);
+  console.log("=== PROPERTY DETAILS DEBUGGING ===");
+  console.log("Property ID:", propertyId);
+  console.log("Raw property data:", property);
+  console.log("Main Image:", property.mainImage);
+  console.log("Images Array:", property.images);
+  console.log("Images Array Length:", property.images?.length);
   
   // Use a simple array approach with explicit duplicate checking
   const allImages: string[] = [];
@@ -92,8 +95,15 @@ export default function PropertyDetails() {
   }
   
   const filteredImages = allImages;
-  console.log("🎯 Final result:", filteredImages.length, "images");
-  console.log("🎯 Images:", filteredImages);
+  console.log("=== FINAL RESULTS ===");
+  console.log("Total unique images:", filteredImages.length);
+  console.log("Final images array:", filteredImages);
+  console.log("Should show carousel controls:", filteredImages.length > 1);
+  
+  // Also alert to make sure it's visible
+  if (filteredImages.length > 1) {
+    console.warn("WARNING: Multiple images detected when there should only be one unique image!");
+  }
 
   return (
     <div className="container mx-auto py-8">
