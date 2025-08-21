@@ -2,14 +2,97 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X, MessageCircle, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 
+// Agent Page Skeleton Component
+function AgentPageSkeleton() {
+  return (
+    <div className="agent-page min-h-screen bg-gray-50">
+      {/* Navigation Skeleton */}
+      <div className="fixed top-0 w-full backdrop-blur-sm z-50 bg-gray-100">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-8 w-32" />
+            <div className="hidden md:flex items-center space-x-12">
+              {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-4 w-16" />)}
+            </div>
+            <div className="md:hidden">
+              <Skeleton className="h-6 w-6" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hero Section Skeleton */}
+      <div className="pt-24 pb-24 bg-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <Skeleton className="w-full h-96" />
+              <div className="absolute -bottom-8 -right-8 w-24 h-24">
+                <Skeleton className="w-full h-full" />
+              </div>
+            </div>
+            <div>
+              <Skeleton className="h-4 w-24 mb-4" />
+              <Skeleton className="h-12 w-64 mb-6" />
+              <Skeleton className="h-6 w-full mb-2" />
+              <Skeleton className="h-6 w-3/4 mb-8" />
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Skeleton className="h-12 w-32" />
+                <Skeleton className="h-12 w-32" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Section Skeleton */}
+      <div className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid md:grid-cols-4 gap-12">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="text-center">
+                <Skeleton className="h-12 w-16 mx-auto mb-4" />
+                <Skeleton className="h-6 w-24 mx-auto" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Services Section Skeleton */}
+      <div className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <Skeleton className="h-8 w-48 mx-auto mb-4" />
+            <Skeleton className="h-6 w-96 mx-auto" />
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="bg-white p-8 text-center">
+                <Skeleton className="h-12 w-12 mx-auto mb-6" />
+                <Skeleton className="h-6 w-32 mx-auto mb-4" />
+                <Skeleton className="h-4 w-full mb-2" />
+                <Skeleton className="h-4 w-3/4 mx-auto" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AgentPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isThemeApplied, setIsThemeApplied] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
   // Load theme settings
-  const { data: themeSettings, refetch: refetchTheme } = useQuery({
+  const { data: themeSettings, isLoading, refetch: refetchTheme } = useQuery({
     queryKey: ['/api/theme-settings/1'],
     queryFn: async () => {
       const response = await fetch(`/api/theme-settings/1?_t=${Date.now()}`, {
@@ -56,15 +139,28 @@ export default function AgentPage() {
           const link = document.createElement('link');
           link.href = fontUrl;
           link.rel = 'stylesheet';
-          document.head.appendChild(link);
         }
       });
+      setIsThemeApplied(true);
     }
   };
 
   useEffect(() => {
     applyThemeSettings(themeSettings);
   }, [themeSettings]);
+
+  // Hide skeleton after theme is loaded and applied
+  useEffect(() => {
+    if (!isLoading && themeSettings && isThemeApplied) {
+      // Small delay to ensure smooth transition
+      setTimeout(() => setShowSkeleton(false), 500);
+    }
+  }, [isLoading, themeSettings, isThemeApplied]);
+
+  // Show skeleton while loading
+  if (showSkeleton || isLoading || !themeSettings) {
+    return <AgentPageSkeleton />;
+  }
 
   return (
     <div className="agent-page min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
