@@ -385,7 +385,9 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getProperties(realtorId: number): Promise<Property[]> {
-    return db.select().from(properties).where(eq(properties.listedById, realtorId));
+    return db.select().from(properties)
+      .where(eq(properties.listedById, realtorId))
+      .orderBy(properties.id);
   }
 
   async createProperty(insertProperty: InsertProperty): Promise<Property> {
