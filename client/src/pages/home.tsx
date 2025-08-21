@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import React from "react";
 import { HomePageSkeleton } from "@/components/SkeletonLoader";
 
 interface Property {
@@ -33,6 +34,10 @@ interface Property {
 export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isThemeApplied, setIsThemeApplied] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+  
+  // Immediately show skeleton on first render
+  const [showContent, setShowContent] = useState(false);
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -53,7 +58,7 @@ export default function HomePage() {
   });
 
   // Load theme settings with aggressive cache busting
-  const { data: themeSettings, refetch: refetchTheme } = useQuery({
+  const { data: themeSettings, isLoading: isThemeLoading, refetch: refetchTheme } = useQuery({
     queryKey: ['/api/theme-settings/1'],
     queryFn: async () => {
       const response = await fetch(`/api/theme-settings/1?_t=${Date.now()}`, {
@@ -170,7 +175,7 @@ export default function HomePage() {
       // Mark theme as applied after a short delay to allow fonts to load
       setTimeout(() => {
         setIsThemeApplied(true);
-      }, 500);
+      }, 300);
     } else {
       console.log('⚠️ No theme settings to apply');
       setIsThemeApplied(true); // No theme to apply, show content
@@ -197,14 +202,29 @@ export default function HomePage() {
   const currentInventory = properties.slice(0, 3);
 
   // Show skeleton loader while data is loading or theme is not applied
-  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !pageContent || !isThemeApplied;
+  const isDataLoading = isLoading || communitiesLoading || isThemeLoading || !themeSettings || !pageContent || !isThemeApplied || isInitialLoad;
   
-  if (isDataLoading) {
+  // Handle initial load state - give more time for everything to settle
+  React.useEffect(() => {
+    if (!isLoading && !communitiesLoading && !isThemeLoading && themeSettings && pageContent && isThemeApplied) {
+      const timer = setTimeout(() => {
+        setIsInitialLoad(false);
+        setShowContent(true);
+      }, 100); // Shorter delay for faster transition
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, communitiesLoading, isThemeLoading, themeSettings, pageContent, isThemeApplied]);
+  
+  // Always show skeleton until everything is fully ready
+  if (isDataLoading || !showContent) {
     return <HomePageSkeleton />;
   }
 
   return (
-    <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
+    <div id="home" className="agent-website min-h-screen dynamic-content" 
+         style={{ backgroundColor: 'var(--tertiary-color)' }} 
+         data-theme-managed
+         data-content-loaded="true">
       {/* Navigation */}
       <nav 
         className="fixed top-0 w-full backdrop-blur-sm z-50"
