@@ -30,6 +30,7 @@ export default function PropertiesPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [isThemeApplied, setIsThemeApplied] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
   // Load theme settings
   const { data: themeSettings } = useQuery({
@@ -93,10 +94,10 @@ export default function PropertiesPage() {
         }
       });
       
-      // Mark theme as applied after a short delay to allow fonts to load
+      // Mark theme as applied after a longer delay to allow fonts to load completely
       setTimeout(() => {
         setIsThemeApplied(true);
-      }, 500);
+      }, 1000);
     } else {
       setIsThemeApplied(true); // No theme to apply, show content
     }
@@ -105,6 +106,19 @@ export default function PropertiesPage() {
   useEffect(() => {
     applyThemeSettings(themeSettings);
   }, [themeSettings]);
+
+  // Hide skeleton after minimum duration and when all data is loaded
+  useEffect(() => {
+    if (!isLoading && themeSettings && isThemeApplied) {
+      // Ensure skeleton shows for at least 2.5 seconds to prevent flash and allow full content styling
+      const minDuration = 2500;
+      const timer = setTimeout(() => {
+        setShowSkeleton(false);
+      }, minDuration);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, themeSettings, isThemeApplied]);
 
   // Filter properties based on search and filter criteria
   const filteredProperties = properties.filter(property => {
@@ -115,10 +129,10 @@ export default function PropertiesPage() {
     return matchesSearch && matchesFilter;
   });
 
-  // Show loading skeleton while data is loading or theme is not applied
+  // Show loading skeleton while data is loading, theme is not applied, or during minimum duration
   const isDataLoading = isLoading || !themeSettings || !isThemeApplied;
   
-  if (isDataLoading) {
+  if (showSkeleton || isDataLoading) {
     return (
       <div className="properties-page min-h-screen bg-gray-50">
         <div className="fixed top-0 w-full backdrop-blur-sm z-50 bg-gray-100">

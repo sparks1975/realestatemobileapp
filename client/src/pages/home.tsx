@@ -168,10 +168,10 @@ export default function HomePage() {
         }
       });
       
-      // Mark theme as applied after a short delay to allow fonts to load
+      // Mark theme as applied after a longer delay to allow fonts to load completely
       setTimeout(() => {
         setIsThemeApplied(true);
-      }, 500);
+      }, 1000);
     } else {
       console.log('⚠️ No theme settings to apply');
       setIsThemeApplied(true); // No theme to apply, show content
@@ -185,8 +185,8 @@ export default function HomePage() {
   // Hide skeleton after minimum duration and when all data is loaded
   useEffect(() => {
     if (!isLoading && !communitiesLoading && themeSettings && pageContent && isThemeApplied) {
-      // Ensure skeleton shows for at least 1 second to prevent flash
-      const minDuration = 1000;
+      // Ensure skeleton shows for at least 2.5 seconds to prevent flash and allow full content styling
+      const minDuration = 2500;
       const timer = setTimeout(() => {
         setShowSkeleton(false);
       }, minDuration);
