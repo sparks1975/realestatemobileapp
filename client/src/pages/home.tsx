@@ -33,6 +33,7 @@ interface Property {
 export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isThemeApplied, setIsThemeApplied] = useState(false);
+  const [showSkeleton, setShowSkeleton] = useState(true);
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -181,6 +182,19 @@ export default function HomePage() {
     applyThemeSettings(themeSettings);
   }, [themeSettings]);
 
+  // Hide skeleton after minimum duration and when all data is loaded
+  useEffect(() => {
+    if (!isLoading && !communitiesLoading && themeSettings && pageContent && isThemeApplied) {
+      // Ensure skeleton shows for at least 1 second to prevent flash
+      const minDuration = 1000;
+      const timer = setTimeout(() => {
+        setShowSkeleton(false);
+      }, minDuration);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, communitiesLoading, themeSettings, pageContent, isThemeApplied]);
+
   // Listen for theme updates from admin panel
   useEffect(() => {
     const handleThemeUpdate = (event: any) => {
@@ -196,10 +210,10 @@ export default function HomePage() {
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
 
-  // Show skeleton loader while data is loading or theme is not applied
+  // Show skeleton loader while data is loading, theme is not applied, or during minimum duration
   const isDataLoading = isLoading || communitiesLoading || !themeSettings || !pageContent || !isThemeApplied;
   
-  if (isDataLoading) {
+  if (showSkeleton || isDataLoading) {
     return <HomePageSkeleton />;
   }
 
