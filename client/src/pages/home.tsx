@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { HomePageSkeleton } from "@/components/SkeletonLoader";
 
 interface Property {
   id: number;
@@ -31,6 +32,7 @@ interface Property {
 
 export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isThemeApplied, setIsThemeApplied] = useState(false);
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -164,8 +166,14 @@ export default function HomePage() {
           console.log('🔤 Font already loaded or is Inter:', font);
         }
       });
+      
+      // Mark theme as applied after a short delay to allow fonts to load
+      setTimeout(() => {
+        setIsThemeApplied(true);
+      }, 500);
     } else {
       console.log('⚠️ No theme settings to apply');
+      setIsThemeApplied(true); // No theme to apply, show content
     }
   };
 
@@ -187,6 +195,13 @@ export default function HomePage() {
 
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
+
+  // Show skeleton loader while data is loading or theme is not applied
+  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !pageContent || !isThemeApplied;
+  
+  if (isDataLoading) {
+    return <HomePageSkeleton />;
+  }
 
   return (
     <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Menu, X, Search, Filter, Grid, List } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Skeleton } from "@/components/SkeletonLoader";
 
 interface Property {
   id: number;
@@ -28,6 +29,7 @@ export default function PropertiesPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [isThemeApplied, setIsThemeApplied] = useState(false);
 
   // Load theme settings
   const { data: themeSettings } = useQuery({
@@ -90,6 +92,13 @@ export default function PropertiesPage() {
           document.head.appendChild(link);
         }
       });
+      
+      // Mark theme as applied after a short delay to allow fonts to load
+      setTimeout(() => {
+        setIsThemeApplied(true);
+      }, 500);
+    } else {
+      setIsThemeApplied(true); // No theme to apply, show content
     }
   };
 
@@ -105,6 +114,59 @@ export default function PropertiesPage() {
     const matchesFilter = filterType === 'all' || property.type.toLowerCase() === filterType.toLowerCase();
     return matchesSearch && matchesFilter;
   });
+
+  // Show loading skeleton while data is loading or theme is not applied
+  const isDataLoading = isLoading || !themeSettings || !isThemeApplied;
+  
+  if (isDataLoading) {
+    return (
+      <div className="properties-page min-h-screen bg-gray-50">
+        <div className="fixed top-0 w-full backdrop-blur-sm z-50 bg-gray-100">
+          <div className="max-w-7xl mx-auto px-6 py-6">
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-8 w-32" />
+              <div className="hidden md:flex items-center space-x-12">
+                {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-4 w-16" />)}
+              </div>
+              <div className="md:hidden">
+                <Skeleton className="h-6 w-6" />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="pt-32 px-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <Skeleton className="h-12 w-64 mx-auto mb-4" />
+              <Skeleton className="h-6 w-96 mx-auto" />
+            </div>
+            
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
+              <Skeleton className="h-10 w-64" />
+              <div className="flex items-center space-x-4">
+                <Skeleton className="h-10 w-32" />
+                <Skeleton className="h-10 w-24" />
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-8">
+              {[1, 2, 3, 4, 5, 6].map(i => (
+                <div key={i} className="bg-white rounded overflow-hidden shadow-lg">
+                  <Skeleton className="h-64 w-full" />
+                  <div className="p-6">
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2 mb-4" />
+                    <Skeleton className="h-8 w-1/3" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="properties-page min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>

@@ -524,6 +524,49 @@ section[data-theme-managed] h2 span,
   background-color: white !important;
 }
 
+/* Force card titles to use heading font with stronger specificity */
+.agent-website .card-title,
+.properties-page .card-title,
+.property-card .card-title {
+  font-family: var(--heading-font, 'Playfair Display') !important;
+  font-weight: var(--heading-font-weight, 600) !important;
+}
+
+/* Skeleton loader animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Enhanced skeleton loader styling */
+.skeleton-loader {
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 .agent-website .border-gray-200 {
   border-color: #e5e7eb !important;
 }
