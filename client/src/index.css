@@ -2,25 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Prevent FOUC by setting default CSS variables immediately */
-:root {
-  --primary-color: #0013ae;
-  --secondary-color: #ffffff;  
-  --tertiary-color: #f8fafc;
-  --text-color: #1a1a1a;
-  --link-color: #0013ae;
-  --link-hover-color: #000d89;
-  --navigation-color: #1a1a1a;
-  --sub-navigation-color: #2a2a2a;
-  --header-background-color: #ffffff;
-  --heading-font: 'Playfair Display', serif;
-  --body-font: 'Inter', sans-serif;
-  --button-font: 'Inter', sans-serif;
-  --heading-font-weight: 600;
-  --body-font-weight: 400;
-  --button-font-weight: 500;
-}
-
 /* Embla Carousel Styles */
 .embla {
   overflow: hidden;
@@ -585,8 +566,6 @@ section[data-theme-managed] h2 span,
     background-position: 200% 0;
   }
 }
-
-/* Content visibility is now handled by skeleton loader logic */
 
 .agent-website .border-gray-200 {
   border-color: #e5e7eb !important;

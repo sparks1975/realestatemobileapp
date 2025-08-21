@@ -4,7 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import React from "react";
 import { HomePageSkeleton } from "@/components/SkeletonLoader";
 
 interface Property {
@@ -54,7 +53,7 @@ export default function HomePage() {
   });
 
   // Load theme settings with aggressive cache busting
-  const { data: themeSettings, isLoading: isThemeLoading, refetch: refetchTheme } = useQuery({
+  const { data: themeSettings, refetch: refetchTheme } = useQuery({
     queryKey: ['/api/theme-settings/1'],
     queryFn: async () => {
       const response = await fetch(`/api/theme-settings/1?_t=${Date.now()}`, {
@@ -168,8 +167,10 @@ export default function HomePage() {
         }
       });
       
-      // Mark theme as applied immediately since fonts are preloaded
-      setIsThemeApplied(true);
+      // Mark theme as applied after a short delay to allow fonts to load
+      setTimeout(() => {
+        setIsThemeApplied(true);
+      }, 500);
     } else {
       console.log('⚠️ No theme settings to apply');
       setIsThemeApplied(true); // No theme to apply, show content
@@ -195,18 +196,15 @@ export default function HomePage() {
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
 
-  // Only show skeleton during initial data loading
-  const isDataLoading = (isLoading || communitiesLoading || isThemeLoading) && !themeSettings;
+  // Show skeleton loader while data is loading or theme is not applied
+  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !pageContent || !isThemeApplied;
   
-  // Show skeleton only if we're actually loading data
   if (isDataLoading) {
     return <HomePageSkeleton />;
   }
 
   return (
-    <div id="home" className="agent-website min-h-screen" 
-         style={{ backgroundColor: 'var(--tertiary-color)' }} 
-         data-theme-managed>
+    <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
       {/* Navigation */}
       <nav 
         className="fixed top-0 w-full backdrop-blur-sm z-50"
@@ -385,7 +383,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section - Inspired by Kumara */}
-      <section className="relative h-screen" data-theme-managed>
+      <section className="relative h-screen dynamic-content" data-theme-managed>
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -430,7 +428,7 @@ export default function HomePage() {
       </section>
 
       {/* Introduction Section - About LuxeLead */}
-      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
+      <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">

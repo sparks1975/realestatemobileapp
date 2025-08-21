@@ -141,14 +141,9 @@ export const FooterSkeleton: React.FC = () => (
   </footer>
 );
 
-// Full page skeleton with immediate display
+// Full page skeleton
 export const HomePageSkeleton: React.FC = () => (
-  <div className="min-h-screen bg-gray-50" style={{ 
-    visibility: 'visible', 
-    opacity: 1,
-    position: 'relative',
-    zIndex: 9999 
-  }}>
+  <div className="min-h-screen bg-gray-50">
     <NavSkeleton />
     <HeroSkeleton />
     <SectionSkeleton title={true} cards={3} />
