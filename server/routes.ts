@@ -158,6 +158,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log('🔥 RAW PUT - Received data:', rawData);
         const requestBody = JSON.parse(rawData);
         console.log('🔥 RAW PUT - Parsed squareFeet:', requestBody.squareFeet);
+        console.log('🔥 RAW PUT - Features in request:', requestBody.features);
+        console.log('🔥 RAW PUT - Features type:', typeof requestBody.features);
+        console.log('🔥 RAW PUT - Features length:', requestBody.features?.length);
 
         const user = await storage.getUserByUsername("alexmorgan");
         if (!user) {
@@ -177,7 +180,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
 
         const updatedProperty = await storage.updateProperty(id, updateData);
-        console.log('🔥 RAW PUT - Updated squareFeet:', updatedProperty.squareFeet);
+        console.log('🔥 RAW PUT - Updated squareFeet:', updatedProperty?.squareFeet);
+        console.log('🔥 RAW PUT - Updated features:', updatedProperty?.features);
+        console.log('🔥 RAW PUT - Full updated property:', updatedProperty);
 
         res.json(updatedProperty);
       } catch (error: any) {
