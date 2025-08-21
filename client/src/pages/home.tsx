@@ -34,10 +34,6 @@ interface Property {
 export default function HomePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isThemeApplied, setIsThemeApplied] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  
-  // Immediately show skeleton on first render
-  const [showContent, setShowContent] = useState(false);
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
@@ -172,10 +168,8 @@ export default function HomePage() {
         }
       });
       
-      // Mark theme as applied after a short delay to allow fonts to load
-      setTimeout(() => {
-        setIsThemeApplied(true);
-      }, 300);
+      // Mark theme as applied immediately since fonts are preloaded
+      setIsThemeApplied(true);
     } else {
       console.log('⚠️ No theme settings to apply');
       setIsThemeApplied(true); // No theme to apply, show content
@@ -201,34 +195,11 @@ export default function HomePage() {
   const featuredProperties = properties.slice(0, 6);
   const currentInventory = properties.slice(0, 3);
 
-  // Show skeleton loader while data is loading or theme is not applied
-  const isDataLoading = isLoading || communitiesLoading || isThemeLoading || !themeSettings || !isThemeApplied;
+  // Only show skeleton during initial data loading
+  const isDataLoading = (isLoading || communitiesLoading || isThemeLoading) && !themeSettings;
   
-  // Debug logging to understand loading states
-  console.log('🔍 Loading states:', {
-    isLoading,
-    communitiesLoading,
-    isThemeLoading,
-    hasThemeSettings: !!themeSettings,
-    hasPageContent: !!pageContent,
-    isThemeApplied,
-    isInitialLoad,
-    showContent
-  });
-  
-  // Handle initial load state - give more time for everything to settle
-  React.useEffect(() => {
-    if (!isLoading && !communitiesLoading && !isThemeLoading && themeSettings && isThemeApplied) {
-      const timer = setTimeout(() => {
-        setIsInitialLoad(false);
-        setShowContent(true);
-      }, 200);
-      return () => clearTimeout(timer);
-    }
-  }, [isLoading, communitiesLoading, isThemeLoading, themeSettings, isThemeApplied]);
-  
-  // Show skeleton only during actual data loading, not for page content
-  if (isDataLoading || isInitialLoad) {
+  // Show skeleton only if we're actually loading data
+  if (isDataLoading) {
     return <HomePageSkeleton />;
   }
 
