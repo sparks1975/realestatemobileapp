@@ -261,11 +261,21 @@ export default function HomePage() {
       >
         <div className="max-w-[1200px] mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <div 
-              className="text-2xl font-light tracking-wider"
-              style={{ color: 'var(--navigation-color)' }}
-            >
-              LUXELEAD
+            <div className="flex items-center">
+              {themeSettings?.headerLogo && themeSettings[`${themeSettings.headerLogo}Logo`] ? (
+                <img 
+                  src={themeSettings[`${themeSettings.headerLogo}Logo`]}
+                  alt="LuxeLead Logo"
+                  className="h-8 w-auto object-contain"
+                />
+              ) : (
+                <div 
+                  className="text-2xl font-light tracking-wider"
+                  style={{ color: 'var(--navigation-color)' }}
+                >
+                  LUXELEAD
+                </div>
+              )}
             </div>
             
             {/* Desktop Navigation */}
@@ -840,11 +850,21 @@ export default function HomePage() {
       <footer className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center">
-            <div 
-              className="text-3xl font-light mb-8 tracking-wider"
-              style={{ color: 'var(--text-color)' }}
-            >
-              LUXELEAD
+            <div className="flex justify-center mb-8">
+              {themeSettings?.footerLogo && themeSettings[`${themeSettings.footerLogo}Logo`] ? (
+                <img 
+                  src={themeSettings[`${themeSettings.footerLogo}Logo`]}
+                  alt="LuxeLead Logo"
+                  className="h-12 w-auto object-contain"
+                />
+              ) : (
+                <div 
+                  className="text-3xl font-light tracking-wider"
+                  style={{ color: 'var(--text-color)' }}
+                >
+                  LUXELEAD
+                </div>
+              )}
             </div>
             <div className="flex justify-center space-x-8 mb-8">
               <a 

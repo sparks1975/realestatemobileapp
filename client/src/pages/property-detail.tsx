@@ -632,11 +632,21 @@ export default function PropertyDetailPage() {
         <footer className="py-16" style={{ backgroundColor: 'var(--header-background-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center">
-              <div 
-                className="text-3xl font-light tracking-wider mb-8"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                LUXELEAD
+              <div className="flex justify-center mb-8">
+                {themeSettings?.footerLogo && themeSettings[`${themeSettings.footerLogo}Logo`] ? (
+                  <img 
+                    src={themeSettings[`${themeSettings.footerLogo}Logo`]}
+                    alt="LuxeLead Logo"
+                    className="h-12 w-auto object-contain"
+                  />
+                ) : (
+                  <div 
+                    className="text-3xl font-light tracking-wider"
+                    style={{ color: 'var(--navigation-color)' }}
+                  >
+                    LUXELEAD
+                  </div>
+                )}
               </div>
               <div className="flex justify-center space-x-8 mb-8">
                 <a 
