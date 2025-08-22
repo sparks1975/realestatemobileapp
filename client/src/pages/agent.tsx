@@ -9,40 +9,40 @@ import { useEffect, useState } from "react";
 // Agent Page Skeleton Component
 function AgentPageSkeleton() {
   return (
-    <div className="agent-page min-h-screen bg-gray-50">
+    <div className="agent-page min-h-screen bg-white">
       {/* Navigation Skeleton */}
-      <div className="fixed top-0 w-full backdrop-blur-sm z-50 bg-gray-100">
+      <div className="fixed top-0 w-full backdrop-blur-sm z-50 bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-8 w-32 bg-gray-200" />
             <div className="hidden md:flex items-center space-x-12">
-              {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-4 w-16" />)}
+              {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-4 w-16 bg-gray-200" />)}
             </div>
             <div className="md:hidden">
-              <Skeleton className="h-6 w-6" />
+              <Skeleton className="h-6 w-6 bg-gray-200" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Hero Section Skeleton */}
-      <div className="pt-24 pb-24 bg-gray-100">
+      <div className="pt-24 pb-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
-              <Skeleton className="w-full h-96" />
+              <Skeleton className="w-full h-96 bg-gray-200" />
               <div className="absolute -bottom-8 -right-8 w-24 h-24">
-                <Skeleton className="w-full h-full" />
+                <Skeleton className="w-full h-full bg-gray-200" />
               </div>
             </div>
             <div>
-              <Skeleton className="h-4 w-24 mb-4" />
-              <Skeleton className="h-12 w-64 mb-6" />
-              <Skeleton className="h-6 w-full mb-2" />
-              <Skeleton className="h-6 w-3/4 mb-8" />
+              <Skeleton className="h-4 w-24 mb-4 bg-gray-200" />
+              <Skeleton className="h-12 w-64 mb-6 bg-gray-200" />
+              <Skeleton className="h-6 w-full mb-2 bg-gray-200" />
+              <Skeleton className="h-6 w-3/4 mb-8 bg-gray-200" />
               <div className="flex flex-col sm:flex-row gap-4">
-                <Skeleton className="h-12 w-32" />
-                <Skeleton className="h-12 w-32" />
+                <Skeleton className="h-12 w-32 bg-gray-200" />
+                <Skeleton className="h-12 w-32 bg-gray-200" />
               </div>
             </div>
           </div>
@@ -55,8 +55,8 @@ function AgentPageSkeleton() {
           <div className="grid md:grid-cols-4 gap-12">
             {[1, 2, 3, 4].map(i => (
               <div key={i} className="text-center">
-                <Skeleton className="h-12 w-16 mx-auto mb-4" />
-                <Skeleton className="h-6 w-24 mx-auto" />
+                <Skeleton className="h-12 w-16 mx-auto mb-4 bg-gray-200" />
+                <Skeleton className="h-6 w-24 mx-auto bg-gray-200" />
               </div>
             ))}
           </div>
@@ -67,16 +67,16 @@ function AgentPageSkeleton() {
       <div className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <Skeleton className="h-8 w-48 mx-auto mb-4" />
-            <Skeleton className="h-6 w-96 mx-auto" />
+            <Skeleton className="h-8 w-48 mx-auto mb-4 bg-gray-200" />
+            <Skeleton className="h-6 w-96 mx-auto bg-gray-200" />
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {[1, 2, 3].map(i => (
-              <div key={i} className="bg-white p-8 text-center">
-                <Skeleton className="h-12 w-12 mx-auto mb-6" />
-                <Skeleton className="h-6 w-32 mx-auto mb-4" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-3/4 mx-auto" />
+              <div key={i} className="bg-white p-8 text-center border border-gray-200 rounded-lg">
+                <Skeleton className="h-12 w-12 mx-auto mb-6 bg-gray-200" />
+                <Skeleton className="h-6 w-32 mx-auto mb-4 bg-gray-200" />
+                <Skeleton className="h-4 w-full mb-2 bg-gray-200" />
+                <Skeleton className="h-4 w-3/4 mx-auto bg-gray-200" />
               </div>
             ))}
           </div>
