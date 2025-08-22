@@ -324,7 +324,7 @@ export default function PropertyDetailPage() {
           <div className="max-w-7xl mx-auto px-6">
             <Breadcrumb 
               items={createPropertyBreadcrumbs.propertyDetail(property?.title)}
-              className="text-white opacity-80"
+              className="dark-background"
             />
           </div>
         </section>

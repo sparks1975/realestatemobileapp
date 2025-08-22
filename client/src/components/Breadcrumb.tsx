@@ -11,19 +11,61 @@ interface BreadcrumbProps {
   className?: string;
 }
 
+interface BreadcrumbTheme {
+  linkColor: string;
+  linkHoverColor: string;
+  currentPageColor: string;
+  separatorColor: string;
+}
+
+// Define theme variants with proper contrast ratios
+const breadcrumbThemes: Record<string, BreadcrumbTheme> = {
+  light: {
+    linkColor: "text-blue-700",
+    linkHoverColor: "hover:text-blue-900", 
+    currentPageColor: "text-gray-900",
+    separatorColor: "text-gray-600"
+  },
+  dark: {
+    linkColor: "text-blue-300",
+    linkHoverColor: "hover:text-blue-100",
+    currentPageColor: "text-white",
+    separatorColor: "text-gray-300"
+  },
+  darkBackground: {
+    linkColor: "text-yellow-300",
+    linkHoverColor: "hover:text-yellow-100", 
+    currentPageColor: "text-white",
+    separatorColor: "text-gray-300"
+  }
+};
+
 export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
+  // Determine theme based on className or default to light
+  const getTheme = (): BreadcrumbTheme => {
+    if (className.includes('dark-background') || className.includes('text-white') || className.includes('dark')) {
+      return breadcrumbThemes.darkBackground;
+    }
+    if (className.includes('light-background') || className.includes('text-gray-600')) {
+      return breadcrumbThemes.light;
+    }
+    return breadcrumbThemes.light;
+  };
+
+  const theme = getTheme();
+
   return (
     <nav aria-label="Breadcrumb" className={`flex items-center space-x-2 text-sm ${className}`}>
       {items.map((item, index) => (
         <div key={index} className="flex items-center">
           {index > 0 && (
-            <ChevronRight className="h-4 w-4 text-gray-400 mx-2" />
+            <ChevronRight className={`h-4 w-4 mx-2 ${theme.separatorColor}`} />
           )}
           
           {item.href && !item.isCurrentPage ? (
             <a 
               href={item.href}
-              className="text-blue-600 hover:text-blue-800 transition-colors font-medium"
+              className={`${theme.linkColor} ${theme.linkHoverColor} transition-colors font-medium underline`}
             >
               {item.label}
             </a>
@@ -31,8 +73,8 @@ export function Breadcrumb({ items, className = "" }: BreadcrumbProps) {
             <span 
               className={`${
                 item.isCurrentPage 
-                  ? "text-gray-900 font-semibold" 
-                  : "text-gray-500"
+                  ? `${theme.currentPageColor} font-semibold` 
+                  : theme.currentPageColor
               }`}
             >
               {item.label}

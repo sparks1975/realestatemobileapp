@@ -41,7 +41,7 @@ export default function Properties() {
         <div className="mb-4">
           <Breadcrumb 
             items={createPropertyBreadcrumbs.adminProperties()}
-            className="text-gray-600"
+            className="light-background"
           />
         </div>
         
@@ -67,7 +67,7 @@ export default function Properties() {
       <div className="mb-4">
         <Breadcrumb 
           items={createPropertyBreadcrumbs.adminProperties()}
-          className="text-gray-600"
+          className="light-background"
         />
       </div>
       

@@ -399,7 +399,7 @@ export default function PropertiesPage() {
             <div className="mb-8">
               <Breadcrumb 
                 items={createPropertyBreadcrumbs.propertiesList()}
-                className="text-white opacity-80"
+                className="dark-background"
               />
             </div>
             
