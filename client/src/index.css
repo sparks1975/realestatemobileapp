@@ -74,6 +74,11 @@
   background-color: white;
 }
 
+/* Header Logo Styling */
+.header-logo {
+  max-width: 200px !important;
+}
+
 /* Card title styling */
 .card-title {
   font-family: var(--heading-font) !important;
