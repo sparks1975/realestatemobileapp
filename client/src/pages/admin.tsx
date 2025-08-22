@@ -170,6 +170,15 @@ export default function AdminPanel() {
         bodyFontWeight: currentThemeSettings.bodyFontWeight || '400',
         buttonFontWeight: currentThemeSettings.buttonFontWeight || '500'
       });
+      
+      // Update logo settings
+      setLogoSettings({
+        darkLogo: currentThemeSettings.darkLogo || '',
+        lightLogo: currentThemeSettings.lightLogo || '',
+        colorLogo: currentThemeSettings.colorLogo || '',
+        headerLogo: currentThemeSettings.headerLogo || 'color',
+        footerLogo: currentThemeSettings.footerLogo || 'light'
+      });
     }
   }, [currentThemeSettings, hasUnsavedChanges]);
 
@@ -209,6 +218,11 @@ export default function AdminPanel() {
   // Mark as having unsaved changes when theme settings are modified
   const updateThemeSetting = (key: string, value: string) => {
     setThemeSettings(prev => ({ ...prev, [key]: value }));
+    setHasUnsavedChanges(true);
+  };
+
+  const updateLogoSetting = (key: string, value: string) => {
+    setLogoSettings(prev => ({ ...prev, [key]: value }));
     setHasUnsavedChanges(true);
   };
 
@@ -338,8 +352,16 @@ export default function AdminPanel() {
 
   const handleSaveTheme = () => {
     console.log('🎨 Current theme settings before save:', themeSettings);
+    console.log('🎨 Current logo settings before save:', logoSettings);
     console.log('🎨 Has unsaved changes:', hasUnsavedChanges);
-    saveThemeSettingsMutation.mutate(themeSettings);
+    
+    // Combine theme and logo settings for saving
+    const combinedSettings = {
+      ...themeSettings,
+      ...logoSettings
+    };
+    
+    saveThemeSettingsMutation.mutate(combinedSettings);
   };
 
   const handleResetTheme = () => {
@@ -1502,7 +1524,7 @@ export default function AdminPanel() {
                               if (file) {
                                 const reader = new FileReader();
                                 reader.onload = () => {
-                                  setLogoSettings({...logoSettings, darkLogo: reader.result as string});
+                                  updateLogoSetting('darkLogo', reader.result as string);
                                 };
                                 reader.readAsDataURL(file);
                               }
@@ -1517,7 +1539,7 @@ export default function AdminPanel() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setLogoSettings({...logoSettings, darkLogo: ''})}
+                            onClick={() => updateLogoSetting('darkLogo', '')}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -1553,7 +1575,7 @@ export default function AdminPanel() {
                               if (file) {
                                 const reader = new FileReader();
                                 reader.onload = () => {
-                                  setLogoSettings({...logoSettings, lightLogo: reader.result as string});
+                                  updateLogoSetting('lightLogo', reader.result as string);
                                 };
                                 reader.readAsDataURL(file);
                               }
@@ -1568,7 +1590,7 @@ export default function AdminPanel() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setLogoSettings({...logoSettings, lightLogo: ''})}
+                            onClick={() => updateLogoSetting('lightLogo', '')}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -1604,7 +1626,7 @@ export default function AdminPanel() {
                               if (file) {
                                 const reader = new FileReader();
                                 reader.onload = () => {
-                                  setLogoSettings({...logoSettings, colorLogo: reader.result as string});
+                                  updateLogoSetting('colorLogo', reader.result as string);
                                 };
                                 reader.readAsDataURL(file);
                               }
@@ -1619,7 +1641,7 @@ export default function AdminPanel() {
                           <Button
                             variant="outline"
                             size="sm"
-                            onClick={() => setLogoSettings({...logoSettings, colorLogo: ''})}
+                            onClick={() => updateLogoSetting('colorLogo', '')}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -1637,10 +1659,10 @@ export default function AdminPanel() {
                         <p className="text-xs text-gray-500 mb-2">Which logo to display in the website header</p>
                         <Select 
                           value={logoSettings.headerLogo} 
-                          onValueChange={(value) => setLogoSettings({...logoSettings, headerLogo: value})}
+                          onValueChange={(value) => updateLogoSetting('headerLogo', value)}
                         >
-                          <SelectTrigger className="bg-white border-gray-300">
-                            <SelectValue />
+                          <SelectTrigger className="bg-white border-gray-300 text-gray-900">
+                            <SelectValue className="text-gray-900" />
                           </SelectTrigger>
                           <SelectContent className="bg-white border-gray-300">
                             <SelectItem value="dark" className="text-gray-900 hover:bg-gray-100">Dark Logo</SelectItem>
@@ -1655,10 +1677,10 @@ export default function AdminPanel() {
                         <p className="text-xs text-gray-500 mb-2">Which logo to display in the website footer</p>
                         <Select 
                           value={logoSettings.footerLogo} 
-                          onValueChange={(value) => setLogoSettings({...logoSettings, footerLogo: value})}
+                          onValueChange={(value) => updateLogoSetting('footerLogo', value)}
                         >
-                          <SelectTrigger className="bg-white border-gray-300">
-                            <SelectValue />
+                          <SelectTrigger className="bg-white border-gray-300 text-gray-900">
+                            <SelectValue className="text-gray-900" />
                           </SelectTrigger>
                           <SelectContent className="bg-white border-gray-300">
                             <SelectItem value="dark" className="text-gray-900 hover:bg-gray-100">Dark Logo</SelectItem>

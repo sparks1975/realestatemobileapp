@@ -215,6 +215,12 @@ export const themeSettings = pgTable('theme_settings', {
   headingFontWeight: varchar('heading_font_weight', { length: 3 }).notNull().default('600'),
   bodyFontWeight: varchar('body_font_weight', { length: 3 }).notNull().default('400'),
   buttonFontWeight: varchar('button_font_weight', { length: 3 }).notNull().default('500'),
+  // Logo settings
+  darkLogo: text('dark_logo'),
+  lightLogo: text('light_logo'),
+  colorLogo: text('color_logo'),
+  headerLogo: varchar('header_logo', { length: 10 }).default('color'),
+  footerLogo: varchar('footer_logo', { length: 10 }).default('light'),
   userId: integer('user_id').notNull().references(() => users.id),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
@@ -236,6 +242,11 @@ export const insertThemeSettingsSchema = createInsertSchema(themeSettings).pick(
   headingFontWeight: true,
   bodyFontWeight: true,
   buttonFontWeight: true,
+  darkLogo: true,
+  lightLogo: true,
+  colorLogo: true,
+  headerLogo: true,
+  footerLogo: true,
   userId: true,
 });
 
