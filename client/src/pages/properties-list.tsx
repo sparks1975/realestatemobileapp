@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Menu, X, Search, Filter, Grid, List } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/SkeletonLoader";
+import { Breadcrumb, createPropertyBreadcrumbs } from "@/components/Breadcrumb";
 
 interface Property {
   id: number;
@@ -394,6 +395,14 @@ export default function PropertiesPage() {
         {/* Page Header */}
         <section className="pt-24 pb-16" style={{ backgroundColor: 'var(--secondary-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
+            {/* Breadcrumb Navigation */}
+            <div className="mb-8">
+              <Breadcrumb 
+                items={createPropertyBreadcrumbs.propertiesList()}
+                className="text-white opacity-80"
+              />
+            </div>
+            
             <div className="text-center">
               <p 
                 className="text-sm uppercase tracking-[0.2em] mb-4"

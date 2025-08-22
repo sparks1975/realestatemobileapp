@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, DollarSign, Bed, Bath, Square, Star, Plus } from "lucide-react";
 import { useLocation } from "wouter";
+import { Breadcrumb, createPropertyBreadcrumbs } from "@/components/Breadcrumb";
 
 interface Property {
   id: number;
@@ -36,6 +37,14 @@ export default function Properties() {
   if (isLoading) {
     return (
       <div className="p-6 space-y-4">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-4">
+          <Breadcrumb 
+            items={createPropertyBreadcrumbs.adminProperties()}
+            className="text-gray-600"
+          />
+        </div>
+        
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Properties</h1>
           <Button size="sm">
@@ -54,6 +63,14 @@ export default function Properties() {
 
   return (
     <div className="p-6 space-y-4">
+      {/* Breadcrumb Navigation */}
+      <div className="mb-4">
+        <Breadcrumb 
+          items={createPropertyBreadcrumbs.adminProperties()}
+          className="text-gray-600"
+        />
+      </div>
+      
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Properties</h1>
         <Button size="sm">

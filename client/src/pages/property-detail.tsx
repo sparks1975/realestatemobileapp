@@ -6,6 +6,7 @@ import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X, Bed
 import { useEffect, useState } from "react";
 import { useRoute } from "wouter";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb, createPropertyBreadcrumbs } from "@/components/Breadcrumb";
 
 interface Property {
   id: number;
@@ -318,6 +319,16 @@ export default function PropertyDetailPage() {
 
       {/* Main Content */}
       <div>
+        {/* Breadcrumb Section */}
+        <section className="pt-24 pb-4" style={{ backgroundColor: 'var(--secondary-color)' }}>
+          <div className="max-w-7xl mx-auto px-6">
+            <Breadcrumb 
+              items={createPropertyBreadcrumbs.propertyDetail(property?.title)}
+              className="text-white opacity-80"
+            />
+          </div>
+        </section>
+        
         {/* Hero Image Section */}
         <section className="relative" style={{ height: '70vh' }}>
           <div 
