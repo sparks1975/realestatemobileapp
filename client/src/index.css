@@ -75,7 +75,13 @@
 }
 
 /* Header Logo Styling */
+nav .header-logo,
 .header-logo {
+  max-width: 200px !important;
+}
+
+/* Override any img styles that might conflict with header logo */
+nav a img.header-logo {
   max-width: 200px !important;
 }
 
