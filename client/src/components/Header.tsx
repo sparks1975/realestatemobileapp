@@ -42,6 +42,7 @@ export function Header({ isMobileMenuOpen, setIsMobileMenuOpen }: HeaderProps) {
                   src={themeSettings[`${themeSettings.headerLogo}Logo`]}
                   alt="LuxeLead Logo"
                   className="h-8 w-auto object-contain"
+                  style={{ maxWidth: '200px' }}
                 />
               ) : (
                 <div 

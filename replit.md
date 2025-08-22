@@ -7,6 +7,7 @@ A comprehensive real estate management system consisting of a web dashboard and 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Header logo max-width: 200px (implemented August 22, 2025)
 
 ## System Architecture
 
