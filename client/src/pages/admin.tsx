@@ -14,7 +14,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { 
   Plus, Edit2, Trash2, Search, Filter, Download, Upload, 
   BarChart3, Users, Building2, Calendar, Settings, Eye,
-  TrendingUp, DollarSign, LineChart, Activity, Zap, Clock, MessageSquare
+  TrendingUp, DollarSign, LineChart, Activity, Zap, Clock, MessageSquare, Palette
 } from "lucide-react";
 
 interface Property {
@@ -836,8 +836,8 @@ export default function AdminPanel() {
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
-              <Settings className="h-5 w-5 mr-3" />
-              Website Style
+              <Palette className="h-5 w-5 mr-3" />
+              Branding
             </button>
           </nav>
         </div>
