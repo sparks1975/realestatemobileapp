@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, Menu, X, Bed, Bath, Square, Calendar, Car, Camera } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRoute } from "wouter";
+import { Footer } from "@/components/Footer";
 
 interface Property {
   id: number;
@@ -628,65 +629,7 @@ export default function PropertyDetailPage() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-16" style={{ backgroundColor: 'var(--header-background-color)' }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center">
-              <div className="flex justify-center mb-8">
-                {themeSettings?.footerLogo && themeSettings[`${themeSettings.footerLogo}Logo`] ? (
-                  <img 
-                    src={themeSettings[`${themeSettings.footerLogo}Logo`]}
-                    alt="LuxeLead Logo"
-                    className="h-12 w-auto object-contain"
-                  />
-                ) : (
-                  <div 
-                    className="text-3xl font-light tracking-wider"
-                    style={{ color: 'var(--navigation-color)' }}
-                  >
-                    LUXELEAD
-                  </div>
-                )}
-              </div>
-              <div className="flex justify-center space-x-8 mb-8">
-                <a 
-                  href="/#home"
-                  className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                  style={{ color: 'var(--navigation-color)' }}
-                >
-                  Home
-                </a>
-                <a 
-                  href="/#properties"
-                  className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                  style={{ color: 'var(--navigation-color)' }}
-                >
-                  Properties
-                </a>
-                <a 
-                  href="/#about"
-                  className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                  style={{ color: 'var(--navigation-color)' }}
-                >
-                  About
-                </a>
-                <a 
-                  href="/#contact"
-                  className="text-sm uppercase tracking-wide hover:opacity-70 transition-opacity"
-                  style={{ color: 'var(--navigation-color)' }}
-                >
-                  Contact
-                </a>
-              </div>
-              <p 
-                className="text-sm opacity-70"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                © 2024 LuxeLead. All rights reserved.
-              </p>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </div>
   );
