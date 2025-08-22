@@ -83,7 +83,6 @@ export default function AdminPanel() {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [brandingSubTab, setBrandingSubTab] = useState('logos');
   const [pageContent, setPageContent] = useState({
     heroHeadline: "Bespoke Properties for Discerning Clients",
     heroSubheadline: "Introducing our latest collection of extraordinary homes, each thoughtfully curated for those who appreciate uncompromising quality and distinctive design.",
@@ -1489,52 +1488,14 @@ export default function AdminPanel() {
 
           {activeTab === 'style' && (
             <div className="space-y-6">
-              {/* Branding Sub-Navigation */}
-              <div className="bg-white border border-gray-200 rounded-lg">
-                <div className="border-b border-gray-200">
-                  <nav className="flex space-x-8 px-6" aria-label="Branding tabs">
-                    <button
-                      onClick={() => setBrandingSubTab('logos')}
-                      className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                        brandingSubTab === 'logos'
-                          ? 'border-blue-500 text-blue-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                      }`}
-                    >
-                      Logos
-                    </button>
-                    <button
-                      onClick={() => setBrandingSubTab('colors')}
-                      className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                        brandingSubTab === 'colors'
-                          ? 'border-blue-500 text-blue-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                      }`}
-                    >
-                      Colors
-                    </button>
-                    <button
-                      onClick={() => setBrandingSubTab('fonts')}
-                      className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                        brandingSubTab === 'fonts'
-                          ? 'border-blue-500 text-blue-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                      }`}
-                    >
-                      Fonts
-                    </button>
-                  </nav>
-                </div>
-                
-                <div className="p-6">
-                  {/* Logos Section */}
-                  {brandingSubTab === 'logos' && (
-                    <div className="space-y-6">
-                      <div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-4">Logo Management</h3>
-                        <p className="text-sm text-gray-600 mb-6">Upload and manage your brand logos for different contexts</p>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Logo Management Section */}
+              <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-gray-900">Logo Management</CardTitle>
+                  <p className="text-sm text-gray-600">Upload and manage your brand logos for different contexts</p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Dark Logo */}
                     <div className="space-y-3">
                       <Label className="text-gray-700 font-medium">Dark Logo</Label>
