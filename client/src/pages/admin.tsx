@@ -119,6 +119,15 @@ export default function AdminPanel() {
     bodyFontWeight: '400',
     buttonFontWeight: '500'
   });
+
+  // Logo management state
+  const [logoSettings, setLogoSettings] = useState({
+    darkLogo: '',
+    lightLogo: '',
+    colorLogo: '',
+    headerLogo: 'color', // which logo to use in header
+    footerLogo: 'light'  // which logo to use in footer
+  });
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   // Load theme settings
@@ -1457,6 +1466,213 @@ export default function AdminPanel() {
 
           {activeTab === 'style' && (
             <div className="space-y-6">
+              {/* Logo Management Section */}
+              <Card className="bg-white border border-gray-200">
+                <CardHeader>
+                  <CardTitle className="text-gray-900">Logo Management</CardTitle>
+                  <p className="text-sm text-gray-600">Upload and manage your brand logos for different contexts</p>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Dark Logo */}
+                    <div className="space-y-3">
+                      <Label className="text-gray-700 font-medium">Dark Logo</Label>
+                      <p className="text-xs text-gray-500">For light backgrounds</p>
+                      <div className="border border-gray-300 rounded-lg p-4 bg-gray-50 min-h-[120px] flex items-center justify-center">
+                        {logoSettings.darkLogo ? (
+                          <img 
+                            src={logoSettings.darkLogo} 
+                            alt="Dark Logo" 
+                            className="max-h-16 max-w-full object-contain"
+                          />
+                        ) : (
+                          <div className="text-gray-400 text-sm">No dark logo uploaded</div>
+                        )}
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const fileInput = document.createElement('input');
+                            fileInput.type = 'file';
+                            fileInput.accept = 'image/*';
+                            fileInput.onchange = (e) => {
+                              const file = (e.target as HTMLInputElement).files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = () => {
+                                  setLogoSettings({...logoSettings, darkLogo: reader.result as string});
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            };
+                            fileInput.click();
+                          }}
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload
+                        </Button>
+                        {logoSettings.darkLogo && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setLogoSettings({...logoSettings, darkLogo: ''})}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Light Logo */}
+                    <div className="space-y-3">
+                      <Label className="text-gray-700 font-medium">Light Logo</Label>
+                      <p className="text-xs text-gray-500">For dark backgrounds</p>
+                      <div className="border border-gray-300 rounded-lg p-4 bg-gray-800 min-h-[120px] flex items-center justify-center">
+                        {logoSettings.lightLogo ? (
+                          <img 
+                            src={logoSettings.lightLogo} 
+                            alt="Light Logo" 
+                            className="max-h-16 max-w-full object-contain"
+                          />
+                        ) : (
+                          <div className="text-gray-400 text-sm">No light logo uploaded</div>
+                        )}
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const fileInput = document.createElement('input');
+                            fileInput.type = 'file';
+                            fileInput.accept = 'image/*';
+                            fileInput.onchange = (e) => {
+                              const file = (e.target as HTMLInputElement).files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = () => {
+                                  setLogoSettings({...logoSettings, lightLogo: reader.result as string});
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            };
+                            fileInput.click();
+                          }}
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload
+                        </Button>
+                        {logoSettings.lightLogo && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setLogoSettings({...logoSettings, lightLogo: ''})}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Color Logo */}
+                    <div className="space-y-3">
+                      <Label className="text-gray-700 font-medium">Color Logo</Label>
+                      <p className="text-xs text-gray-500">Full color version</p>
+                      <div className="border border-gray-300 rounded-lg p-4 bg-white min-h-[120px] flex items-center justify-center">
+                        {logoSettings.colorLogo ? (
+                          <img 
+                            src={logoSettings.colorLogo} 
+                            alt="Color Logo" 
+                            className="max-h-16 max-w-full object-contain"
+                          />
+                        ) : (
+                          <div className="text-gray-400 text-sm">No color logo uploaded</div>
+                        )}
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const fileInput = document.createElement('input');
+                            fileInput.type = 'file';
+                            fileInput.accept = 'image/*';
+                            fileInput.onchange = (e) => {
+                              const file = (e.target as HTMLInputElement).files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onload = () => {
+                                  setLogoSettings({...logoSettings, colorLogo: reader.result as string});
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            };
+                            fileInput.click();
+                          }}
+                        >
+                          <Upload className="h-4 w-4 mr-2" />
+                          Upload
+                        </Button>
+                        {logoSettings.colorLogo && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setLogoSettings({...logoSettings, colorLogo: ''})}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Logo Usage Settings */}
+                  <div className="pt-6 border-t border-gray-200">
+                    <h4 className="text-lg font-medium text-gray-900 mb-4">Logo Usage</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <Label className="text-gray-700 font-medium">Header Logo</Label>
+                        <p className="text-xs text-gray-500 mb-2">Which logo to display in the website header</p>
+                        <Select 
+                          value={logoSettings.headerLogo} 
+                          onValueChange={(value) => setLogoSettings({...logoSettings, headerLogo: value})}
+                        >
+                          <SelectTrigger className="bg-white border-gray-300">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-300">
+                            <SelectItem value="dark" className="text-gray-900 hover:bg-gray-100">Dark Logo</SelectItem>
+                            <SelectItem value="light" className="text-gray-900 hover:bg-gray-100">Light Logo</SelectItem>
+                            <SelectItem value="color" className="text-gray-900 hover:bg-gray-100">Color Logo</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label className="text-gray-700 font-medium">Footer Logo</Label>
+                        <p className="text-xs text-gray-500 mb-2">Which logo to display in the website footer</p>
+                        <Select 
+                          value={logoSettings.footerLogo} 
+                          onValueChange={(value) => setLogoSettings({...logoSettings, footerLogo: value})}
+                        >
+                          <SelectTrigger className="bg-white border-gray-300">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-white border-gray-300">
+                            <SelectItem value="dark" className="text-gray-900 hover:bg-gray-100">Dark Logo</SelectItem>
+                            <SelectItem value="light" className="text-gray-900 hover:bg-gray-100">Light Logo</SelectItem>
+                            <SelectItem value="color" className="text-gray-900 hover:bg-gray-100">Color Logo</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Theme Customization Section */}
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-gray-900">Website Style Customization</CardTitle>
