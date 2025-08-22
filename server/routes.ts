@@ -116,16 +116,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (existingProperty.listedById !== user.id) {
         return res.status(403).json({ message: "You don't have permission to update this property" });
       }
+
+      console.log('🔧 PATCH - Request body:', JSON.stringify(req.body, null, 2));
+      console.log('🔧 PATCH - Existing property images:', existingProperty.images);
+      console.log('🔧 PATCH - Existing property mainImage:', existingProperty.mainImage);
+      
+      // Validate the update data but allow partial updates
+      // Only validate fields that are actually present in the request
+      const updates = { ...req.body };
+      
+      // Ensure arrays are properly handled
+      if (updates.features && typeof updates.features === 'string') {
+        updates.features = updates.features.split(',').map((f: string) => f.trim());
+      }
       
       // Update the property
-      const updatedProperty = await storage.updateProperty(id, req.body);
+      const updatedProperty = await storage.updateProperty(id, updates);
       if (!updatedProperty) {
         return res.status(500).json({ message: "Failed to update property" });
       }
       
+      console.log('🔧 PATCH - Final updated property:', JSON.stringify(updatedProperty, null, 2));
+      
       // Create activity for property update
       await storage.createActivity({
-        type: "property_update",
+        type: "property_update", 
         title: "Property updated",
         description: updatedProperty.title,
         userId: user.id,
@@ -134,6 +149,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       res.json(updatedProperty);
     } catch (error) {
+      console.error('🚨 PATCH error:', error);
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid property data", errors: error.errors });
       }

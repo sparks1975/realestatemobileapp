@@ -658,31 +658,56 @@ export default function AdminPanel() {
     console.log('🔄 Current formData:', formData);
     console.log('🔄 selectedProperty:', selectedProperty);
     
-    // Convert admin form data to API format with proper image URLs
-    const propertyData = {
-      ...formData,
-      // Ensure squareFeet is properly included
-      squareFeet: Number(formData.squareFeet),
-      city: selectedProperty?.city || 'Default City',
-      state: selectedProperty?.state || 'CA',
-      zipCode: selectedProperty?.zipCode || '90210',
-      listedById: selectedProperty?.listedById || 1,
-      mainImage: formData.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800',
-      images: formData.images.length > 0 ? formData.images : ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800']
-    };
-    
-    console.log('📤 Submitting property data:', propertyData);
-    console.log('🎯 Key field - squareFeet:', propertyData.squareFeet);
-    
     if (selectedProperty) {
-      // Ensure ID is included for updates
-      const updateData = { ...selectedProperty, ...propertyData, id: selectedProperty.id };
-      console.log('📝 Update payload with ID:', updateData.id, 'squareFeet:', updateData.squareFeet);
-      console.log('🔍 Full update payload:', JSON.stringify(updateData, null, 2));
+      // For updates, only send the fields that have actually changed
+      // Start with essential fields that should always be included
+      const updateData = {
+        title: formData.title,
+        address: formData.address,
+        price: formData.price,
+        bedrooms: formData.bedrooms,
+        bathrooms: formData.bathrooms,
+        squareFeet: Number(formData.squareFeet),
+        description: formData.description,
+        type: formData.type,
+        status: formData.status,
+        features: formData.features,
+        images: formData.images,
+        mainImage: formData.images[0] || selectedProperty.mainImage || '',
+        // Preserve existing fields that aren't edited in admin form
+        city: selectedProperty.city,
+        state: selectedProperty.state,
+        zipCode: selectedProperty.zipCode,
+        yearBuilt: selectedProperty.yearBuilt,
+        lotSize: selectedProperty.lotSize,
+        parkingSpaces: selectedProperty.parkingSpaces,
+        listedById: selectedProperty.listedById,
+        createdAt: selectedProperty.createdAt
+      };
+      
+      console.log('📝 Admin Update - Selected property:', JSON.stringify(selectedProperty, null, 2));
+      console.log('📝 Admin Update - Form data:', JSON.stringify(formData, null, 2));
+      console.log('📝 Admin Update - Final payload:', JSON.stringify(updateData, null, 2));
+      
       updatePropertyMutation.mutate(updateData);
     } else {
-      console.log('🆕 Creating new property:', JSON.stringify(propertyData, null, 2));
-      createPropertyMutation.mutate(propertyData);
+      // For new properties, build complete data
+      const newPropertyData = {
+        ...formData,
+        squareFeet: Number(formData.squareFeet),
+        city: 'Austin', // Default for new properties
+        state: 'TX',
+        zipCode: '78701',
+        yearBuilt: 2020,
+        lotSize: 0.25,
+        parkingSpaces: '2',
+        listedById: 1,
+        mainImage: formData.images[0] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800',
+        images: formData.images.length > 0 ? formData.images : ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800']
+      };
+      
+      console.log('🆕 Creating new property:', JSON.stringify(newPropertyData, null, 2));
+      createPropertyMutation.mutate(newPropertyData);
     }
   };
 

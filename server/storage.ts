@@ -401,37 +401,36 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateProperty(id: number, updates: Partial<Property>): Promise<Property | undefined> {
-    // Ensure yearBuilt, parkingSpaces, and features are included in the update
-    if (updates.yearBuilt === undefined) {
-      const [existingProperty] = await db.select({ yearBuilt: properties.yearBuilt })
-        .from(properties)
-        .where(eq(properties.id, id));
-      if (existingProperty) {
-        updates.yearBuilt = existingProperty.yearBuilt;
-      }
+    // Get the existing property first to ensure all fields are preserved
+    const existingProperty = await this.getProperty(id);
+    if (!existingProperty) {
+      return undefined;
     }
 
-    if (updates.parkingSpaces === undefined) {
-      const [existingProperty] = await db.select({ parkingSpaces: properties.parkingSpaces })
-        .from(properties)
-        .where(eq(properties.id, id));
-      if (existingProperty) {
-        updates.parkingSpaces = existingProperty.parkingSpaces;
-      }
-    }
+    // Merge updates with existing data, ensuring no fields are lost
+    const mergedUpdates = {
+      // Start with existing property data
+      ...existingProperty,
+      // Apply updates on top, filtering out undefined values
+      ...Object.fromEntries(
+        Object.entries(updates).filter(([_, value]) => value !== undefined)
+      ),
+      // Ensure critical fields are never undefined
+      yearBuilt: updates.yearBuilt ?? existingProperty.yearBuilt ?? 0,
+      parkingSpaces: updates.parkingSpaces ?? existingProperty.parkingSpaces ?? '',
+      features: updates.features ?? existingProperty.features ?? [],
+      images: updates.images ?? existingProperty.images ?? [],
+      mainImage: updates.mainImage ?? existingProperty.mainImage ?? '',
+      lotSize: updates.lotSize ?? existingProperty.lotSize ?? 0
+    };
 
-    if (updates.features === undefined) {
-      const [existingProperty] = await db.select({ features: properties.features })
-        .from(properties)
-        .where(eq(properties.id, id));
-      if (existingProperty) {
-        updates.features = existingProperty.features;
-      }
-    }
+    console.log('🔧 Storage Update - Existing:', JSON.stringify(existingProperty, null, 2));
+    console.log('🔧 Storage Update - Updates:', JSON.stringify(updates, null, 2));
+    console.log('🔧 Storage Update - Final merged:', JSON.stringify(mergedUpdates, null, 2));
 
     const [property] = await db
       .update(properties)
-      .set(updates)
+      .set(mergedUpdates)
       .where(eq(properties.id, id))
       .returning();
     return property;
