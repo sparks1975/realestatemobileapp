@@ -74,9 +74,14 @@
   background-color: white;
 }
 
-/* Header Logo Styling */
-.header-logo {
+/* Header Logo Styling - Maximum specificity to override any conflicting styles */
+body nav div div a img.header-logo,
+nav div div a img.header-logo,
+div a img.header-logo,
+a img.header-logo,
+img.header-logo {
   max-width: 200px !important;
+  width: auto !important;
 }
 
 /* Card title styling */
