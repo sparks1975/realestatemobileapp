@@ -78,7 +78,7 @@ export function Header({ isMobileMenuOpen, setIsMobileMenuOpen }: HeaderProps) {
               Agent
             </a>
             <a 
-              href="/#contact" 
+              href="/contact" 
               className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
               style={{ color: 'var(--navigation-color)' }}
             >
@@ -179,7 +179,7 @@ export function Header({ isMobileMenuOpen, setIsMobileMenuOpen }: HeaderProps) {
                   Agent
                 </a>
                 <a 
-                  href="/#contact" 
+                  href="/contact" 
                   className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
                   style={{ color: 'var(--navigation-color)' }}
                   onClick={() => setIsMobileMenuOpen(false)}

@@ -15,13 +15,14 @@ import HomePage from "@/pages/home";
 import AdminPanel from "@/pages/admin";
 import PropertyDetailPage from "@/pages/property-detail";
 import AgentPage from "@/pages/agent";
+import ContactPage from "@/pages/contact";
 
 function App() {
   const [location] = useLocation();
   
   // Check if we're on the agent website or mobile app
-  const isAgentWebsite = location === "/" || location.startsWith("/website") || location.startsWith("/property/") || location === "/properties" || location === "/agent";
-  const isMobileApp = location.startsWith("/app") || (!isAgentWebsite && location !== "/" && !location.startsWith("/property/") && !location.startsWith("/admin") && location !== "/properties" && location !== "/agent");
+  const isAgentWebsite = location === "/" || location.startsWith("/website") || location.startsWith("/property/") || location === "/properties" || location === "/agent" || location === "/contact";
+  const isMobileApp = location.startsWith("/app") || (!isAgentWebsite && location !== "/" && !location.startsWith("/property/") && !location.startsWith("/admin") && location !== "/properties" && location !== "/agent" && location !== "/contact");
 
   if (isAgentWebsite && location === "/") {
     return (
@@ -48,6 +49,16 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <AgentPage />
+      </TooltipProvider>
+    );
+  }
+
+  // Contact page
+  if (location === "/contact") {
+    return (
+      <TooltipProvider>
+        <Toaster />
+        <ContactPage />
       </TooltipProvider>
     );
   }
