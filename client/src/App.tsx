@@ -13,7 +13,7 @@ import Schedule from "@/pages/schedule";
 import Profile from "@/pages/profile";
 import HomeWrapper from "@/pages/home-wrapper";
 import AdminPanel from "@/pages/admin";
-import PropertyDetailPage from "@/pages/property-detail";
+import PropertyDetailWrapper from "@/pages/property-detail-wrapper";
 import AgentPage from "@/pages/agent";
 import ContactPage from "@/pages/contact";
 
@@ -68,7 +68,7 @@ function App() {
     return (
       <TooltipProvider>
         <Toaster />
-        <PropertyDetailPage />
+        <PropertyDetailWrapper />
       </TooltipProvider>
     );
   }
@@ -101,7 +101,7 @@ function App() {
             
             {/* Legacy routes for backward compatibility */}
             <Route path="/dashboard" component={Dashboard} />
-            <Route path="/properties" component={PropertiesList} />
+            <Route path="/properties" component={Properties} />
             <Route path="/property-details/:id" component={PropertyDetails} />
             <Route path="/edit-property/:id" component={EditProperty} />
             <Route path="/messages" component={Messages} />

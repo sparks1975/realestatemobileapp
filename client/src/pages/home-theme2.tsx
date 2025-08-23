@@ -334,9 +334,13 @@ export default function HomeTheme2() {
         ) : (
           <div className="space-y-0">
             {featuredProperties.map((property, index) => (
-              <div key={property.id} className={`relative h-screen flex ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+              <a 
+                key={property.id} 
+                href={`/property/${property.id}`}
+                className={`relative h-screen flex ${index % 2 === 0 ? '' : 'flex-row-reverse'} group cursor-pointer`}
+              >
                 {/* Massive property image takes up 65% */}
-                <div className="w-3/5 relative group">
+                <div className="w-3/5 relative">
                   <img 
                     src={property.mainImage || property.images[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&h=1200"}
                     alt={property.title}
@@ -414,7 +418,7 @@ export default function HomeTheme2() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             ))}
           </div>
         )}

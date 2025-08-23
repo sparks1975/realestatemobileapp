@@ -265,7 +265,11 @@ export default function PropertiesModernLuxury() {
           {filteredProperties.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProperties.map((property) => (
-                <div key={property.id} className="group cursor-pointer">
+                <a 
+                  key={property.id} 
+                  href={`/property/${property.id}`}
+                  className="group cursor-pointer block"
+                >
                   <div className="relative overflow-hidden bg-white">
                     <div className="aspect-[4/3] overflow-hidden">
                       <img
@@ -334,7 +338,7 @@ export default function PropertiesModernLuxury() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           ) : (
