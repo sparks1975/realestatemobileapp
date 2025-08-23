@@ -2580,10 +2580,10 @@ function ThemesManager() {
               {/* Theme Preview */}
               <div className="relative">
                 <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                  {theme.name === 'Kumara Classic' ? (
+                  {theme.name === 'Classic Luxury' ? (
                     <img 
                       src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400"
-                      alt="Kumara Classic Theme Preview"
+                      alt="Classic Luxury Theme Preview"
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -2605,7 +2605,7 @@ function ThemesManager() {
               <div className="space-y-2">
                 <h4 className="text-sm font-medium text-gray-900">Features:</h4>
                 <div className="text-sm text-gray-800 space-y-1">
-                  {theme.name === 'Kumara Classic' ? (
+                  {theme.name === 'Classic Luxury' ? (
                     <>
                       <div>• Elegant typography</div>
                       <div>• Clean layouts</div>
