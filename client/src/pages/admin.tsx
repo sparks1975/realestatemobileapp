@@ -2534,29 +2534,54 @@ function ThemesManager() {
       {themes.map((theme: any) => (
         <Card key={theme.id} className={`relative overflow-hidden transition-all duration-200 ${
           activeTheme?.id === theme.id 
-            ? 'ring-2 ring-blue-500 bg-blue-50' 
-            : 'hover:shadow-lg'
+            ? 'ring-2 ring-green-500 bg-green-50 dark:bg-green-950/20' 
+            : 'hover:shadow-lg border-gray-200 dark:border-gray-700'
         }`}>
           <CardHeader className="pb-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <CardTitle className="flex items-center gap-2 text-lg font-semibold mb-2">
                   {theme.name}
                   {activeTheme?.id === theme.id && (
-                    <Badge className="ml-2 bg-blue-500 text-white">Active</Badge>
+                    <Badge className="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-1">
+                      ✓ Active
+                    </Badge>
                   )}
                 </CardTitle>
-                <p className="text-sm text-gray-600 mt-1">{theme.description}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                  {theme.description}
+                </p>
               </div>
-              {activeTheme?.id !== theme.id && (
-                <Button
-                  onClick={() => activateThemeMutation.mutate(theme.id)}
-                  disabled={activateThemeMutation.isPending}
-                  size="sm"
-                >
-                  {activateThemeMutation.isPending ? 'Activating...' : 'Activate'}
-                </Button>
-              )}
+              <div className="flex-shrink-0">
+                {activeTheme?.id === theme.id ? (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled
+                    className="bg-green-100 border-green-300 text-green-700 dark:bg-green-950/30 dark:border-green-700 dark:text-green-400"
+                  >
+                    <span className="flex items-center gap-1">
+                      ✓ Current
+                    </span>
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => activateThemeMutation.mutate(theme.id)}
+                    disabled={activateThemeMutation.isPending}
+                    size="sm"
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    {activateThemeMutation.isPending ? (
+                      <span className="flex items-center gap-2">
+                        <div className="w-3 h-3 border border-white border-t-transparent rounded-full animate-spin"></div>
+                        Switching...
+                      </span>
+                    ) : (
+                      'Switch Theme'
+                    )}
+                  </Button>
+                )}
+              </div>
             </div>
           </CardHeader>
           
@@ -2564,7 +2589,7 @@ function ThemesManager() {
             <div className="space-y-4">
               {/* Theme Preview */}
               <div className="relative">
-                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                   {theme.name === 'Kumara Classic' ? (
                     <img 
                       src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400"
@@ -2578,31 +2603,47 @@ function ThemesManager() {
                       className="w-full h-full object-cover"
                     />
                   )}
-                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                   <div className="absolute bottom-3 left-3 text-white">
-                    <div className="text-sm font-medium">Preview</div>
-                    <div className="text-xs opacity-80">Click preview to see full design</div>
+                    <div className="text-sm font-semibold drop-shadow-sm">Theme Preview</div>
+                    <div className="text-xs opacity-90 drop-shadow-sm">Click "Preview Live" to view</div>
                   </div>
                 </div>
               </div>
 
               {/* Theme Features */}
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-gray-900">Theme Features:</h4>
-                <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Key Features</h4>
+                <div className="grid grid-cols-1 gap-2">
                   {theme.name === 'Kumara Classic' ? (
                     <>
-                      <div>• Elegant typography</div>
-                      <div>• Clean layouts</div>
-                      <div>• Professional design</div>
-                      <div>• Mobile responsive</div>
+                      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                        Elegant typography and clean layouts
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                        Professional business design
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                        Mobile responsive interface
+                      </div>
                     </>
                   ) : (
                     <>
-                      <div>• Large hero images</div>
-                      <div>• Modern aesthetics</div>
-                      <div>• Contemporary layout</div>
-                      <div>• Visual impact</div>
+                      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                        Large dramatic hero images
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                        Modern luxury aesthetics
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                        <div className="w-1.5 h-1.5 bg-purple-500 rounded-full"></div>
+                        High visual impact layout
+                      </div>
                     </>
                   )}
                 </div>
