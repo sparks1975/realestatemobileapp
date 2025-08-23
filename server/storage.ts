@@ -8,8 +8,9 @@ import {
   ThemeSettings, InsertThemeSettings,
   PageContent, InsertPageContent,
   Community, InsertCommunity,
+  WebsiteTheme, InsertWebsiteTheme,
   // Import all the schema tables
-  users, properties, clients, messages, appointments, activities, themeSettings, pageContent, communities
+  users, properties, clients, messages, appointments, activities, themeSettings, pageContent, communities, websiteThemes
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, or, desc, gte, lte } from "drizzle-orm";
@@ -63,6 +64,12 @@ export interface IStorage {
   
   // Community operations
   getCommunities(): Promise<Community[]>;
+  
+  // Website theme operations
+  getWebsiteThemes(): Promise<WebsiteTheme[]>;
+  getActiveWebsiteTheme(): Promise<WebsiteTheme | undefined>;
+  createWebsiteTheme(theme: InsertWebsiteTheme): Promise<WebsiteTheme>;
+  setActiveWebsiteTheme(themeId: number): Promise<WebsiteTheme | undefined>;
   
   // Dashboard operations
   getPortfolioValue(realtorId: number): Promise<number>;
@@ -662,6 +669,35 @@ export class DatabaseStorage implements IStorage {
   // Community operations
   async getCommunities(): Promise<Community[]> {
     return await db.select().from(communities);
+  }
+
+  // Website theme operations
+  async getWebsiteThemes(): Promise<WebsiteTheme[]> {
+    return await db.select().from(websiteThemes).orderBy(websiteThemes.id);
+  }
+
+  async getActiveWebsiteTheme(): Promise<WebsiteTheme | undefined> {
+    const [theme] = await db.select().from(websiteThemes).where(eq(websiteThemes.isActive, true));
+    return theme;
+  }
+
+  async createWebsiteTheme(insertTheme: InsertWebsiteTheme): Promise<WebsiteTheme> {
+    const [theme] = await db.insert(websiteThemes).values(insertTheme).returning();
+    return theme;
+  }
+
+  async setActiveWebsiteTheme(themeId: number): Promise<WebsiteTheme | undefined> {
+    // First, set all themes to inactive
+    await db.update(websiteThemes).set({ isActive: false });
+    
+    // Then set the specified theme as active
+    const [theme] = await db
+      .update(websiteThemes)
+      .set({ isActive: true, updatedAt: new Date() })
+      .where(eq(websiteThemes.id, themeId))
+      .returning();
+    
+    return theme;
   }
 
   // Dashboard operations

@@ -860,6 +860,18 @@ export default function AdminPanel() {
             </button>
             
             <button
+              onClick={() => setActiveTab('themes')}
+              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
+                activeTab === 'themes' 
+                  ? 'bg-gray-100 text-gray-900' 
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+              }`}
+            >
+              <Settings className="h-5 w-5 mr-3" />
+              Themes
+            </button>
+
+            <button
               onClick={() => setActiveTab('style')}
               className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
                 activeTab === 'style' 
@@ -2443,8 +2455,178 @@ export default function AdminPanel() {
               </div>
             </div>
           )}
+
+          {activeTab === 'themes' && (
+            <div className="space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900">Website Themes</h2>
+                  <p className="text-gray-600">Choose and manage your website theme designs</p>
+                </div>
+              </div>
+
+              <ThemesManager />
+            </div>
+          )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function ThemesManager() {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  // Load website themes
+  const { data: themes = [], isLoading } = useQuery({
+    queryKey: ['/api/website-themes'],
+    queryFn: async () => {
+      const response = await fetch('/api/website-themes');
+      if (!response.ok) throw new Error('Failed to fetch themes');
+      return response.json();
+    }
+  });
+
+  // Load active theme
+  const { data: activeTheme } = useQuery({
+    queryKey: ['/api/website-themes/active'],
+    queryFn: async () => {
+      const response = await fetch('/api/website-themes/active');
+      if (!response.ok) return null;
+      return response.json();
+    }
+  });
+
+  // Activate theme mutation
+  const activateThemeMutation = useMutation({
+    mutationFn: async (themeId: number) => {
+      const response = await fetch(`/api/website-themes/${themeId}/activate`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (!response.ok) throw new Error('Failed to activate theme');
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/website-themes'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/website-themes/active'] });
+      toast({
+        title: "Theme Activated",
+        description: "Your website theme has been successfully changed.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to activate theme. Please try again.",
+        variant: "destructive",
+      });
+    }
+  });
+
+  if (isLoading) {
+    return <div className="text-center py-8">Loading themes...</div>;
+  }
+
+  return (
+    <div className="grid md:grid-cols-2 gap-6">
+      {themes.map((theme: any) => (
+        <Card key={theme.id} className={`relative overflow-hidden transition-all duration-200 ${
+          activeTheme?.id === theme.id 
+            ? 'ring-2 ring-blue-500 bg-blue-50' 
+            : 'hover:shadow-lg'
+        }`}>
+          <CardHeader className="pb-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center">
+                  {theme.name}
+                  {activeTheme?.id === theme.id && (
+                    <Badge className="ml-2 bg-blue-500 text-white">Active</Badge>
+                  )}
+                </CardTitle>
+                <p className="text-sm text-gray-600 mt-1">{theme.description}</p>
+              </div>
+              {activeTheme?.id !== theme.id && (
+                <Button
+                  onClick={() => activateThemeMutation.mutate(theme.id)}
+                  disabled={activateThemeMutation.isPending}
+                  size="sm"
+                >
+                  {activateThemeMutation.isPending ? 'Activating...' : 'Activate'}
+                </Button>
+              )}
+            </div>
+          </CardHeader>
+          
+          <CardContent className="pt-0">
+            <div className="space-y-4">
+              {/* Theme Preview */}
+              <div className="relative">
+                <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
+                  {theme.name === 'Kumara Classic' ? (
+                    <img 
+                      src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400"
+                      alt="Kumara Classic Theme Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <img 
+                      src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&h=400"
+                      alt="Modern Luxury Theme Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="absolute bottom-3 left-3 text-white">
+                    <div className="text-sm font-medium">Preview</div>
+                    <div className="text-xs opacity-80">Click preview to see full design</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Theme Features */}
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium text-gray-900">Theme Features:</h4>
+                <div className="grid grid-cols-2 gap-2 text-xs text-gray-600">
+                  {theme.name === 'Kumara Classic' ? (
+                    <>
+                      <div>• Elegant typography</div>
+                      <div>• Clean layouts</div>
+                      <div>• Professional design</div>
+                      <div>• Mobile responsive</div>
+                    </>
+                  ) : (
+                    <>
+                      <div>• Large hero images</div>
+                      <div>• Modern aesthetics</div>
+                      <div>• Contemporary layout</div>
+                      <div>• Visual impact</div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex justify-between items-center pt-2 border-t">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => window.open('/', '_blank')}
+                >
+                  <Eye className="h-4 w-4 mr-1" />
+                  Preview Live
+                </Button>
+                
+                <div className="text-xs text-gray-500">
+                  Updated {new Date(theme.updatedAt).toLocaleDateString()}
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }

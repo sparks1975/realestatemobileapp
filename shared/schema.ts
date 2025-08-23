@@ -250,6 +250,24 @@ export const insertThemeSettingsSchema = createInsertSchema(themeSettings).pick(
   userId: true,
 });
 
+// Website themes schema
+export const websiteThemes = pgTable("website_themes", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description"),
+  isActive: boolean("is_active").default(false),
+  previewImageUrl: text("preview_image_url"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+
+export const insertWebsiteThemeSchema = createInsertSchema(websiteThemes).pick({
+  name: true,
+  description: true,
+  isActive: true,
+  previewImageUrl: true,
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   properties: many(properties),

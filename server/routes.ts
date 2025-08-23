@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { log } from "./vite";
-import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema, insertThemeSettingsSchema, insertPageContentSchema } from "@shared/schema";
+import { insertPropertySchema, insertAppointmentSchema, insertClientSchema, insertMessageSchema, insertActivitySchema, insertThemeSettingsSchema, insertPageContentSchema, insertWebsiteThemeSchema } from "@shared/schema";
 import { ObjectStorageService, ObjectNotFoundError } from "./objectStorage";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -559,6 +559,55 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid theme settings data", errors: error.errors });
       }
       res.status(500).json({ message: "Failed to update theme settings" });
+    }
+  });
+
+  // Website theme routes
+  app.get("/api/website-themes", async (req, res) => {
+    try {
+      const themes = await storage.getWebsiteThemes();
+      res.json(themes);
+    } catch (error) {
+      console.error('Error fetching website themes:', error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.get("/api/website-themes/active", async (req, res) => {
+    try {
+      const theme = await storage.getActiveWebsiteTheme();
+      if (!theme) {
+        return res.status(404).json({ error: "No active theme found" });
+      }
+      res.json(theme);
+    } catch (error) {
+      console.error('Error fetching active theme:', error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.post("/api/website-themes", async (req, res) => {
+    try {
+      const insertTheme = insertWebsiteThemeSchema.parse(req.body);
+      const theme = await storage.createWebsiteTheme(insertTheme);
+      res.status(201).json(theme);
+    } catch (error) {
+      console.error('Error creating website theme:', error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  });
+
+  app.put("/api/website-themes/:id/activate", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const theme = await storage.setActiveWebsiteTheme(id);
+      if (!theme) {
+        return res.status(404).json({ error: "Theme not found" });
+      }
+      res.json(theme);
+    } catch (error) {
+      console.error('Error activating theme:', error);
+      res.status(500).json({ error: "Internal server error" });
     }
   });
 
