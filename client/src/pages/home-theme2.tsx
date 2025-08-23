@@ -255,8 +255,8 @@ export default function HomeTheme2() {
               className="text-3xl md:text-4xl leading-tight mb-8"
               style={{ 
                 color: 'var(--text-color)', 
-                fontFamily: 'var(--heading-font)', 
-                fontWeight: 'var(--heading-font-weight)' 
+                fontFamily: 'var(--heading-font) !important', 
+                fontWeight: 'var(--heading-font-weight) !important' 
               }}
             >
               {pageContent?.about?.title ? (
