@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { HomePageSkeleton } from "@/components/SkeletonLoader";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import HomeTheme2 from "./home-theme2";
+
 
 interface Property {
   id: number;
