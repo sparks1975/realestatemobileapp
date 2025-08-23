@@ -5,7 +5,7 @@ import NotFound from "@/pages/not-found";
 import TabBar from "@/components/layout/TabBar";
 import Dashboard from "@/pages/dashboard";
 import Properties from "@/pages/properties";
-import PropertiesList from "@/pages/properties-list";
+import PropertiesListWrapper from "@/pages/properties-list-wrapper";
 import PropertyDetails from "@/pages/property-details";
 import EditProperty from "@/pages/edit-property";
 import Messages from "@/pages/messages";
@@ -38,7 +38,7 @@ function App() {
     return (
       <TooltipProvider>
         <Toaster />
-        <PropertiesList />
+        <PropertiesListWrapper />
       </TooltipProvider>
     );
   }
