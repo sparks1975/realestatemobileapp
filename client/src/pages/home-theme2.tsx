@@ -203,24 +203,27 @@ export default function HomeTheme2() {
             className="text-sm uppercase tracking-[0.3em] mb-2 opacity-80"
             style={{ fontFamily: 'var(--body-font)' }}
           >
-            {pageContent.hero?.heroTagline || "LUXURY REAL ESTATE • SONOMA VALLEY"}
+            {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
           </p>
           <h1 
             className="text-4xl md:text-6xl font-light leading-tight"
             style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
           >
-            {pageContent.hero?.heroHeadline || 'Find Your Dream Home'}
+            {pageContent?.hero?.headline ? (
+              pageContent.hero.headline.split('\n').map((line: string, index: number) => (
+                <span key={index}>
+                  {line}
+                  {index < pageContent.hero.headline.split('\n').length - 1 && <br />}
+                </span>
+              ))
+            ) : (
+              <>
+                Exceptional<br />
+                Properties<br />
+                Await
+              </>
+            )}
           </h1>
-        </div>
-
-        {/* Bottom text */}
-        <div className="absolute bottom-8 left-8 text-white">
-          <p 
-            className="text-sm opacity-80 max-w-md"
-            style={{ fontFamily: 'var(--body-font)' }}
-          >
-            {pageContent.hero?.heroSubheadline || "LOCAL EXPERTISE • GLOBAL CONNECTIONS"}
-          </p>
         </div>
       </section>
 
