@@ -103,6 +103,17 @@ h2[style*="--heading-font"] {
   font-weight: var(--heading-font-weight) !important;
 }
 
+/* Ensure About heading in Modern Luxury theme uses proper font */
+.about-heading-modern {
+  font-family: var(--heading-font) !important;
+  font-weight: var(--heading-font-weight) !important;
+}
+
+.about-heading-modern * {
+  font-family: inherit !important;
+  font-weight: inherit !important;
+}
+
 @layer base {
   :root {
     --background: 210 40% 98%;

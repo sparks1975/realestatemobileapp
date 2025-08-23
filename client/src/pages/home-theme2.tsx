@@ -252,11 +252,9 @@ export default function HomeTheme2() {
               {pageContent?.about?.subtitle || "About LuxeLead"}
             </p>
             <h2 
-              className="text-3xl md:text-4xl leading-tight mb-8"
+              className="about-heading-modern text-3xl md:text-4xl leading-tight mb-8"
               style={{ 
-                color: 'var(--text-color)', 
-                fontFamily: 'var(--heading-font) !important', 
-                fontWeight: 'var(--heading-font-weight) !important' 
+                color: 'var(--text-color)'
               }}
             >
               {pageContent?.about?.title ? (
