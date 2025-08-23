@@ -38,21 +38,6 @@ export default function HomePage() {
   const [isThemeApplied, setIsThemeApplied] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  // Load active website theme
-  const { data: activeTheme } = useQuery({
-    queryKey: ['/api/website-themes/active'],
-    queryFn: async () => {
-      const response = await fetch('/api/website-themes/active');
-      if (!response.ok) return null; // No active theme, use default
-      return response.json();
-    }
-  });
-
-  // If theme 2 is active, render that component
-  if (activeTheme && activeTheme.name === 'Modern Luxury') {
-    return <HomeTheme2 />;
-  }
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],

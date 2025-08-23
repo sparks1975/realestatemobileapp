@@ -11,7 +11,7 @@ import EditProperty from "@/pages/edit-property";
 import Messages from "@/pages/messages";
 import Schedule from "@/pages/schedule";
 import Profile from "@/pages/profile";
-import HomePage from "@/pages/home";
+import HomeWrapper from "@/pages/home-wrapper";
 import AdminPanel from "@/pages/admin";
 import PropertyDetailPage from "@/pages/property-detail";
 import AgentPage from "@/pages/agent";
@@ -28,7 +28,7 @@ function App() {
     return (
       <TooltipProvider>
         <Toaster />
-        <HomePage />
+        <HomeWrapper />
       </TooltipProvider>
     );
   }
