@@ -400,8 +400,9 @@ export default function HomeTheme2() {
       </section>
 
       {/* Communities Section - Three Wide Images (Ginger Martin Style) */}
-      <section className="relative h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="absolute top-24 left-8 z-10">
+      <section>
+        {/* Section header */}
+        <div className="py-24 text-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
           <p 
             className="text-sm uppercase tracking-[0.4em] mb-4 opacity-60"
             style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
@@ -409,14 +410,15 @@ export default function HomeTheme2() {
             LOCAL EXPERTISE • GLOBAL CONNECTIONS
           </p>
           <h2 
-            className="text-4xl md:text-5xl font-light max-w-lg"
+            className="text-4xl md:text-5xl font-light"
             style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
           >
             Luxury Communities
           </h2>
         </div>
 
-        <div className="grid grid-cols-3 h-full">
+        {/* Three wide community images */}
+        <div className="grid grid-cols-3 h-screen">
           {featuredCommunities.map((community: any, index: number) => (
             <div key={community.id} className="relative group">
               <img 
