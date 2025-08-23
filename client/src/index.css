@@ -91,6 +91,18 @@ nav a img.header-logo {
   font-weight: var(--heading-font-weight) !important;
 }
 
+/* Ensure About section headings use proper font in both themes */
+h2[style*="--heading-font"] {
+  font-family: var(--heading-font) !important;
+  font-weight: var(--heading-font-weight) !important;
+}
+
+/* Specific override for Modern Luxury theme About section */
+.text-3xl.md\\:text-4xl.leading-tight.mb-8 {
+  font-family: var(--heading-font) !important;
+  font-weight: var(--heading-font-weight) !important;
+}
+
 @layer base {
   :root {
     --background: 210 40% 98%;
