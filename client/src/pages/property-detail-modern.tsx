@@ -310,7 +310,7 @@ export default function PropertyDetailModern() {
             />
             
             {/* Dark overlay for text readability */}
-            <div className="absolute inset-0 bg-black/20"></div>
+            <div className="absolute inset-0 bg-black/40"></div>
             
             {/* Property Details Overlay */}
             <div className="absolute top-1/2 left-8 transform -translate-y-1/2 text-white max-w-lg z-10">
