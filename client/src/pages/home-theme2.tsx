@@ -203,7 +203,7 @@ export default function HomeTheme2() {
             className="text-sm uppercase tracking-[0.3em] mb-2 opacity-80"
             style={{ fontFamily: 'var(--body-font)' }}
           >
-            LUXURY REAL ESTATE • SONOMA VALLEY
+            {pageContent.hero?.heroTagline || "LUXURY REAL ESTATE • SONOMA VALLEY"}
           </p>
           <h1 
             className="text-4xl md:text-6xl font-light leading-tight"
@@ -219,7 +219,7 @@ export default function HomeTheme2() {
             className="text-sm opacity-80 max-w-md"
             style={{ fontFamily: 'var(--body-font)' }}
           >
-            LOCAL EXPERTISE • GLOBAL CONNECTIONS
+            {pageContent.hero?.heroSubheadline || "LOCAL EXPERTISE • GLOBAL CONNECTIONS"}
           </p>
         </div>
       </section>
