@@ -2535,7 +2535,7 @@ function ThemesManager() {
         <Card key={theme.id} className={`relative overflow-hidden transition-all duration-200 ${
           activeTheme?.id === theme.id 
             ? 'ring-2 ring-blue-500 bg-blue-50' 
-            : 'hover:shadow-md'
+            : 'hover:shadow-md bg-white'
         }`}>
           <CardHeader className="pb-4">
             <div className="flex items-center justify-between">
@@ -2548,25 +2548,25 @@ function ThemesManager() {
                     </span>
                   )}
                 </CardTitle>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-sm text-gray-700 leading-relaxed">
                   {theme.description}
                 </p>
               </div>
               <div className="ml-4">
                 {activeTheme?.id === theme.id ? (
                   <Button
-                    variant="outline"
                     size="sm"
                     disabled
-                    className="text-blue-600 border-blue-200 bg-blue-50"
+                    className="bg-blue-600 text-white opacity-60 cursor-not-allowed"
                   >
-                    Current Theme
+                    Active
                   </Button>
                 ) : (
                   <Button
                     onClick={() => activateThemeMutation.mutate(theme.id)}
                     disabled={activateThemeMutation.isPending}
                     size="sm"
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     {activateThemeMutation.isPending ? 'Activating...' : 'Activate'}
                   </Button>
@@ -2604,7 +2604,7 @@ function ThemesManager() {
               {/* Theme Features */}
               <div className="space-y-2">
                 <h4 className="text-sm font-medium text-gray-900">Features:</h4>
-                <div className="text-sm text-gray-600 space-y-1">
+                <div className="text-sm text-gray-800 space-y-1">
                   {theme.name === 'Kumara Classic' ? (
                     <>
                       <div>• Elegant typography</div>
