@@ -553,7 +553,7 @@ export default function PropertyDetailPage() {
                           <span style={{ color: 'var(--text-color)' }}>Built in {property.yearBuilt}</span>
                         </div>
                       )}
-                      {property.parkingSpaces && property.parkingSpaces.trim() !== "" && (
+                      {property.parkingSpaces && property.parkingSpaces.trim() !== "" && property.parkingSpaces !== "0" && (
                         <div className="flex items-center">
                           <Car size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
                           <span style={{ color: 'var(--text-color)' }}>{property.parkingSpaces} Parking</span>

@@ -556,6 +556,7 @@ export default function PropertyDetailModern() {
                 Property Details
               </h3>
               <div className="space-y-4">
+                {/* Property Type - Always shown */}
                 <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                   <span 
                     className="text-sm uppercase tracking-wide opacity-70"
@@ -576,8 +577,9 @@ export default function PropertyDetailModern() {
                     {property.type}
                   </span>
                 </div>
-                
-                {property.yearBuilt && property.yearBuilt > 0 && (
+
+                {/* Year Built - Only if > 0 */}
+                {(property.yearBuilt > 0) && (
                   <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                     <span 
                       className="text-sm uppercase tracking-wide opacity-70"
@@ -599,8 +601,9 @@ export default function PropertyDetailModern() {
                     </span>
                   </div>
                 )}
-                
-                {property.lotSize && property.lotSize > 0 && (
+
+                {/* Lot Size - Only if > 0 */}
+                {(property.lotSize > 0) && (
                   <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                     <span 
                       className="text-sm uppercase tracking-wide opacity-70"
@@ -622,8 +625,9 @@ export default function PropertyDetailModern() {
                     </span>
                   </div>
                 )}
-                
-                {property.parkingSpaces && property.parkingSpaces.trim() !== "" && (
+
+                {/* Parking - Only if not empty and not "0" */}
+                {(property.parkingSpaces && property.parkingSpaces.trim() && property.parkingSpaces !== "0") && (
                   <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                     <span 
                       className="text-sm uppercase tracking-wide opacity-70"
