@@ -317,8 +317,12 @@ export default function HomePage() {
                   {pageContent?.about?.subtitle || "About LuxeLead"}
                 </p>
                 <h2 
-                  className="text-4xl md:text-5xl font-light leading-tight mb-6"
-                  style={{ color: 'var(--text-color)' }}
+                  className="text-4xl md:text-5xl leading-tight mb-6"
+                  style={{ 
+                    color: 'var(--text-color)', 
+                    fontFamily: 'var(--heading-font)', 
+                    fontWeight: 'var(--heading-font-weight)' 
+                  }}
                 >
                   {pageContent?.about?.title ? (
                     pageContent.about.title.split('\n').map((line: string, index: number) => (
