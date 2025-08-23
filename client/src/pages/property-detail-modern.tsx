@@ -163,22 +163,48 @@ export default function PropertyDetailModern() {
       <div className="min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <Header />
         
-        <div className="pt-24 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12">
-              <div>
-                <Skeleton className="h-96 w-full mb-4" />
-                <div className="grid grid-cols-4 gap-2">
-                  {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-20 w-full" />)}
-                </div>
+        <div className="pt-24">
+          {/* Full Width Skeleton */}
+          <div className="relative h-screen">
+            <Skeleton className="h-full w-full" />
+            {/* Skeleton overlay content */}
+            <div className="absolute top-1/2 left-8 transform -translate-y-1/2 max-w-lg">
+              <Skeleton className="h-6 w-20 mb-4" />
+              <Skeleton className="h-12 w-80 mb-4" />
+              <Skeleton className="h-6 w-60 mb-6" />
+              <Skeleton className="h-10 w-40 mb-8" />
+              <div className="flex gap-8">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="space-y-2">
+                    <Skeleton className="h-6 w-8" />
+                    <Skeleton className="h-4 w-16" />
+                  </div>
+                ))}
               </div>
-              <div className="space-y-6">
-                <Skeleton className="h-8 w-3/4" />
-                <Skeleton className="h-6 w-1/2" />
-                <Skeleton className="h-12 w-1/3" />
+            </div>
+            {/* Skeleton thumbnails at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 flex" style={{ height: '120px' }}>
+              {[1, 2, 3, 4].map(i => <Skeleton key={i} className="flex-1 h-full" />)}
+            </div>
+          </div>
+          
+          {/* Content sections skeleton */}
+          <div className="max-w-7xl mx-auto px-6 py-16">
+            <div className="grid lg:grid-cols-3 gap-12">
+              <div className="lg:col-span-2 space-y-6">
+                <Skeleton className="h-8 w-1/2" />
                 <div className="space-y-2">
                   {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-4 w-full" />)}
                 </div>
+              </div>
+              <div className="space-y-4">
+                <Skeleton className="h-6 w-1/2" />
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="flex justify-between py-3">
+                    <Skeleton className="h-4 w-1/3" />
+                    <Skeleton className="h-4 w-1/4" />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -261,133 +287,68 @@ export default function PropertyDetailModern() {
           </div>
         </div>
 
-        {/* Hero Section with Images */}
-        <section className="max-w-7xl mx-auto px-6 mb-16">
-          <div className="grid lg:grid-cols-5 gap-8">
-            {/* Main Image */}
-            <div className="lg:col-span-3">
-              <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                <img
-                  src={allImages[currentImageIndex]}
-                  alt={property.title}
-                  className="w-full h-full object-cover"
-                />
-                
-                {/* Image Navigation */}
-                {allImages.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white transition-colors p-2 rounded-full"
-                    >
-                      <ChevronLeft size={20} style={{ color: 'var(--text-color)' }} />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white transition-colors p-2 rounded-full"
-                    >
-                      <ChevronRight size={20} style={{ color: 'var(--text-color)' }} />
-                    </button>
-                    
-                    {/* Image Counter */}
-                    <div className="absolute bottom-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                      {currentImageIndex + 1} / {allImages.length}
-                    </div>
-                  </>
-                )}
-              </div>
-              
-              {/* Image Thumbnails */}
-              {allImages.length > 1 && (
-                <div className="grid grid-cols-6 gap-2 mt-4">
-                  {allImages.slice(0, 6).map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImageIndex(index)}
-                      className={`aspect-square overflow-hidden transition-opacity ${
-                        index === currentImageIndex ? 'ring-2 opacity-100' : 'opacity-70 hover:opacity-100'
-                      }`}
-                      style={{ 
-                        '--tw-ring-color': index === currentImageIndex ? 'var(--primary-color)' : 'transparent'
-                      } as any}
-                    >
-                      <img
-                        src={image}
-                        alt={`Property image ${index + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {/* Property Details */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Header */}
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <Badge 
-                    variant="outline"
-                    className="uppercase tracking-wide"
-                    style={{ 
-                      borderColor: 'var(--primary-color)',
-                      color: 'var(--primary-color)',
-                      fontFamily: 'var(--body-font)'
-                    }}
-                  >
-                    {property.status}
-                  </Badge>
-                  <div className="flex items-center space-x-2">
-                    <button className="p-2 hover:opacity-70 transition-opacity">
-                      <Share2 size={20} style={{ color: 'var(--text-color)' }} />
-                    </button>
-                    <button className="p-2 hover:opacity-70 transition-opacity">
-                      <Heart size={20} style={{ color: 'var(--text-color)' }} />
-                    </button>
-                  </div>
-                </div>
-                
-                <h1 
-                  className="text-3xl lg:text-4xl leading-tight mb-4"
+        {/* Hero Section with Full Width Images */}
+        <section className="mb-16">
+          {/* Full Width Image Rotator */}
+          <div className="relative h-screen overflow-hidden bg-gray-100">
+            <img
+              src={allImages[currentImageIndex]}
+              alt={property.title}
+              className="w-full h-full object-cover"
+            />
+            
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/20"></div>
+            
+            {/* Property Details Overlay */}
+            <div className="absolute top-1/2 left-8 transform -translate-y-1/2 text-white max-w-lg z-10">
+              <div className="mb-4">
+                <Badge 
+                  variant="outline"
+                  className="uppercase tracking-wide border-white text-white"
                   style={{ 
-                    color: 'var(--text-color)',
-                    fontFamily: 'var(--heading-font)',
-                    fontWeight: 'var(--heading-font-weight)'
-                  }}
-                >
-                  {property.title}
-                </h1>
-                
-                <div 
-                  className="flex items-center text-sm opacity-70 mb-6"
-                  style={{ 
-                    color: 'var(--text-color)',
                     fontFamily: 'var(--body-font)'
                   }}
                 >
-                  <MapPin size={16} className="mr-2" />
-                  {property.address}, {property.city}, {property.state} {property.zipCode}
-                </div>
-                
-                <div 
-                  className="text-4xl font-light mb-8"
-                  style={{ 
-                    color: 'var(--primary-color)',
-                    fontFamily: 'var(--heading-font)'
-                  }}
-                >
-                  ${property.price.toLocaleString()}
-                </div>
+                  {property.status}
+                </Badge>
               </div>
-
+              
+              <h1 
+                className="text-4xl lg:text-5xl leading-tight mb-4"
+                style={{ 
+                  fontFamily: 'var(--heading-font)',
+                  fontWeight: 'var(--heading-font-weight)'
+                }}
+              >
+                {property.title}
+              </h1>
+              
+              <div 
+                className="flex items-center text-sm opacity-90 mb-6"
+                style={{ 
+                  fontFamily: 'var(--body-font)'
+                }}
+              >
+                <MapPin size={16} className="mr-2" />
+                {property.address}, {property.city}, {property.state} {property.zipCode}
+              </div>
+              
+              <div 
+                className="text-4xl font-light mb-8"
+                style={{ 
+                  fontFamily: 'var(--heading-font)'
+                }}
+              >
+                ${property.price.toLocaleString()}
+              </div>
+              
               {/* Quick Stats */}
-              <div className="grid grid-cols-3 gap-6 py-6 border-t border-b border-opacity-20" style={{ borderColor: 'var(--text-color)' }}>
-                <div className="text-center">
+              <div className="flex gap-8 text-sm">
+                <div>
                   <div 
-                    className="text-2xl mb-1"
+                    className="text-xl mb-1"
                     style={{ 
-                      color: 'var(--text-color)',
                       fontFamily: 'var(--heading-font)',
                       fontWeight: 'var(--heading-font-weight)'
                     }}
@@ -395,20 +356,18 @@ export default function PropertyDetailModern() {
                     {property.bedrooms}
                   </div>
                   <div 
-                    className="text-xs uppercase tracking-wide opacity-70"
+                    className="text-xs uppercase tracking-wide opacity-80"
                     style={{ 
-                      color: 'var(--text-color)',
                       fontFamily: 'var(--body-font)'
                     }}
                   >
                     Bedrooms
                   </div>
                 </div>
-                <div className="text-center">
+                <div>
                   <div 
-                    className="text-2xl mb-1"
+                    className="text-xl mb-1"
                     style={{ 
-                      color: 'var(--text-color)',
                       fontFamily: 'var(--heading-font)',
                       fontWeight: 'var(--heading-font-weight)'
                     }}
@@ -416,20 +375,18 @@ export default function PropertyDetailModern() {
                     {property.bathrooms}
                   </div>
                   <div 
-                    className="text-xs uppercase tracking-wide opacity-70"
+                    className="text-xs uppercase tracking-wide opacity-80"
                     style={{ 
-                      color: 'var(--text-color)',
                       fontFamily: 'var(--body-font)'
                     }}
                   >
                     Bathrooms
                   </div>
                 </div>
-                <div className="text-center">
+                <div>
                   <div 
-                    className="text-2xl mb-1"
+                    className="text-xl mb-1"
                     style={{ 
-                      color: 'var(--text-color)',
                       fontFamily: 'var(--heading-font)',
                       fontWeight: 'var(--heading-font-weight)'
                     }}
@@ -437,9 +394,8 @@ export default function PropertyDetailModern() {
                     {property.squareFeet.toLocaleString()}
                   </div>
                   <div 
-                    className="text-xs uppercase tracking-wide opacity-70"
+                    className="text-xs uppercase tracking-wide opacity-80"
                     style={{ 
-                      color: 'var(--text-color)',
                       fontFamily: 'var(--body-font)'
                     }}
                   >
@@ -447,20 +403,69 @@ export default function PropertyDetailModern() {
                   </div>
                 </div>
               </div>
-
-              {/* Contact Button */}
-              <Button 
-                className="w-full py-4 text-sm uppercase tracking-wide"
-                style={{ 
-                  backgroundColor: 'var(--primary-color)',
-                  color: 'white',
-                  fontFamily: 'var(--button-font)',
-                  fontWeight: 'var(--button-font-weight)'
-                }}
-              >
-                Schedule a Viewing
-              </Button>
             </div>
+            
+            {/* Action Buttons Overlay */}
+            <div className="absolute top-8 right-8 flex items-center space-x-4 z-10">
+              <button className="p-3 bg-white/20 hover:bg-white/30 transition-colors rounded-full backdrop-blur-sm">
+                <Share2 size={20} className="text-white" />
+              </button>
+              <button className="p-3 bg-white/20 hover:bg-white/30 transition-colors rounded-full backdrop-blur-sm">
+                <Heart size={20} className="text-white" />
+              </button>
+            </div>
+            
+            {/* Image Navigation */}
+            {allImages.length > 1 && (
+              <>
+                <button
+                  onClick={prevImage}
+                  className="absolute left-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 transition-colors p-3 rounded-full backdrop-blur-sm z-10"
+                >
+                  <ChevronLeft size={24} className="text-white" />
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-8 top-1/2 transform -translate-y-1/2 bg-white/20 hover:bg-white/30 transition-colors p-3 rounded-full backdrop-blur-sm z-10"
+                >
+                  <ChevronRight size={24} className="text-white" />
+                </button>
+                
+                {/* Image Counter */}
+                <div className="absolute bottom-8 right-8 bg-black/50 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm z-10">
+                  {currentImageIndex + 1} / {allImages.length}
+                </div>
+              </>
+            )}
+            
+            {/* Full Width Thumbnails at Bottom */}
+            {allImages.length > 1 && (
+              <div className="absolute bottom-0 left-0 right-0 z-10">
+                <div className="flex" style={{ height: '120px' }}>
+                  {allImages.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentImageIndex(index)}
+                      className={`flex-1 relative overflow-hidden transition-opacity ${
+                        index === currentImageIndex ? 'opacity-100' : 'opacity-60 hover:opacity-80'
+                      }`}
+                      style={{ 
+                        borderTop: index === currentImageIndex ? `3px solid var(--primary-color)` : '3px solid transparent'
+                      }}
+                    >
+                      <img
+                        src={image}
+                        alt={`Property image ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      {index === currentImageIndex && (
+                        <div className="absolute inset-0 border-t-2" style={{ borderColor: 'var(--primary-color)' }}></div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
