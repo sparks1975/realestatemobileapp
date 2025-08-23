@@ -186,39 +186,41 @@ export default function HomeTheme2() {
       {/* Header */}
       <Header isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
-      {/* Hero Section - Large Image with Overlay (Modern Luxury Style) */}
+      {/* Hero Section - Massive Full-Width Image (Ginger Martin Style) */}
       <section className="relative h-screen">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('${pageContent.hero?.heroImage || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&h=1200'}')`
+            backgroundImage: `url('${pageContent.hero?.heroImage || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2400&h=1600'}')`
           }}
         >
-          <div className="absolute inset-0 bg-black/50"></div>
+          <div className="absolute inset-0 bg-black/20"></div>
         </div>
         
-        <div className="relative z-10 flex items-center justify-center h-full text-center text-white">
-          <div className="max-w-4xl px-6">
-            <h1 
-              className="text-5xl md:text-7xl font-light leading-tight mb-6"
-              style={{ fontFamily: 'var(--heading-font)', fontWeight: 'var(--heading-font-weight)' }}
-            >
-              {pageContent.hero?.heroHeadline || 'Find Your Dream Home'}
-            </h1>
-            <div className="w-24 h-px bg-white/60 mx-auto mb-8"></div>
-            <p 
-              className="text-xl md:text-2xl font-light mb-12 max-w-2xl mx-auto leading-relaxed opacity-90"
-              style={{ fontFamily: 'var(--body-font)', fontWeight: 'var(--body-font-weight)' }}
-            >
-              {pageContent.hero?.heroSubheadline || 'Discover exceptional properties with our expert real estate services'}
-            </p>
-            <Button
-              className="px-8 py-4 text-lg font-light border-2 border-white bg-transparent hover:bg-white hover:text-black transition-all duration-300"
-              style={{ fontFamily: 'var(--button-font)', fontWeight: 'var(--button-font-weight)' }}
-            >
-              {pageContent.hero?.heroButtonText || 'Browse Properties'}
-            </Button>
-          </div>
+        {/* Minimal text overlay */}
+        <div className="absolute top-1/2 left-8 transform -translate-y-1/2 text-white max-w-lg">
+          <p 
+            className="text-sm uppercase tracking-[0.3em] mb-2 opacity-80"
+            style={{ fontFamily: 'var(--body-font)' }}
+          >
+            LUXURY REAL ESTATE • SONOMA VALLEY
+          </p>
+          <h1 
+            className="text-4xl md:text-6xl font-light leading-tight"
+            style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+          >
+            {pageContent.hero?.heroHeadline || 'Find Your Dream Home'}
+          </h1>
+        </div>
+
+        {/* Bottom text */}
+        <div className="absolute bottom-8 left-8 text-white">
+          <p 
+            className="text-sm opacity-80 max-w-md"
+            style={{ fontFamily: 'var(--body-font)' }}
+          >
+            LOCAL EXPERTISE • GLOBAL CONNECTIONS
+          </p>
         </div>
       </section>
 
