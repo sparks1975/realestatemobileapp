@@ -541,19 +541,19 @@ export default function PropertyDetailPage() {
                       </div>
                       <div className="flex items-center">
                         <Bath size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
-                        <span style={{ color: 'var(--text-color)' }}>{property.bathrooms} Bathrooms</span>
+                        <span style={{ color: 'var(--text-color)' }}>{property.bathrooms % 1 === 0 ? property.bathrooms : property.bathrooms.toFixed(1)} Bathrooms</span>
                       </div>
                       <div className="flex items-center">
                         <Square size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
                         <span style={{ color: 'var(--text-color)' }}>{property.squareFeet.toLocaleString()} Sq Ft</span>
                       </div>
-                      {property.yearBuilt && (
+                      {property.yearBuilt && property.yearBuilt > 0 && (
                         <div className="flex items-center">
                           <Calendar size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
                           <span style={{ color: 'var(--text-color)' }}>Built in {property.yearBuilt}</span>
                         </div>
                       )}
-                      {property.parkingSpaces && (
+                      {property.parkingSpaces && property.parkingSpaces.trim() !== "" && (
                         <div className="flex items-center">
                           <Car size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
                           <span style={{ color: 'var(--text-color)' }}>{property.parkingSpaces} Parking</span>

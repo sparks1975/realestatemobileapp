@@ -577,7 +577,7 @@ export default function PropertyDetailModern() {
                   </span>
                 </div>
                 
-                {property.yearBuilt && (
+                {property.yearBuilt && property.yearBuilt > 0 && (
                   <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                     <span 
                       className="text-sm uppercase tracking-wide opacity-70"
@@ -600,7 +600,7 @@ export default function PropertyDetailModern() {
                   </div>
                 )}
                 
-                {property.lotSize && (
+                {property.lotSize && property.lotSize > 0 && (
                   <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                     <span 
                       className="text-sm uppercase tracking-wide opacity-70"
@@ -623,7 +623,7 @@ export default function PropertyDetailModern() {
                   </div>
                 )}
                 
-                {property.parkingSpaces && (
+                {property.parkingSpaces && property.parkingSpaces.trim() !== "" && (
                   <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                     <span 
                       className="text-sm uppercase tracking-wide opacity-70"
