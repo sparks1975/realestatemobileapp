@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Menu, X, Search, Filter, Grid, List } from "lucide-react";
+import { MapPin, Search, Filter, Grid, List } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/SkeletonLoader";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 interface Property {
   id: number;
@@ -25,7 +27,6 @@ interface Property {
 }
 
 export default function PropertiesModernLuxury() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [isThemeApplied, setIsThemeApplied] = useState(false);
@@ -150,19 +151,7 @@ export default function PropertiesModernLuxury() {
   if (showSkeleton || isDataLoading) {
     return (
       <div className="properties-page min-h-screen bg-gray-50">
-        <div className="fixed top-0 w-full backdrop-blur-sm z-50 bg-gray-100">
-          <div className="max-w-7xl mx-auto px-6 py-6">
-            <div className="flex items-center justify-between">
-              <Skeleton className="h-8 w-32" />
-              <div className="hidden md:flex items-center space-x-12">
-                {[1, 2, 3, 4, 5].map(i => <Skeleton key={i} className="h-4 w-16" />)}
-              </div>
-              <div className="md:hidden">
-                <Skeleton className="h-6 w-6" />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Header currentPage="properties" />
         
         <div className="pt-32 px-6">
           <div className="max-w-7xl mx-auto">
@@ -185,182 +174,16 @@ export default function PropertiesModernLuxury() {
             </div>
           </div>
         </div>
+        
+        <Footer />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-      {/* Navigation */}
-      <nav 
-        className="fixed top-0 w-full backdrop-blur-sm z-50"
-        style={{ backgroundColor: 'var(--header-background-color)' }}
-      >
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between">
-            <div 
-              className="text-2xl font-light tracking-wider"
-              style={{ 
-                color: 'var(--navigation-color)',
-                fontFamily: 'var(--heading-font)',
-                fontWeight: 'var(--heading-font-weight)'
-              }}
-            >
-              <a href="/">LUXELEAD</a>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-12">
-              <a 
-                href="/" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ 
-                  color: 'var(--navigation-color)',
-                  fontFamily: 'var(--body-font)'
-                }}
-              >
-                Home
-              </a>
-              <a 
-                href="/properties" 
-                className="text-sm uppercase tracking-wide transition-colors"
-                style={{ 
-                  color: 'var(--primary-color)', 
-                  fontWeight: 'bold',
-                  fontFamily: 'var(--body-font)'
-                }}
-              >
-                Properties
-              </a>
-              <a 
-                href="/agent" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ 
-                  color: 'var(--navigation-color)',
-                  fontFamily: 'var(--body-font)'
-                }}
-              >
-                Agent
-              </a>
-              <a 
-                href="/#contact" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ 
-                  color: 'var(--navigation-color)',
-                  fontFamily: 'var(--body-font)'
-                }}
-              >
-                Contact
-              </a>
-              <a 
-                href="/admin" 
-                className="text-sm uppercase tracking-wide transition-colors hover:opacity-70"
-                style={{ 
-                  color: 'var(--navigation-color)',
-                  fontFamily: 'var(--body-font)'
-                }}
-              >
-                Admin
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              style={{ color: 'var(--navigation-color)' }}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <div 
-          className={`fixed inset-y-0 right-0 w-64 transform transition-transform duration-300 ease-in-out z-50 md:hidden shadow-2xl ${
-            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          style={{ 
-            backgroundColor: 'var(--header-background-color)',
-            backdropFilter: 'blur(8px)',
-            WebkitBackdropFilter: 'blur(8px)'
-          }}
-        >
-          <div className="flex flex-col h-full w-full">
-            <div 
-              className="flex justify-between items-center px-6 py-6 border-b border-opacity-20" 
-              style={{ borderColor: 'var(--navigation-color)' }}
-            >
-              <div 
-                className="text-xl font-light tracking-wider"
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                MENU
-              </div>
-              <button
-                className="p-2 hover:opacity-70 transition-opacity"
-                onClick={() => setIsMobileMenuOpen(false)}
-                style={{ color: 'var(--navigation-color)' }}
-              >
-                <X size={24} />
-              </button>
-            </div>
-            
-            <div className="flex-1 px-6 py-8">
-              <div className="space-y-6">
-                <a 
-                  href="/" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Home
-                </a>
-                <a 
-                  href="/properties" 
-                  className="block text-lg uppercase tracking-wide transition-colors"
-                  style={{ color: 'var(--primary-color)', fontWeight: 'bold' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Properties
-                </a>
-                <a 
-                  href="/agent" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Agent
-                </a>
-                <a 
-                  href="/#contact" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Contact
-                </a>
-                <a 
-                  href="/admin" 
-                  className="block text-lg uppercase tracking-wide transition-colors hover:opacity-70"
-                  style={{ color: 'var(--navigation-color)' }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  Admin
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        {isMobileMenuOpen && (
-          <div 
-            className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
-      </nav>
+      {/* Header */}
+      <Header currentPage="properties" />
 
       {/* Hero Section - Large dramatic image like inspiration */}
       <section className="relative h-screen">
@@ -531,30 +354,7 @@ export default function PropertiesModernLuxury() {
       </section>
 
       {/* Footer */}
-      <footer className="py-16" style={{ backgroundColor: 'var(--secondary-color)' }}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center">
-            <div 
-              className="text-3xl font-light tracking-wider mb-6"
-              style={{ 
-                color: 'var(--tertiary-color)',
-                fontFamily: 'var(--heading-font)'
-              }}
-            >
-              LUXELEAD
-            </div>
-            <p 
-              className="text-sm opacity-70"
-              style={{ 
-                color: 'var(--tertiary-color)',
-                fontFamily: 'var(--body-font)'
-              }}
-            >
-              © 2024 LuxeLead. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
