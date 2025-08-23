@@ -206,8 +206,12 @@ export default function HomeTheme2() {
             {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
           </p>
           <h1 
-            className="text-4xl md:text-6xl font-light leading-tight"
-            style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+            className="text-4xl md:text-6xl leading-tight hero-heading"
+            style={{ 
+              color: 'var(--tertiary-color)',
+              fontFamily: 'var(--heading-font)',
+              fontWeight: 'var(--heading-font-weight)'
+            }}
           >
             {pageContent?.hero?.headline ? (
               pageContent.hero.headline.split('\n').map((line: string, index: number) => (
@@ -248,8 +252,12 @@ export default function HomeTheme2() {
               {pageContent?.about?.subtitle || "About LuxeLead"}
             </p>
             <h2 
-              className="text-3xl md:text-4xl font-light leading-tight mb-8"
-              style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+              className="text-3xl md:text-4xl leading-tight mb-8"
+              style={{ 
+                color: 'var(--text-color)', 
+                fontFamily: 'var(--heading-font)', 
+                fontWeight: 'var(--heading-font-weight)' 
+              }}
             >
               {pageContent?.about?.title ? (
                 pageContent.about.title.split('\n').map((line: string, index: number) => (
@@ -307,8 +315,12 @@ export default function HomeTheme2() {
             {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
           </p>
           <h2 
-            className="text-4xl md:text-5xl font-light"
-            style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+            className="text-4xl md:text-5xl"
+            style={{ 
+              color: 'var(--text-color)', 
+              fontFamily: 'var(--heading-font)', 
+              fontWeight: 'var(--heading-font-weight)' 
+            }}
           >
             {pageContent?.['featured-properties']?.title || "Featured Properties"}
           </h2>
@@ -356,8 +368,12 @@ export default function HomeTheme2() {
                       {property.address}, {property.city}
                     </p>
                     <h3 
-                      className="text-3xl md:text-4xl font-light leading-tight mb-6"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+                      className="text-3xl md:text-4xl leading-tight mb-6"
+                      style={{ 
+                        color: 'var(--text-color)', 
+                        fontFamily: 'var(--heading-font)', 
+                        fontWeight: 'var(--heading-font-weight)' 
+                      }}
                     >
                       {property.title}
                     </h3>
@@ -382,8 +398,12 @@ export default function HomeTheme2() {
                     
                     <div className="flex items-center justify-between">
                       <p 
-                        className="text-2xl font-light"
-                        style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                        className="text-2xl"
+                        style={{ 
+                          color: 'var(--text-color)', 
+                          fontFamily: 'var(--heading-font)', 
+                          fontWeight: 'var(--heading-font-weight)' 
+                        }}
                       >
                         ${property.price.toLocaleString()}
                       </p>
@@ -413,8 +433,12 @@ export default function HomeTheme2() {
             LOCAL EXPERTISE • GLOBAL CONNECTIONS
           </p>
           <h2 
-            className="text-4xl md:text-5xl font-light"
-            style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+            className="text-4xl md:text-5xl"
+            style={{ 
+              color: 'var(--text-color)', 
+              fontFamily: 'var(--heading-font)', 
+              fontWeight: 'var(--heading-font-weight)' 
+            }}
           >
             Luxury Communities
           </h2>
@@ -434,8 +458,11 @@ export default function HomeTheme2() {
               {/* Community info overlay */}
               <div className="absolute bottom-8 left-8 text-white">
                 <h3 
-                  className="text-xl font-light mb-2"
-                  style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+                  className="text-xl mb-2"
+                  style={{ 
+                    fontFamily: 'var(--heading-font)', 
+                    fontWeight: 'var(--heading-font-weight)' 
+                  }}
                 >
                   {community.name}
                 </h3>
@@ -481,8 +508,11 @@ export default function HomeTheme2() {
             EXPERIENCE DISTINCTION
           </p>
           <h2 
-            className="text-4xl md:text-5xl font-light leading-tight mb-6"
-            style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+            className="text-4xl md:text-5xl leading-tight mb-6"
+            style={{ 
+              fontFamily: 'var(--heading-font)', 
+              fontWeight: 'var(--heading-font-weight)' 
+            }}
           >
             {pageContent?.contact?.title || "Ready to Find Your Dream Home?"}
           </h2>
@@ -506,8 +536,11 @@ export default function HomeTheme2() {
           <div className="grid grid-cols-2 gap-8 text-center">
             <div>
               <div 
-                className="text-2xl font-light mb-1"
-                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+                className="text-2xl mb-1"
+                style={{ 
+                  fontFamily: 'var(--heading-font)', 
+                  fontWeight: 'var(--heading-font-weight)' 
+                }}
               >
                 {pageContent?.stats?.stat1Value || "500+"}
               </div>
@@ -520,8 +553,11 @@ export default function HomeTheme2() {
             </div>
             <div>
               <div 
-                className="text-2xl font-light mb-1"
-                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+                className="text-2xl mb-1"
+                style={{ 
+                  fontFamily: 'var(--heading-font)', 
+                  fontWeight: 'var(--heading-font-weight)' 
+                }}
               >
                 {pageContent?.stats?.stat2Value || "15+"}
               </div>
@@ -534,8 +570,11 @@ export default function HomeTheme2() {
             </div>
             <div>
               <div 
-                className="text-2xl font-light mb-1"
-                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+                className="text-2xl mb-1"
+                style={{ 
+                  fontFamily: 'var(--heading-font)', 
+                  fontWeight: 'var(--heading-font-weight)' 
+                }}
               >
                 {pageContent?.stats?.stat3Value || "$2.5B+"}
               </div>
@@ -548,8 +587,11 @@ export default function HomeTheme2() {
             </div>
             <div>
               <div 
-                className="text-2xl font-light mb-1"
-                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+                className="text-2xl mb-1"
+                style={{ 
+                  fontFamily: 'var(--heading-font)', 
+                  fontWeight: 'var(--heading-font-weight)' 
+                }}
               >
                 {pageContent?.stats?.stat4Value || "98%"}
               </div>
