@@ -419,7 +419,7 @@ export default function PropertyDetailPage() {
                         className="text-3xl font-bold mb-2"
                         style={{ color: 'var(--primary-color)' }}
                       >
-                        {property.bathrooms}
+                        {property.bathrooms % 1 === 0 ? property.bathrooms : property.bathrooms.toFixed(1)}
                       </div>
                       <div 
                         className="text-sm uppercase tracking-wide"

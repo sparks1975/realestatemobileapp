@@ -384,7 +384,7 @@ export default function PropertyDetailModern() {
                       fontWeight: 'var(--heading-font-weight)'
                     }}
                   >
-                    {property.bathrooms}
+                    {property.bathrooms % 1 === 0 ? property.bathrooms : property.bathrooms.toFixed(1)}
                   </div>
                   <div 
                     className="text-xs uppercase tracking-wide opacity-80"
