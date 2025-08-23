@@ -142,11 +142,23 @@ export default function PropertyDetailModern() {
     }
   }, [isLoading, themeSettings, property, isThemeApplied, fontsLoaded]);
 
-  // Get all images for gallery
-  const allImages = property ? [
-    property.mainImage || property.images[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800",
-    ...property.images.slice(property.mainImage ? 0 : 1)
-  ] : [];
+  // Get all images for gallery, avoiding duplicates
+  const allImages = property ? (() => {
+    const images = [];
+    const mainImg = property.mainImage || property.images[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&h=800";
+    
+    // Add main image first
+    images.push(mainImg);
+    
+    // Add other images, excluding the main image if it's already in the array
+    property.images.forEach(img => {
+      if (img !== mainImg) {
+        images.push(img);
+      }
+    });
+    
+    return images;
+  })() : [];
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
