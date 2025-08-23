@@ -160,262 +160,266 @@ export default function ContactPage() {
           </div>
         </section>
 
-        {/* Contact Content */}
-        <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-16">
-              {/* Contact Information */}
-              <div>
-                <h2 
-                  className="text-3xl font-light mb-8"
+        {/* Contact Information Section - Elegant Layout */}
+        <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+          <div className="max-w-6xl mx-auto px-6">
+            {/* Section Title */}
+            <div className="text-center mb-20">
+              <h2 
+                className="text-5xl font-light leading-tight mb-6"
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                Get In Touch
+              </h2>
+              <div 
+                className="w-24 h-px mx-auto mb-8"
+                style={{ backgroundColor: 'var(--primary-color)' }}
+              />
+              <p 
+                className="text-xl leading-relaxed max-w-2xl mx-auto"
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)', opacity: 0.8 }}
+              >
+                Whether you're buying, selling, or just exploring your options, our experienced team is here to guide you through every step of your real estate journey.
+              </p>
+            </div>
+
+            {/* Contact Cards */}
+            <div className="grid md:grid-cols-3 gap-12 mb-20">
+              {/* Office Address */}
+              <div className="text-center">
+                <div 
+                  className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: 'var(--secondary-color)' }}
+                >
+                  <MapPin className="h-8 w-8" style={{ color: 'var(--tertiary-color)' }} />
+                </div>
+                <h3 
+                  className="text-xl font-light mb-4"
                   style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
                 >
-                  Get In Touch
-                </h2>
-                <p 
-                  className="text-lg mb-12 leading-relaxed"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                >
-                  Whether you're buying, selling, or just exploring your options, our experienced team is here to guide you through every step of your real estate journey.
-                </p>
-
-                <div className="space-y-8">
-                  {/* Office Address */}
-                  <div className="flex items-start space-x-4">
-                    <div 
-                      className="p-3 rounded-full"
-                      style={{ backgroundColor: 'var(--primary-color)' }}
-                    >
-                      <MapPin className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 
-                        className="text-lg font-semibold mb-2"
-                        style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                      >
-                        Office Address
-                      </h3>
-                      <p style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}>
-                        123 Luxury Lane<br />
-                        Austin, TX 78701<br />
-                        United States
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Phone */}
-                  <div className="flex items-start space-x-4">
-                    <div 
-                      className="p-3 rounded-full"
-                      style={{ backgroundColor: 'var(--primary-color)' }}
-                    >
-                      <Phone className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 
-                        className="text-lg font-semibold mb-2"
-                        style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                      >
-                        Phone
-                      </h3>
-                      <p style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}>
-                        <a 
-                          href="tel:+15551234567" 
-                          className="hover:opacity-80 transition-opacity"
-                          style={{ color: 'var(--link-color)' }}
-                        >
-                          (555) 123-4567
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Email */}
-                  <div className="flex items-start space-x-4">
-                    <div 
-                      className="p-3 rounded-full"
-                      style={{ backgroundColor: 'var(--primary-color)' }}
-                    >
-                      <Mail className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 
-                        className="text-lg font-semibold mb-2"
-                        style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                      >
-                        Email
-                      </h3>
-                      <p style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}>
-                        <a 
-                          href="mailto:hello@luxelead.com" 
-                          className="hover:opacity-80 transition-opacity"
-                          style={{ color: 'var(--link-color)' }}
-                        >
-                          hello@luxelead.com
-                        </a>
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Office Hours */}
-                  <div className="flex items-start space-x-4">
-                    <div 
-                      className="p-3 rounded-full"
-                      style={{ backgroundColor: 'var(--primary-color)' }}
-                    >
-                      <Clock className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 
-                        className="text-lg font-semibold mb-2"
-                        style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                      >
-                        Office Hours
-                      </h3>
-                      <div style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}>
-                        <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                        <p>Saturday: 10:00 AM - 4:00 PM</p>
-                        <p>Sunday: By appointment only</p>
-                      </div>
-                    </div>
-                  </div>
+                  Visit Our Office
+                </h3>
+                <div style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)', opacity: 0.8 }}>
+                  <p>123 Luxury Lane</p>
+                  <p>Austin, TX 78701</p>
+                  <p>United States</p>
                 </div>
               </div>
 
-              {/* Contact Form */}
+              {/* Phone */}
+              <div className="text-center">
+                <div 
+                  className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: 'var(--secondary-color)' }}
+                >
+                  <Phone className="h-8 w-8" style={{ color: 'var(--tertiary-color)' }} />
+                </div>
+                <h3 
+                  className="text-xl font-light mb-4"
+                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                >
+                  Call Us
+                </h3>
+                <a 
+                  href="tel:+15551234567" 
+                  className="hover:opacity-70 transition-opacity"
+                  style={{ color: 'var(--link-color)', fontFamily: 'var(--body-font)' }}
+                >
+                  (555) 123-4567
+                </a>
+              </div>
+
+              {/* Email */}
+              <div className="text-center">
+                <div 
+                  className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: 'var(--secondary-color)' }}
+                >
+                  <Mail className="h-8 w-8" style={{ color: 'var(--tertiary-color)' }} />
+                </div>
+                <h3 
+                  className="text-xl font-light mb-4"
+                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                >
+                  Email Us
+                </h3>
+                <a 
+                  href="mailto:hello@luxelead.com" 
+                  className="hover:opacity-70 transition-opacity"
+                  style={{ color: 'var(--link-color)', fontFamily: 'var(--body-font)' }}
+                >
+                  hello@luxelead.com
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Form Section - Elegant Centered Design */}
+        <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 
+                className="text-5xl font-light leading-tight mb-6"
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                Send Us A Message
+              </h2>
+              <div 
+                className="w-24 h-px mx-auto"
+                style={{ backgroundColor: 'var(--primary-color)' }}
+              />
+            </div>
+
+            <div 
+              className="bg-white p-12 shadow-2xl"
+              style={{ borderRadius: '2px' }}
+            >
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <Input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      className="border-0 border-b-2 border-gray-200 rounded-none px-0 py-4 text-lg bg-transparent focus:border-b-2 focus:ring-0"
+                      style={{ 
+                        borderBottomColor: 'var(--text-color)',
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                      placeholder="FULL NAME *"
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="border-0 border-b-2 border-gray-200 rounded-none px-0 py-4 text-lg bg-transparent focus:border-b-2 focus:ring-0"
+                      style={{ 
+                        borderBottomColor: 'var(--text-color)',
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                      placeholder="EMAIL ADDRESS *"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="border-0 border-b-2 border-gray-200 rounded-none px-0 py-4 text-lg bg-transparent focus:border-b-2 focus:ring-0 w-full"
+                    style={{ 
+                      borderBottomColor: 'var(--text-color)',
+                      color: 'var(--text-color)',
+                      fontFamily: 'var(--body-font)'
+                    }}
+                    placeholder="PHONE NUMBER"
+                  />
+                </div>
+
+                <div>
+                  <Input
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    required
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    className="border-0 border-b-2 border-gray-200 rounded-none px-0 py-4 text-lg bg-transparent focus:border-b-2 focus:ring-0 w-full"
+                    style={{ 
+                      borderBottomColor: 'var(--text-color)',
+                      color: 'var(--text-color)',
+                      fontFamily: 'var(--body-font)'
+                    }}
+                    placeholder="SUBJECT *"
+                  />
+                </div>
+
+                <div>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    required
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    className="border-0 border-b-2 border-gray-200 rounded-none px-0 py-4 text-lg bg-transparent focus:border-b-2 focus:ring-0 w-full min-h-[120px] resize-none"
+                    style={{ 
+                      borderBottomColor: 'var(--text-color)',
+                      color: 'var(--text-color)',
+                      fontFamily: 'var(--body-font)'
+                    }}
+                    placeholder="MESSAGE *"
+                  />
+                </div>
+
+                <div className="text-center pt-8">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="px-12 py-4 text-sm uppercase tracking-widest font-light border-2 bg-transparent hover:bg-opacity-90 transition-all duration-300"
+                    style={{ 
+                      borderColor: 'var(--text-color)',
+                      color: 'var(--text-color)',
+                      fontFamily: 'var(--button-font)',
+                      backgroundColor: 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--text-color)';
+                      e.currentTarget.style.color = 'white';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = 'var(--text-color)';
+                    }}
+                  >
+                    {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        {/* Office Hours Section */}
+        <section className="py-20" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <div className="flex items-center justify-center mb-8">
+              <Clock className="h-8 w-8 mr-4" style={{ color: 'var(--primary-color)' }} />
+              <h3 
+                className="text-2xl font-light"
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+              >
+                Office Hours
+              </h3>
+            </div>
+            <div 
+              className="grid md:grid-cols-3 gap-8 text-center"
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+            >
               <div>
-                <Card className="shadow-lg">
-                  <CardContent className="p-8">
-                    <div className="flex items-center mb-6">
-                      <MessageSquare 
-                        className="h-6 w-6 mr-3"
-                        style={{ color: 'var(--primary-color)' }}
-                      />
-                      <h2 
-                        className="text-2xl font-light"
-                        style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                      >
-                        Send us a Message
-                      </h2>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <Label 
-                            htmlFor="name"
-                            style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                          >
-                            Full Name *
-                          </Label>
-                          <Input
-                            id="name"
-                            name="name"
-                            type="text"
-                            required
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            className="mt-1"
-                            placeholder="Enter your full name"
-                          />
-                        </div>
-                        <div>
-                          <Label 
-                            htmlFor="email"
-                            style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                          >
-                            Email Address *
-                          </Label>
-                          <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            required
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            className="mt-1"
-                            placeholder="Enter your email address"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label 
-                          htmlFor="phone"
-                          style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                        >
-                          Phone Number
-                        </Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className="mt-1"
-                          placeholder="Enter your phone number"
-                        />
-                      </div>
-
-                      <div>
-                        <Label 
-                          htmlFor="subject"
-                          style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                        >
-                          Subject *
-                        </Label>
-                        <Input
-                          id="subject"
-                          name="subject"
-                          type="text"
-                          required
-                          value={formData.subject}
-                          onChange={handleInputChange}
-                          className="mt-1"
-                          placeholder="What's this about?"
-                        />
-                      </div>
-
-                      <div>
-                        <Label 
-                          htmlFor="message"
-                          style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                        >
-                          Message *
-                        </Label>
-                        <Textarea
-                          id="message"
-                          name="message"
-                          required
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          className="mt-1 min-h-[120px]"
-                          placeholder="Tell us how we can help you..."
-                        />
-                      </div>
-
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full py-3 text-lg font-medium"
-                        style={{ 
-                          backgroundColor: 'var(--primary-color)',
-                          fontFamily: 'var(--button-font)',
-                          fontWeight: 'var(--button-font-weight)'
-                        }}
-                      >
-                        {isSubmitting ? (
-                          "Sending..."
-                        ) : (
-                          <>
-                            <Send className="h-5 w-5 mr-2" />
-                            Send Message
-                          </>
-                        )}
-                      </Button>
-                    </form>
-                  </CardContent>
-                </Card>
+                <p className="font-medium mb-2">Monday - Friday</p>
+                <p className="opacity-80">9:00 AM - 6:00 PM</p>
+              </div>
+              <div>
+                <p className="font-medium mb-2">Saturday</p>
+                <p className="opacity-80">10:00 AM - 4:00 PM</p>
+              </div>
+              <div>
+                <p className="font-medium mb-2">Sunday</p>
+                <p className="opacity-80">By appointment only</p>
               </div>
             </div>
           </div>
