@@ -224,81 +224,58 @@ export default function HomeTheme2() {
         </div>
       </section>
 
-      {/* Introduction Section - About LuxeLead (Modern Luxury Style) */}
-      <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div>
-                <p 
-                  className="text-sm uppercase tracking-[0.2em] mb-4"
-                  style={{ color: 'var(--secondary-color)', fontFamily: 'var(--body-font)' }}
-                >
-                  {pageContent?.about?.subtitle || "About LuxeLead"}
-                </p>
-                <h2 
-                  className="text-4xl md:text-5xl font-light leading-tight mb-6"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                >
-                  {pageContent?.about?.title ? (
-                    pageContent.about.title.split('\n').map((line: string, index: number) => (
-                      <span key={index}>
-                        {line}
-                        {index < pageContent.about.title.split('\n').length - 1 && <br />}
-                      </span>
-                    ))
-                  ) : (
-                    <>
-                      Expert<br />
-                      Real Estate<br />
-                      Guidance
-                    </>
-                  )}
-                </h2>
-                <p 
-                  className="text-lg leading-relaxed mb-8"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                >
-                  {pageContent?.about?.description || "With over a decade of experience in Austin's luxury real estate market, we provide unparalleled expertise and personalized service to help you find your perfect home or investment opportunity."}
-                </p>
-                <Button 
-                  className="uppercase tracking-wide border-2 px-8 py-3 bg-transparent hover:bg-opacity-10 hover:scale-105 transition-all duration-300"
-                  style={{ 
-                    borderColor: 'var(--primary-color)', 
-                    color: 'var(--primary-color)',
-                    fontFamily: 'var(--button-font)'
-                  }}
-                >
-                  {pageContent?.about?.buttonText || "Learn More"}
-                </Button>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              <div className="space-y-6">
-                <img 
-                  src={pageContent?.about?.image1 || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=500"}
-                  alt="Luxury Interior"
-                  className="w-full h-64 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                />
-                <img 
-                  src={pageContent?.about?.image2 || "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=400&h=300"}
-                  alt="Modern Kitchen"
-                  className="w-full h-48 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                />
-              </div>
-              <div className="space-y-6 pt-8">
-                <img 
-                  src={pageContent?.about?.image3 || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=400&h=300"}
-                  alt="Living Room"
-                  className="w-full h-48 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                />
-                <img 
-                  src={pageContent?.about?.image4 || "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=400&h=500"}
-                  alt="Master Bedroom"
-                  className="w-full h-64 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                />
-              </div>
-            </div>
+      {/* About Section - Large Image + Text Side by Side (Ginger Martin Style) */}
+      <section className="relative h-screen flex">
+        {/* Massive image takes up 60% */}
+        <div className="w-3/5 relative">
+          <img 
+            src={pageContent?.about?.image1 || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&h=1200"}
+            alt="Luxury Interior"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        
+        {/* Content takes up 40% */}
+        <div className="w-2/5 flex items-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+          <div className="px-16 py-24">
+            <p 
+              className="text-sm uppercase tracking-[0.3em] mb-6 opacity-60"
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+            >
+              {pageContent?.about?.subtitle || "About LuxeLead"}
+            </p>
+            <h2 
+              className="text-3xl md:text-4xl font-light leading-tight mb-8"
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+            >
+              {pageContent?.about?.title ? (
+                pageContent.about.title.split('\n').map((line: string, index: number) => (
+                  <span key={index}>
+                    {line}
+                    {index < pageContent.about.title.split('\n').length - 1 && <br />}
+                  </span>
+                ))
+              ) : (
+                <>
+                  Expert<br />
+                  Real Estate<br />
+                  Guidance
+                </>
+              )}
+            </h2>
+            <p 
+              className="text-base leading-relaxed mb-10 opacity-80"
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+            >
+              {pageContent?.about?.description || "With over a decade of experience in Austin's luxury real estate market, we provide unparalleled expertise and personalized service to help you find your perfect home or investment opportunity."}
+            </p>
+            <div className="w-12 h-px bg-current opacity-30 mb-8"></div>
+            <p 
+              className="text-sm uppercase tracking-[0.2em] opacity-60"
+              style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+            >
+              LOCAL EXPERTISE
+            </p>
           </div>
         </div>
       </section>
@@ -316,246 +293,279 @@ export default function HomeTheme2() {
         </div>
       </section>
 
-      {/* Current Inventory (Modern Luxury Style) */}
-      <section className="py-32" style={{ backgroundColor: 'var(--secondary-color)' }}>
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="text-center mb-20">
-            <p 
-              className="text-sm uppercase tracking-[0.3em] mb-4"
-              style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
-            >
-              {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
-            </p>
-            <h2 
-              className="text-5xl md:text-6xl font-light leading-tight"
-              style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
-            >
-              {pageContent?.['featured-properties']?.title || "Featured Properties"}
-            </h2>
-          </div>
+      {/* Featured Properties - Full Width Images (Ginger Martin Style) */}
+      <section>
+        {/* Section header */}
+        <div className="py-24 text-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+          <p 
+            className="text-sm uppercase tracking-[0.4em] mb-4 opacity-60"
+            style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+          >
+            {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
+          </p>
+          <h2 
+            className="text-4xl md:text-5xl font-light"
+            style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+          >
+            {pageContent?.['featured-properties']?.title || "Featured Properties"}
+          </h2>
+        </div>
 
-          {isLoading ? (
-            <div className="grid md:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-gray-700 h-96 animate-pulse rounded-lg" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-3 gap-8">
-              {featuredProperties.map((property) => (
-                <Card key={property.id} className="group overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-500 bg-white">
-                  <div className="relative">
-                    <img 
-                      src={property.mainImage || property.images[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&h=400"}
-                      alt={property.title}
-                      className="w-full h-72 object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute top-4 left-4">
-                      <Badge 
-                        className="px-3 py-1 text-xs font-medium bg-black/80 text-white border-0"
-                        style={{ fontFamily: 'var(--body-font)' }}
-                      >
-                        {property.status}
-                      </Badge>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <Badge 
-                        className="px-3 py-1 text-xs font-medium"
-                        style={{ 
-                          backgroundColor: 'var(--primary-color)', 
-                          color: 'white',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        ${property.price.toLocaleString()}
-                      </Badge>
+        {/* Property cards as large lifestyle images */}
+        {isLoading ? (
+          <div className="space-y-0">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-96 bg-gray-300 animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-0">
+            {featuredProperties.map((property, index) => (
+              <div key={property.id} className={`relative h-screen flex ${index % 2 === 0 ? '' : 'flex-row-reverse'}`}>
+                {/* Massive property image takes up 65% */}
+                <div className="w-3/5 relative group">
+                  <img 
+                    src={property.mainImage || property.images[0] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&h=1200"}
+                    alt={property.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                  />
+                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500"></div>
+                  
+                  {/* Property status overlay */}
+                  <div className="absolute top-8 left-8">
+                    <div 
+                      className="px-4 py-2 text-xs uppercase tracking-wider bg-white/90 text-black"
+                      style={{ fontFamily: 'var(--body-font)' }}
+                    >
+                      {property.status}
                     </div>
                   </div>
-                  <CardContent className="p-6">
+                </div>
+                
+                {/* Property details take up 35% */}
+                <div className="w-2/5 flex items-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+                  <div className="px-16 py-24">
+                    <p 
+                      className="text-sm uppercase tracking-[0.3em] mb-4 opacity-60"
+                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                    >
+                      <MapPin className="h-3 w-3 inline mr-2" />
+                      {property.address}, {property.city}
+                    </p>
                     <h3 
-                      className="text-xl font-light mb-2 group-hover:text-opacity-80 transition-colors"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                      className="text-3xl md:text-4xl font-light leading-tight mb-6"
+                      style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
                     >
                       {property.title}
                     </h3>
-                    <p 
-                      className="text-sm mb-4 flex items-center"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                    >
-                      <MapPin className="h-4 w-4 mr-1" />
-                      {property.address}, {property.city}
-                    </p>
-                    <div className="flex justify-between items-center text-sm mb-4">
-                      <div className="flex space-x-4">
-                        <span className="flex items-center">
-                          <Bed className="h-4 w-4 mr-1" />
-                          {property.bedrooms}
-                        </span>
-                        <span className="flex items-center">
-                          <Bath className="h-4 w-4 mr-1" />
-                          {property.bathrooms}
-                        </span>
-                        <span className="flex items-center">
-                          <Square className="h-4 w-4 mr-1" />
-                          {property.squareFeet.toLocaleString()} sq ft
-                        </span>
+                    
+                    {/* Property stats */}
+                    <div className="flex space-x-8 mb-8 text-sm opacity-80">
+                      <div style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}>
+                        <div className="font-light">{property.bedrooms}</div>
+                        <div className="uppercase tracking-wider text-xs">Bedrooms</div>
+                      </div>
+                      <div style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}>
+                        <div className="font-light">{property.bathrooms}</div>
+                        <div className="uppercase tracking-wider text-xs">Bathrooms</div>
+                      </div>
+                      <div style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}>
+                        <div className="font-light">{property.squareFeet.toLocaleString()}</div>
+                        <div className="uppercase tracking-wider text-xs">Sq Ft</div>
                       </div>
                     </div>
-                    <Button 
-                      className="w-full mt-4 bg-transparent border border-current hover:bg-current hover:text-white transition-all duration-300"
-                      style={{ 
-                        color: 'var(--primary-color)',
-                        fontFamily: 'var(--button-font)'
-                      }}
-                    >
-                      View Details
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Communities Section (Modern Luxury Style) */}
-      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="text-center mb-16">
-            <p 
-              className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ color: 'var(--secondary-color)', fontFamily: 'var(--body-font)' }}
-            >
-              Featured Neighborhoods
-            </p>
-            <h2 
-              className="text-4xl md:text-5xl font-light leading-tight"
-              style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-            >
-              Luxury Communities
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredCommunities.map((community: any) => (
-              <Card key={community.id} className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="relative">
-                  <img 
-                    src={community.image} 
-                    alt={community.name}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors duration-300"></div>
-                  <div className="absolute bottom-4 left-4 text-white">
-                    <h3 
-                      className="text-xl font-light mb-1"
-                      style={{ fontFamily: 'var(--heading-font)' }}
-                    >
-                      {community.name}
-                    </h3>
-                    <p className="text-sm opacity-90">{community.description}</p>
+                    
+                    <div className="w-16 h-px bg-current opacity-30 mb-8"></div>
+                    
+                    <div className="flex items-center justify-between">
+                      <p 
+                        className="text-2xl font-light"
+                        style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                      >
+                        ${property.price.toLocaleString()}
+                      </p>
+                      <div 
+                        className="text-xs uppercase tracking-wider opacity-60 cursor-pointer hover:opacity-100 transition-opacity"
+                        style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                      >
+                        View Details →
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
-        </div>
+        )}
       </section>
 
-      {/* Agent Contact Section (Modern Luxury Style) */}
-      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 
-                className="text-4xl md:text-5xl font-light leading-tight mb-6"
-                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
-              >
-                Ready to Find Your Next Home?
-              </h2>
-              <p 
-                className="text-lg leading-relaxed mb-8"
-                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
-              >
-                Let our experienced team guide you through Austin's luxury real estate market. Contact us today for a personalized consultation.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 mr-3" style={{ color: 'var(--tertiary-color)' }} />
-                  <span style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}>(512) 555-LUXE</span>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="h-5 w-5 mr-3" style={{ color: 'var(--tertiary-color)' }} />
-                  <span style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}>info@luxelead.com</span>
+      {/* Communities Section - Three Wide Images (Ginger Martin Style) */}
+      <section className="relative h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <div className="absolute top-24 left-8 z-10">
+          <p 
+            className="text-sm uppercase tracking-[0.4em] mb-4 opacity-60"
+            style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+          >
+            LOCAL EXPERTISE • GLOBAL CONNECTIONS
+          </p>
+          <h2 
+            className="text-4xl md:text-5xl font-light max-w-lg"
+            style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+          >
+            Luxury Communities
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-3 h-full">
+          {featuredCommunities.map((community: any, index: number) => (
+            <div key={community.id} className="relative group">
+              <img 
+                src={community.image} 
+                alt={community.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-500"></div>
+              
+              {/* Community info overlay */}
+              <div className="absolute bottom-8 left-8 text-white">
+                <h3 
+                  className="text-xl font-light mb-2"
+                  style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+                >
+                  {community.name}
+                </h3>
+                <p 
+                  className="text-sm opacity-80 max-w-xs"
+                  style={{ fontFamily: 'var(--body-font)' }}
+                >
+                  {community.description}
+                </p>
+              </div>
+              
+              {/* Explore indicator */}
+              <div className="absolute top-8 right-8 opacity-60 group-hover:opacity-100 transition-opacity">
+                <div 
+                  className="text-xs uppercase tracking-wider text-white"
+                  style={{ fontFamily: 'var(--body-font)' }}
+                >
+                  Explore →
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <Card className="p-6 text-center border-0 shadow-lg" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-                <Home className="h-8 w-8 mx-auto mb-4" style={{ color: 'var(--secondary-color)' }} />
-                <h3 
-                  className="text-2xl font-light mb-2"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                >
-                  500+
-                </h3>
-                <p 
-                  className="text-sm"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                >
-                  Homes Sold
-                </p>
-              </Card>
-              
-              <Card className="p-6 text-center border-0 shadow-lg" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-                <Users className="h-8 w-8 mx-auto mb-4" style={{ color: 'var(--secondary-color)' }} />
-                <h3 
-                  className="text-2xl font-light mb-2"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                >
-                  1000+
-                </h3>
-                <p 
-                  className="text-sm"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                >
-                  Happy Clients
-                </p>
-              </Card>
-              
-              <Card className="p-6 text-center border-0 shadow-lg" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-                <Award className="h-8 w-8 mx-auto mb-4" style={{ color: 'var(--secondary-color)' }} />
-                <h3 
-                  className="text-2xl font-light mb-2"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                >
-                  #1
-                </h3>
-                <p 
-                  className="text-sm"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                >
-                  Top Agent
-                </p>
-              </Card>
-              
-              <Card className="p-6 text-center border-0 shadow-lg" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-                <Star className="h-8 w-8 mx-auto mb-4" style={{ color: 'var(--secondary-color)' }} />
-                <h3 
-                  className="text-2xl font-light mb-2"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
-                >
-                  5.0
-                </h3>
-                <p 
-                  className="text-sm"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
-                >
-                  Average Rating
-                </p>
-              </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Final Lifestyle Section - Large Image with Contact (Ginger Martin Style) */}
+      <section className="relative h-screen">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('${pageContent?.contact?.backgroundImage || 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2400&h=1600'}')`
+          }}
+        >
+          <div className="absolute inset-0 bg-black/30"></div>
+        </div>
+        
+        {/* Contact content overlay */}
+        <div className="absolute bottom-24 left-8 text-white max-w-md">
+          <p 
+            className="text-sm uppercase tracking-[0.3em] mb-4 opacity-80"
+            style={{ fontFamily: 'var(--body-font)' }}
+          >
+            EXPERIENCE DISTINCTION
+          </p>
+          <h2 
+            className="text-4xl md:text-5xl font-light leading-tight mb-6"
+            style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+          >
+            {pageContent?.contact?.title || "Ready to Find Your Dream Home?"}
+          </h2>
+          <p 
+            className="text-base mb-8 opacity-90 leading-relaxed"
+            style={{ fontFamily: 'var(--body-font)' }}
+          >
+            {pageContent?.contact?.description || "Contact our team today to start your journey toward finding the perfect luxury property in Austin's most prestigious neighborhoods."}
+          </p>
+          <div className="w-16 h-px bg-white opacity-50 mb-8"></div>
+          <div 
+            className="text-sm uppercase tracking-wider opacity-80 cursor-pointer hover:opacity-100 transition-opacity"
+            style={{ fontFamily: 'var(--body-font)' }}
+          >
+            {pageContent?.contact?.primaryButtonText || "Get Started"} →
+          </div>
+        </div>
+
+        {/* Stats overlay */}
+        <div className="absolute top-24 right-8 text-white">
+          <div className="grid grid-cols-2 gap-8 text-center">
+            <div>
+              <div 
+                className="text-2xl font-light mb-1"
+                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+              >
+                {pageContent?.stats?.stat1Value || "500+"}
+              </div>
+              <div 
+                className="text-xs uppercase tracking-wider opacity-80"
+                style={{ fontFamily: 'var(--body-font)' }}
+              >
+                {pageContent?.stats?.stat1Label || "Homes Sold"}
+              </div>
+            </div>
+            <div>
+              <div 
+                className="text-2xl font-light mb-1"
+                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+              >
+                {pageContent?.stats?.stat2Value || "15+"}
+              </div>
+              <div 
+                className="text-xs uppercase tracking-wider opacity-80"
+                style={{ fontFamily: 'var(--body-font)' }}
+              >
+                {pageContent?.stats?.stat2Label || "Years Experience"}
+              </div>
+            </div>
+            <div>
+              <div 
+                className="text-2xl font-light mb-1"
+                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+              >
+                {pageContent?.stats?.stat3Value || "$2.5B+"}
+              </div>
+              <div 
+                className="text-xs uppercase tracking-wider opacity-80"
+                style={{ fontFamily: 'var(--body-font)' }}
+              >
+                {pageContent?.stats?.stat3Label || "Sales Volume"}
+              </div>
+            </div>
+            <div>
+              <div 
+                className="text-2xl font-light mb-1"
+                style={{ fontFamily: 'var(--heading-font)', fontWeight: '300' }}
+              >
+                {pageContent?.stats?.stat4Value || "98%"}
+              </div>
+              <div 
+                className="text-xs uppercase tracking-wider opacity-80"
+                style={{ fontFamily: 'var(--body-font)' }}
+              >
+                {pageContent?.stats?.stat4Label || "Client Satisfaction"}
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Bottom branding */}
+        <div className="absolute bottom-8 right-8 text-white opacity-60">
+          <p 
+            className="text-xs uppercase tracking-[0.3em]"
+            style={{ fontFamily: 'var(--body-font)' }}
+          >
+            BE IN THE KNOW
+          </p>
         </div>
       </section>
 
