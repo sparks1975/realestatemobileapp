@@ -626,8 +626,176 @@ export default function PropertyDetailModern() {
                   </div>
                 )}
 
-                {/* Parking - Only if not empty and not "0" */}
-                {(property.parkingSpaces && property.parkingSpaces.trim() && property.parkingSpaces !== "0") && (
+                {/* Stories - Only if not empty */}
+                {(property.stories && property.stories.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Stories
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.stories}
+                    </span>
+                  </div>
+                )}
+
+                {/* Garage Spaces - Only if not empty */}
+                {(property.garageSpaces && property.garageSpaces.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Garage Spaces
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.garageSpaces}
+                    </span>
+                  </div>
+                )}
+
+                {/* Water Source - Only if not empty */}
+                {(property.waterSource && property.waterSource.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Water Source
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.waterSource}
+                    </span>
+                  </div>
+                )}
+
+                {/* Utilities - Only if not empty */}
+                {(property.utilities && property.utilities.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Utilities
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.utilities}
+                    </span>
+                  </div>
+                )}
+
+                {/* Pool - Only if not empty */}
+                {(property.pool && property.pool.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Pool
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.pool}
+                    </span>
+                  </div>
+                )}
+
+                {/* Roof - Only if not empty */}
+                {(property.roof && property.roof.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Roof
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.roof}
+                    </span>
+                  </div>
+                )}
+
+                {/* Lot Features - Only if not empty */}
+                {(property.lotFeatures && property.lotFeatures.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Lot Features
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.lotFeatures}
+                    </span>
+                  </div>
+                )}
+
+                {/* Parking - Only if not empty */}
+                {(property.parking && property.parking.trim()) && (
                   <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
                     <span 
                       className="text-sm uppercase tracking-wide opacity-70"
@@ -637,6 +805,54 @@ export default function PropertyDetailModern() {
                       }}
                     >
                       Parking
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.parking}
+                    </span>
+                  </div>
+                )}
+
+                {/* Air Conditioning - Only if not empty */}
+                {(property.airConditioning && property.airConditioning.trim()) && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Air Conditioning
+                    </span>
+                    <span 
+                      className="text-sm"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      {property.airConditioning}
+                    </span>
+                  </div>
+                )}
+
+                {/* Legacy Parking Spaces - Only if not empty and not "0" */}
+                {(property.parkingSpaces && property.parkingSpaces.trim() && property.parkingSpaces !== "0") && (
+                  <div className="flex justify-between py-3 border-b border-opacity-10" style={{ borderColor: 'var(--text-color)' }}>
+                    <span 
+                      className="text-sm uppercase tracking-wide opacity-70"
+                      style={{ 
+                        color: 'var(--text-color)',
+                        fontFamily: 'var(--body-font)'
+                      }}
+                    >
+                      Parking Spaces
                     </span>
                     <span 
                       className="text-sm"

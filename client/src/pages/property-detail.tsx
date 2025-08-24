@@ -604,7 +604,16 @@ export default function PropertyDetailPage() {
                     <div className="space-y-2 text-sm" style={{ color: 'var(--text-color)' }}>
                       <div>Property Type: {property.type}</div>
                       <div>Listed: {new Date(property.createdAt).toLocaleDateString()}</div>
-                      {property.lotSize && <div>Lot Size: {property.lotSize.toLocaleString()} sq ft</div>}
+                      {property.lotSize > 0 && <div>Lot Size: {property.lotSize.toLocaleString()} sq ft</div>}
+                      {(property.stories && property.stories.trim()) && <div>Stories: {property.stories}</div>}
+                      {(property.garageSpaces && property.garageSpaces.trim()) && <div>Garage Spaces: {property.garageSpaces}</div>}
+                      {(property.waterSource && property.waterSource.trim()) && <div>Water Source: {property.waterSource}</div>}
+                      {(property.utilities && property.utilities.trim()) && <div>Utilities: {property.utilities}</div>}
+                      {(property.pool && property.pool.trim()) && <div>Pool: {property.pool}</div>}
+                      {(property.roof && property.roof.trim()) && <div>Roof: {property.roof}</div>}
+                      {(property.lotFeatures && property.lotFeatures.trim()) && <div>Lot Features: {property.lotFeatures}</div>}
+                      {(property.parking && property.parking.trim()) && <div>Parking: {property.parking}</div>}
+                      {(property.airConditioning && property.airConditioning.trim()) && <div>Air Conditioning: {property.airConditioning}</div>}
                     </div>
                   </CardContent>
                 </Card>
