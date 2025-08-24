@@ -525,436 +525,98 @@ export default function PropertyDetailPage() {
               {/* Sidebar */}
               <div className="lg:col-span-1">
                 {/* Price & Contact */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 mb-8 border border-white/10">
-                  <div 
-                    className="text-5xl font-light mb-2"
-                    style={{ 
-                      color: 'var(--primary-color)',
-                      fontFamily: 'var(--heading-font)'
-                    }}
-                  >
-                    ${property.price.toLocaleString()}
-                  </div>
-                  <p 
-                    className="text-sm opacity-70 mb-8"
-                    style={{ 
-                      color: 'var(--text-color)',
-                      fontFamily: 'var(--body-font)'
-                    }}
-                  >
-                    Price may exclude taxes & fees
-                  </p>
-                  
-                  {/* Key Stats Grid */}
-                  <div className="grid grid-cols-2 gap-6 mb-8">
-                    <div className="text-center">
-                      <div 
-                        className="text-2xl font-semibold mb-1"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--heading-font)'
-                        }}
-                      >
-                        {property.bedrooms}
-                      </div>
-                      <div 
-                        className="text-xs uppercase tracking-wider opacity-70"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        Bedrooms
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div 
-                        className="text-2xl font-semibold mb-1"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--heading-font)'
-                        }}
-                      >
-                        {property.bathrooms % 1 === 0 ? property.bathrooms : property.bathrooms.toFixed(1)}
-                      </div>
-                      <div 
-                        className="text-xs uppercase tracking-wider opacity-70"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        Bathrooms
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div 
-                        className="text-2xl font-semibold mb-1"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--heading-font)'
-                        }}
-                      >
-                        {(property.squareFeet / 1000).toFixed(1)}K
-                      </div>
-                      <div 
-                        className="text-xs uppercase tracking-wider opacity-70"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        Sq Ft
-                      </div>
-                    </div>
-                    {property.yearBuilt && property.yearBuilt > 0 && (
-                      <div className="text-center">
-                        <div 
-                          className="text-2xl font-semibold mb-1"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--heading-font)'
-                          }}
-                        >
-                          {property.yearBuilt}
-                        </div>
-                        <div 
-                          className="text-xs uppercase tracking-wider opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Built
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="space-y-4">
-                    <Button 
-                      className="w-full py-4 text-white font-medium tracking-wide rounded-xl transition-all hover:scale-105"
-                      style={{ 
-                        backgroundColor: 'var(--primary-color)',
-                        fontFamily: 'var(--button-font)'
-                      }}
+                <Card className="mb-8" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
+                  <CardContent className="p-6">
+                    <div 
+                      className="text-4xl font-bold mb-6"
+                      style={{ color: 'var(--primary-color)' }}
                     >
-                      Schedule Private Tour
-                    </Button>
-                    <Button 
-                      variant="outline"
-                      className="w-full py-4 font-medium tracking-wide rounded-xl transition-all hover:scale-105"
-                      style={{ 
-                        borderColor: 'var(--primary-color)', 
-                        color: 'var(--primary-color)',
-                        backgroundColor: 'transparent',
-                        fontFamily: 'var(--button-font)'
-                      }}
-                    >
-                      Contact Agent
-                    </Button>
-                  </div>
-                </div>
+                      ${property.price.toLocaleString()}
+                    </div>
+                    
+                    <div className="space-y-4 mb-6">
+                      <div className="flex items-center">
+                        <Bed size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
+                        <span style={{ color: 'var(--text-color)' }}>{property.bedrooms} Bedrooms</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Bath size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
+                        <span style={{ color: 'var(--text-color)' }}>{property.bathrooms % 1 === 0 ? property.bathrooms : property.bathrooms.toFixed(1)} Bathrooms</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Square size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
+                        <span style={{ color: 'var(--text-color)' }}>{property.squareFeet.toLocaleString()} Sq Ft</span>
+                      </div>
+                      {property.yearBuilt && property.yearBuilt > 0 && (
+                        <div className="flex items-center">
+                          <Calendar size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
+                          <span style={{ color: 'var(--text-color)' }}>Built in {property.yearBuilt}</span>
+                        </div>
+                      )}
+                      {property.parkingSpaces && property.parkingSpaces.trim() !== "" && property.parkingSpaces !== "0" && (
+                        <div className="flex items-center">
+                          <Car size={20} className="mr-3" style={{ color: 'var(--primary-color)' }} />
+                          <span style={{ color: 'var(--text-color)' }}>{property.parkingSpaces} Parking</span>
+                        </div>
+                      )}
+                    </div>
 
-                {/* Property Details */}
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-                  <h4 
-                    className="text-xl font-light mb-6"
-                    style={{ 
-                      color: 'var(--text-color)',
-                      fontFamily: 'var(--heading-font)'
-                    }}
-                  >
-                    Property Details
-                  </h4>
-                  
-                  <div className="mb-6">
+                    <div className="space-y-3">
+                      <Button 
+                        className="w-full py-3 text-white uppercase tracking-wide"
+                        style={{ backgroundColor: 'var(--primary-color)' }}
+                      >
+                        Schedule Viewing
+                      </Button>
+                      <Button 
+                        variant="outline"
+                        className="w-full py-3 uppercase tracking-wide"
+                        style={{ 
+                          borderColor: 'var(--primary-color)', 
+                          color: 'var(--primary-color)',
+                          backgroundColor: 'transparent'
+                        }}
+                      >
+                        Contact Agent
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Property Status */}
+                <Card style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', border: 'none' }}>
+                  <CardContent className="p-6">
+                    <h4 
+                      className="text-lg font-medium mb-4"
+                      style={{ color: 'var(--text-color)' }}
+                    >
+                      Property Status
+                    </h4>
                     <Badge 
-                      className="px-4 py-2 text-sm font-medium rounded-full"
+                      className="mb-4"
                       style={{ 
                         backgroundColor: property.status === 'For Sale' ? 'var(--primary-color)' : 'var(--secondary-color)',
-                        color: 'white',
-                        fontFamily: 'var(--body-font)'
+                        color: 'white'
                       }}
                     >
                       {property.status}
                     </Badge>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center py-2 border-b border-white/10">
-                      <span 
-                        className="text-sm font-medium opacity-70"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        Property Type
-                      </span>
-                      <span 
-                        className="text-sm font-medium"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        {property.type}
-                      </span>
+                    <div className="space-y-2 text-sm" style={{ color: 'var(--text-color)' }}>
+                      <div>Property Type: {property.type}</div>
+                      <div>Listed: {new Date(property.createdAt).toLocaleDateString()}</div>
+                      {property.lotSize > 0 && <div>Lot Size: {property.lotSize.toLocaleString()} sq ft</div>}
+                      {(property.stories && property.stories.trim()) && <div>Stories: {property.stories}</div>}
+                      {(property.garageSpaces && property.garageSpaces.trim()) && <div>Garage Spaces: {property.garageSpaces}</div>}
+                      {(property.waterSource && property.waterSource.trim()) && <div>Water Source: {property.waterSource}</div>}
+                      {(property.utilities && property.utilities.trim()) && <div>Utilities: {property.utilities}</div>}
+                      {(property.pool && property.pool.trim()) && <div>Pool: {property.pool}</div>}
+                      {(property.roof && property.roof.trim()) && <div>Roof: {property.roof}</div>}
+                      {(property.lotFeatures && property.lotFeatures.trim()) && <div>Lot Features: {property.lotFeatures}</div>}
+                      {(property.parking && property.parking.trim()) && <div>Parking: {property.parking}</div>}
+                      {(property.airConditioning && property.airConditioning.trim()) && <div>Air Conditioning: {property.airConditioning}</div>}
                     </div>
-
-                    <div className="flex justify-between items-center py-2 border-b border-white/10">
-                      <span 
-                        className="text-sm font-medium opacity-70"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        Listed
-                      </span>
-                      <span 
-                        className="text-sm font-medium"
-                        style={{ 
-                          color: 'var(--text-color)',
-                          fontFamily: 'var(--body-font)'
-                        }}
-                      >
-                        {new Date(property.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-
-                    {property.lotSize > 0 && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Lot Size
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.lotSize.toLocaleString()} sq ft
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.stories && property.stories.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Stories
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.stories}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.garageSpaces && property.garageSpaces.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Garage
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.garageSpaces}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.waterSource && property.waterSource.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Water Source
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.waterSource}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.utilities && property.utilities.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Utilities
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.utilities}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.pool && property.pool.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Pool
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.pool}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.roof && property.roof.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Roof
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.roof}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.lotFeatures && property.lotFeatures.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Lot Features
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.lotFeatures}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.parking && property.parking.trim()) && (
-                      <div className="flex justify-between items-center py-2 border-b border-white/10">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Parking
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.parking}
-                        </span>
-                      </div>
-                    )}
-
-                    {(property.airConditioning && property.airConditioning.trim()) && (
-                      <div className="flex justify-between items-center py-2">
-                        <span 
-                          className="text-sm font-medium opacity-70"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          Air Conditioning
-                        </span>
-                        <span 
-                          className="text-sm font-medium"
-                          style={{ 
-                            color: 'var(--text-color)',
-                            fontFamily: 'var(--body-font)'
-                          }}
-                        >
-                          {property.airConditioning}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
