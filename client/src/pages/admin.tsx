@@ -2150,84 +2150,55 @@ export default function AdminPanel() {
                               />
                             </div>
                             <div>
-                              <Label className="text-sm text-gray-700">Hero Image URL</Label>
-                              <Input
-                                value={pageContent.heroImage}
-                                onChange={(e) => setPageContent({...pageContent, heroImage: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
+                              <Label className="text-sm text-gray-700 mb-2 block">Hero Background Image</Label>
+                              <div className="space-y-2">
+                                <Input
+                                  value={pageContent.heroImage}
+                                  onChange={(e) => setPageContent({...pageContent, heroImage: e.target.value})}
+                                  className="bg-white text-gray-900 border-gray-300"
+                                  placeholder="Image URL"
+                                />
+                                <div className="flex gap-2">
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      const fileInput = document.createElement('input');
+                                      fileInput.type = 'file';
+                                      fileInput.accept = 'image/*';
+                                      fileInput.onchange = (e) => {
+                                        const file = (e.target as HTMLInputElement).files?.[0];
+                                        if (file) {
+                                          const reader = new FileReader();
+                                          reader.onload = () => {
+                                            const result = reader.result as string;
+                                            setPageContent({...pageContent, heroImage: result});
+                                          };
+                                          reader.readAsDataURL(file);
+                                        }
+                                      };
+                                      fileInput.click();
+                                    }}
+                                    className="text-xs"
+                                  >
+                                    <Upload className="h-3 w-3 mr-1" />
+                                    Upload
+                                  </Button>
+                                  {pageContent.heroImage && (
+                                    <img 
+                                      src={pageContent.heroImage} 
+                                      alt="Preview"
+                                      className="h-12 w-12 object-cover rounded border"
+                                    />
+                                  )}
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
 
-                        {/* Featured Properties Section */}
-                        <div className="p-4 border rounded-lg bg-white">
-                          <h4 className="font-medium text-gray-900 mb-3">Featured Properties</h4>
-                          <div className="space-y-3">
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Title</Label>
-                              <Input
-                                value={pageContent.featuredPropertiesTitle}
-                                onChange={(e) => setPageContent({...pageContent, featuredPropertiesTitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
-                              <Input
-                                value={pageContent.featuredPropertiesSubtitle}
-                                onChange={(e) => setPageContent({...pageContent, featuredPropertiesSubtitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                          </div>
-                        </div>
 
-                        {/* Featured Communities Section */}
-                        <div className="p-4 border rounded-lg bg-white">
-                          <h4 className="font-medium text-gray-900 mb-3">Featured Communities</h4>
-                          <div className="space-y-3">
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Title</Label>
-                              <Input
-                                value={pageContent.communitiesTitle}
-                                onChange={(e) => setPageContent({...pageContent, communitiesTitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
-                              <Input
-                                value={pageContent.communitiesSubtitle}
-                                onChange={(e) => setPageContent({...pageContent, communitiesSubtitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Newsletter Section */}
-                        <div className="p-4 border rounded-lg bg-white">
-                          <h4 className="font-medium text-gray-900 mb-3">Newsletter Signup</h4>
-                          <div className="space-y-3">
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Title</Label>
-                              <Input
-                                value={pageContent.newsletterTitle}
-                                onChange={(e) => setPageContent({...pageContent, newsletterTitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
-                              <Input
-                                value={pageContent.newsletterSubtitle}
-                                onChange={(e) => setPageContent({...pageContent, newsletterSubtitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                          </div>
-                        </div>
 
                         {/* About LuxeLead Section */}
                         <div className="p-4 border rounded-lg bg-white lg:col-span-2">
@@ -2456,6 +2427,75 @@ export default function AdminPanel() {
                                   </div>
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Featured Properties Section */}
+                        <div className="p-4 border rounded-lg bg-white">
+                          <h4 className="font-medium text-gray-900 mb-3">Featured Properties</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.featuredPropertiesTitle}
+                                onChange={(e) => setPageContent({...pageContent, featuredPropertiesTitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.featuredPropertiesSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, featuredPropertiesSubtitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Featured Communities Section */}
+                        <div className="p-4 border rounded-lg bg-white">
+                          <h4 className="font-medium text-gray-900 mb-3">Featured Communities</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.communitiesTitle}
+                                onChange={(e) => setPageContent({...pageContent, communitiesTitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.communitiesSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, communitiesSubtitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Newsletter Section */}
+                        <div className="p-4 border rounded-lg bg-white">
+                          <h4 className="font-medium text-gray-900 mb-3">Newsletter Signup</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.newsletterTitle}
+                                onChange={(e) => setPageContent({...pageContent, newsletterTitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.newsletterSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, newsletterSubtitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
                             </div>
                           </div>
                         </div>
