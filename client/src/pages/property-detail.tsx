@@ -159,7 +159,7 @@ export default function PropertyDetailPage() {
         className="fixed top-0 w-full backdrop-blur-sm z-50"
         style={{ backgroundColor: 'var(--header-background-color)' }}
       >
-        <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="max-w-[1200px] mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div 
               className="text-2xl font-light tracking-wider"
@@ -333,7 +333,7 @@ export default function PropertyDetailPage() {
       <div>
         {/* Breadcrumb Section */}
         <section className="pt-24 pb-4" style={{ backgroundColor: 'var(--secondary-color)' }}>
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-[1200px] mx-auto px-6">
             <Breadcrumb 
               items={createPropertyBreadcrumbs.propertyDetail(property?.title)}
               className="dark-background"
@@ -399,7 +399,7 @@ export default function PropertyDetailPage() {
 
         {/* Property Information Section */}
         <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-[1200px] mx-auto px-6">
             <div className="grid lg:grid-cols-3 gap-12">
               {/* Main Content */}
               <div className="lg:col-span-2">
