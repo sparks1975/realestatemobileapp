@@ -336,6 +336,9 @@ export default function AdminPanel() {
       }
     },
     onSuccess: () => {
+      // Force page content query to refetch
+      queryClient.invalidateQueries({ queryKey: ['/api/pages/home/content'] });
+      
       toast({
         title: "Page Content Updated",
         description: "Your website content has been successfully updated",
