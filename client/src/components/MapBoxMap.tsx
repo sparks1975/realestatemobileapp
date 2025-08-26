@@ -42,7 +42,7 @@ export function MapBoxMap({
         container: mapContainer.current,
         style: 'mapbox://styles/mapbox/streets-v12',
         center: [longitude, latitude],
-        zoom: 15,
+        zoom: 11, // Reduced zoom to see the 5-mile radius better
         attributionControl: false
       });
 
@@ -71,64 +71,75 @@ export function MapBoxMap({
       map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
 
       // Add 5-mile radius circle around property
-      map.current.on('load', () => {
+      const addRadiusCircle = () => {
         if (!map.current) return;
-
-        // Create a circle with 5-mile radius (8.047 km)
-        const radiusInKm = 8.047; // 5 miles = 8.047 km
-        const options = { steps: 80, units: 'kilometers' as const };
         
-        // Create circle using turf.js-like functionality
-        const createCircle = (center: [number, number], radius: number, steps: number) => {
-          const coords = [];
-          for (let i = 0; i < steps; i++) {
-            const angle = (i * 360) / steps;
-            const dx = radius * Math.cos((angle * Math.PI) / 180) / 111.32; // 1 degree = ~111.32 km
-            const dy = radius * Math.sin((angle * Math.PI) / 180) / (111.32 * Math.cos((center[1] * Math.PI) / 180));
-            coords.push([center[0] + dx, center[1] + dy]);
+        try {
+          console.log('Adding 5-mile radius circle');
+
+          // Create a circle with 5-mile radius using simple calculation
+          const radiusInDegrees = 5 / 69; // Approximation: 1 degree ≈ 69 miles
+          
+          // Create circle coordinates
+          const points = 64;
+          const coordinates = [];
+          
+          for (let i = 0; i < points; i++) {
+            const angle = (i * 360) / points;
+            const x = longitude + radiusInDegrees * Math.cos((angle * Math.PI) / 180);
+            const y = latitude + radiusInDegrees * Math.sin((angle * Math.PI) / 180);
+            coordinates.push([x, y]);
           }
-          coords.push(coords[0]); // Close the polygon
-          return coords;
-        };
+          coordinates.push(coordinates[0]); // Close the polygon
 
-        const circleCoords = createCircle([longitude, latitude], radiusInKm, 80);
-
-        // Add source for the circle
-        map.current.addSource('radius-circle', {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            properties: {},
-            geometry: {
-              type: 'Polygon',
-              coordinates: [circleCoords]
+          // Add source for the circle
+          map.current.addSource('radius-circle', {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: {},
+              geometry: {
+                type: 'Polygon',
+                coordinates: [coordinates]
+              }
             }
-          }
-        });
+          });
 
-        // Add fill layer for the circle
-        map.current.addLayer({
-          id: 'radius-fill',
-          type: 'fill',
-          source: 'radius-circle',
-          paint: {
-            'fill-color': '#CBA328',
-            'fill-opacity': 0.1
-          }
-        });
+          // Add fill layer for the circle
+          map.current.addLayer({
+            id: 'radius-fill',
+            type: 'fill',
+            source: 'radius-circle',
+            paint: {
+              'fill-color': '#CBA328',
+              'fill-opacity': 0.15
+            }
+          });
 
-        // Add stroke layer for the circle border
-        map.current.addLayer({
-          id: 'radius-stroke',
-          type: 'line',
-          source: 'radius-circle',
-          paint: {
-            'line-color': '#CBA328',
-            'line-width': 2,
-            'line-opacity': 0.8
-          }
-        });
-      });
+          // Add stroke layer for the circle border
+          map.current.addLayer({
+            id: 'radius-stroke',
+            type: 'line',
+            source: 'radius-circle',
+            paint: {
+              'line-color': '#CBA328',
+              'line-width': 2,
+              'line-opacity': 0.8
+            }
+          });
+          
+          console.log('5-mile radius circle added successfully');
+        } catch (error) {
+          console.error('Error adding radius circle:', error);
+        }
+      };
+
+      // Try multiple approaches to ensure the circle gets added
+      map.current.on('load', addRadiusCircle);
+      map.current.on('style.load', addRadiusCircle);
+      
+      // Also try after a small delay
+      setTimeout(addRadiusCircle, 1000);
     }
 
     return () => {
