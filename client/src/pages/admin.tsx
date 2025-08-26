@@ -83,6 +83,7 @@ export default function AdminPanel() {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [activePageTab, setActivePageTab] = useState('home');
   const [pageContent, setPageContent] = useState({
     heroHeadline: "Bespoke Properties for Discerning Clients",
     heroSubheadline: "Introducing our latest collection of extraordinary homes, each thoughtfully curated for those who appreciate uncompromising quality and distinctive design.",
@@ -2069,22 +2070,68 @@ export default function AdminPanel() {
                 </div>
               </div>
 
-              <div className="grid gap-6">
-                {/* Home Page Card */}
+              {/* Sub-navigation for different pages */}
+              <div className="border-b border-gray-200">
+                <nav className="flex space-x-8">
+                  <button
+                    onClick={() => setActivePageTab('home')}
+                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                      activePageTab === 'home'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    Home Page
+                  </button>
+                  <button
+                    onClick={() => setActivePageTab('about')}
+                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                      activePageTab === 'about'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    About Page
+                  </button>
+                  <button
+                    onClick={() => setActivePageTab('properties')}
+                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                      activePageTab === 'properties'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    Properties Page
+                  </button>
+                  <button
+                    onClick={() => setActivePageTab('contact')}
+                    className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                      activePageTab === 'contact'
+                        ? 'border-blue-500 text-blue-600'
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                  >
+                    Contact Page
+                  </button>
+                </nav>
+              </div>
+
+              {/* Home Page Editor */}
+              {activePageTab === 'home' && (
                 <Card className="bg-white">
                   <CardHeader className="bg-white">
                     <CardTitle className="flex items-center text-gray-900">
                       <Edit2 className="h-5 w-5 mr-2" />
-                      Home Page
+                      Home Page Content
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="bg-white">
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         {/* Hero Section */}
                         <div className="p-4 border rounded-lg bg-white">
-                          <h4 className="font-medium text-gray-900 mb-3">Hero Section</h4>
-                          <div className="space-y-3">
+                          <h4 className="font-medium text-gray-900 mb-4">Hero Section</h4>
+                          <div className="space-y-4">
                             <div>
                               <Label className="text-sm text-gray-700">Main Headline</Label>
                               <Input
@@ -2135,286 +2182,8 @@ export default function AdminPanel() {
                             </div>
                           </div>
                         </div>
-
-                        {/* Featured Communities Section */}
-                        <div className="p-4 border rounded-lg bg-white">
-                          <h4 className="font-medium text-gray-900 mb-3">Featured Communities</h4>
-                          <div className="space-y-3">
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Title</Label>
-                              <Input
-                                value={pageContent.communitiesTitle}
-                                onChange={(e) => setPageContent({...pageContent, communitiesTitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
-                              <Input
-                                value={pageContent.communitiesSubtitle}
-                                onChange={(e) => setPageContent({...pageContent, communitiesSubtitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Newsletter Section */}
-                        <div className="p-4 border rounded-lg bg-white">
-                          <h4 className="font-medium text-gray-900 mb-3">Newsletter Signup</h4>
-                          <div className="space-y-3">
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Title</Label>
-                              <Input
-                                value={pageContent.newsletterTitle}
-                                onChange={(e) => setPageContent({...pageContent, newsletterTitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
-                              <Input
-                                value={pageContent.newsletterSubtitle}
-                                onChange={(e) => setPageContent({...pageContent, newsletterSubtitle: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* About LuxeLead Section */}
-                        <div className="p-4 border rounded-lg bg-white col-span-2">
-                          <h4 className="font-medium text-gray-900 mb-3">About LuxeLead Section</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-3">
-                              <div>
-                                <Label className="text-sm text-gray-700">Section Subtitle</Label>
-                                <Input
-                                  value={pageContent.aboutSubtitle}
-                                  onChange={(e) => setPageContent({...pageContent, aboutSubtitle: e.target.value})}
-                                  className="mt-1 bg-white text-gray-900 border-gray-300"
-                                />
-                              </div>
-                              <div>
-                                <Label className="text-sm text-gray-700">Main Title</Label>
-                                <Input
-                                  value={pageContent.aboutTitle}
-                                  onChange={(e) => setPageContent({...pageContent, aboutTitle: e.target.value})}
-                                  className="mt-1 bg-white text-gray-900 border-gray-300"
-                                />
-                              </div>
-                              <div>
-                                <Label className="text-sm text-gray-700">Description</Label>
-                                <Textarea
-                                  value={pageContent.aboutDescription}
-                                  onChange={(e) => setPageContent({...pageContent, aboutDescription: e.target.value})}
-                                  className="mt-1 bg-white text-gray-900 border-gray-300"
-                                  rows={4}
-                                />
-                              </div>
-                              <div>
-                                <Label className="text-sm text-gray-700">Button Text</Label>
-                                <Input
-                                  value={pageContent.aboutButtonText}
-                                  onChange={(e) => setPageContent({...pageContent, aboutButtonText: e.target.value})}
-                                  className="mt-1 bg-white text-gray-900 border-gray-300"
-                                />
-                              </div>
-                            </div>
-                            <div className="space-y-4">
-                              <div>
-                                <Label className="text-sm text-gray-700 mb-2 block">About Image 1 (Top Left)</Label>
-                                <div className="space-y-2">
-                                  <Input
-                                    value={pageContent.aboutImage1}
-                                    onChange={(e) => setPageContent({...pageContent, aboutImage1: e.target.value})}
-                                    className="bg-white text-gray-900 border-gray-300"
-                                    placeholder="Image URL"
-                                  />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const fileInput = document.createElement('input');
-                                        fileInput.type = 'file';
-                                        fileInput.accept = 'image/*';
-                                        fileInput.onchange = (e) => {
-                                          const file = (e.target as HTMLInputElement).files?.[0];
-                                          if (file) {
-                                            // Handle file upload similar to property images
-                                            const reader = new FileReader();
-                                            reader.onload = () => {
-                                              const result = reader.result as string;
-                                              setPageContent({...pageContent, aboutImage1: result});
-                                            };
-                                            reader.readAsDataURL(file);
-                                          }
-                                        };
-                                        fileInput.click();
-                                      }}
-                                      className="text-xs"
-                                    >
-                                      <Upload className="h-3 w-3 mr-1" />
-                                      Upload
-                                    </Button>
-                                    {pageContent.aboutImage1 && (
-                                      <img 
-                                        src={pageContent.aboutImage1} 
-                                        alt="Preview"
-                                        className="h-12 w-12 object-cover rounded border"
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              <div>
-                                <Label className="text-sm text-gray-700 mb-2 block">About Image 2 (Bottom Left)</Label>
-                                <div className="space-y-2">
-                                  <Input
-                                    value={pageContent.aboutImage2}
-                                    onChange={(e) => setPageContent({...pageContent, aboutImage2: e.target.value})}
-                                    className="bg-white text-gray-900 border-gray-300"
-                                    placeholder="Image URL"
-                                  />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const fileInput = document.createElement('input');
-                                        fileInput.type = 'file';
-                                        fileInput.accept = 'image/*';
-                                        fileInput.onchange = (e) => {
-                                          const file = (e.target as HTMLInputElement).files?.[0];
-                                          if (file) {
-                                            const reader = new FileReader();
-                                            reader.onload = () => {
-                                              const result = reader.result as string;
-                                              setPageContent({...pageContent, aboutImage2: result});
-                                            };
-                                            reader.readAsDataURL(file);
-                                          }
-                                        };
-                                        fileInput.click();
-                                      }}
-                                      className="text-xs"
-                                    >
-                                      <Upload className="h-3 w-3 mr-1" />
-                                      Upload
-                                    </Button>
-                                    {pageContent.aboutImage2 && (
-                                      <img 
-                                        src={pageContent.aboutImage2} 
-                                        alt="Preview"
-                                        className="h-12 w-12 object-cover rounded border"
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              <div>
-                                <Label className="text-sm text-gray-700 mb-2 block">About Image 3 (Top Right)</Label>
-                                <div className="space-y-2">
-                                  <Input
-                                    value={pageContent.aboutImage3}
-                                    onChange={(e) => setPageContent({...pageContent, aboutImage3: e.target.value})}
-                                    className="bg-white text-gray-900 border-gray-300"
-                                    placeholder="Image URL"
-                                  />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const fileInput = document.createElement('input');
-                                        fileInput.type = 'file';
-                                        fileInput.accept = 'image/*';
-                                        fileInput.onchange = (e) => {
-                                          const file = (e.target as HTMLInputElement).files?.[0];
-                                          if (file) {
-                                            const reader = new FileReader();
-                                            reader.onload = () => {
-                                              const result = reader.result as string;
-                                              setPageContent({...pageContent, aboutImage3: result});
-                                            };
-                                            reader.readAsDataURL(file);
-                                          }
-                                        };
-                                        fileInput.click();
-                                      }}
-                                      className="text-xs"
-                                    >
-                                      <Upload className="h-3 w-3 mr-1" />
-                                      Upload
-                                    </Button>
-                                    {pageContent.aboutImage3 && (
-                                      <img 
-                                        src={pageContent.aboutImage3} 
-                                        alt="Preview"
-                                        className="h-12 w-12 object-cover rounded border"
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              <div>
-                                <Label className="text-sm text-gray-700 mb-2 block">About Image 4 (Bottom Right)</Label>
-                                <div className="space-y-2">
-                                  <Input
-                                    value={pageContent.aboutImage4}
-                                    onChange={(e) => setPageContent({...pageContent, aboutImage4: e.target.value})}
-                                    className="bg-white text-gray-900 border-gray-300"
-                                    placeholder="Image URL"
-                                  />
-                                  <div className="flex gap-2">
-                                    <Button
-                                      type="button"
-                                      variant="outline"
-                                      size="sm"
-                                      onClick={() => {
-                                        const fileInput = document.createElement('input');
-                                        fileInput.type = 'file';
-                                        fileInput.accept = 'image/*';
-                                        fileInput.onchange = (e) => {
-                                          const file = (e.target as HTMLInputElement).files?.[0];
-                                          if (file) {
-                                            const reader = new FileReader();
-                                            reader.onload = () => {
-                                              const result = reader.result as string;
-                                              setPageContent({...pageContent, aboutImage4: result});
-                                            };
-                                            reader.readAsDataURL(file);
-                                          }
-                                        };
-                                        fileInput.click();
-                                      }}
-                                      className="text-xs"
-                                    >
-                                      <Upload className="h-3 w-3 mr-1" />
-                                      Upload
-                                    </Button>
-                                    {pageContent.aboutImage4 && (
-                                      <img 
-                                        src={pageContent.aboutImage4} 
-                                        alt="Preview"
-                                        className="h-12 w-12 object-cover rounded border"
-                                      />
-                                    )}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
-
+                      
                       <div className="pt-4 border-t">
                         <div className="flex justify-end space-x-3">
                           <Button variant="outline">
@@ -2431,28 +2200,61 @@ export default function AdminPanel() {
                     </div>
                   </CardContent>
                 </Card>
+              )}
 
-                {/* Future Pages */}
-                <Card className="opacity-60">
-                  <CardHeader>
-                    <CardTitle className="flex items-center text-gray-500">
+              {/* About Page Editor */}
+              {activePageTab === 'about' && (
+                <Card className="bg-white">
+                  <CardHeader className="bg-white">
+                    <CardTitle className="flex items-center text-gray-900">
                       <Edit2 className="h-5 w-5 mr-2" />
-                      About Page
-                      <Badge variant="outline" className="ml-2">Coming Soon</Badge>
+                      About Page Content
                     </CardTitle>
                   </CardHeader>
+                  <CardContent className="bg-white">
+                    <div className="text-center py-12">
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">About Page Editor</h3>
+                      <p className="text-gray-500">About page editing features coming soon...</p>
+                    </div>
+                  </CardContent>
                 </Card>
+              )}
 
-                <Card className="opacity-60">
-                  <CardHeader>
-                    <CardTitle className="flex items-center text-gray-500">
+              {/* Properties Page Editor */}
+              {activePageTab === 'properties' && (
+                <Card className="bg-white">
+                  <CardHeader className="bg-white">
+                    <CardTitle className="flex items-center text-gray-900">
                       <Edit2 className="h-5 w-5 mr-2" />
-                      Contact Page
-                      <Badge variant="outline" className="ml-2">Coming Soon</Badge>
+                      Properties Page Content
                     </CardTitle>
                   </CardHeader>
+                  <CardContent className="bg-white">
+                    <div className="text-center py-12">
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">Properties Page Editor</h3>
+                      <p className="text-gray-500">Properties page editing features coming soon...</p>
+                    </div>
+                  </CardContent>
                 </Card>
-              </div>
+              )}
+
+              {/* Contact Page Editor */}
+              {activePageTab === 'contact' && (
+                <Card className="bg-white">
+                  <CardHeader className="bg-white">
+                    <CardTitle className="flex items-center text-gray-900">
+                      <Edit2 className="h-5 w-5 mr-2" />
+                      Contact Page Content
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="bg-white">
+                    <div className="text-center py-12">
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">Contact Page Editor</h3>
+                      <p className="text-gray-500">Contact page editing features coming soon...</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           )}
 
