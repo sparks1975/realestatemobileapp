@@ -19,7 +19,7 @@ export function MapBoxMap({
   city, 
   state, 
   zipCode,
-  className = "h-96 rounded-lg"
+  className = "h-[700px] w-full"
 }: MapBoxMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);

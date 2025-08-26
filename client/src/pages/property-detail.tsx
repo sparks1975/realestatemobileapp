@@ -635,39 +635,31 @@ export default function PropertyDetailPage() {
         </section>
 
         {/* Map Section */}
-        <section className="py-16" style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 
-              className="text-3xl font-light text-center mb-12"
-              style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+        <section style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+          {property.latitude && property.longitude ? (
+            <MapBoxMap
+              latitude={property.latitude}
+              longitude={property.longitude}
+              address={property.address}
+              city={property.city}
+              state={property.state}
+              zipCode={property.zipCode}
+              className="w-full h-[700px]"
+            />
+          ) : (
+            <div 
+              className="w-full h-[700px] flex items-center justify-center"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
             >
-              Property Location
-            </h2>
-            {property.latitude && property.longitude ? (
-              <MapBoxMap
-                latitude={property.latitude}
-                longitude={property.longitude}
-                address={property.address}
-                city={property.city}
-                state={property.state}
-                zipCode={property.zipCode}
-                className="h-96 rounded-lg shadow-lg"
-              />
-            ) : (
-              <div 
-                className="h-96 rounded-lg flex items-center justify-center"
-                style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-              >
-                <div className="text-center" style={{ color: 'var(--text-color)' }}>
-                  <MapPin size={48} className="mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
-                  <h3 className="text-xl font-medium mb-2">Property Location</h3>
-                  <p className="text-sm opacity-70">
-                    {property.address}, {property.city}, {property.state} {property.zipCode}
-                  </p>
-                </div>
+              <div className="text-center" style={{ color: 'var(--text-color)' }}>
+                <MapPin size={48} className="mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+                <h3 className="text-xl font-medium mb-2">Property Location</h3>
+                <p className="text-sm opacity-70">
+                  {property.address}, {property.city}, {property.state} {property.zipCode}
+                </p>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </section>
 
         <Footer />
