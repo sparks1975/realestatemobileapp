@@ -2182,6 +2182,283 @@ export default function AdminPanel() {
                             </div>
                           </div>
                         </div>
+
+                        {/* Featured Communities Section */}
+                        <div className="p-4 border rounded-lg bg-white">
+                          <h4 className="font-medium text-gray-900 mb-3">Featured Communities</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.communitiesTitle}
+                                onChange={(e) => setPageContent({...pageContent, communitiesTitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.communitiesSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, communitiesSubtitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Newsletter Section */}
+                        <div className="p-4 border rounded-lg bg-white">
+                          <h4 className="font-medium text-gray-900 mb-3">Newsletter Signup</h4>
+                          <div className="space-y-3">
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Title</Label>
+                              <Input
+                                value={pageContent.newsletterTitle}
+                                onChange={(e) => setPageContent({...pageContent, newsletterTitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                              <Input
+                                value={pageContent.newsletterSubtitle}
+                                onChange={(e) => setPageContent({...pageContent, newsletterSubtitle: e.target.value})}
+                                className="mt-1 bg-white text-gray-900 border-gray-300"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* About LuxeLead Section */}
+                        <div className="p-4 border rounded-lg bg-white lg:col-span-2">
+                          <h4 className="font-medium text-gray-900 mb-3">About LuxeLead Section</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-3">
+                              <div>
+                                <Label className="text-sm text-gray-700">Section Subtitle</Label>
+                                <Input
+                                  value={pageContent.aboutSubtitle}
+                                  onChange={(e) => setPageContent({...pageContent, aboutSubtitle: e.target.value})}
+                                  className="mt-1 bg-white text-gray-900 border-gray-300"
+                                />
+                              </div>
+                              <div>
+                                <Label className="text-sm text-gray-700">Main Title</Label>
+                                <Input
+                                  value={pageContent.aboutTitle}
+                                  onChange={(e) => setPageContent({...pageContent, aboutTitle: e.target.value})}
+                                  className="mt-1 bg-white text-gray-900 border-gray-300"
+                                />
+                              </div>
+                              <div>
+                                <Label className="text-sm text-gray-700">Description</Label>
+                                <Textarea
+                                  value={pageContent.aboutDescription}
+                                  onChange={(e) => setPageContent({...pageContent, aboutDescription: e.target.value})}
+                                  className="mt-1 bg-white text-gray-900 border-gray-300"
+                                  rows={4}
+                                />
+                              </div>
+                              <div>
+                                <Label className="text-sm text-gray-700">Button Text</Label>
+                                <Input
+                                  value={pageContent.aboutButtonText}
+                                  onChange={(e) => setPageContent({...pageContent, aboutButtonText: e.target.value})}
+                                  className="mt-1 bg-white text-gray-900 border-gray-300"
+                                />
+                              </div>
+                            </div>
+                            <div className="space-y-4">
+                              <div>
+                                <Label className="text-sm text-gray-700 mb-2 block">About Image 1 (Top Left)</Label>
+                                <div className="space-y-2">
+                                  <Input
+                                    value={pageContent.aboutImage1}
+                                    onChange={(e) => setPageContent({...pageContent, aboutImage1: e.target.value})}
+                                    className="bg-white text-gray-900 border-gray-300"
+                                    placeholder="Image URL"
+                                  />
+                                  <div className="flex gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => {
+                                        const fileInput = document.createElement('input');
+                                        fileInput.type = 'file';
+                                        fileInput.accept = 'image/*';
+                                        fileInput.onchange = (e) => {
+                                          const file = (e.target as HTMLInputElement).files?.[0];
+                                          if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = () => {
+                                              const result = reader.result as string;
+                                              setPageContent({...pageContent, aboutImage1: result});
+                                            };
+                                            reader.readAsDataURL(file);
+                                          }
+                                        };
+                                        fileInput.click();
+                                      }}
+                                      className="text-xs"
+                                    >
+                                      <Upload className="h-3 w-3 mr-1" />
+                                      Upload
+                                    </Button>
+                                    {pageContent.aboutImage1 && (
+                                      <img 
+                                        src={pageContent.aboutImage1} 
+                                        alt="Preview"
+                                        className="h-12 w-12 object-cover rounded border"
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <Label className="text-sm text-gray-700 mb-2 block">About Image 2 (Bottom Left)</Label>
+                                <div className="space-y-2">
+                                  <Input
+                                    value={pageContent.aboutImage2}
+                                    onChange={(e) => setPageContent({...pageContent, aboutImage2: e.target.value})}
+                                    className="bg-white text-gray-900 border-gray-300"
+                                    placeholder="Image URL"
+                                  />
+                                  <div className="flex gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => {
+                                        const fileInput = document.createElement('input');
+                                        fileInput.type = 'file';
+                                        fileInput.accept = 'image/*';
+                                        fileInput.onchange = (e) => {
+                                          const file = (e.target as HTMLInputElement).files?.[0];
+                                          if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = () => {
+                                              const result = reader.result as string;
+                                              setPageContent({...pageContent, aboutImage2: result});
+                                            };
+                                            reader.readAsDataURL(file);
+                                          }
+                                        };
+                                        fileInput.click();
+                                      }}
+                                      className="text-xs"
+                                    >
+                                      <Upload className="h-3 w-3 mr-1" />
+                                      Upload
+                                    </Button>
+                                    {pageContent.aboutImage2 && (
+                                      <img 
+                                        src={pageContent.aboutImage2} 
+                                        alt="Preview"
+                                        className="h-12 w-12 object-cover rounded border"
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <Label className="text-sm text-gray-700 mb-2 block">About Image 3 (Top Right)</Label>
+                                <div className="space-y-2">
+                                  <Input
+                                    value={pageContent.aboutImage3}
+                                    onChange={(e) => setPageContent({...pageContent, aboutImage3: e.target.value})}
+                                    className="bg-white text-gray-900 border-gray-300"
+                                    placeholder="Image URL"
+                                  />
+                                  <div className="flex gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => {
+                                        const fileInput = document.createElement('input');
+                                        fileInput.type = 'file';
+                                        fileInput.accept = 'image/*';
+                                        fileInput.onchange = (e) => {
+                                          const file = (e.target as HTMLInputElement).files?.[0];
+                                          if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = () => {
+                                              const result = reader.result as string;
+                                              setPageContent({...pageContent, aboutImage3: result});
+                                            };
+                                            reader.readAsDataURL(file);
+                                          }
+                                        };
+                                        fileInput.click();
+                                      }}
+                                      className="text-xs"
+                                    >
+                                      <Upload className="h-3 w-3 mr-1" />
+                                      Upload
+                                    </Button>
+                                    {pageContent.aboutImage3 && (
+                                      <img 
+                                        src={pageContent.aboutImage3} 
+                                        alt="Preview"
+                                        className="h-12 w-12 object-cover rounded border"
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <Label className="text-sm text-gray-700 mb-2 block">About Image 4 (Bottom Right)</Label>
+                                <div className="space-y-2">
+                                  <Input
+                                    value={pageContent.aboutImage4}
+                                    onChange={(e) => setPageContent({...pageContent, aboutImage4: e.target.value})}
+                                    className="bg-white text-gray-900 border-gray-300"
+                                    placeholder="Image URL"
+                                  />
+                                  <div className="flex gap-2">
+                                    <Button
+                                      type="button"
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => {
+                                        const fileInput = document.createElement('input');
+                                        fileInput.type = 'file';
+                                        fileInput.accept = 'image/*';
+                                        fileInput.onchange = (e) => {
+                                          const file = (e.target as HTMLInputElement).files?.[0];
+                                          if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = () => {
+                                              const result = reader.result as string;
+                                              setPageContent({...pageContent, aboutImage4: result});
+                                            };
+                                            reader.readAsDataURL(file);
+                                          }
+                                        };
+                                        fileInput.click();
+                                      }}
+                                      className="text-xs"
+                                    >
+                                      <Upload className="h-3 w-3 mr-1" />
+                                      Upload
+                                    </Button>
+                                    {pageContent.aboutImage4 && (
+                                      <img 
+                                        src={pageContent.aboutImage4} 
+                                        alt="Preview"
+                                        className="h-12 w-12 object-cover rounded border"
+                                      />
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       
                       <div className="pt-4 border-t">
