@@ -69,6 +69,66 @@ export function MapBoxMap({
 
       // Add fullscreen control
       map.current.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+
+      // Add 5-mile radius circle around property
+      map.current.on('load', () => {
+        if (!map.current) return;
+
+        // Create a circle with 5-mile radius (8.047 km)
+        const radiusInKm = 8.047; // 5 miles = 8.047 km
+        const options = { steps: 80, units: 'kilometers' as const };
+        
+        // Create circle using turf.js-like functionality
+        const createCircle = (center: [number, number], radius: number, steps: number) => {
+          const coords = [];
+          for (let i = 0; i < steps; i++) {
+            const angle = (i * 360) / steps;
+            const dx = radius * Math.cos((angle * Math.PI) / 180) / 111.32; // 1 degree = ~111.32 km
+            const dy = radius * Math.sin((angle * Math.PI) / 180) / (111.32 * Math.cos((center[1] * Math.PI) / 180));
+            coords.push([center[0] + dx, center[1] + dy]);
+          }
+          coords.push(coords[0]); // Close the polygon
+          return coords;
+        };
+
+        const circleCoords = createCircle([longitude, latitude], radiusInKm, 80);
+
+        // Add source for the circle
+        map.current.addSource('radius-circle', {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+              type: 'Polygon',
+              coordinates: [circleCoords]
+            }
+          }
+        });
+
+        // Add fill layer for the circle
+        map.current.addLayer({
+          id: 'radius-fill',
+          type: 'fill',
+          source: 'radius-circle',
+          paint: {
+            'fill-color': '#CBA328',
+            'fill-opacity': 0.1
+          }
+        });
+
+        // Add stroke layer for the circle border
+        map.current.addLayer({
+          id: 'radius-stroke',
+          type: 'line',
+          source: 'radius-circle',
+          paint: {
+            'line-color': '#CBA328',
+            'line-width': 2,
+            'line-opacity': 0.8
+          }
+        });
+      });
     }
 
     return () => {
