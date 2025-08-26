@@ -383,7 +383,8 @@ export default function PropertyDetailPage() {
           )}
           
           {/* Property Title Overlay */}
-          <div className="absolute bottom-24 left-8 text-white">
+          <div className="absolute bottom-24 left-0 w-full text-white">
+            <div className="max-w-[1200px] mx-auto px-6">
             <h1 
               className="text-5xl font-light mb-4"
               style={{ fontFamily: 'var(--heading-font)' }}
@@ -394,6 +395,7 @@ export default function PropertyDetailPage() {
               <MapPin size={20} className="mr-2" />
               {property.address}, {property.city}, {property.state} {property.zipCode}
             </p>
+            </div>
           </div>
         </section>
 
