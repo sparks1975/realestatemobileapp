@@ -264,7 +264,7 @@ export default function HomePage() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1920&h=1080')`
+            backgroundImage: `url('${pageContent?.hero?.image || 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1920&h=1080'}')`
           }}
         />
         <div className="absolute inset-0 bg-black bg-opacity-30" />
