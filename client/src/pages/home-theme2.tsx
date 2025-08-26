@@ -198,36 +198,40 @@ export default function HomeTheme2() {
         </div>
         
         {/* Minimal text overlay */}
-        <div className="absolute top-1/2 left-8 transform -translate-y-1/2 text-white max-w-lg">
-          <p 
-            className="text-sm uppercase tracking-[0.3em] mb-2 opacity-80"
-            style={{ fontFamily: 'var(--body-font)' }}
-          >
-            {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
-          </p>
-          <h1 
-            className="text-4xl md:text-6xl leading-tight hero-heading"
-            style={{ 
-              color: 'var(--tertiary-color)',
-              fontFamily: 'var(--heading-font)',
-              fontWeight: 'var(--heading-font-weight)'
-            }}
-          >
-            {pageContent?.hero?.headline ? (
-              pageContent.hero.headline.split('\n').map((line: string, index: number) => (
-                <span key={index}>
-                  {line}
-                  {index < pageContent.hero.headline.split('\n').length - 1 && <br />}
-                </span>
-              ))
-            ) : (
-              <>
-                Exceptional<br />
-                Properties<br />
-                Await
-              </>
-            )}
-          </h1>
+        <div className="absolute top-1/2 left-0 w-full transform -translate-y-1/2 text-white">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <div className="max-w-lg">
+              <p 
+                className="text-sm uppercase tracking-[0.3em] mb-2 opacity-80"
+                style={{ fontFamily: 'var(--body-font)' }}
+              >
+                {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
+              </p>
+              <h1 
+                className="text-4xl md:text-6xl leading-tight hero-heading"
+                style={{ 
+                  color: 'var(--tertiary-color)',
+                  fontFamily: 'var(--heading-font)',
+                  fontWeight: 'var(--heading-font-weight)'
+                }}
+              >
+                {pageContent?.hero?.headline ? (
+                  pageContent.hero.headline.split('\n').map((line: string, index: number) => (
+                    <span key={index}>
+                      {line}
+                      {index < pageContent.hero.headline.split('\n').length - 1 && <br />}
+                    </span>
+                  ))
+                ) : (
+                  <>
+                    Exceptional<br />
+                    Properties<br />
+                    Await
+                  </>
+                )}
+              </h1>
+            </div>
+          </div>
         </div>
       </section>
 
