@@ -161,11 +161,23 @@ export default function PropertyDetailPage() {
       >
         <div className="max-w-[1200px] mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <div 
-              className="text-2xl font-light tracking-wider"
-              style={{ color: 'var(--navigation-color)' }}
-            >
-              <a href="/">LUXELEAD</a>
+            <div className="flex items-center">
+              <a href="/">
+                {themeSettings?.headerLogo && themeSettings[`${themeSettings.headerLogo}Logo`] ? (
+                  <img 
+                    src={themeSettings[`${themeSettings.headerLogo}Logo`]}
+                    alt="LuxeLead Logo"
+                    className="h-8 w-auto object-contain header-logo"
+                  />
+                ) : (
+                  <div 
+                    className="text-2xl font-light tracking-wider"
+                    style={{ color: 'var(--navigation-color)' }}
+                  >
+                    LUXELEAD
+                  </div>
+                )}
+              </a>
             </div>
             
             {/* Desktop Navigation */}
