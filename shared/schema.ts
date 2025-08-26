@@ -50,6 +50,8 @@ export const properties = pgTable("properties", {
   lotFeatures: text("lot_features").default(""),
   parking: text("parking").default(""),
   airConditioning: text("air_conditioning").default(""),
+  latitude: doublePrecision("latitude").default(0),
+  longitude: doublePrecision("longitude").default(0),
   description: text("description"),
   type: text("type").notNull(), // For Sale, For Rent
   status: text("status").notNull(), // Active, Pending, Sold
@@ -82,6 +84,8 @@ export const insertPropertySchema = createInsertSchema(properties).pick({
   lotFeatures: true,
   parking: true,
   airConditioning: true,
+  latitude: true,
+  longitude: true,
   description: true,
   type: true,
   status: true,

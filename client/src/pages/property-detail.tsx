@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useRoute } from "wouter";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb, createPropertyBreadcrumbs } from "@/components/Breadcrumb";
+import { MapBoxMap } from "@/components/MapBoxMap";
 
 interface Property {
   id: number;
@@ -22,6 +23,17 @@ interface Property {
   lotSize?: number;
   yearBuilt?: number;
   parkingSpaces?: string;
+  stories?: string;
+  garageSpaces?: string;
+  waterSource?: string;
+  utilities?: string;
+  pool?: string;
+  roof?: string;
+  lotFeatures?: string;
+  parking?: string;
+  airConditioning?: string;
+  latitude?: number;
+  longitude?: number;
   description: string;
   type: string;
   status: string;
@@ -631,21 +643,30 @@ export default function PropertyDetailPage() {
             >
               Property Location
             </h2>
-            <div 
-              className="h-96 rounded-lg flex items-center justify-center"
-              style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-            >
-              <div className="text-center" style={{ color: 'var(--text-color)' }}>
-                <MapPin size={48} className="mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
-                <h3 className="text-xl font-medium mb-2">Interactive Map</h3>
-                <p className="text-sm opacity-70">
-                  {property.address}, {property.city}, {property.state} {property.zipCode}
-                </p>
-                <p className="text-xs mt-2 opacity-50">
-                  Map integration would be implemented here
-                </p>
+            {property.latitude && property.longitude ? (
+              <MapBoxMap
+                latitude={property.latitude}
+                longitude={property.longitude}
+                address={property.address}
+                city={property.city}
+                state={property.state}
+                zipCode={property.zipCode}
+                className="h-96 rounded-lg shadow-lg"
+              />
+            ) : (
+              <div 
+                className="h-96 rounded-lg flex items-center justify-center"
+                style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
+              >
+                <div className="text-center" style={{ color: 'var(--text-color)' }}>
+                  <MapPin size={48} className="mx-auto mb-4" style={{ color: 'var(--primary-color)' }} />
+                  <h3 className="text-xl font-medium mb-2">Property Location</h3>
+                  <p className="text-sm opacity-70">
+                    {property.address}, {property.city}, {property.state} {property.zipCode}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
 
