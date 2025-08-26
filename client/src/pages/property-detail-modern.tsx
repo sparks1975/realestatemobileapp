@@ -325,7 +325,9 @@ export default function PropertyDetailModern() {
             <div className="absolute inset-0 bg-black/40"></div>
             
             {/* Property Details Overlay */}
-            <div className="absolute top-1/2 left-24 transform -translate-y-1/2 text-white max-w-lg z-10">
+            <div className="absolute top-1/2 left-0 w-full transform -translate-y-1/2 text-white z-10">
+              <div className="max-w-[1200px] mx-auto px-6">
+                <div className="max-w-lg">
               <div className="mb-4">
                 <Badge 
                   variant="outline"
@@ -425,6 +427,8 @@ export default function PropertyDetailModern() {
                   >
                     Sq Ft
                   </div>
+                </div>
+              </div>
                 </div>
               </div>
             </div>
