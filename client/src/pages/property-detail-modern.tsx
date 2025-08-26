@@ -275,7 +275,7 @@ export default function PropertyDetailModern() {
       {/* Main Content */}
       <main className="pt-24">
         {/* Breadcrumb */}
-        <div className="max-w-7xl mx-auto px-6 py-8 flex items-center">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center">
           <div className="flex items-center space-x-2 text-sm">
             <a 
               href="/"
