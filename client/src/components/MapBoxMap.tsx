@@ -10,6 +10,7 @@ interface MapBoxMapProps {
   state: string;
   zipCode: string;
   className?: string;
+  primaryColor?: string;
 }
 
 export function MapBoxMap({ 
@@ -19,7 +20,8 @@ export function MapBoxMap({
   city, 
   state, 
   zipCode,
-  className = "h-[700px] w-full"
+  className = "h-[700px] w-full",
+  primaryColor = "#CBA328"
 }: MapBoxMapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -48,7 +50,7 @@ export function MapBoxMap({
 
       // Add a marker for the property location
       const marker = new mapboxgl.Marker({
-        color: '#CBA328' // Using the gold primary color
+        color: primaryColor // Using the dynamic primary color
       })
         .setLngLat([longitude, latitude])
         .addTo(map.current);
@@ -57,7 +59,7 @@ export function MapBoxMap({
       const popup = new mapboxgl.Popup({ offset: 25 })
         .setHTML(`
           <div style="padding: 10px; font-family: inherit;">
-            <strong style="color: #CBA328;">${address}</strong><br/>
+            <strong style="color: ${primaryColor};">${address}</strong><br/>
             ${city}, ${state} ${zipCode}
           </div>
         `);
@@ -111,7 +113,7 @@ export function MapBoxMap({
             type: 'fill',
             source: 'radius-circle',
             paint: {
-              'fill-color': '#CBA328',
+              'fill-color': primaryColor,
               'fill-opacity': 0.15
             }
           });
@@ -122,7 +124,7 @@ export function MapBoxMap({
             type: 'line',
             source: 'radius-circle',
             paint: {
-              'line-color': '#CBA328',
+              'line-color': primaryColor,
               'line-width': 2,
               'line-opacity': 0.8
             }

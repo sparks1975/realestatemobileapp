@@ -645,6 +645,7 @@ export default function PropertyDetailPage() {
               state={property.state}
               zipCode={property.zipCode}
               className="w-full h-[700px]"
+              primaryColor={themeSettings?.primaryColor || "#CBA328"}
             />
           ) : (
             <div 
