@@ -172,12 +172,12 @@ export default function AgentPage() {
   }
 
   return (
-    <div className="agent-page min-h-screen" style={{ backgroundColor: 'var(--secondary-color)' }}>
+    <div className="agent-page min-h-screen bg-white">
       <Header isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
       {/* Main Content */}
       <div className="pt-0">
-        {/* Hero Section */}
+        {/* Hero Section - Agent Profile */}
         <section className="pt-24 pb-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -251,7 +251,7 @@ export default function AgentPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
+        <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-4 gap-12">
               <div className="text-center">
@@ -263,7 +263,7 @@ export default function AgentPage() {
                 </div>
                 <div 
                   className="text-sm uppercase tracking-wide"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                  style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                 >
                   Properties Sold
                 </div>
@@ -277,7 +277,7 @@ export default function AgentPage() {
                 </div>
                 <div 
                   className="text-sm uppercase tracking-wide"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                  style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                 >
                   Total Sales
                 </div>
@@ -291,7 +291,7 @@ export default function AgentPage() {
                 </div>
                 <div 
                   className="text-sm uppercase tracking-wide"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                  style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                 >
                   Years Experience
                 </div>
@@ -305,7 +305,7 @@ export default function AgentPage() {
                 </div>
                 <div 
                   className="text-sm uppercase tracking-wide"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                  style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                 >
                   Client Satisfaction
                 </div>
@@ -315,18 +315,18 @@ export default function AgentPage() {
         </section>
 
         {/* Services Section */}
-        <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+        <section className="py-24 bg-gray-50">
           <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
               <h2 
                 className="text-3xl md:text-4xl font-light mb-6"
-                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
               >
                 Premium Services
               </h2>
               <p 
                 className="text-lg leading-relaxed max-w-2xl mx-auto"
-                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
+                style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
               >
                 Comprehensive real estate services tailored to meet your unique needs 
                 in Austin's competitive luxury market.
