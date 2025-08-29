@@ -473,10 +473,11 @@ export default function HomePage() {
             <a href="/properties">
               <Button 
                 variant="outline" 
-                className="uppercase tracking-wide border-2 px-8 py-3"
+                className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
                 style={{ 
-                  borderColor: 'var(--section-text-color)', 
-                  color: 'var(--section-text-color)' 
+                  borderColor: 'var(--primary-color)', 
+                  color: 'var(--primary-color)',
+                  backgroundColor: 'transparent'
                 }}
               >
                 View Additional
@@ -663,10 +664,11 @@ export default function HomePage() {
               </div>
               <Button 
                 variant="outline" 
-                className="uppercase tracking-wide border-2 px-8 py-3"
+                className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
                 style={{ 
-                  borderColor: 'var(--section-text-color)', 
-                  color: 'var(--section-text-color)' 
+                  borderColor: 'var(--primary-color)', 
+                  color: 'var(--primary-color)',
+                  backgroundColor: 'transparent'
                 }}
               >
                 Contact Alex
