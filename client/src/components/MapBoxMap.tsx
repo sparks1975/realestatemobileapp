@@ -45,7 +45,8 @@ export function MapBoxMap({
         style: 'mapbox://styles/mapbox/streets-v12',
         center: [longitude, latitude],
         zoom: 11, // Reduced zoom to see the 5-mile radius better
-        attributionControl: false
+        attributionControl: false,
+        scrollZoom: false // Disable zoom when scrolling
       });
 
       // Add a marker for the property location
