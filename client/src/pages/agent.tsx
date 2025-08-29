@@ -7,7 +7,6 @@ import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award, MessageCircl
 import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { getContrastingTextColor } from "@/lib/utils";
 
 // Agent Page Skeleton Component
 function AgentPageSkeleton() {
@@ -133,11 +132,6 @@ export default function AgentPage() {
       root.style.setProperty('--heading-font-weight', settings.headingFontWeight || '600');
       root.style.setProperty('--body-font-weight', settings.bodyFontWeight || '400');
       root.style.setProperty('--button-font-weight', settings.buttonFontWeight || '500');
-      
-      // Section Background Color and Text Color
-      root.style.setProperty('--section-background-color', settings.sectionBackgroundColor || settings.secondaryColor);
-      const sectionTextColor = getContrastingTextColor(settings.sectionBackgroundColor || settings.secondaryColor);
-      root.style.setProperty('--section-text-color', sectionTextColor);
 
       // Load Google Fonts
       const fontsToLoad = new Set([settings.headingFont, settings.bodyFont, settings.buttonFont]);
@@ -172,7 +166,7 @@ export default function AgentPage() {
   }
 
   return (
-    <div className="agent-page min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
+    <div className="agent-page min-h-screen" style={{ backgroundColor: 'var(--secondary-color)' }}>
       <Header isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
       {/* Main Content */}
@@ -195,22 +189,22 @@ export default function AgentPage() {
                   </div>
                 </div>
               </div>
-              <div className="p-8 rounded-lg" style={{ backgroundColor: 'var(--section-background-color)' }}>
+              <div>
                 <p 
                   className="text-sm uppercase tracking-[0.2em] mb-4"
-                  style={{ color: 'var(--section-text-color)' }}
+                  style={{ color: 'var(--tertiary-color)' }}
                 >
                   LuxeLead Agent
                 </p>
                 <h1 
                   className="text-4xl md:text-6xl font-light leading-tight mb-6"
-                  style={{ color: 'var(--section-text-color)', fontFamily: 'var(--heading-font)' }}
+                  style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
                 >
                   Alex Rodriguez
                 </h1>
                 <p 
                   className="text-lg leading-relaxed mb-8"
-                  style={{ color: 'var(--section-text-color)', fontFamily: 'var(--body-font)' }}
+                  style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
                 >
                   With over 15 years of experience in Austin's luxury real estate market, 
                   Alex brings unparalleled expertise and a passion for exceptional service 
@@ -232,11 +226,10 @@ export default function AgentPage() {
                   </Button>
                   <Button 
                     variant="outline"
-                    className="px-8 py-3 uppercase tracking-wide border-2 hover:bg-opacity-10"
+                    className="px-8 py-3 uppercase tracking-wide"
                     style={{ 
-                      borderColor: 'var(--section-text-color)',
-                      color: 'var(--section-text-color)',
-                      backgroundColor: 'transparent',
+                      borderColor: 'var(--tertiary-color)',
+                      color: 'var(--tertiary-color)',
                       fontFamily: 'var(--button-font)',
                       fontWeight: 'var(--button-font-weight)'
                     }}
@@ -317,16 +310,16 @@ export default function AgentPage() {
         {/* Services Section */}
         <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16 p-8 rounded-lg" style={{ backgroundColor: 'var(--section-background-color)' }}>
+            <div className="text-center mb-16">
               <h2 
                 className="text-3xl md:text-4xl font-light mb-6"
-                style={{ color: 'var(--section-text-color)', fontFamily: 'var(--heading-font)' }}
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--heading-font)' }}
               >
                 Premium Services
               </h2>
               <p 
                 className="text-lg leading-relaxed max-w-2xl mx-auto"
-                style={{ color: 'var(--section-text-color)', fontFamily: 'var(--body-font)' }}
+                style={{ color: 'var(--tertiary-color)', fontFamily: 'var(--body-font)' }}
               >
                 Comprehensive real estate services tailored to meet your unique needs 
                 in Austin's competitive luxury market.
