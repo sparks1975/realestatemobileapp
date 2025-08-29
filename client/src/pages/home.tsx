@@ -580,8 +580,8 @@ export default function HomePage() {
               variant="outline" 
               className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
               style={{ 
-                borderColor: 'var(--secondary-color)', 
-                color: 'var(--secondary-color)',
+                borderColor: 'var(--primary-color)', 
+                color: 'var(--primary-color)',
                 backgroundColor: 'transparent'
               }}
             >
