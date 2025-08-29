@@ -475,8 +475,8 @@ export default function HomePage() {
                 variant="outline" 
                 className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
                 style={{ 
-                  borderColor: 'var(--primary-color)', 
-                  color: 'var(--primary-color)',
+                  borderColor: 'var(--section-text-color)', 
+                  color: 'var(--section-text-color)',
                   backgroundColor: 'transparent'
                 }}
               >
@@ -666,8 +666,8 @@ export default function HomePage() {
                 variant="outline" 
                 className="uppercase tracking-wide border-2 px-8 py-3 hover:bg-opacity-10"
                 style={{ 
-                  borderColor: 'var(--primary-color)', 
-                  color: 'var(--primary-color)',
+                  borderColor: 'var(--section-text-color)', 
+                  color: 'var(--section-text-color)',
                   backgroundColor: 'transparent'
                 }}
               >
