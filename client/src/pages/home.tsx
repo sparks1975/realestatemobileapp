@@ -306,7 +306,7 @@ export default function HomePage() {
       </section>
 
       {/* Introduction Section - About LuxeLead */}
-      <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--section-background-color)' }} data-theme-managed>
+      <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -390,7 +390,7 @@ export default function HomePage() {
       </section>
 
       {/* Brand Partners */}
-      <section className="py-16" style={{ backgroundColor: 'var(--section-background-color)' }}>
+      <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex justify-center items-center space-x-12 opacity-60">
             <div className="text-2xl font-light tracking-wider">SOTHEBY'S</div>
@@ -403,18 +403,18 @@ export default function HomePage() {
       </section>
 
       {/* Current Inventory */}
-      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+      <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ color: 'var(--tertiary-color)' }}
+              style={{ color: 'var(--text-color)' }}
             >
               {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
             </p>
             <h2 
               className="text-4xl md:text-5xl font-light leading-tight"
-              style={{ color: 'var(--tertiary-color)' }}
+              style={{ color: 'var(--text-color)' }}
             >
               {pageContent?.['featured-properties']?.title || "Featured Properties"}
             </h2>
@@ -468,8 +468,8 @@ export default function HomePage() {
                 variant="outline" 
                 className="uppercase tracking-wide border-2 px-8 py-3"
                 style={{ 
-                  borderColor: 'var(--tertiary-color)', 
-                  color: 'var(--tertiary-color)' 
+                  borderColor: 'var(--text-color)', 
+                  color: 'var(--text-color)' 
                 }}
               >
                 View Additional
@@ -482,7 +482,7 @@ export default function HomePage() {
       {/* Showcase Section */}
       <section 
         className="py-24"
-        style={{ backgroundColor: 'var(--section-background-color)' }}
+        style={{ backgroundColor: '#E5D5C8' }}
       >
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
@@ -519,7 +519,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Communities Section */}
-      <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
+      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
             <p 
@@ -593,7 +593,7 @@ export default function HomePage() {
       </section>
 
       {/* Agent Section */}
-      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+      <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
@@ -606,19 +606,19 @@ export default function HomePage() {
             <div>
               <p 
                 className="text-sm uppercase tracking-[0.2em] mb-4"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 LuxeLead
               </p>
               <h2 
                 className="text-4xl md:text-5xl font-light leading-tight mb-6"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 Alex Rodriguez
               </h2>
               <p 
                 className="text-lg leading-relaxed mb-8"
-                style={{ color: 'var(--tertiary-color)' }}
+                style={{ color: 'var(--text-color)' }}
               >
                 With over 15 years of experience in Austin's luxury real estate market, 
                 Alex brings unparalleled expertise and a passion for exceptional service 
@@ -628,13 +628,13 @@ export default function HomePage() {
                 <div className="text-center">
                   <div 
                     className="text-3xl font-light mb-2"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)' }}
                   >
                     500+
                   </div>
                   <div 
                     className="text-sm uppercase tracking-wide"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)' }}
                   >
                     Properties Sold
                   </div>
@@ -642,13 +642,13 @@ export default function HomePage() {
                 <div className="text-center">
                   <div 
                     className="text-3xl font-light mb-2"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)' }}
                   >
                     $2.5B
                   </div>
                   <div 
                     className="text-sm uppercase tracking-wide"
-                    style={{ color: 'var(--tertiary-color)' }}
+                    style={{ color: 'var(--text-color)' }}
                   >
                     Total Sales
                   </div>
@@ -658,8 +658,8 @@ export default function HomePage() {
                 variant="outline" 
                 className="uppercase tracking-wide border-2 px-8 py-3"
                 style={{ 
-                  borderColor: 'var(--tertiary-color)', 
-                  color: 'var(--tertiary-color)' 
+                  borderColor: 'var(--text-color)', 
+                  color: 'var(--text-color)' 
                 }}
               >
                 Contact Alex
