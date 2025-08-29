@@ -403,7 +403,7 @@ export default function HomePage() {
       </section>
 
       {/* Current Inventory */}
-      <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
+      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
             <p 
@@ -482,7 +482,7 @@ export default function HomePage() {
       {/* Showcase Section */}
       <section 
         className="py-24"
-        style={{ backgroundColor: '#E5D5C8' }}
+        style={{ backgroundColor: 'var(--section-background-color)' }}
       >
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
@@ -593,7 +593,7 @@ export default function HomePage() {
       </section>
 
       {/* Agent Section */}
-      <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
+      <section className="py-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
