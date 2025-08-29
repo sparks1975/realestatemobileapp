@@ -171,6 +171,7 @@ h2[style*="--heading-font"] {
     --navigation-color: #1a1a1a;
     --sub-navigation-color: #2a2a2a;
     --header-background-color: #ffffff;
+    --section-background-color: #f8f8f8;
     --heading-font: 'Inter', sans-serif;
     --body-font: 'Inter', sans-serif;
     --button-font: 'Inter', sans-serif;
@@ -232,6 +233,7 @@ h2[style*="--heading-font"] {
     --navigation-color: #1a1a1a;
     --sub-navigation-color: #2a2a2a;
     --header-background-color: #ffffff;
+    --section-background-color: #f8f8f8;
     --heading-font: 'Inter', sans-serif;
     --body-font: 'Inter', sans-serif;
     --button-font: 'Inter', sans-serif;

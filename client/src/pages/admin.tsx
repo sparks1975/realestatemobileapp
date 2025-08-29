@@ -113,6 +113,7 @@ export default function AdminPanel() {
     navigationColor: '#1a1a1a',
     subNavigationColor: '#2a2a2a',
     headerBackgroundColor: '#ffffff',
+    sectionBackgroundColor: '#f8f8f8',
     headingFont: 'Inter',
     bodyFont: 'Inter',
     buttonFont: 'Inter',
@@ -164,6 +165,7 @@ export default function AdminPanel() {
         navigationColor: currentThemeSettings.navigationColor || '#1a1a1a',
         subNavigationColor: currentThemeSettings.subNavigationColor || '#2a2a2a',
         headerBackgroundColor: currentThemeSettings.headerBackgroundColor || '#ffffff',
+        sectionBackgroundColor: currentThemeSettings.sectionBackgroundColor || '#f8f8f8',
         headingFont: currentThemeSettings.headingFont || 'Inter',
         bodyFont: currentThemeSettings.bodyFont || 'Inter',
         buttonFont: currentThemeSettings.buttonFont || 'Inter',
@@ -379,6 +381,7 @@ export default function AdminPanel() {
       navigationColor: '#1a1a1a',
       subNavigationColor: '#2a2a2a',
       headerBackgroundColor: '#ffffff',
+      sectionBackgroundColor: '#f8f8f8',
       headingFont: 'Inter',
       bodyFont: 'Inter',
       buttonFont: 'Inter',
@@ -1832,6 +1835,25 @@ export default function AdminPanel() {
                               onChange={(e) => updateThemeSetting('headerBackgroundColor', e.target.value)}
                               className="flex-1 bg-white border-gray-300 text-gray-900"
                               placeholder="#ffffff"
+                            />
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <Label htmlFor="sectionBackgroundColor" className="text-gray-700 text-sm font-medium">Section Background</Label>
+                          <div className="flex items-center space-x-3 mt-1">
+                            <input
+                              type="color"
+                              id="sectionBackgroundColor"
+                              value={themeSettings.sectionBackgroundColor}
+                              onChange={(e) => updateThemeSetting('sectionBackgroundColor', e.target.value)}
+                              className="w-10 h-10 border border-gray-300 rounded cursor-pointer"
+                            />
+                            <Input
+                              value={themeSettings.sectionBackgroundColor}
+                              onChange={(e) => updateThemeSetting('sectionBackgroundColor', e.target.value)}
+                              className="flex-1 bg-white border-gray-300 text-gray-900"
+                              placeholder="#f8f8f8"
                             />
                           </div>
                         </div>

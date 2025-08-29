@@ -120,7 +120,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="contact-page min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div className="contact-page min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
       {/* Header */}
       <Header isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
@@ -161,7 +161,7 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Information Section - Elegant Layout */}
-        <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-6xl mx-auto px-6">
             {/* Section Title */}
             <div className="text-center mb-20">
@@ -394,7 +394,7 @@ export default function ContactPage() {
         </section>
 
         {/* Office Hours Section */}
-        <section className="py-20" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <section className="py-20" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-4xl mx-auto px-6 text-center">
             <div className="flex items-center justify-center mb-8">
               <Clock className="h-8 w-8 mr-4" style={{ color: 'var(--primary-color)' }} />

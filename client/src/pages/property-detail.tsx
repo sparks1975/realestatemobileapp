@@ -153,7 +153,7 @@ export default function PropertyDetailPage() {
   console.log("🎯 Images:", allImages);
 
   return (
-    <div className="property-detail min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div className="property-detail min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
       {/* Navigation - Same as homepage */}
       <nav 
         className="fixed top-0 w-full backdrop-blur-sm z-50"
@@ -412,7 +412,7 @@ export default function PropertyDetailPage() {
         </section>
 
         {/* Property Information Section */}
-        <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <section className="py-16" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-[1200px] mx-auto px-6">
             <div className="grid lg:grid-cols-3 gap-12">
               {/* Main Content */}

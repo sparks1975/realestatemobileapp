@@ -181,7 +181,7 @@ export default function PropertiesModernLuxury() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
       {/* Header */}
       <Header currentPage="properties" />
 
@@ -227,7 +227,7 @@ export default function PropertiesModernLuxury() {
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <section className="py-16" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-6xl mx-auto px-6">
           <div className="flex flex-col md:flex-row gap-6 items-center justify-center">
             <div className="relative flex-1 max-w-md">
@@ -260,7 +260,7 @@ export default function PropertiesModernLuxury() {
       </section>
 
       {/* Properties Grid */}
-      <section className="py-20" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <section className="py-20" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-6xl mx-auto px-6">
           {filteredProperties.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

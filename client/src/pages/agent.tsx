@@ -166,7 +166,7 @@ export default function AgentPage() {
   }
 
   return (
-    <div className="agent-page min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div className="agent-page min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
       <Header isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
       {/* Main Content */}
@@ -244,7 +244,7 @@ export default function AgentPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-4 gap-12">
               <div className="text-center">
@@ -409,7 +409,7 @@ export default function AgentPage() {
         </section>
 
         {/* Contact Section */}
-        <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>

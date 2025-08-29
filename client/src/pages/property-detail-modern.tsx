@@ -184,7 +184,7 @@ export default function PropertyDetailModern() {
   
   if (showSkeleton || isDataLoading) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <div className="min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <Header />
         
         <div className="pt-24">
@@ -241,7 +241,7 @@ export default function PropertyDetailModern() {
 
   if (!property) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="text-center">
           <h1 
             className="text-2xl mb-4"
@@ -269,7 +269,7 @@ export default function PropertyDetailModern() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
       <Header />
 
       {/* Main Content */}

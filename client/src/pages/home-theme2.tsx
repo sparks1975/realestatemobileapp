@@ -182,7 +182,7 @@ export default function HomeTheme2() {
   }
 
   return (
-    <div className="theme2-homepage min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div className="theme2-homepage min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
       {/* Header */}
       <Header isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
@@ -247,7 +247,7 @@ export default function HomeTheme2() {
         </div>
         
         {/* Content takes up 40% */}
-        <div className="w-2/5 flex items-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <div className="w-2/5 flex items-center" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="px-16 py-24">
             <p 
               className="text-sm uppercase tracking-[0.3em] mb-6 opacity-60"
@@ -294,7 +294,7 @@ export default function HomeTheme2() {
       </section>
 
       {/* Brand Partners (Modern Luxury Style) */}
-      <section className="py-20" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <section className="py-20" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex justify-center items-center space-x-16 opacity-50">
             <div className="text-2xl font-light tracking-[0.2em]" style={{ fontFamily: 'var(--heading-font)' }}>SOTHEBY'S</div>
@@ -309,7 +309,7 @@ export default function HomeTheme2() {
       {/* Featured Properties - Full Width Images (Ginger Martin Style) */}
       <section>
         {/* Section header */}
-        <div className="py-24 text-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <div className="py-24 text-center" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <p 
             className="text-sm uppercase tracking-[0.4em] mb-4 opacity-60"
             style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
@@ -364,7 +364,7 @@ export default function HomeTheme2() {
                 </div>
                 
                 {/* Property details take up 35% */}
-                <div className="w-2/5 flex items-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+                <div className="w-2/5 flex items-center" style={{ backgroundColor: 'var(--section-background-color)' }}>
                   <div className="px-16 py-24">
                     <p 
                       className="text-sm uppercase tracking-[0.3em] mb-4 opacity-60"
@@ -431,7 +431,7 @@ export default function HomeTheme2() {
       {/* Communities Section - Three Wide Images (Ginger Martin Style) */}
       <section>
         {/* Section header */}
-        <div className="py-24 text-center" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <div className="py-24 text-center" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <p 
             className="text-sm uppercase tracking-[0.4em] mb-4 opacity-60"
             style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}

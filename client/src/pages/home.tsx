@@ -123,6 +123,7 @@ export default function HomePage() {
       root.style.setProperty('--navigation-color', settings.navigationColor || '#1a1a1a');
       root.style.setProperty('--sub-navigation-color', settings.subNavigationColor || '#2a2a2a');
       root.style.setProperty('--header-background-color', settings.headerBackgroundColor || '#ffffff');
+      root.style.setProperty('--section-background-color', settings.sectionBackgroundColor || '#f8f8f8');
       root.style.setProperty('--heading-font', settings.headingFont || 'Inter');
       root.style.setProperty('--body-font', settings.bodyFont || 'Inter');
       root.style.setProperty('--button-font', settings.buttonFont || 'Inter');
@@ -256,7 +257,7 @@ export default function HomePage() {
   }
 
   return (
-    <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
+    <div id="home" className="agent-website min-h-screen dynamic-content" style={{ backgroundColor: 'var(--section-background-color)' }} data-theme-managed>
       <Header isMobileMenuOpen={isMobileMenuOpen} setIsMobileMenuOpen={setIsMobileMenuOpen} />
 
       {/* Hero Section - Inspired by Kumara */}
@@ -305,7 +306,7 @@ export default function HomePage() {
       </section>
 
       {/* Introduction Section - About LuxeLead */}
-      <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--tertiary-color)' }} data-theme-managed>
+      <section className="py-24 dynamic-content" style={{ backgroundColor: 'var(--section-background-color)' }} data-theme-managed>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="space-y-8">
@@ -389,7 +390,7 @@ export default function HomePage() {
       </section>
 
       {/* Brand Partners */}
-      <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <section className="py-16" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="flex justify-center items-center space-x-12 opacity-60">
             <div className="text-2xl font-light tracking-wider">SOTHEBY'S</div>
@@ -518,7 +519,7 @@ export default function HomePage() {
       </section>
 
       {/* Featured Communities Section */}
-      <section className="py-24" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <section className="py-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-16">
             <p 

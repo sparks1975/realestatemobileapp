@@ -214,7 +214,7 @@ export default function PropertiesPage() {
   }
 
   return (
-    <div className="properties-page min-h-screen" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+    <div className="properties-page min-h-screen" style={{ backgroundColor: 'var(--section-background-color)' }}>
       {/* Navigation - Same as other pages */}
       <nav 
         className="fixed top-0 w-full backdrop-blur-sm z-50"
@@ -421,7 +421,7 @@ export default function PropertiesPage() {
         </section>
 
         {/* Search and Filter Controls */}
-        <section className="py-8" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <section className="py-8" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
               {/* Search Bar */}
@@ -490,7 +490,7 @@ export default function PropertiesPage() {
         </section>
 
         {/* Properties Grid/List */}
-        <section className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+        <section className="py-16" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             {isLoading ? (
               <div className="grid md:grid-cols-3 gap-8">
@@ -631,7 +631,7 @@ export default function PropertiesPage() {
       </div>
 
       {/* Footer - Same as Homepage */}
-      <footer className="py-16" style={{ backgroundColor: 'var(--tertiary-color)' }}>
+      <footer className="py-16" style={{ backgroundColor: 'var(--section-background-color)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center">
             <div 
