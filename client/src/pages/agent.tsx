@@ -178,7 +178,7 @@ export default function AgentPage() {
       {/* Main Content */}
       <div className="pt-0">
         {/* Hero Section */}
-        <section className="pt-24 pb-24" style={{ backgroundColor: 'var(--secondary-color)' }}>
+        <section className="pt-24 pb-24" style={{ backgroundColor: 'var(--section-background-color)' }}>
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div className="relative">
@@ -195,7 +195,7 @@ export default function AgentPage() {
                   </div>
                 </div>
               </div>
-              <div className="p-8 rounded-lg" style={{ backgroundColor: 'var(--section-background-color)' }}>
+              <div>
                 <p 
                   className="text-sm uppercase tracking-[0.2em] mb-4"
                   style={{ color: 'var(--section-text-color)' }}
