@@ -3,10 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Star, ArrowRight, Home, Users, Award } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { HomePageSkeleton } from "@/components/SkeletonLoader";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { getContrastingTextColor } from "@/lib/utils";
 
 
 interface Property {
@@ -124,6 +125,12 @@ export default function HomePage() {
       root.style.setProperty('--sub-navigation-color', settings.subNavigationColor || '#2a2a2a');
       root.style.setProperty('--header-background-color', settings.headerBackgroundColor || '#ffffff');
       root.style.setProperty('--section-background-color', settings.sectionBackgroundColor || '#f8f8f8');
+      
+      // Calculate contrasting text color for section backgrounds
+      const sectionBgColor = settings.sectionBackgroundColor || '#f8f8f8';
+      const contrastingTextColor = getContrastingTextColor(sectionBgColor);
+      root.style.setProperty('--section-text-color', contrastingTextColor);
+      
       root.style.setProperty('--heading-font', settings.headingFont || 'Inter');
       root.style.setProperty('--body-font', settings.bodyFont || 'Inter');
       root.style.setProperty('--button-font', settings.buttonFont || 'Inter');
@@ -408,13 +415,13 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ color: 'var(--text-color)' }}
+              style={{ color: 'var(--section-text-color)' }}
             >
               {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
             </p>
             <h2 
               className="text-4xl md:text-5xl font-light leading-tight"
-              style={{ color: 'var(--text-color)' }}
+              style={{ color: 'var(--section-text-color)' }}
             >
               {pageContent?.['featured-properties']?.title || "Featured Properties"}
             </h2>
@@ -468,8 +475,8 @@ export default function HomePage() {
                 variant="outline" 
                 className="uppercase tracking-wide border-2 px-8 py-3"
                 style={{ 
-                  borderColor: 'var(--text-color)', 
-                  color: 'var(--text-color)' 
+                  borderColor: 'var(--section-text-color)', 
+                  color: 'var(--section-text-color)' 
                 }}
               >
                 View Additional
@@ -606,19 +613,19 @@ export default function HomePage() {
             <div>
               <p 
                 className="text-sm uppercase tracking-[0.2em] mb-4"
-                style={{ color: 'var(--text-color)' }}
+                style={{ color: 'var(--section-text-color)' }}
               >
                 LuxeLead
               </p>
               <h2 
                 className="text-4xl md:text-5xl font-light leading-tight mb-6"
-                style={{ color: 'var(--text-color)' }}
+                style={{ color: 'var(--section-text-color)' }}
               >
                 Alex Rodriguez
               </h2>
               <p 
                 className="text-lg leading-relaxed mb-8"
-                style={{ color: 'var(--text-color)' }}
+                style={{ color: 'var(--section-text-color)' }}
               >
                 With over 15 years of experience in Austin's luxury real estate market, 
                 Alex brings unparalleled expertise and a passion for exceptional service 
@@ -628,13 +635,13 @@ export default function HomePage() {
                 <div className="text-center">
                   <div 
                     className="text-3xl font-light mb-2"
-                    style={{ color: 'var(--text-color)' }}
+                    style={{ color: 'var(--section-text-color)' }}
                   >
                     500+
                   </div>
                   <div 
                     className="text-sm uppercase tracking-wide"
-                    style={{ color: 'var(--text-color)' }}
+                    style={{ color: 'var(--section-text-color)' }}
                   >
                     Properties Sold
                   </div>
@@ -642,13 +649,13 @@ export default function HomePage() {
                 <div className="text-center">
                   <div 
                     className="text-3xl font-light mb-2"
-                    style={{ color: 'var(--text-color)' }}
+                    style={{ color: 'var(--section-text-color)' }}
                   >
                     $2.5B
                   </div>
                   <div 
                     className="text-sm uppercase tracking-wide"
-                    style={{ color: 'var(--text-color)' }}
+                    style={{ color: 'var(--section-text-color)' }}
                   >
                     Total Sales
                   </div>
@@ -658,8 +665,8 @@ export default function HomePage() {
                 variant="outline" 
                 className="uppercase tracking-wide border-2 px-8 py-3"
                 style={{ 
-                  borderColor: 'var(--text-color)', 
-                  color: 'var(--text-color)' 
+                  borderColor: 'var(--section-text-color)', 
+                  color: 'var(--section-text-color)' 
                 }}
               >
                 Contact Alex
