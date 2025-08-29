@@ -198,7 +198,7 @@ export default function HomeTheme2() {
         </div>
         
         {/* Minimal text overlay */}
-        <div className="absolute top-1/2 left-0 w-full transform -translate-y-1/2 text-white">
+        <div className="absolute bottom-24 left-0 w-full text-white">
           <div className="max-w-[1200px] mx-auto px-6">
             <div className="max-w-lg">
               <p 
