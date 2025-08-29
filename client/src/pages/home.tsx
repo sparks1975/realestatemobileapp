@@ -42,29 +42,54 @@ export default function HomePage() {
   
   const { data: properties = [], isLoading } = useQuery<Property[]>({
     queryKey: ['/api/properties'],
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000 // 10 minutes
+    enabled: true,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true
   });
 
   // Load communities
   const { data: communities = [], isLoading: communitiesLoading } = useQuery({
     queryKey: ['/api/communities'],
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000 // 10 minutes
+    queryFn: async () => {
+      const response = await fetch('/api/communities');
+      if (!response.ok) throw new Error('Failed to fetch communities');
+      return response.json();
+    }
   });
 
   // Load theme settings with aggressive cache busting
   const { data: themeSettings, refetch: refetchTheme } = useQuery({
     queryKey: ['/api/theme-settings/1'],
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000 // 10 minutes
+    queryFn: async () => {
+      const response = await fetch(`/api/theme-settings/1?_t=${Date.now()}`, {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        },
+        cache: 'no-store'
+      });
+      if (!response.ok) throw new Error('Failed to fetch theme settings');
+      return response.json();
+    },
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true
   });
 
   // Load page content from database
   const { data: pageContent = {}, refetch: refetchPageContent } = useQuery({
     queryKey: ['/api/pages/home/content'],
     queryFn: async () => {
-      const response = await fetch('/api/pages/home/content');
+      const response = await fetch(`/api/pages/home/content?_t=${Date.now()}`, {
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        },
+        cache: 'no-store'
+      });
       if (!response.ok) throw new Error('Failed to fetch page content');
       const contentArray = await response.json();
       
@@ -78,8 +103,9 @@ export default function HomePage() {
       });
       return contentObj;
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000 // 10 minutes
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: true
   });
 
   // Apply theme settings to CSS variables

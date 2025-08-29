@@ -394,6 +394,3 @@ export type InsertPageContent = z.infer<typeof insertPageContentSchema>;
 
 export type Community = typeof communities.$inferSelect;
 export type InsertCommunity = z.infer<typeof insertCommunitySchema>;
-
-export type WebsiteTheme = typeof websiteThemes.$inferSelect;
-export type InsertWebsiteTheme = z.infer<typeof insertWebsiteThemeSchema>;

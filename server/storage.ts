@@ -366,28 +366,6 @@ export class MemStorage implements IStorage {
   async upsertPageContent(pageContent: InsertPageContent): Promise<PageContent> {
     throw new Error("Page content not implemented in MemStorage");
   }
-
-  // Community operations (stub implementations)
-  async getCommunities(): Promise<Community[]> {
-    return [];
-  }
-
-  // Website theme operations (stub implementations)
-  async getWebsiteThemes(): Promise<WebsiteTheme[]> {
-    return [];
-  }
-
-  async getActiveWebsiteTheme(): Promise<WebsiteTheme | undefined> {
-    return undefined;
-  }
-
-  async createWebsiteTheme(theme: InsertWebsiteTheme): Promise<WebsiteTheme> {
-    throw new Error("Website themes not implemented in MemStorage");
-  }
-
-  async setActiveWebsiteTheme(themeId: number): Promise<WebsiteTheme | undefined> {
-    throw new Error("Website themes not implemented in MemStorage");
-  }
 }
 
 export class DatabaseStorage implements IStorage {
@@ -607,17 +585,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getActivitiesByUser(userId: number, limit?: number): Promise<Activity[]> {
-    const baseQuery = db
+    let query = db
       .select()
       .from(activities)
       .where(eq(activities.userId, userId))
       .orderBy(desc(activities.createdAt));
     
     if (limit) {
-      return baseQuery.limit(limit);
+      query = query.limit(limit);
     }
     
-    return baseQuery;
+    return query;
   }
 
   async createActivity(insertActivity: InsertActivity): Promise<Activity> {
