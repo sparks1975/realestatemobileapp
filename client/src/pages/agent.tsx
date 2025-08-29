@@ -422,13 +422,13 @@ export default function AgentPage() {
               <div>
                 <h2 
                   className="text-3xl md:text-4xl font-light mb-6"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--heading-font)' }}
+                  style={{ color: 'var(--section-text-color)', fontFamily: 'var(--heading-font)' }}
                 >
                   Ready to Get Started?
                 </h2>
                 <p 
                   className="text-lg leading-relaxed mb-8"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                  style={{ color: 'var(--section-text-color)', fontFamily: 'var(--body-font)' }}
                 >
                   Let's discuss your real estate goals and create a customized strategy 
                   that delivers exceptional results.
@@ -443,7 +443,7 @@ export default function AgentPage() {
                     />
                     <span 
                       className="text-lg"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                      style={{ color: 'var(--section-text-color)', fontFamily: 'var(--body-font)' }}
                     >
                       (512) 555-0123
                     </span>
@@ -456,7 +456,7 @@ export default function AgentPage() {
                     />
                     <span 
                       className="text-lg"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                      style={{ color: 'var(--section-text-color)', fontFamily: 'var(--body-font)' }}
                     >
                       alex@luxelead.com
                     </span>
@@ -469,7 +469,7 @@ export default function AgentPage() {
                     />
                     <span 
                       className="text-lg"
-                      style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                      style={{ color: 'var(--section-text-color)', fontFamily: 'var(--body-font)' }}
                     >
                       Downtown Austin, TX
                     </span>
@@ -491,7 +491,7 @@ export default function AgentPage() {
                 </Button>
                 <p 
                   className="text-sm"
-                  style={{ color: 'var(--text-color)', fontFamily: 'var(--body-font)' }}
+                  style={{ color: 'var(--section-text-color)', fontFamily: 'var(--body-font)' }}
                 >
                   Free 30-minute consultation
                 </p>
