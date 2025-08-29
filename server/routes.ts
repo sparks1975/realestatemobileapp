@@ -516,7 +516,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
           textColor: '#333333',
           linkColor: '#CBA328',
           linkHoverColor: '#b8951f',
-          fontFamily: 'Inter',
+          navigationColor: '#1a1a1a',
+          subNavigationColor: '#2a2a2a',
+          headerBackgroundColor: '#ffffff',
+          sectionBackgroundColor: '#f8f8f8',
+          headingFont: 'Inter',
+          bodyFont: 'Inter',
+          buttonFont: 'Inter',
+          headingFontWeight: '600',
+          bodyFontWeight: '400',
+          buttonFontWeight: '500',
           userId: userId
         });
         return res.json(defaultSettings);
