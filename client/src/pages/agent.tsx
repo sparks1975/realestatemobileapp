@@ -439,7 +439,7 @@ export default function AgentPage() {
                     <Phone 
                       size={20} 
                       className="mr-4"
-                      style={{ color: 'var(--primary-color)' }}
+                      style={{ color: 'var(--section-text-color)' }}
                     />
                     <span 
                       className="text-lg"
@@ -452,7 +452,7 @@ export default function AgentPage() {
                     <Mail 
                       size={20} 
                       className="mr-4"
-                      style={{ color: 'var(--primary-color)' }}
+                      style={{ color: 'var(--section-text-color)' }}
                     />
                     <span 
                       className="text-lg"
@@ -465,7 +465,7 @@ export default function AgentPage() {
                     <MapPin 
                       size={20} 
                       className="mr-4"
-                      style={{ color: 'var(--primary-color)' }}
+                      style={{ color: 'var(--section-text-color)' }}
                     />
                     <span 
                       className="text-lg"
