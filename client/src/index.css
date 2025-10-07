@@ -336,9 +336,8 @@ section[data-theme-managed] h2 span,
     font-weight: var(--button-font-weight, 500) !important;
   }
   
-  /* Apply body font to all text elements with high specificity */
-  body *, 
-  p, span, div, td, th, li, a, 
+  /* Apply body font to text elements (body font will naturally inherit to most elements) */
+  p, td, th, li, 
   .text-sm, .text-base, .text-lg, .text-xl {
     font-family: var(--body-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     font-weight: var(--body-font-weight, 400) !important;
