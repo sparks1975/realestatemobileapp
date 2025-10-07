@@ -215,8 +215,6 @@ export default function HomePage() {
   useEffect(() => {
     // Check if we have actual content data, not just empty objects
     const hasRealContent = pageContent && Object.keys(pageContent).length > 0;
-    const hasRealProperties = properties && properties.length > 0;
-    const hasRealCommunities = communities && communities.length > 0;
     
     // Log current state for debugging
     console.log('🔍 Skeleton conditions check:', {
@@ -224,17 +222,15 @@ export default function HomePage() {
       communitiesLoading,
       hasThemeSettings: !!themeSettings,
       hasRealContent,
-      hasRealProperties,
-      hasRealCommunities,
       isThemeApplied,
       fontsLoaded
     });
     
-    if (!isLoading && !communitiesLoading && themeSettings && hasRealContent && hasRealProperties && hasRealCommunities && isThemeApplied && fontsLoaded) {
+    if (!isLoading && !communitiesLoading && themeSettings && hasRealContent && isThemeApplied && fontsLoaded) {
       console.log('🎯 All conditions met with real content, hiding skeleton');
       setShowSkeleton(false);
     }
-  }, [isLoading, communitiesLoading, themeSettings, pageContent, properties, communities, isThemeApplied, fontsLoaded]);
+  }, [isLoading, communitiesLoading, themeSettings, pageContent, isThemeApplied, fontsLoaded]);
 
   // Listen for theme updates from admin panel
   useEffect(() => {
@@ -253,11 +249,9 @@ export default function HomePage() {
 
   // Check if we have actual content data, not just empty objects
   const hasRealContent = pageContent && Object.keys(pageContent).length > 0;
-  const hasRealProperties = properties && properties.length > 0;
-  const hasRealCommunities = communities && communities.length > 0;
   
   // Show skeleton loader while data is loading, theme is not applied, fonts not loaded, or real content not available
-  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !hasRealContent || !hasRealProperties || !hasRealCommunities || !isThemeApplied || !fontsLoaded;
+  const isDataLoading = isLoading || communitiesLoading || !themeSettings || !hasRealContent || !isThemeApplied || !fontsLoaded;
   
   if (showSkeleton || isDataLoading) {
     return <HomePageSkeleton />;
