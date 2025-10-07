@@ -77,7 +77,7 @@ export default function HomeTheme2() {
   });
 
   // Load page content from database
-  const { data: pageContent = {}, isLoading: pageContentLoading, refetch: refetchPageContent } = useQuery({
+  const { data: pageContent = {}, refetch: refetchPageContent } = useQuery({
     queryKey: ['/api/pages/home/content'],
     queryFn: async () => {
       const response = await fetch(`/api/pages/home/content?_t=${Date.now()}`, {
@@ -177,7 +177,7 @@ export default function HomeTheme2() {
   const featuredCommunities = communities.slice(0, 3);
 
   // Show skeleton while loading
-  if (showSkeleton || !isThemeApplied || !fontsLoaded || pageContentLoading) {
+  if (showSkeleton || !isThemeApplied || !fontsLoaded) {
     return <HomePageSkeleton />;
   }
 
