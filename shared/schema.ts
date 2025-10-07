@@ -104,7 +104,7 @@ export const communities = pgTable("communities", {
   priceRange: text("price_range").notNull(),
   image: text("image").notNull(),
   features: text("features").array(),
-  propertyCount: integer("property_count").default(0),
+  propertyCount: integer("properties_count").default(0),
   averagePrice: doublePrecision("average_price").default(0),
   createdAt: timestamp("created_at").defaultNow(),
 });
