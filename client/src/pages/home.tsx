@@ -137,6 +137,8 @@ export default function HomePage() {
       root.style.setProperty('--heading-font-weight', settings.headingFontWeight || '600');
       root.style.setProperty('--body-font-weight', settings.bodyFontWeight || '400');
       root.style.setProperty('--button-font-weight', settings.buttonFontWeight || '500');
+      
+      console.log('✅ Body font set to:', settings.bodyFont, 'CSS var:', root.style.getPropertyValue('--body-font'));
 
       // Debug: Check if variables were actually set
       console.log('🔍 CSS Variables set:', {
@@ -423,7 +425,7 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ 
                 color: 'var(--section-text-color)',
-                fontFamily: themeSettings?.bodyFont || 'Inter',
+                fontFamily: `${themeSettings?.bodyFont || 'Inter'} !important` as any,
                 fontWeight: themeSettings?.bodyFontWeight || '400'
               }}
             >
@@ -508,7 +510,7 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ 
                 color: 'var(--secondary-color)',
-                fontFamily: themeSettings?.bodyFont || 'Inter',
+                fontFamily: `${themeSettings?.bodyFont || 'Inter'} !important` as any,
                 fontWeight: themeSettings?.bodyFontWeight || '400'
               }}
             >
@@ -548,7 +550,7 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ 
                 color: 'var(--secondary-color)',
-                fontFamily: themeSettings?.bodyFont || 'Inter',
+                fontFamily: `${themeSettings?.bodyFont || 'Inter'} !important` as any,
                 fontWeight: themeSettings?.bodyFontWeight || '400'
               }}
             >
