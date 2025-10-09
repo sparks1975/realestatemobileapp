@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import logoImage from "@assets/logo-dark_1759979815607.png";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -773,7 +774,7 @@ export default function AdminPanel() {
             {/* Logo */}
             <div className="flex items-center w-48">
               <img 
-                src="/attached_assets/logo-dark_1759979815607.png" 
+                src={logoImage} 
                 alt="LuxeLead" 
                 className="w-full h-auto min-w-[180px]"
               />
