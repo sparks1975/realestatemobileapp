@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, SafeAreaView, Linking, Platform } from 'react-native';
 
 const ProfileScreen = () => {
   // Mock user data
@@ -8,7 +8,7 @@ const ProfileScreen = () => {
     name: 'Alex Morgan',
     email: 'alex@example.com',
     phone: '555-987-6543',
-    profileImage: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=500&h=500',
+    profileImage: 'https://images.unsplash.com/photo-1500648767791-00dcc494a43e?auto=format&fit=crop&w=500&h=500',
     role: 'Real Estate Agent',
     company: 'Luxury Real Estate Group',
     bio: 'Dedicated real estate professional with over 10 years of experience in luxury properties and high-end real estate market.',
@@ -28,10 +28,25 @@ const ProfileScreen = () => {
     { icon: '⚙️', title: 'Settings', count: null },
     { icon: '❓', title: 'Help & Support', count: null },
   ];
+
+  const openAdminPanel = async () => {
+    const adminUrl = Platform.OS === 'web' 
+      ? '/admin'
+      : 'https://realtor-dashboard-with-mobile-app.replit.app/admin';
+    
+    const canOpen = await Linking.canOpenURL(adminUrl);
+    if (canOpen) {
+      await Linking.openURL(adminUrl);
+    }
+  };
   
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        <TouchableOpacity style={styles.adminButton} onPress={openAdminPanel}>
+          <Text style={styles.adminButtonText}>🎛️ Open Admin Panel</Text>
+        </TouchableOpacity>
+        
         <View style={styles.profileHeader}>
           <Image
             source={{ uri: user.profileImage }}
@@ -113,6 +128,23 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
+  },
+  adminButton: {
+    backgroundColor: '#3B5674',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  adminButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
   profileHeader: {
     flexDirection: 'row',
