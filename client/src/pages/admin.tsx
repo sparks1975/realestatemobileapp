@@ -779,7 +779,7 @@ export default function AdminPanel() {
             </div>
 
             {/* Center Navigation Tabs */}
-            <TabsList className="inline-flex h-auto p-1 bg-gray-100 flex-1 max-w-3xl">
+            <TabsList className="inline-flex h-auto p-1 flex-1 max-w-3xl">
               <TabsTrigger 
                 value="dashboard" 
                 className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
