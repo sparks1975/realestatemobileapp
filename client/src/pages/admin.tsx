@@ -771,11 +771,12 @@ export default function AdminPanel() {
         <div className="px-3 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
-                <Building2 className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">LuxeLead</span>
+            <div className="flex items-center">
+              <img 
+                src="/attached_assets/logo-dark_1759979815607.png" 
+                alt="LuxeLead" 
+                className="h-8"
+              />
             </div>
 
             {/* Center Navigation Tabs */}
