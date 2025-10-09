@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -779,63 +779,59 @@ export default function AdminPanel() {
             </div>
 
             {/* Center Navigation Tabs */}
-            <nav className="flex items-center space-x-1">
-              <button
-                onClick={() => setActiveTab('dashboard')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'dashboard'
-                    ? 'bg-emerald-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-                data-testid="tab-dashboard"
-              >
-                Dashboard
-              </button>
-              <button
-                onClick={() => setActiveTab('clients')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'clients'
-                    ? 'bg-emerald-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-                data-testid="tab-leads"
-              >
-                Leads
-              </button>
-              <button
-                onClick={() => setActiveTab('properties')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'properties'
-                    ? 'bg-emerald-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-                data-testid="tab-property"
-              >
-                Property
-              </button>
-              <button
-                onClick={() => setActiveTab('messages')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'messages'
-                    ? 'bg-emerald-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-                data-testid="tab-transaction"
-              >
-                Transaction
-              </button>
-              <button
-                onClick={() => setActiveTab('appointments')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === 'appointments'
-                    ? 'bg-emerald-600 text-white'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-                data-testid="tab-calendar"
-              >
-                Calendar
-              </button>
-            </nav>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 max-w-3xl">
+              <TabsList className="inline-flex h-auto p-1 bg-gray-100">
+                <TabsTrigger 
+                  value="dashboard" 
+                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                  data-testid="tab-dashboard"
+                >
+                  Dashboard
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="properties" 
+                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                  data-testid="tab-properties"
+                >
+                  Properties
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="clients" 
+                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                  data-testid="tab-clients"
+                >
+                  Clients
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="appointments" 
+                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                  data-testid="tab-appointments"
+                >
+                  Appointments
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="messages" 
+                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                  data-testid="tab-messages"
+                >
+                  Messages
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="pages" 
+                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                  data-testid="tab-pages"
+                >
+                  Pages
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="themes" 
+                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                  data-testid="tab-themes"
+                >
+                  Themes
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-3">
