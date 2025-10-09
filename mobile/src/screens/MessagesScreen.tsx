@@ -12,7 +12,7 @@ const MessagesScreen = () => {
       user: {
         id: 2,
         name: 'Sarah Johnson',
-        profileImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&h=500',
+        profileImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&h=500',
       },
       lastMessage: {
         id: 101,
@@ -26,7 +26,7 @@ const MessagesScreen = () => {
       user: {
         id: 3,
         name: 'David Miller',
-        profileImage: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&h=500',
+        profileImage: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&h=500',
       },
       lastMessage: {
         id: 102,
