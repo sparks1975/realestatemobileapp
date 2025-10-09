@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -765,7 +765,7 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="admin-panel min-h-screen bg-gray-50">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="admin-panel min-h-screen bg-gray-50">
       {/* Modern Header with Top Navigation */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="px-6 py-4">
@@ -779,59 +779,64 @@ export default function AdminPanel() {
             </div>
 
             {/* Center Navigation Tabs */}
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 max-w-3xl">
-              <TabsList className="inline-flex h-auto p-1 bg-gray-100">
-                <TabsTrigger 
-                  value="dashboard" 
-                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                  data-testid="tab-dashboard"
-                >
-                  Dashboard
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="properties" 
-                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                  data-testid="tab-properties"
-                >
-                  Properties
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="clients" 
-                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                  data-testid="tab-clients"
-                >
-                  Clients
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="appointments" 
-                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                  data-testid="tab-appointments"
-                >
-                  Appointments
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="messages" 
-                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                  data-testid="tab-messages"
-                >
-                  Messages
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="pages" 
-                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                  data-testid="tab-pages"
-                >
-                  Pages
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="themes" 
-                  className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
-                  data-testid="tab-themes"
-                >
-                  Themes
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <TabsList className="inline-flex h-auto p-1 bg-gray-100 flex-1 max-w-3xl">
+              <TabsTrigger 
+                value="dashboard" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                data-testid="tab-dashboard"
+              >
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger 
+                value="properties" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                data-testid="tab-properties"
+              >
+                Properties
+              </TabsTrigger>
+              <TabsTrigger 
+                value="clients" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                data-testid="tab-clients"
+              >
+                Clients
+              </TabsTrigger>
+              <TabsTrigger 
+                value="appointments" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                data-testid="tab-appointments"
+              >
+                Appointments
+              </TabsTrigger>
+              <TabsTrigger 
+                value="messages" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                data-testid="tab-messages"
+              >
+                Messages
+              </TabsTrigger>
+              <TabsTrigger 
+                value="pages" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                data-testid="tab-pages"
+              >
+                Pages
+              </TabsTrigger>
+              <TabsTrigger 
+                value="themes" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                data-testid="tab-themes"
+              >
+                Themes
+              </TabsTrigger>
+              <TabsTrigger 
+                value="style" 
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white hidden"
+                data-testid="tab-style"
+              >
+                Style
+              </TabsTrigger>
+            </TabsList>
 
             {/* Right Side Actions */}
             <div className="flex items-center space-x-3">
@@ -865,7 +870,7 @@ export default function AdminPanel() {
 
       {/* Main Content (no sidebar) */}
       <div className="p-6">
-          {activeTab === 'dashboard' && (
+          <TabsContent value="dashboard" className="mt-0">
             <div className="space-y-6">
               {/* Modern Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -1047,9 +1052,9 @@ export default function AdminPanel() {
                 </Card>
               </div>
             </div>
-          )}
+          </TabsContent>
 
-          {activeTab === 'properties' && (
+          <TabsContent value="properties" className="mt-0">
             <div className="space-y-6">
               {/* Properties Table */}
               <Card className="bg-white border border-gray-200 admin-table">
@@ -1435,9 +1440,9 @@ export default function AdminPanel() {
               </CardContent>
               </Card>
             </div>
-          )}
+          </TabsContent>
 
-          {activeTab === 'clients' && (
+          <TabsContent value="clients" className="mt-0">
             <div className="space-y-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
@@ -1448,9 +1453,9 @@ export default function AdminPanel() {
                 </CardContent>
               </Card>
             </div>
-          )}
+          </TabsContent>
 
-          {activeTab === 'appointments' && (
+          <TabsContent value="appointments" className="mt-0">
             <div className="space-y-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
@@ -1461,9 +1466,9 @@ export default function AdminPanel() {
                 </CardContent>
               </Card>
             </div>
-          )}
+          </TabsContent>
 
-          {activeTab === 'messages' && (
+          <TabsContent value="messages" className="mt-0">
             <div className="space-y-6">
               <Card className="bg-white border border-gray-200">
                 <CardHeader>
@@ -1474,9 +1479,9 @@ export default function AdminPanel() {
                 </CardContent>
               </Card>
             </div>
-          )}
+          </TabsContent>
 
-          {activeTab === 'style' && (
+          <TabsContent value="style" className="mt-0">
             <div className="space-y-6">
               {/* Logo Management Section */}
               <Card className="bg-white border border-gray-200">
@@ -2055,9 +2060,9 @@ export default function AdminPanel() {
                 </CardContent>
               </Card>
             </div>
-          )}
+          </TabsContent>
 
-          {activeTab === 'pages' && (
+          <TabsContent value="pages" className="mt-0">
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <div>
@@ -2569,9 +2574,9 @@ export default function AdminPanel() {
                 </Card>
               )}
             </div>
-          )}
+          </TabsContent>
 
-          {activeTab === 'themes' && (
+          <TabsContent value="themes" className="mt-0">
             <div className="space-y-6">
               <div className="flex justify-between items-center">
                 <div>
@@ -2582,9 +2587,9 @@ export default function AdminPanel() {
 
               <ThemesManager />
             </div>
-          )}
+          </TabsContent>
         </div>
-    </div>
+    </Tabs>
   );
 }
 
