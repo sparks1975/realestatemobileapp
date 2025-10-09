@@ -775,7 +775,7 @@ export default function AdminPanel() {
               <img 
                 src="/attached_assets/logo-dark_1759979815607.png" 
                 alt="LuxeLead" 
-                className="h-8"
+                className="h-12"
               />
             </div>
 
