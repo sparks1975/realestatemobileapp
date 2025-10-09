@@ -15,7 +15,8 @@ import { apiRequest } from "@/lib/queryClient";
 import { 
   Plus, Edit2, Trash2, Search, Filter, Download, Upload, 
   BarChart3, Users, Building2, Calendar, Settings, Eye,
-  TrendingUp, DollarSign, LineChart, Activity, Zap, Clock, MessageSquare, Palette
+  TrendingUp, DollarSign, LineChart, Activity, Zap, Clock, MessageSquare, Palette,
+  LayoutDashboard, FileText
 } from "lucide-react";
 
 interface Property {
@@ -766,112 +767,127 @@ export default function AdminPanel() {
   };
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="admin-panel min-h-screen bg-gray-50">
-      {/* Modern Header with Top Navigation */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="px-3 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center w-48">
-              <img 
-                src={logoImage} 
-                alt="LuxeLead" 
-                className="w-full h-auto min-w-[180px]"
-              />
-            </div>
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="admin-panel min-h-screen bg-gray-50 flex">
+      {/* Left Sidebar Navigation */}
+      <aside className="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col">
+        {/* Logo */}
+        <div className="p-6 border-b border-gray-200">
+          <div className="w-full max-w-[200px]">
+            <img 
+              src={logoImage} 
+              alt="LuxeLead" 
+              className="w-full h-auto"
+            />
+          </div>
+        </div>
 
-            {/* Center Navigation Tabs */}
-            <TabsList className="inline-flex h-auto p-1 bg-white flex-1 max-w-3xl">
-              <TabsTrigger 
-                value="dashboard" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
-                data-testid="tab-dashboard"
-              >
-                Dashboard
-              </TabsTrigger>
-              <TabsTrigger 
-                value="properties" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
-                data-testid="tab-properties"
-              >
-                Properties
-              </TabsTrigger>
-              <TabsTrigger 
-                value="clients" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
-                data-testid="tab-clients"
-              >
-                Clients
-              </TabsTrigger>
-              <TabsTrigger 
-                value="appointments" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
-                data-testid="tab-appointments"
-              >
-                Appointments
-              </TabsTrigger>
-              <TabsTrigger 
-                value="messages" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
-                data-testid="tab-messages"
-              >
-                Messages
-              </TabsTrigger>
-              <TabsTrigger 
-                value="pages" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
-                data-testid="tab-pages"
-              >
-                Pages
-              </TabsTrigger>
-              <TabsTrigger 
-                value="themes" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
-                data-testid="tab-themes"
-              >
-                Themes
-              </TabsTrigger>
-              <TabsTrigger 
-                value="style" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white hidden"
-                data-testid="tab-style"
-              >
-                Style
-              </TabsTrigger>
-            </TabsList>
+        {/* Navigation Tabs */}
+        <TabsList className="flex flex-col items-stretch space-y-1 p-4 bg-transparent h-auto">
+          <TabsTrigger 
+            value="dashboard" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
+            data-testid="tab-dashboard"
+          >
+            <LayoutDashboard className="h-5 w-5 mr-3" />
+            Dashboard
+          </TabsTrigger>
+          <TabsTrigger 
+            value="properties" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
+            data-testid="tab-properties"
+          >
+            <Building2 className="h-5 w-5 mr-3" />
+            Properties
+          </TabsTrigger>
+          <TabsTrigger 
+            value="clients" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
+            data-testid="tab-clients"
+          >
+            <Users className="h-5 w-5 mr-3" />
+            Clients
+          </TabsTrigger>
+          <TabsTrigger 
+            value="appointments" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
+            data-testid="tab-appointments"
+          >
+            <Calendar className="h-5 w-5 mr-3" />
+            Appointments
+          </TabsTrigger>
+          <TabsTrigger 
+            value="messages" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
+            data-testid="tab-messages"
+          >
+            <MessageSquare className="h-5 w-5 mr-3" />
+            Messages
+          </TabsTrigger>
+          <TabsTrigger 
+            value="pages" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
+            data-testid="tab-pages"
+          >
+            <FileText className="h-5 w-5 mr-3" />
+            Pages
+          </TabsTrigger>
+          <TabsTrigger 
+            value="themes" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
+            data-testid="tab-themes"
+          >
+            <Palette className="h-5 w-5 mr-3" />
+            Themes
+          </TabsTrigger>
+          <TabsTrigger 
+            value="style" 
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700 hidden"
+            data-testid="tab-style"
+          >
+            <Settings className="h-5 w-5 mr-3" />
+            Style
+          </TabsTrigger>
+        </TabsList>
 
-            {/* Right Side Actions */}
-            <div className="flex items-center space-x-3">
-              <button 
-                onClick={() => setActiveTab('style')}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors" 
-                data-testid="button-settings"
-              >
-                <Settings className="h-5 w-5 text-gray-600" />
-              </button>
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" data-testid="button-search">
-                <Search className="h-5 w-5 text-gray-600" />
-              </button>
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative" data-testid="button-notifications">
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                <span className="text-gray-600">🔔</span>
-              </button>
-              <div className="flex items-center space-x-2 pl-3 border-l border-gray-200">
-                <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">
-                  <Users className="h-5 w-5 text-gray-600" />
-                </div>
-                <div className="text-left">
-                  <p className="text-sm font-medium text-gray-900" data-testid="text-username">Admin</p>
-                  <p className="text-xs text-gray-500">Agent Sales</p>
-                </div>
+        {/* Settings at bottom */}
+        <div className="mt-auto p-4 border-t border-gray-200">
+          <button 
+            onClick={() => setActiveTab('style')}
+            className="w-full flex items-center px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors" 
+            data-testid="button-settings"
+          >
+            <Settings className="h-5 w-5 mr-3" />
+            Settings
+          </button>
+        </div>
+      </aside>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col">
+        {/* Top Header */}
+        <header className="bg-white border-b border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-end space-x-3">
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" data-testid="button-search">
+              <Search className="h-5 w-5 text-gray-600" />
+            </button>
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative" data-testid="button-notifications">
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+              <span className="text-gray-600">🔔</span>
+            </button>
+            <div className="flex items-center space-x-2 pl-3 border-l border-gray-200">
+              <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">
+                <Users className="h-5 w-5 text-gray-600" />
+              </div>
+              <div className="text-left">
+                <p className="text-sm font-medium text-gray-900" data-testid="text-username">Admin</p>
+                <p className="text-xs text-gray-500">Agent Sales</p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </header>
 
-      {/* Main Content (no sidebar) */}
-      <div className="p-6">
+        {/* Main Content */}
+        <div className="flex-1 p-6 overflow-auto">
           <TabsContent value="dashboard" className="mt-0">
             <div className="space-y-6">
               {/* Modern Stats Grid */}
@@ -2583,6 +2599,7 @@ export default function AdminPanel() {
             </div>
           </TabsContent>
         </div>
+      </div>
     </Tabs>
   );
 }
