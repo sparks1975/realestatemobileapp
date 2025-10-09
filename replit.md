@@ -11,6 +11,14 @@ Header logo max-width: 200px (implemented August 22, 2025)
 
 ## Recent Changes
 
+### October 9, 2025
+- **Admin Panel UI Redesign**: Modernized admin dashboard with accessible horizontal navigation
+  - Converted left sidebar navigation to horizontal top tabs using shadcn Tabs component
+  - Implemented proper ARIA roles and keyboard navigation for accessibility
+  - Restored all original navigation items: Dashboard, Properties, Clients, Appointments, Messages, Pages, Themes
+  - Added Settings button in header for quick access to Style & Branding customization
+  - Maintained modern dashboard with gradient stat cards and analytics sections
+
 ### August 26, 2025
 - **Admin Panel Pages Restructure**: Reorganized Pages section with individual editing screens
   - Added sub-navigation tabs for Home, About, Properties, and Contact pages
