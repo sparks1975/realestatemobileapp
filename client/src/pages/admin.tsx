@@ -2142,23 +2142,25 @@ export default function AdminPanel() {
                             <div className="w-1 h-5 bg-[#3B5674] rounded mr-3"></div>
                             Hero Section
                           </h4>
-                          <div className="space-y-4">
-                            <div>
-                              <Label className="text-sm text-gray-700">Main Headline</Label>
-                              <Input
-                                value={pageContent.heroHeadline}
-                                onChange={(e) => setPageContent({...pageContent, heroHeadline: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                              />
-                            </div>
-                            <div>
-                              <Label className="text-sm text-gray-700">Subheadline</Label>
-                              <Textarea
-                                value={pageContent.heroSubheadline}
-                                onChange={(e) => setPageContent({...pageContent, heroSubheadline: e.target.value})}
-                                className="mt-1 bg-white text-gray-900 border-gray-300"
-                                rows={3}
-                              />
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-3">
+                              <div>
+                                <Label className="text-sm text-gray-700">Main Headline</Label>
+                                <Input
+                                  value={pageContent.heroHeadline}
+                                  onChange={(e) => setPageContent({...pageContent, heroHeadline: e.target.value})}
+                                  className="mt-1 bg-white text-gray-900 border-gray-300"
+                                />
+                              </div>
+                              <div>
+                                <Label className="text-sm text-gray-700">Subheadline</Label>
+                                <Textarea
+                                  value={pageContent.heroSubheadline}
+                                  onChange={(e) => setPageContent({...pageContent, heroSubheadline: e.target.value})}
+                                  className="mt-1 bg-white text-gray-900 border-gray-300"
+                                  rows={3}
+                                />
+                              </div>
                             </div>
                             <div>
                               <Label className="text-sm text-gray-700 mb-2 block">Hero Background Image</Label>
