@@ -784,56 +784,56 @@ export default function AdminPanel() {
             <TabsList className="inline-flex h-auto p-1 bg-white flex-1 max-w-3xl">
               <TabsTrigger 
                 value="dashboard" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
                 data-testid="tab-dashboard"
               >
                 Dashboard
               </TabsTrigger>
               <TabsTrigger 
                 value="properties" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
                 data-testid="tab-properties"
               >
                 Properties
               </TabsTrigger>
               <TabsTrigger 
                 value="clients" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
                 data-testid="tab-clients"
               >
                 Clients
               </TabsTrigger>
               <TabsTrigger 
                 value="appointments" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
                 data-testid="tab-appointments"
               >
                 Appointments
               </TabsTrigger>
               <TabsTrigger 
                 value="messages" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
                 data-testid="tab-messages"
               >
                 Messages
               </TabsTrigger>
               <TabsTrigger 
                 value="pages" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
                 data-testid="tab-pages"
               >
                 Pages
               </TabsTrigger>
               <TabsTrigger 
                 value="themes" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white"
                 data-testid="tab-themes"
               >
                 Themes
               </TabsTrigger>
               <TabsTrigger 
                 value="style" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white hidden"
+                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white hidden"
                 data-testid="tab-style"
               >
                 Style
@@ -877,15 +877,15 @@ export default function AdminPanel() {
               {/* Modern Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {/* Total Properties */}
-                <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-0 shadow-lg">
+                <Card className="bg-white border border-gray-200 shadow-sm">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-blue-600 mb-1">Total Properties</p>
-                        <p className="text-3xl font-bold text-blue-900">{stats.total}</p>
-                        <p className="text-xs text-blue-600 mt-1">+12% this month</p>
+                        <p className="text-sm font-medium text-gray-600 mb-1">Total Properties</p>
+                        <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+                        <p className="text-xs text-gray-500 mt-1">+12% this month</p>
                       </div>
-                      <div className="p-3 bg-blue-500 rounded-xl">
+                      <div className="p-3 bg-[#3B5674] rounded-xl">
                         <Building2 className="h-6 w-6 text-white stroke-[1.5]" />
                       </div>
                     </div>
@@ -893,15 +893,15 @@ export default function AdminPanel() {
                 </Card>
 
                 {/* Active Listings */}
-                <Card className="bg-gradient-to-br from-green-50 to-green-100 border-0 shadow-lg">
+                <Card className="bg-white border border-gray-200 shadow-sm">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-green-600 mb-1">Active Listings</p>
-                        <p className="text-3xl font-bold text-green-900">{stats.active}</p>
-                        <p className="text-xs text-green-600 mt-1">+8% this week</p>
+                        <p className="text-sm font-medium text-gray-600 mb-1">Active Listings</p>
+                        <p className="text-3xl font-bold text-gray-900">{stats.active}</p>
+                        <p className="text-xs text-gray-500 mt-1">+8% this week</p>
                       </div>
-                      <div className="p-3 bg-green-500 rounded-xl">
+                      <div className="p-3 bg-[#4A6B8A] rounded-xl">
                         <TrendingUp className="h-6 w-6 text-white stroke-[1.5]" />
                       </div>
                     </div>
@@ -909,15 +909,15 @@ export default function AdminPanel() {
                 </Card>
 
                 {/* Total Value */}
-                <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-0 shadow-lg">
+                <Card className="bg-white border border-gray-200 shadow-sm">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-purple-600 mb-1">Total Value</p>
-                        <p className="text-3xl font-bold text-purple-900">${(stats.totalValue / 1000000).toFixed(1)}M</p>
-                        <p className="text-xs text-purple-600 mt-1">+15% this quarter</p>
+                        <p className="text-sm font-medium text-gray-600 mb-1">Total Value</p>
+                        <p className="text-3xl font-bold text-gray-900">${(stats.totalValue / 1000000).toFixed(1)}M</p>
+                        <p className="text-xs text-gray-500 mt-1">+15% this quarter</p>
                       </div>
-                      <div className="p-3 bg-purple-500 rounded-xl">
+                      <div className="p-3 bg-[#5A7FA0] rounded-xl">
                         <DollarSign className="h-6 w-6 text-white stroke-[1.5]" />
                       </div>
                     </div>
@@ -925,15 +925,15 @@ export default function AdminPanel() {
                 </Card>
 
                 {/* Recent Activity */}
-                <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-0 shadow-lg">
+                <Card className="bg-white border border-gray-200 shadow-sm">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm font-medium text-orange-600 mb-1">Recent Views</p>
-                        <p className="text-3xl font-bold text-orange-900">1.2K</p>
-                        <p className="text-xs text-orange-600 mt-1">+24% today</p>
+                        <p className="text-sm font-medium text-gray-600 mb-1">Recent Views</p>
+                        <p className="text-3xl font-bold text-gray-900">1.2K</p>
+                        <p className="text-xs text-gray-500 mt-1">+24% today</p>
                       </div>
-                      <div className="p-3 bg-orange-500 rounded-xl">
+                      <div className="p-3 bg-[#6A94B6] rounded-xl">
                         <Eye className="h-6 w-6 text-white stroke-[1.5]" />
                       </div>
                     </div>
@@ -997,17 +997,17 @@ export default function AdminPanel() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    <button className="w-full flex items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
-                      <Plus className="h-4 w-4 mr-3 text-blue-600 stroke-[1.5]" />
-                      <span className="text-sm font-medium text-blue-900">Add New Property</span>
+                    <button className="w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                      <Plus className="h-4 w-4 mr-3 text-[#3B5674] stroke-[1.5]" />
+                      <span className="text-sm font-medium text-gray-900">Add New Property</span>
                     </button>
-                    <button className="w-full flex items-center p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
-                      <Calendar className="h-4 w-4 mr-3 text-green-600 stroke-[1.5]" />
-                      <span className="text-sm font-medium text-green-900">Schedule Viewing</span>
+                    <button className="w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                      <Calendar className="h-4 w-4 mr-3 text-[#3B5674] stroke-[1.5]" />
+                      <span className="text-sm font-medium text-gray-900">Schedule Viewing</span>
                     </button>
-                    <button className="w-full flex items-center p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors">
-                      <MessageSquare className="h-4 w-4 mr-3 text-purple-600 stroke-[1.5]" />
-                      <span className="text-sm font-medium text-purple-900">Contact Client</span>
+                    <button className="w-full flex items-center p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
+                      <MessageSquare className="h-4 w-4 mr-3 text-[#3B5674] stroke-[1.5]" />
+                      <span className="text-sm font-medium text-gray-900">Contact Client</span>
                     </button>
                   </CardContent>
                 </Card>
@@ -1023,8 +1023,8 @@ export default function AdminPanel() {
                   <CardContent>
                     <div className="space-y-4">
                       <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div className="p-2 bg-blue-100 rounded-lg mr-3">
-                          <Eye className="h-4 w-4 text-blue-600 stroke-[1.5]" />
+                        <div className="p-2 bg-gray-200 rounded-lg mr-3">
+                          <Eye className="h-4 w-4 text-[#3B5674] stroke-[1.5]" />
                         </div>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-900">Property viewed</p>
@@ -1032,8 +1032,8 @@ export default function AdminPanel() {
                         </div>
                       </div>
                       <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div className="p-2 bg-green-100 rounded-lg mr-3">
-                          <MessageSquare className="h-4 w-4 text-green-600 stroke-[1.5]" />
+                        <div className="p-2 bg-gray-200 rounded-lg mr-3">
+                          <MessageSquare className="h-4 w-4 text-[#3B5674] stroke-[1.5]" />
                         </div>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-900">New message received</p>
@@ -1041,8 +1041,8 @@ export default function AdminPanel() {
                         </div>
                       </div>
                       <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-                        <div className="p-2 bg-orange-100 rounded-lg mr-3">
-                          <Calendar className="h-4 w-4 text-orange-600 stroke-[1.5]" />
+                        <div className="p-2 bg-gray-200 rounded-lg mr-3">
+                          <Calendar className="h-4 w-4 text-[#3B5674] stroke-[1.5]" />
                         </div>
                         <div className="flex-1">
                           <p className="text-sm font-medium text-gray-900">Appointment scheduled</p>
