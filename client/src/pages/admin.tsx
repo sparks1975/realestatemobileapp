@@ -782,56 +782,56 @@ export default function AdminPanel() {
             <TabsList className="inline-flex h-auto p-1 bg-gray-100 flex-1 max-w-3xl">
               <TabsTrigger 
                 value="dashboard" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
                 data-testid="tab-dashboard"
               >
                 Dashboard
               </TabsTrigger>
               <TabsTrigger 
                 value="properties" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
                 data-testid="tab-properties"
               >
                 Properties
               </TabsTrigger>
               <TabsTrigger 
                 value="clients" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
                 data-testid="tab-clients"
               >
                 Clients
               </TabsTrigger>
               <TabsTrigger 
                 value="appointments" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
                 data-testid="tab-appointments"
               >
                 Appointments
               </TabsTrigger>
               <TabsTrigger 
                 value="messages" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
                 data-testid="tab-messages"
               >
                 Messages
               </TabsTrigger>
               <TabsTrigger 
                 value="pages" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
                 data-testid="tab-pages"
               >
                 Pages
               </TabsTrigger>
               <TabsTrigger 
                 value="themes" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white"
                 data-testid="tab-themes"
               >
                 Themes
               </TabsTrigger>
               <TabsTrigger 
                 value="style" 
-                className="px-4 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white hidden"
+                className="px-2 py-2 rounded-md text-sm font-medium data-[state=active]:bg-emerald-600 data-[state=active]:text-white hidden"
                 data-testid="tab-style"
               >
                 Style
