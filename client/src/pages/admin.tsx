@@ -766,134 +766,109 @@ export default function AdminPanel() {
 
   return (
     <div className="admin-panel min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">LuxeLead Admin</h1>
-            <p className="text-sm text-gray-600">Property Management Dashboard</p>
-          </div>
-          <div className="flex items-center space-x-3">
-            <Button variant="outline" size="sm">
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-            <Button variant="outline" size="sm">
-              <Upload className="h-4 w-4 mr-2" />
-              Import
-            </Button>
-            <Button onClick={() => window.open('/', '_blank')} variant="outline" size="sm">
-              <Eye className="h-4 w-4 mr-2" />
-              View Website
-            </Button>
+      {/* Modern Header with Top Navigation */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center">
+                <Building2 className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-xl font-bold text-gray-900">LuxeLead</span>
+            </div>
+
+            {/* Center Navigation Tabs */}
+            <nav className="flex items-center space-x-1">
+              <button
+                onClick={() => setActiveTab('dashboard')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === 'dashboard'
+                    ? 'bg-emerald-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+                data-testid="tab-dashboard"
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={() => setActiveTab('clients')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === 'clients'
+                    ? 'bg-emerald-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+                data-testid="tab-leads"
+              >
+                Leads
+              </button>
+              <button
+                onClick={() => setActiveTab('properties')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === 'properties'
+                    ? 'bg-emerald-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+                data-testid="tab-property"
+              >
+                Property
+              </button>
+              <button
+                onClick={() => setActiveTab('messages')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === 'messages'
+                    ? 'bg-emerald-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+                data-testid="tab-transaction"
+              >
+                Transaction
+              </button>
+              <button
+                onClick={() => setActiveTab('appointments')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === 'appointments'
+                    ? 'bg-emerald-600 text-white'
+                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                }`}
+                data-testid="tab-calendar"
+              >
+                Calendar
+              </button>
+            </nav>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center space-x-3">
+              <button 
+                onClick={() => setActiveTab('style')}
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors" 
+                data-testid="button-settings"
+              >
+                <Settings className="h-5 w-5 text-gray-600" />
+              </button>
+              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors" data-testid="button-search">
+                <Search className="h-5 w-5 text-gray-600" />
+              </button>
+              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative" data-testid="button-notifications">
+                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                <span className="text-gray-600">🔔</span>
+              </button>
+              <div className="flex items-center space-x-2 pl-3 border-l border-gray-200">
+                <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">
+                  <Users className="h-5 w-5 text-gray-600" />
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-medium text-gray-900" data-testid="text-username">Admin</p>
+                  <p className="text-xs text-gray-500">Agent Sales</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="flex">
-        {/* Left Sidebar */}
-        <div className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-80px)]">
-          <nav className="p-4 space-y-1">
-            <button
-              onClick={() => setActiveTab('dashboard')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'dashboard' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <BarChart3 className="h-5 w-5 mr-3" />
-              Dashboard
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('properties')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'properties' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <Building2 className="h-5 w-5 mr-3" />
-              Properties
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('clients')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'clients' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <Users className="h-5 w-5 mr-3" />
-              Clients
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('appointments')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'appointments' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <Calendar className="h-5 w-5 mr-3" />
-              Appointments
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('messages')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'messages' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <MessageSquare className="h-5 w-5 mr-3" />
-              Messages
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('pages')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'pages' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <Edit2 className="h-5 w-5 mr-3" />
-              Pages
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('themes')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'themes' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <Settings className="h-5 w-5 mr-3" />
-              Themes
-            </button>
-
-            <button
-              onClick={() => setActiveTab('style')}
-              className={`w-full flex items-center px-4 py-3 rounded-lg text-left transition-colors ${
-                activeTab === 'style' 
-                  ? 'bg-gray-100 text-gray-900' 
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <Palette className="h-5 w-5 mr-3" />
-              Branding
-            </button>
-          </nav>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 p-6">
+      {/* Main Content (no sidebar) */}
+      <div className="p-6">
           {activeTab === 'dashboard' && (
             <div className="space-y-6">
               {/* Modern Stats Grid */}
@@ -2613,7 +2588,6 @@ export default function AdminPanel() {
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 }
