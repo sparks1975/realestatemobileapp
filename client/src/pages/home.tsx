@@ -278,8 +278,8 @@ export default function HomePage() {
                 className="text-sm uppercase tracking-[0.2em] mb-4"
                 style={{ 
                   color: 'var(--tertiary-color)',
-                  fontFamily: 'var(--body-font)',
-                  fontWeight: 'var(--body-font-weight)'
+                  fontFamily: themeSettings?.bodyFont || 'Inter',
+                  fontWeight: themeSettings?.bodyFontWeight || '400'
                 }}
               >
                 {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
@@ -320,8 +320,8 @@ export default function HomePage() {
                   className="text-sm uppercase tracking-[0.2em] mb-4"
                   style={{ 
                     color: 'var(--secondary-color)',
-                    fontFamily: 'var(--body-font)',
-                    fontWeight: 'var(--body-font-weight)'
+                    fontFamily: themeSettings?.bodyFont || 'Inter',
+                    fontWeight: themeSettings?.bodyFontWeight || '400'
                   }}
                 >
                   {pageContent?.about?.subtitle || "About LuxeLead"}
@@ -353,8 +353,8 @@ export default function HomePage() {
                   className="text-lg leading-relaxed mb-8"
                   style={{ 
                     color: 'var(--text-color)',
-                    fontFamily: 'var(--body-font)',
-                    fontWeight: 'var(--body-font-weight)'
+                    fontFamily: themeSettings?.bodyFont || 'Inter',
+                    fontWeight: themeSettings?.bodyFontWeight || '400'
                   }}
                 >
                   {pageContent?.about?.description || "With over a decade of experience in Austin's luxury real estate market, we provide unparalleled expertise and personalized service to help you find your perfect home or investment opportunity."}
@@ -423,8 +423,8 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ 
                 color: 'var(--section-text-color)',
-                fontFamily: 'var(--body-font)',
-                fontWeight: 'var(--body-font-weight)'
+                fontFamily: themeSettings?.bodyFont || 'Inter',
+                fontWeight: themeSettings?.bodyFontWeight || '400'
               }}
             >
               {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
@@ -508,8 +508,8 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ 
                 color: 'var(--secondary-color)',
-                fontFamily: 'var(--body-font)',
-                fontWeight: 'var(--body-font-weight)'
+                fontFamily: themeSettings?.bodyFont || 'Inter',
+                fontWeight: themeSettings?.bodyFontWeight || '400'
               }}
             >
               {pageContent?.newsletter?.subtitle || "View Spotlight"}
@@ -548,8 +548,8 @@ export default function HomePage() {
               className="text-sm uppercase tracking-[0.2em] mb-4"
               style={{ 
                 color: 'var(--secondary-color)',
-                fontFamily: 'var(--body-font)',
-                fontWeight: 'var(--body-font-weight)'
+                fontFamily: themeSettings?.bodyFont || 'Inter',
+                fontWeight: themeSettings?.bodyFontWeight || '400'
               }}
             >
               {pageContent?.communities?.subtitle || "Featured Communities"}
@@ -634,8 +634,8 @@ export default function HomePage() {
                 className="text-sm uppercase tracking-[0.2em] mb-4"
                 style={{ 
                   color: 'var(--section-text-color)',
-                  fontFamily: 'var(--body-font)',
-                  fontWeight: 'var(--body-font-weight)'
+                  fontFamily: themeSettings?.bodyFont || 'Inter',
+                  fontWeight: themeSettings?.bodyFontWeight || '400'
                 }}
               >
                 LuxeLead
@@ -650,8 +650,8 @@ export default function HomePage() {
                 className="text-lg leading-relaxed mb-8"
                 style={{ 
                   color: 'var(--section-text-color)',
-                  fontFamily: 'var(--body-font)',
-                  fontWeight: 'var(--body-font-weight)'
+                  fontFamily: themeSettings?.bodyFont || 'Inter',
+                  fontWeight: themeSettings?.bodyFontWeight || '400'
                 }}
               >
                 With over 15 years of experience in Austin's luxury real estate market, 
