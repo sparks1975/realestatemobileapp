@@ -600,9 +600,9 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&h=700"
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&h=600"
                 alt="LuxeLead Agent"
-                className="w-full h-96 object-cover"
+                className="w-full aspect-square object-cover"
               />
             </div>
             <div>
