@@ -16,7 +16,7 @@ import {
   Plus, Edit2, Trash2, Search, Filter, Download, Upload, 
   BarChart3, Users, Building2, Calendar, Settings, Eye,
   TrendingUp, DollarSign, LineChart, Activity, Zap, Clock, MessageSquare, Palette,
-  LayoutDashboard, FileText
+  LayoutDashboard, FileText, ExternalLink
 } from "lucide-react";
 
 interface Property {
@@ -861,6 +861,14 @@ export default function AdminPanel() {
             <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors relative" data-testid="button-notifications">
               <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
               <span className="text-gray-600">🔔</span>
+            </button>
+            <button 
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors" 
+              onClick={() => window.open('/', '_blank')}
+              data-testid="button-view-website"
+              title="View Website"
+            >
+              <ExternalLink className="h-5 w-5 text-gray-600" />
             </button>
             <div className="flex items-center space-x-2 pl-3 border-l border-gray-200">
               <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center">
