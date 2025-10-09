@@ -885,9 +885,7 @@ export default function AdminPanel() {
                         <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
                         <p className="text-xs text-gray-500 mt-1">+12% this month</p>
                       </div>
-                      <div className="p-3 bg-[#3B5674] rounded-xl">
-                        <Building2 className="h-6 w-6 text-white stroke-[1.5]" />
-                      </div>
+                      <Building2 className="h-8 w-8 text-[#3B5674] stroke-[1.5]" />
                     </div>
                   </CardContent>
                 </Card>
@@ -901,9 +899,7 @@ export default function AdminPanel() {
                         <p className="text-3xl font-bold text-gray-900">{stats.active}</p>
                         <p className="text-xs text-gray-500 mt-1">+8% this week</p>
                       </div>
-                      <div className="p-3 bg-[#4A6B8A] rounded-xl">
-                        <TrendingUp className="h-6 w-6 text-white stroke-[1.5]" />
-                      </div>
+                      <TrendingUp className="h-8 w-8 text-[#3B5674] stroke-[1.5]" />
                     </div>
                   </CardContent>
                 </Card>
@@ -917,9 +913,7 @@ export default function AdminPanel() {
                         <p className="text-3xl font-bold text-gray-900">${(stats.totalValue / 1000000).toFixed(1)}M</p>
                         <p className="text-xs text-gray-500 mt-1">+15% this quarter</p>
                       </div>
-                      <div className="p-3 bg-[#5A7FA0] rounded-xl">
-                        <DollarSign className="h-6 w-6 text-white stroke-[1.5]" />
-                      </div>
+                      <DollarSign className="h-8 w-8 text-[#3B5674] stroke-[1.5]" />
                     </div>
                   </CardContent>
                 </Card>
@@ -933,9 +927,7 @@ export default function AdminPanel() {
                         <p className="text-3xl font-bold text-gray-900">1.2K</p>
                         <p className="text-xs text-gray-500 mt-1">+24% today</p>
                       </div>
-                      <div className="p-3 bg-[#6A94B6] rounded-xl">
-                        <Eye className="h-6 w-6 text-white stroke-[1.5]" />
-                      </div>
+                      <Eye className="h-8 w-8 text-[#3B5674] stroke-[1.5]" />
                     </div>
                   </CardContent>
                 </Card>
