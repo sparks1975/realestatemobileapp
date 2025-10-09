@@ -841,25 +841,13 @@ export default function AdminPanel() {
           </TabsTrigger>
           <TabsTrigger 
             value="style" 
-            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700 hidden"
+            className="justify-start px-4 py-3 rounded-lg text-sm font-medium data-[state=active]:bg-[#3B5674] data-[state=active]:text-white text-gray-700"
             data-testid="tab-style"
           >
             <Settings className="h-5 w-5 mr-3" />
-            Style
+            Style & Branding
           </TabsTrigger>
         </TabsList>
-
-        {/* Settings at bottom */}
-        <div className="mt-auto p-4 border-t border-gray-200">
-          <button 
-            onClick={() => setActiveTab('style')}
-            className="w-full flex items-center px-4 py-3 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors" 
-            data-testid="button-settings"
-          >
-            <Settings className="h-5 w-5 mr-3" />
-            Settings
-          </button>
-        </div>
       </aside>
 
       {/* Main Content Area */}
