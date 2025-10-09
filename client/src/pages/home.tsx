@@ -137,8 +137,6 @@ export default function HomePage() {
       root.style.setProperty('--heading-font-weight', settings.headingFontWeight || '600');
       root.style.setProperty('--body-font-weight', settings.bodyFontWeight || '400');
       root.style.setProperty('--button-font-weight', settings.buttonFontWeight || '500');
-      
-      console.log('✅ Body font set to:', settings.bodyFont, 'CSS var:', root.style.getPropertyValue('--body-font'));
 
       // Debug: Check if variables were actually set
       console.log('🔍 CSS Variables set:', {
@@ -278,11 +276,7 @@ export default function HomePage() {
             <div className="max-w-2xl">
               <p 
                 className="text-sm uppercase tracking-[0.2em] mb-4"
-                style={{ 
-                  color: 'var(--tertiary-color)',
-                  fontFamily: themeSettings?.bodyFont || 'Inter',
-                  fontWeight: themeSettings?.bodyFontWeight || '400'
-                }}
+                style={{ color: 'var(--tertiary-color)' }}
               >
                 {pageContent?.hero?.subheadline || "Austin's #1 Luxury Realtor"}
               </p>
@@ -320,11 +314,7 @@ export default function HomePage() {
               <div>
                 <p 
                   className="text-sm uppercase tracking-[0.2em] mb-4"
-                  style={{ 
-                    color: 'var(--secondary-color)',
-                    fontFamily: themeSettings?.bodyFont || 'Inter',
-                    fontWeight: themeSettings?.bodyFontWeight || '400'
-                  }}
+                  style={{ color: 'var(--secondary-color)' }}
                 >
                   {pageContent?.about?.subtitle || "About LuxeLead"}
                 </p>
@@ -353,11 +343,7 @@ export default function HomePage() {
                 </h2>
                 <p 
                   className="text-lg leading-relaxed mb-8"
-                  style={{ 
-                    color: 'var(--text-color)',
-                    fontFamily: themeSettings?.bodyFont || 'Inter',
-                    fontWeight: themeSettings?.bodyFontWeight || '400'
-                  }}
+                  style={{ color: 'var(--text-color)' }}
                 >
                   {pageContent?.about?.description || "With over a decade of experience in Austin's luxury real estate market, we provide unparalleled expertise and personalized service to help you find your perfect home or investment opportunity."}
                 </p>
@@ -423,11 +409,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ 
-                color: 'var(--section-text-color)',
-                fontFamily: `${themeSettings?.bodyFont || 'Inter'} !important` as any,
-                fontWeight: themeSettings?.bodyFontWeight || '400'
-              }}
+              style={{ color: 'var(--section-text-color)' }}
             >
               {pageContent?.['featured-properties']?.subtitle || "LuxeLead's Current Inventory"}
             </p>
@@ -508,11 +490,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ 
-                color: 'var(--secondary-color)',
-                fontFamily: `${themeSettings?.bodyFont || 'Inter'} !important` as any,
-                fontWeight: themeSettings?.bodyFontWeight || '400'
-              }}
+              style={{ color: 'var(--secondary-color)' }}
             >
               {pageContent?.newsletter?.subtitle || "View Spotlight"}
             </p>
@@ -548,11 +526,7 @@ export default function HomePage() {
           <div className="text-center mb-16">
             <p 
               className="text-sm uppercase tracking-[0.2em] mb-4"
-              style={{ 
-                color: 'var(--secondary-color)',
-                fontFamily: `${themeSettings?.bodyFont || 'Inter'} !important` as any,
-                fontWeight: themeSettings?.bodyFontWeight || '400'
-              }}
+              style={{ color: 'var(--secondary-color)' }}
             >
               {pageContent?.communities?.subtitle || "Featured Communities"}
             </p>
@@ -634,11 +608,7 @@ export default function HomePage() {
             <div>
               <p 
                 className="text-sm uppercase tracking-[0.2em] mb-4"
-                style={{ 
-                  color: 'var(--section-text-color)',
-                  fontFamily: themeSettings?.bodyFont || 'Inter',
-                  fontWeight: themeSettings?.bodyFontWeight || '400'
-                }}
+                style={{ color: 'var(--section-text-color)' }}
               >
                 LuxeLead
               </p>
@@ -650,11 +620,7 @@ export default function HomePage() {
               </h2>
               <p 
                 className="text-lg leading-relaxed mb-8"
-                style={{ 
-                  color: 'var(--section-text-color)',
-                  fontFamily: themeSettings?.bodyFont || 'Inter',
-                  fontWeight: themeSettings?.bodyFontWeight || '400'
-                }}
+                style={{ color: 'var(--section-text-color)' }}
               >
                 With over 15 years of experience in Austin's luxury real estate market, 
                 Alex brings unparalleled expertise and a passion for exceptional service 

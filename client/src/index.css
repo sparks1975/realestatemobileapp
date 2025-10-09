@@ -337,19 +337,8 @@ section[data-theme-managed] h2 span,
   }
   
   /* Apply body font to text elements (body font will naturally inherit to most elements) */
-  p, td, th, li, span, div,
-  .text-sm, .text-base, .text-lg, .text-xl,
-  p.text-sm, p.text-base, p.text-lg, p.text-xl {
-    font-family: var(--body-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-    font-weight: var(--body-font-weight, 400) !important;
-  }
-  
-  /* Override agent-website class for body text with higher specificity */
-  .agent-website p,
-  .agent-website p.text-sm,
-  .agent-website p.text-lg,
-  .agent-website span:not(.card-title),
-  .agent-website div:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6):not(.card-title) {
+  p, td, th, li, 
+  .text-sm, .text-base, .text-lg, .text-xl {
     font-family: var(--body-font, 'Inter'), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
     font-weight: var(--body-font-weight, 400) !important;
   }
