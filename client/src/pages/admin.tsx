@@ -771,11 +771,11 @@ export default function AdminPanel() {
         <div className="px-3 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center">
+            <div className="flex items-center w-48">
               <img 
                 src="/attached_assets/logo-dark_1759979815607.png" 
                 alt="LuxeLead" 
-                className="h-12"
+                className="w-full h-auto min-w-[180px]"
               />
             </div>
 
