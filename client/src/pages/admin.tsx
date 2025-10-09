@@ -2135,10 +2135,9 @@ export default function AdminPanel() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="bg-white p-6">
-                    <div className="space-y-8">
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {/* Hero Section */}
-                        <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
+                    <div className="space-y-6">
+                      {/* Hero Section */}
+                      <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
                           <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
                             <div className="w-1 h-5 bg-[#3B5674] rounded mr-3"></div>
                             Hero Section
@@ -2210,10 +2209,8 @@ export default function AdminPanel() {
                           </div>
                         </div>
 
-
-
-                        {/* About LuxeLead Section */}
-                        <div className="p-6 border border-gray-200 rounded-xl bg-gray-50 lg:col-span-2">
+                      {/* About LuxeLead Section */}
+                      <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
                           <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
                             <div className="w-1 h-5 bg-[#3B5674] rounded mr-3"></div>
                             About LuxeLead Section
@@ -2450,9 +2447,12 @@ export default function AdminPanel() {
                           </div>
                         </div>
 
-                        {/* Featured Properties Section */}
-                        <div className="p-4 border rounded-lg bg-white">
-                          <h4 className="font-medium text-gray-900 mb-3">Featured Properties</h4>
+                      {/* Featured Properties Section */}
+                      <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
+                          <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
+                            <div className="w-1 h-5 bg-[#3B5674] rounded mr-3"></div>
+                            Featured Properties
+                          </h4>
                           <div className="space-y-3">
                             <div>
                               <Label className="text-sm text-gray-700">Section Title</Label>
@@ -2473,8 +2473,8 @@ export default function AdminPanel() {
                           </div>
                         </div>
 
-                        {/* Featured Communities Section */}
-                        <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
+                      {/* Featured Communities Section */}
+                      <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
                           <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
                             <div className="w-1 h-5 bg-[#3B5674] rounded mr-3"></div>
                             Featured Communities
@@ -2499,8 +2499,8 @@ export default function AdminPanel() {
                           </div>
                         </div>
 
-                        {/* Newsletter Section */}
-                        <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
+                      {/* Newsletter Section */}
+                      <div className="p-6 border border-gray-200 rounded-xl bg-gray-50">
                           <h4 className="font-semibold text-gray-900 mb-4 flex items-center">
                             <div className="w-1 h-5 bg-[#3B5674] rounded mr-3"></div>
                             Newsletter Signup
@@ -2524,9 +2524,8 @@ export default function AdminPanel() {
                             </div>
                           </div>
                         </div>
-                      </div>
                       
-                      <div className="pt-4 border-t">
+                      <div className="pt-6 border-t border-gray-200">
                         <div className="flex justify-end space-x-3">
                           <Button variant="outline">
                             Preview Changes
