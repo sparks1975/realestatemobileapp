@@ -771,7 +771,7 @@ export default function AdminPanel() {
       {/* Left Sidebar Navigation */}
       <aside className="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col">
         {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="px-6 py-4 border-b border-gray-200">
           <div className="w-full max-w-[200px]">
             <img 
               src={logoImage} 
